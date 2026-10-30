@@ -969,6 +969,387 @@ func TestCreateExecutionUnauthorized_Examples(t *testing.T) {
 		})
 	}
 }
+func TestCreateRevisionBadRequest_EncodeDecode(t *testing.T) {
+	var typ CreateRevisionBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateRevisionBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateRevisionBadRequest_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateRevisionBadRequest
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateRevisionBadRequest
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateRevisionConflict_EncodeDecode(t *testing.T) {
+	var typ CreateRevisionConflict
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateRevisionConflict
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateRevisionConflict_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"sampleString\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateRevisionConflict
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateRevisionConflict
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateRevisionCreated_EncodeDecode(t *testing.T) {
+	var typ CreateRevisionCreated
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateRevisionCreated
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateRevisionCreated_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Revision\":{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"RevisionAlias\":\"sampleString\",\"RevisionId\":123,\"Runbook\":\"sampleString\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"WorkflowId\":\"sampleString\"},\"is_ok\":true}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateRevisionCreated
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateRevisionCreated
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateRevisionCreatedRevision_EncodeDecode(t *testing.T) {
+	var typ CreateRevisionCreatedRevision
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateRevisionCreatedRevision
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateRevisionForbidden_EncodeDecode(t *testing.T) {
+	var typ CreateRevisionForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateRevisionForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateRevisionForbidden_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateRevisionForbidden
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateRevisionForbidden
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateRevisionInternalServerError_EncodeDecode(t *testing.T) {
+	var typ CreateRevisionInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateRevisionInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateRevisionInternalServerError_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateRevisionInternalServerError
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateRevisionInternalServerError
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateRevisionNotFound_EncodeDecode(t *testing.T) {
+	var typ CreateRevisionNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateRevisionNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateRevisionNotFound_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateRevisionNotFound
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateRevisionNotFound
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateRevisionPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ CreateRevisionPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateRevisionPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateRevisionPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateRevisionPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateRevisionPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateRevisionReq_EncodeDecode(t *testing.T) {
+	var typ CreateRevisionReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateRevisionReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateRevisionReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"RevisionAlias\":\"sampleString\",\"Runbook\":\"sampleString\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateRevisionReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateRevisionReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateRevisionUnauthorized_EncodeDecode(t *testing.T) {
+	var typ CreateRevisionUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateRevisionUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateRevisionUnauthorized_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateRevisionUnauthorized
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateRevisionUnauthorized
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestCreateSubscriptionBadRequest_EncodeDecode(t *testing.T) {
 	var typ CreateSubscriptionBadRequest
 	typ.SetFake()
@@ -1586,387 +1967,6 @@ func TestCreateWorkflowReqTagsItem_EncodeDecode(t *testing.T) {
 	var typ2 CreateWorkflowReqTagsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCreateWorkflowRevisionBadRequest_EncodeDecode(t *testing.T) {
-	var typ CreateWorkflowRevisionBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateWorkflowRevisionBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestCreateWorkflowRevisionBadRequest_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ CreateWorkflowRevisionBadRequest
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 CreateWorkflowRevisionBadRequest
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestCreateWorkflowRevisionConflict_EncodeDecode(t *testing.T) {
-	var typ CreateWorkflowRevisionConflict
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateWorkflowRevisionConflict
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestCreateWorkflowRevisionConflict_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"sampleString\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ CreateWorkflowRevisionConflict
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 CreateWorkflowRevisionConflict
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestCreateWorkflowRevisionCreated_EncodeDecode(t *testing.T) {
-	var typ CreateWorkflowRevisionCreated
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateWorkflowRevisionCreated
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestCreateWorkflowRevisionCreated_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Revision\":{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"RevisionAlias\":\"sampleString\",\"RevisionId\":123,\"Runbook\":\"sampleString\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"WorkflowId\":\"sampleString\"},\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ CreateWorkflowRevisionCreated
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 CreateWorkflowRevisionCreated
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestCreateWorkflowRevisionCreatedRevision_EncodeDecode(t *testing.T) {
-	var typ CreateWorkflowRevisionCreatedRevision
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateWorkflowRevisionCreatedRevision
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestCreateWorkflowRevisionForbidden_EncodeDecode(t *testing.T) {
-	var typ CreateWorkflowRevisionForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateWorkflowRevisionForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestCreateWorkflowRevisionForbidden_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ CreateWorkflowRevisionForbidden
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 CreateWorkflowRevisionForbidden
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestCreateWorkflowRevisionInternalServerError_EncodeDecode(t *testing.T) {
-	var typ CreateWorkflowRevisionInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateWorkflowRevisionInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestCreateWorkflowRevisionInternalServerError_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ CreateWorkflowRevisionInternalServerError
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 CreateWorkflowRevisionInternalServerError
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestCreateWorkflowRevisionNotFound_EncodeDecode(t *testing.T) {
-	var typ CreateWorkflowRevisionNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateWorkflowRevisionNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestCreateWorkflowRevisionNotFound_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ CreateWorkflowRevisionNotFound
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 CreateWorkflowRevisionNotFound
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestCreateWorkflowRevisionPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ CreateWorkflowRevisionPaymentRequired
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateWorkflowRevisionPaymentRequired
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestCreateWorkflowRevisionPaymentRequired_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ CreateWorkflowRevisionPaymentRequired
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 CreateWorkflowRevisionPaymentRequired
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestCreateWorkflowRevisionReq_EncodeDecode(t *testing.T) {
-	var typ CreateWorkflowRevisionReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateWorkflowRevisionReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestCreateWorkflowRevisionReq_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"RevisionAlias\":\"sampleString\",\"Runbook\":\"sampleString\"}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ CreateWorkflowRevisionReq
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 CreateWorkflowRevisionReq
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestCreateWorkflowRevisionUnauthorized_EncodeDecode(t *testing.T) {
-	var typ CreateWorkflowRevisionUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateWorkflowRevisionUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestCreateWorkflowRevisionUnauthorized_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ CreateWorkflowRevisionUnauthorized
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 CreateWorkflowRevisionUnauthorized
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
 func TestCreateWorkflowUnauthorized_EncodeDecode(t *testing.T) {
 	var typ CreateWorkflowUnauthorized
 	typ.SetFake()
@@ -2332,6 +2332,305 @@ func TestDeleteExecutionUnauthorized_Examples(t *testing.T) {
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
 			var typ2 DeleteExecutionUnauthorized
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestDeleteRevisionAliasBadRequest_EncodeDecode(t *testing.T) {
+	var typ DeleteRevisionAliasBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteRevisionAliasBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDeleteRevisionAliasBadRequest_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DeleteRevisionAliasBadRequest
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DeleteRevisionAliasBadRequest
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestDeleteRevisionAliasForbidden_EncodeDecode(t *testing.T) {
+	var typ DeleteRevisionAliasForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteRevisionAliasForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDeleteRevisionAliasForbidden_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DeleteRevisionAliasForbidden
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DeleteRevisionAliasForbidden
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestDeleteRevisionAliasInternalServerError_EncodeDecode(t *testing.T) {
+	var typ DeleteRevisionAliasInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteRevisionAliasInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDeleteRevisionAliasInternalServerError_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DeleteRevisionAliasInternalServerError
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DeleteRevisionAliasInternalServerError
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestDeleteRevisionAliasNotFound_EncodeDecode(t *testing.T) {
+	var typ DeleteRevisionAliasNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteRevisionAliasNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDeleteRevisionAliasNotFound_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DeleteRevisionAliasNotFound
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DeleteRevisionAliasNotFound
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestDeleteRevisionAliasOK_EncodeDecode(t *testing.T) {
+	var typ DeleteRevisionAliasOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteRevisionAliasOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDeleteRevisionAliasOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Revision\":{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"RevisionAlias\":\"sampleString\",\"RevisionId\":123,\"Runbook\":\"sampleString\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"WorkflowId\":\"sampleString\"},\"is_ok\":true}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DeleteRevisionAliasOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DeleteRevisionAliasOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestDeleteRevisionAliasOKRevision_EncodeDecode(t *testing.T) {
+	var typ DeleteRevisionAliasOKRevision
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteRevisionAliasOKRevision
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDeleteRevisionAliasPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ DeleteRevisionAliasPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteRevisionAliasPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDeleteRevisionAliasPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DeleteRevisionAliasPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DeleteRevisionAliasPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestDeleteRevisionAliasUnauthorized_EncodeDecode(t *testing.T) {
+	var typ DeleteRevisionAliasUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteRevisionAliasUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDeleteRevisionAliasUnauthorized_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DeleteRevisionAliasUnauthorized
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DeleteRevisionAliasUnauthorized
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
@@ -2828,305 +3127,6 @@ func TestDeleteWorkflowPaymentRequired_Examples(t *testing.T) {
 		})
 	}
 }
-func TestDeleteWorkflowRevisionAliasBadRequest_EncodeDecode(t *testing.T) {
-	var typ DeleteWorkflowRevisionAliasBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 DeleteWorkflowRevisionAliasBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestDeleteWorkflowRevisionAliasBadRequest_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ DeleteWorkflowRevisionAliasBadRequest
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 DeleteWorkflowRevisionAliasBadRequest
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestDeleteWorkflowRevisionAliasForbidden_EncodeDecode(t *testing.T) {
-	var typ DeleteWorkflowRevisionAliasForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 DeleteWorkflowRevisionAliasForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestDeleteWorkflowRevisionAliasForbidden_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ DeleteWorkflowRevisionAliasForbidden
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 DeleteWorkflowRevisionAliasForbidden
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestDeleteWorkflowRevisionAliasInternalServerError_EncodeDecode(t *testing.T) {
-	var typ DeleteWorkflowRevisionAliasInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 DeleteWorkflowRevisionAliasInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestDeleteWorkflowRevisionAliasInternalServerError_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ DeleteWorkflowRevisionAliasInternalServerError
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 DeleteWorkflowRevisionAliasInternalServerError
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestDeleteWorkflowRevisionAliasNotFound_EncodeDecode(t *testing.T) {
-	var typ DeleteWorkflowRevisionAliasNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 DeleteWorkflowRevisionAliasNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestDeleteWorkflowRevisionAliasNotFound_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ DeleteWorkflowRevisionAliasNotFound
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 DeleteWorkflowRevisionAliasNotFound
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestDeleteWorkflowRevisionAliasOK_EncodeDecode(t *testing.T) {
-	var typ DeleteWorkflowRevisionAliasOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 DeleteWorkflowRevisionAliasOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestDeleteWorkflowRevisionAliasOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Revision\":{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"RevisionAlias\":\"sampleString\",\"RevisionId\":123,\"Runbook\":\"sampleString\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"WorkflowId\":\"sampleString\"},\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ DeleteWorkflowRevisionAliasOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 DeleteWorkflowRevisionAliasOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestDeleteWorkflowRevisionAliasOKRevision_EncodeDecode(t *testing.T) {
-	var typ DeleteWorkflowRevisionAliasOKRevision
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 DeleteWorkflowRevisionAliasOKRevision
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestDeleteWorkflowRevisionAliasPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ DeleteWorkflowRevisionAliasPaymentRequired
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 DeleteWorkflowRevisionAliasPaymentRequired
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestDeleteWorkflowRevisionAliasPaymentRequired_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ DeleteWorkflowRevisionAliasPaymentRequired
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 DeleteWorkflowRevisionAliasPaymentRequired
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestDeleteWorkflowRevisionAliasUnauthorized_EncodeDecode(t *testing.T) {
-	var typ DeleteWorkflowRevisionAliasUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 DeleteWorkflowRevisionAliasUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestDeleteWorkflowRevisionAliasUnauthorized_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ DeleteWorkflowRevisionAliasUnauthorized
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 DeleteWorkflowRevisionAliasUnauthorized
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
 func TestDeleteWorkflowUnauthorized_EncodeDecode(t *testing.T) {
 	var typ DeleteWorkflowUnauthorized
 	typ.SetFake()
@@ -3168,8 +3168,8 @@ func TestDeleteWorkflowUnauthorized_Examples(t *testing.T) {
 		})
 	}
 }
-func TestGetExecutionBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetExecutionBadRequest
+func TestListExecutionHistoriesBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListExecutionHistoriesBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -3177,11 +3177,11 @@ func TestGetExecutionBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetExecutionBadRequest
+	var typ2 ListExecutionHistoriesBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestGetExecutionBadRequest_Examples(t *testing.T) {
+func TestListExecutionHistoriesBadRequest_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -3190,7 +3190,7 @@ func TestGetExecutionBadRequest_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetExecutionBadRequest
+			var typ ListExecutionHistoriesBadRequest
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -3204,13 +3204,13 @@ func TestGetExecutionBadRequest_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 GetExecutionBadRequest
+			var typ2 ListExecutionHistoriesBadRequest
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestGetExecutionForbidden_EncodeDecode(t *testing.T) {
-	var typ GetExecutionForbidden
+func TestListExecutionHistoriesForbidden_EncodeDecode(t *testing.T) {
+	var typ ListExecutionHistoriesForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -3218,11 +3218,11 @@ func TestGetExecutionForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetExecutionForbidden
+	var typ2 ListExecutionHistoriesForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestGetExecutionForbidden_Examples(t *testing.T) {
+func TestListExecutionHistoriesForbidden_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -3231,7 +3231,7 @@ func TestGetExecutionForbidden_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetExecutionForbidden
+			var typ ListExecutionHistoriesForbidden
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -3245,13 +3245,13 @@ func TestGetExecutionForbidden_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 GetExecutionForbidden
+			var typ2 ListExecutionHistoriesForbidden
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestGetExecutionInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetExecutionInternalServerError
+func TestListExecutionHistoriesInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ListExecutionHistoriesInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -3259,11 +3259,11 @@ func TestGetExecutionInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetExecutionInternalServerError
+	var typ2 ListExecutionHistoriesInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestGetExecutionInternalServerError_Examples(t *testing.T) {
+func TestListExecutionHistoriesInternalServerError_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -3272,7 +3272,7 @@ func TestGetExecutionInternalServerError_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetExecutionInternalServerError
+			var typ ListExecutionHistoriesInternalServerError
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -3286,13 +3286,13 @@ func TestGetExecutionInternalServerError_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 GetExecutionInternalServerError
+			var typ2 ListExecutionHistoriesInternalServerError
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestGetExecutionNotFound_EncodeDecode(t *testing.T) {
-	var typ GetExecutionNotFound
+func TestListExecutionHistoriesNotFound_EncodeDecode(t *testing.T) {
+	var typ ListExecutionHistoriesNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -3300,11 +3300,11 @@ func TestGetExecutionNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetExecutionNotFound
+	var typ2 ListExecutionHistoriesNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestGetExecutionNotFound_Examples(t *testing.T) {
+func TestListExecutionHistoriesNotFound_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -3313,7 +3313,7 @@ func TestGetExecutionNotFound_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetExecutionNotFound
+			var typ ListExecutionHistoriesNotFound
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -3327,13 +3327,13 @@ func TestGetExecutionNotFound_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 GetExecutionNotFound
+			var typ2 ListExecutionHistoriesNotFound
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestGetExecutionOK_EncodeDecode(t *testing.T) {
-	var typ GetExecutionOK
+func TestListExecutionHistoriesOK_EncodeDecode(t *testing.T) {
+	var typ ListExecutionHistoriesOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -3341,1356 +3341,11 @@ func TestGetExecutionOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetExecutionOK
+	var typ2 ListExecutionHistoriesOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestGetExecutionOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Execution\":{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"StepCount\":0,\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}},\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetExecutionOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetExecutionOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetExecutionOKExecution_EncodeDecode(t *testing.T) {
-	var typ GetExecutionOKExecution
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetExecutionOKExecution
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetExecutionOKExecutionStatus_EncodeDecode(t *testing.T) {
-	var typ GetExecutionOKExecutionStatus
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetExecutionOKExecutionStatus
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetExecutionOKExecutionWorkflow_EncodeDecode(t *testing.T) {
-	var typ GetExecutionOKExecutionWorkflow
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetExecutionOKExecutionWorkflow
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetExecutionOKExecutionWorkflowConcurrencyMode_EncodeDecode(t *testing.T) {
-	var typ GetExecutionOKExecutionWorkflowConcurrencyMode
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetExecutionOKExecutionWorkflowConcurrencyMode
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetExecutionOKExecutionWorkflowServicePrincipalId_EncodeDecode(t *testing.T) {
-	var typ GetExecutionOKExecutionWorkflowServicePrincipalId
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetExecutionOKExecutionWorkflowServicePrincipalId
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetExecutionOKExecutionWorkflowTagsItem_EncodeDecode(t *testing.T) {
-	var typ GetExecutionOKExecutionWorkflowTagsItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetExecutionOKExecutionWorkflowTagsItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetExecutionPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ GetExecutionPaymentRequired
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetExecutionPaymentRequired
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetExecutionPaymentRequired_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetExecutionPaymentRequired
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetExecutionPaymentRequired
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetExecutionUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetExecutionUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetExecutionUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetExecutionUnauthorized_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetExecutionUnauthorized
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetExecutionUnauthorized
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetSubscriptionBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetSubscriptionBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetSubscriptionBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetSubscriptionBadRequest_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetSubscriptionBadRequest
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetSubscriptionBadRequest
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetSubscriptionForbidden_EncodeDecode(t *testing.T) {
-	var typ GetSubscriptionForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetSubscriptionForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetSubscriptionForbidden_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetSubscriptionForbidden
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetSubscriptionForbidden
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetSubscriptionInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetSubscriptionInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetSubscriptionInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetSubscriptionInternalServerError_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetSubscriptionInternalServerError
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetSubscriptionInternalServerError
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetSubscriptionNotFound_EncodeDecode(t *testing.T) {
-	var typ GetSubscriptionNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetSubscriptionNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetSubscriptionNotFound_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetSubscriptionNotFound
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetSubscriptionNotFound
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetSubscriptionOK_EncodeDecode(t *testing.T) {
-	var typ GetSubscriptionOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetSubscriptionOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetSubscriptionOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"CurrentPlan\":{\"accountId\":\"sampleString\",\"activateFrom\":\"2020-01-01T00:00:00Z\",\"activateUntil\":\"2020-01-01T00:00:00Z\",\"contractId\":\"sampleString\",\"createdAt\":\"2020-01-01T00:00:00Z\",\"id\":\"sampleString\",\"planId\":123,\"planName\":\"sampleString\",\"updatedAt\":\"2020-01-01T00:00:00Z\"},\"MonthAppliedPlan\":{\"accountId\":\"sampleString\",\"activateFrom\":\"2020-01-01T00:00:00Z\",\"activateUntil\":\"2020-01-01T00:00:00Z\",\"basePrice\":123,\"contractId\":\"sampleString\",\"createdAt\":\"2020-01-01T00:00:00Z\",\"id\":\"sampleString\",\"includedSteps\":123,\"overagePricePerUnit\":123,\"overageStepUnit\":123,\"planGrade\":123,\"planId\":123,\"planName\":\"sampleString\",\"updatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetSubscriptionOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetSubscriptionOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetSubscriptionOKCurrentPlan_EncodeDecode(t *testing.T) {
-	var typ GetSubscriptionOKCurrentPlan
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetSubscriptionOKCurrentPlan
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetSubscriptionOKMonthAppliedPlan_EncodeDecode(t *testing.T) {
-	var typ GetSubscriptionOKMonthAppliedPlan
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetSubscriptionOKMonthAppliedPlan
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetSubscriptionUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetSubscriptionUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetSubscriptionUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetSubscriptionUnauthorized_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetSubscriptionUnauthorized
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetSubscriptionUnauthorized
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowBadRequest_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowBadRequest
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowBadRequest
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowForbidden_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowForbidden_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowForbidden
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowForbidden
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowInternalServerError_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowInternalServerError
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowInternalServerError
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowNotFound_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowNotFound_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowNotFound
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowNotFound
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowOK_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowOKWorkflow_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowOKWorkflow
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowOKWorkflow
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetWorkflowOKWorkflowConcurrencyMode_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowOKWorkflowConcurrencyMode
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowOKWorkflowConcurrencyMode
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetWorkflowOKWorkflowServicePrincipalId_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowOKWorkflowServicePrincipalId
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowOKWorkflowServicePrincipalId
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetWorkflowOKWorkflowTagsItem_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowOKWorkflowTagsItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowOKWorkflowTagsItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetWorkflowPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowPaymentRequired
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowPaymentRequired
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowPaymentRequired_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowPaymentRequired
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowPaymentRequired
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowRevisionsBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowRevisionsBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowRevisionsBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowRevisionsBadRequest_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowRevisionsBadRequest
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowRevisionsBadRequest
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowRevisionsForbidden_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowRevisionsForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowRevisionsForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowRevisionsForbidden_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowRevisionsForbidden
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowRevisionsForbidden
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowRevisionsInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowRevisionsInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowRevisionsInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowRevisionsInternalServerError_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowRevisionsInternalServerError
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowRevisionsInternalServerError
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowRevisionsNotFound_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowRevisionsNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowRevisionsNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowRevisionsNotFound_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowRevisionsNotFound
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowRevisionsNotFound
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowRevisionsOK_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowRevisionsOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowRevisionsOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowRevisionsOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Revision\":{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"RevisionAlias\":\"sampleString\",\"RevisionId\":123,\"Runbook\":\"sampleString\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"WorkflowId\":\"sampleString\"},\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowRevisionsOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowRevisionsOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowRevisionsOKRevision_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowRevisionsOKRevision
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowRevisionsOKRevision
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetWorkflowRevisionsPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowRevisionsPaymentRequired
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowRevisionsPaymentRequired
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowRevisionsPaymentRequired_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowRevisionsPaymentRequired
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowRevisionsPaymentRequired
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowRevisionsUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowRevisionsUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowRevisionsUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowRevisionsUnauthorized_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowRevisionsUnauthorized
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowRevisionsUnauthorized
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkflowUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetWorkflowUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkflowUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkflowUnauthorized_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkflowUnauthorized
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkflowUnauthorized
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListExecutionBadRequest_EncodeDecode(t *testing.T) {
-	var typ ListExecutionBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListExecutionBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListExecutionBadRequest_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionBadRequest
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListExecutionBadRequest
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListExecutionForbidden_EncodeDecode(t *testing.T) {
-	var typ ListExecutionForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListExecutionForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListExecutionForbidden_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionForbidden
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListExecutionForbidden
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListExecutionHistoryBadRequest_EncodeDecode(t *testing.T) {
-	var typ ListExecutionHistoryBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListExecutionHistoryBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListExecutionHistoryBadRequest_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionHistoryBadRequest
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListExecutionHistoryBadRequest
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListExecutionHistoryForbidden_EncodeDecode(t *testing.T) {
-	var typ ListExecutionHistoryForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListExecutionHistoryForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListExecutionHistoryForbidden_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionHistoryForbidden
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListExecutionHistoryForbidden
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListExecutionHistoryInternalServerError_EncodeDecode(t *testing.T) {
-	var typ ListExecutionHistoryInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListExecutionHistoryInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListExecutionHistoryInternalServerError_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionHistoryInternalServerError
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListExecutionHistoryInternalServerError
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListExecutionHistoryNotFound_EncodeDecode(t *testing.T) {
-	var typ ListExecutionHistoryNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListExecutionHistoryNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListExecutionHistoryNotFound_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionHistoryNotFound
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListExecutionHistoryNotFound
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListExecutionHistoryOK_EncodeDecode(t *testing.T) {
-	var typ ListExecutionHistoryOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListExecutionHistoryOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListExecutionHistoryOK_Examples(t *testing.T) {
+func TestListExecutionHistoriesOK_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -4699,7 +3354,7 @@ func TestListExecutionHistoryOK_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionHistoryOK
+			var typ ListExecutionHistoriesOK
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -4713,13 +3368,13 @@ func TestListExecutionHistoryOK_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListExecutionHistoryOK
+			var typ2 ListExecutionHistoriesOK
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListExecutionHistoryOKHistoriesItem_EncodeDecode(t *testing.T) {
-	var typ ListExecutionHistoryOKHistoriesItem
+func TestListExecutionHistoriesOKHistoriesItem_EncodeDecode(t *testing.T) {
+	var typ ListExecutionHistoriesOKHistoriesItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -4727,11 +3382,11 @@ func TestListExecutionHistoryOKHistoriesItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionHistoryOKHistoriesItem
+	var typ2 ListExecutionHistoriesOKHistoriesItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListExecutionHistoryOKHistoriesItemType_EncodeDecode(t *testing.T) {
-	var typ ListExecutionHistoryOKHistoriesItemType
+func TestListExecutionHistoriesOKHistoriesItemType_EncodeDecode(t *testing.T) {
+	var typ ListExecutionHistoriesOKHistoriesItemType
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -4739,11 +3394,11 @@ func TestListExecutionHistoryOKHistoriesItemType_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionHistoryOKHistoriesItemType
+	var typ2 ListExecutionHistoriesOKHistoriesItemType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListExecutionHistoryPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ ListExecutionHistoryPaymentRequired
+func TestListExecutionHistoriesPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ListExecutionHistoriesPaymentRequired
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -4751,11 +3406,11 @@ func TestListExecutionHistoryPaymentRequired_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionHistoryPaymentRequired
+	var typ2 ListExecutionHistoriesPaymentRequired
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListExecutionHistoryPaymentRequired_Examples(t *testing.T) {
+func TestListExecutionHistoriesPaymentRequired_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -4764,7 +3419,7 @@ func TestListExecutionHistoryPaymentRequired_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionHistoryPaymentRequired
+			var typ ListExecutionHistoriesPaymentRequired
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -4778,13 +3433,13 @@ func TestListExecutionHistoryPaymentRequired_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListExecutionHistoryPaymentRequired
+			var typ2 ListExecutionHistoriesPaymentRequired
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListExecutionHistoryUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ListExecutionHistoryUnauthorized
+func TestListExecutionHistoriesUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListExecutionHistoriesUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -4792,11 +3447,11 @@ func TestListExecutionHistoryUnauthorized_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionHistoryUnauthorized
+	var typ2 ListExecutionHistoriesUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListExecutionHistoryUnauthorized_Examples(t *testing.T) {
+func TestListExecutionHistoriesUnauthorized_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -4805,7 +3460,7 @@ func TestListExecutionHistoryUnauthorized_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionHistoryUnauthorized
+			var typ ListExecutionHistoriesUnauthorized
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -4819,13 +3474,13 @@ func TestListExecutionHistoryUnauthorized_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListExecutionHistoryUnauthorized
+			var typ2 ListExecutionHistoriesUnauthorized
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListExecutionInternalServerError_EncodeDecode(t *testing.T) {
-	var typ ListExecutionInternalServerError
+func TestListExecutionsBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -4833,11 +3488,93 @@ func TestListExecutionInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionInternalServerError
+	var typ2 ListExecutionsBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListExecutionInternalServerError_Examples(t *testing.T) {
+func TestListExecutionsBadRequest_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListExecutionsBadRequest
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListExecutionsBadRequest
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestListExecutionsForbidden_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListExecutionsForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestListExecutionsForbidden_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListExecutionsForbidden
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListExecutionsForbidden
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestListExecutionsInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListExecutionsInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestListExecutionsInternalServerError_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -4846,7 +3583,7 @@ func TestListExecutionInternalServerError_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionInternalServerError
+			var typ ListExecutionsInternalServerError
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -4860,13 +3597,13 @@ func TestListExecutionInternalServerError_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListExecutionInternalServerError
+			var typ2 ListExecutionsInternalServerError
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListExecutionNotFound_EncodeDecode(t *testing.T) {
-	var typ ListExecutionNotFound
+func TestListExecutionsNotFound_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -4874,11 +3611,11 @@ func TestListExecutionNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionNotFound
+	var typ2 ListExecutionsNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListExecutionNotFound_Examples(t *testing.T) {
+func TestListExecutionsNotFound_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -4887,7 +3624,7 @@ func TestListExecutionNotFound_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionNotFound
+			var typ ListExecutionsNotFound
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -4901,13 +3638,13 @@ func TestListExecutionNotFound_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListExecutionNotFound
+			var typ2 ListExecutionsNotFound
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListExecutionOK_EncodeDecode(t *testing.T) {
-	var typ ListExecutionOK
+func TestListExecutionsOK_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -4915,11 +3652,11 @@ func TestListExecutionOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionOK
+	var typ2 ListExecutionsOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListExecutionOK_Examples(t *testing.T) {
+func TestListExecutionsOK_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -4928,7 +3665,7 @@ func TestListExecutionOK_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionOK
+			var typ ListExecutionsOK
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -4942,13 +3679,13 @@ func TestListExecutionOK_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListExecutionOK
+			var typ2 ListExecutionsOK
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListExecutionOKExecutionsItem_EncodeDecode(t *testing.T) {
-	var typ ListExecutionOKExecutionsItem
+func TestListExecutionsOKExecutionsItem_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsOKExecutionsItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -4956,11 +3693,11 @@ func TestListExecutionOKExecutionsItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionOKExecutionsItem
+	var typ2 ListExecutionsOKExecutionsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListExecutionOKExecutionsItemStatus_EncodeDecode(t *testing.T) {
-	var typ ListExecutionOKExecutionsItemStatus
+func TestListExecutionsOKExecutionsItemStatus_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsOKExecutionsItemStatus
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -4968,11 +3705,11 @@ func TestListExecutionOKExecutionsItemStatus_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionOKExecutionsItemStatus
+	var typ2 ListExecutionsOKExecutionsItemStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListExecutionOKExecutionsItemWorkflow_EncodeDecode(t *testing.T) {
-	var typ ListExecutionOKExecutionsItemWorkflow
+func TestListExecutionsOKExecutionsItemWorkflow_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsOKExecutionsItemWorkflow
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -4980,11 +3717,11 @@ func TestListExecutionOKExecutionsItemWorkflow_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionOKExecutionsItemWorkflow
+	var typ2 ListExecutionsOKExecutionsItemWorkflow
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListExecutionOKExecutionsItemWorkflowConcurrencyMode_EncodeDecode(t *testing.T) {
-	var typ ListExecutionOKExecutionsItemWorkflowConcurrencyMode
+func TestListExecutionsOKExecutionsItemWorkflowConcurrencyMode_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsOKExecutionsItemWorkflowConcurrencyMode
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -4992,11 +3729,11 @@ func TestListExecutionOKExecutionsItemWorkflowConcurrencyMode_EncodeDecode(t *te
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionOKExecutionsItemWorkflowConcurrencyMode
+	var typ2 ListExecutionsOKExecutionsItemWorkflowConcurrencyMode
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListExecutionOKExecutionsItemWorkflowServicePrincipalId_EncodeDecode(t *testing.T) {
-	var typ ListExecutionOKExecutionsItemWorkflowServicePrincipalId
+func TestListExecutionsOKExecutionsItemWorkflowServicePrincipalId_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsOKExecutionsItemWorkflowServicePrincipalId
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5004,11 +3741,11 @@ func TestListExecutionOKExecutionsItemWorkflowServicePrincipalId_EncodeDecode(t 
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionOKExecutionsItemWorkflowServicePrincipalId
+	var typ2 ListExecutionsOKExecutionsItemWorkflowServicePrincipalId
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListExecutionOKExecutionsItemWorkflowTagsItem_EncodeDecode(t *testing.T) {
-	var typ ListExecutionOKExecutionsItemWorkflowTagsItem
+func TestListExecutionsOKExecutionsItemWorkflowTagsItem_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsOKExecutionsItemWorkflowTagsItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5016,11 +3753,11 @@ func TestListExecutionOKExecutionsItemWorkflowTagsItem_EncodeDecode(t *testing.T
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionOKExecutionsItemWorkflowTagsItem
+	var typ2 ListExecutionsOKExecutionsItemWorkflowTagsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListExecutionPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ ListExecutionPaymentRequired
+func TestListExecutionsPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsPaymentRequired
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5028,11 +3765,11 @@ func TestListExecutionPaymentRequired_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionPaymentRequired
+	var typ2 ListExecutionsPaymentRequired
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListExecutionPaymentRequired_Examples(t *testing.T) {
+func TestListExecutionsPaymentRequired_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -5041,7 +3778,7 @@ func TestListExecutionPaymentRequired_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionPaymentRequired
+			var typ ListExecutionsPaymentRequired
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -5055,13 +3792,13 @@ func TestListExecutionPaymentRequired_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListExecutionPaymentRequired
+			var typ2 ListExecutionsPaymentRequired
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListExecutionUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ListExecutionUnauthorized
+func TestListExecutionsUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListExecutionsUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5069,11 +3806,11 @@ func TestListExecutionUnauthorized_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListExecutionUnauthorized
+	var typ2 ListExecutionsUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListExecutionUnauthorized_Examples(t *testing.T) {
+func TestListExecutionsUnauthorized_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -5082,7 +3819,7 @@ func TestListExecutionUnauthorized_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListExecutionUnauthorized
+			var typ ListExecutionsUnauthorized
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -5096,7 +3833,7 @@ func TestListExecutionUnauthorized_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListExecutionUnauthorized
+			var typ2 ListExecutionsUnauthorized
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
@@ -5359,8 +4096,8 @@ func TestListPlansUnauthorized_Examples(t *testing.T) {
 		})
 	}
 }
-func TestListWorkflowBadRequest_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowBadRequest
+func TestListRevisionsBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListRevisionsBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5368,11 +4105,11 @@ func TestListWorkflowBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowBadRequest
+	var typ2 ListRevisionsBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowBadRequest_Examples(t *testing.T) {
+func TestListRevisionsBadRequest_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -5381,7 +4118,7 @@ func TestListWorkflowBadRequest_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowBadRequest
+			var typ ListRevisionsBadRequest
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -5395,13 +4132,13 @@ func TestListWorkflowBadRequest_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowBadRequest
+			var typ2 ListRevisionsBadRequest
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowForbidden_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowForbidden
+func TestListRevisionsForbidden_EncodeDecode(t *testing.T) {
+	var typ ListRevisionsForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5409,11 +4146,11 @@ func TestListWorkflowForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowForbidden
+	var typ2 ListRevisionsForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowForbidden_Examples(t *testing.T) {
+func TestListRevisionsForbidden_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -5422,7 +4159,7 @@ func TestListWorkflowForbidden_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowForbidden
+			var typ ListRevisionsForbidden
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -5436,13 +4173,13 @@ func TestListWorkflowForbidden_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowForbidden
+			var typ2 ListRevisionsForbidden
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowInternalServerError_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowInternalServerError
+func TestListRevisionsInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ListRevisionsInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5450,11 +4187,11 @@ func TestListWorkflowInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowInternalServerError
+	var typ2 ListRevisionsInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowInternalServerError_Examples(t *testing.T) {
+func TestListRevisionsInternalServerError_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -5463,7 +4200,7 @@ func TestListWorkflowInternalServerError_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowInternalServerError
+			var typ ListRevisionsInternalServerError
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -5477,13 +4214,13 @@ func TestListWorkflowInternalServerError_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowInternalServerError
+			var typ2 ListRevisionsInternalServerError
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowNotFound_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowNotFound
+func TestListRevisionsNotFound_EncodeDecode(t *testing.T) {
+	var typ ListRevisionsNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5491,11 +4228,11 @@ func TestListWorkflowNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowNotFound
+	var typ2 ListRevisionsNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowNotFound_Examples(t *testing.T) {
+func TestListRevisionsNotFound_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -5504,7 +4241,7 @@ func TestListWorkflowNotFound_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowNotFound
+			var typ ListRevisionsNotFound
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -5518,13 +4255,13 @@ func TestListWorkflowNotFound_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowNotFound
+			var typ2 ListRevisionsNotFound
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowOK_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowOK
+func TestListRevisionsOK_EncodeDecode(t *testing.T) {
+	var typ ListRevisionsOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5532,305 +4269,11 @@ func TestListWorkflowOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowOK
+	var typ2 ListRevisionsOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Count\":0,\"From\":0,\"Total\":0,\"Workflows\":[{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}],\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListWorkflowOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListWorkflowOKWorkflowsItem_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowOKWorkflowsItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListWorkflowOKWorkflowsItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestListWorkflowOKWorkflowsItemConcurrencyMode_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowOKWorkflowsItemConcurrencyMode
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListWorkflowOKWorkflowsItemConcurrencyMode
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestListWorkflowOKWorkflowsItemServicePrincipalId_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowOKWorkflowsItemServicePrincipalId
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListWorkflowOKWorkflowsItemServicePrincipalId
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestListWorkflowOKWorkflowsItemTagsItem_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowOKWorkflowsItemTagsItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListWorkflowOKWorkflowsItemTagsItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestListWorkflowPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowPaymentRequired
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListWorkflowPaymentRequired
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListWorkflowPaymentRequired_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowPaymentRequired
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListWorkflowPaymentRequired
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListWorkflowRevisionsBadRequest_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowRevisionsBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListWorkflowRevisionsBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListWorkflowRevisionsBadRequest_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowRevisionsBadRequest
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListWorkflowRevisionsBadRequest
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListWorkflowRevisionsForbidden_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowRevisionsForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListWorkflowRevisionsForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListWorkflowRevisionsForbidden_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowRevisionsForbidden
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListWorkflowRevisionsForbidden
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListWorkflowRevisionsInternalServerError_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowRevisionsInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListWorkflowRevisionsInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListWorkflowRevisionsInternalServerError_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowRevisionsInternalServerError
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListWorkflowRevisionsInternalServerError
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListWorkflowRevisionsNotFound_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowRevisionsNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListWorkflowRevisionsNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListWorkflowRevisionsNotFound_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowRevisionsNotFound
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListWorkflowRevisionsNotFound
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListWorkflowRevisionsOK_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowRevisionsOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListWorkflowRevisionsOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListWorkflowRevisionsOK_Examples(t *testing.T) {
+func TestListRevisionsOK_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -5839,7 +4282,7 @@ func TestListWorkflowRevisionsOK_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowRevisionsOK
+			var typ ListRevisionsOK
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -5853,13 +4296,13 @@ func TestListWorkflowRevisionsOK_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowRevisionsOK
+			var typ2 ListRevisionsOK
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowRevisionsOKRevisionsItem_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowRevisionsOKRevisionsItem
+func TestListRevisionsOKRevisionsItem_EncodeDecode(t *testing.T) {
+	var typ ListRevisionsOKRevisionsItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5867,11 +4310,11 @@ func TestListWorkflowRevisionsOKRevisionsItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowRevisionsOKRevisionsItem
+	var typ2 ListRevisionsOKRevisionsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListWorkflowRevisionsPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowRevisionsPaymentRequired
+func TestListRevisionsPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ListRevisionsPaymentRequired
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5879,11 +4322,11 @@ func TestListWorkflowRevisionsPaymentRequired_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowRevisionsPaymentRequired
+	var typ2 ListRevisionsPaymentRequired
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowRevisionsPaymentRequired_Examples(t *testing.T) {
+func TestListRevisionsPaymentRequired_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -5892,7 +4335,7 @@ func TestListWorkflowRevisionsPaymentRequired_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowRevisionsPaymentRequired
+			var typ ListRevisionsPaymentRequired
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -5906,13 +4349,13 @@ func TestListWorkflowRevisionsPaymentRequired_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowRevisionsPaymentRequired
+			var typ2 ListRevisionsPaymentRequired
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowRevisionsUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowRevisionsUnauthorized
+func TestListRevisionsUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListRevisionsUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5920,11 +4363,11 @@ func TestListWorkflowRevisionsUnauthorized_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowRevisionsUnauthorized
+	var typ2 ListRevisionsUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowRevisionsUnauthorized_Examples(t *testing.T) {
+func TestListRevisionsUnauthorized_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -5933,7 +4376,7 @@ func TestListWorkflowRevisionsUnauthorized_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowRevisionsUnauthorized
+			var typ ListRevisionsUnauthorized
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -5947,13 +4390,13 @@ func TestListWorkflowRevisionsUnauthorized_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowRevisionsUnauthorized
+			var typ2 ListRevisionsUnauthorized
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowSuggestBadRequest_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowSuggestBadRequest
+func TestListSuggestionsBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListSuggestionsBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5961,11 +4404,11 @@ func TestListWorkflowSuggestBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowSuggestBadRequest
+	var typ2 ListSuggestionsBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowSuggestBadRequest_Examples(t *testing.T) {
+func TestListSuggestionsBadRequest_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -5974,7 +4417,7 @@ func TestListWorkflowSuggestBadRequest_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowSuggestBadRequest
+			var typ ListSuggestionsBadRequest
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -5988,13 +4431,13 @@ func TestListWorkflowSuggestBadRequest_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowSuggestBadRequest
+			var typ2 ListSuggestionsBadRequest
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowSuggestForbidden_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowSuggestForbidden
+func TestListSuggestionsForbidden_EncodeDecode(t *testing.T) {
+	var typ ListSuggestionsForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6002,11 +4445,11 @@ func TestListWorkflowSuggestForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowSuggestForbidden
+	var typ2 ListSuggestionsForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowSuggestForbidden_Examples(t *testing.T) {
+func TestListSuggestionsForbidden_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6015,7 +4458,7 @@ func TestListWorkflowSuggestForbidden_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowSuggestForbidden
+			var typ ListSuggestionsForbidden
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6029,13 +4472,13 @@ func TestListWorkflowSuggestForbidden_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowSuggestForbidden
+			var typ2 ListSuggestionsForbidden
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowSuggestInternalServerError_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowSuggestInternalServerError
+func TestListSuggestionsInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ListSuggestionsInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6043,11 +4486,11 @@ func TestListWorkflowSuggestInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowSuggestInternalServerError
+	var typ2 ListSuggestionsInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowSuggestInternalServerError_Examples(t *testing.T) {
+func TestListSuggestionsInternalServerError_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6056,7 +4499,7 @@ func TestListWorkflowSuggestInternalServerError_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowSuggestInternalServerError
+			var typ ListSuggestionsInternalServerError
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6070,13 +4513,13 @@ func TestListWorkflowSuggestInternalServerError_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowSuggestInternalServerError
+			var typ2 ListSuggestionsInternalServerError
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowSuggestNotFound_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowSuggestNotFound
+func TestListSuggestionsNotFound_EncodeDecode(t *testing.T) {
+	var typ ListSuggestionsNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6084,11 +4527,11 @@ func TestListWorkflowSuggestNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowSuggestNotFound
+	var typ2 ListSuggestionsNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowSuggestNotFound_Examples(t *testing.T) {
+func TestListSuggestionsNotFound_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6097,7 +4540,7 @@ func TestListWorkflowSuggestNotFound_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowSuggestNotFound
+			var typ ListSuggestionsNotFound
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6111,13 +4554,13 @@ func TestListWorkflowSuggestNotFound_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowSuggestNotFound
+			var typ2 ListSuggestionsNotFound
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowSuggestOK_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowSuggestOK
+func TestListSuggestionsOK_EncodeDecode(t *testing.T) {
+	var typ ListSuggestionsOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6125,11 +4568,11 @@ func TestListWorkflowSuggestOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowSuggestOK
+	var typ2 ListSuggestionsOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowSuggestOK_Examples(t *testing.T) {
+func TestListSuggestionsOK_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6138,7 +4581,7 @@ func TestListWorkflowSuggestOK_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowSuggestOK
+			var typ ListSuggestionsOK
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6152,13 +4595,13 @@ func TestListWorkflowSuggestOK_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowSuggestOK
+			var typ2 ListSuggestionsOK
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowSuggestOKSuggestsItem_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowSuggestOKSuggestsItem
+func TestListSuggestionsOKSuggestsItem_EncodeDecode(t *testing.T) {
+	var typ ListSuggestionsOKSuggestsItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6166,11 +4609,11 @@ func TestListWorkflowSuggestOKSuggestsItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowSuggestOKSuggestsItem
+	var typ2 ListSuggestionsOKSuggestsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListWorkflowSuggestPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowSuggestPaymentRequired
+func TestListSuggestionsPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ListSuggestionsPaymentRequired
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6178,11 +4621,11 @@ func TestListWorkflowSuggestPaymentRequired_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowSuggestPaymentRequired
+	var typ2 ListSuggestionsPaymentRequired
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowSuggestPaymentRequired_Examples(t *testing.T) {
+func TestListSuggestionsPaymentRequired_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6191,7 +4634,7 @@ func TestListWorkflowSuggestPaymentRequired_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowSuggestPaymentRequired
+			var typ ListSuggestionsPaymentRequired
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6205,13 +4648,13 @@ func TestListWorkflowSuggestPaymentRequired_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowSuggestPaymentRequired
+			var typ2 ListSuggestionsPaymentRequired
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowSuggestUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowSuggestUnauthorized
+func TestListSuggestionsUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListSuggestionsUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6219,11 +4662,11 @@ func TestListWorkflowSuggestUnauthorized_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowSuggestUnauthorized
+	var typ2 ListSuggestionsUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowSuggestUnauthorized_Examples(t *testing.T) {
+func TestListSuggestionsUnauthorized_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6232,7 +4675,7 @@ func TestListWorkflowSuggestUnauthorized_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowSuggestUnauthorized
+			var typ ListSuggestionsUnauthorized
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6246,13 +4689,13 @@ func TestListWorkflowSuggestUnauthorized_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkflowSuggestUnauthorized
+			var typ2 ListSuggestionsUnauthorized
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListWorkflowUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ListWorkflowUnauthorized
+func TestListWorkflowsBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowsBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6260,52 +4703,11 @@ func TestListWorkflowUnauthorized_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkflowUnauthorized
+	var typ2 ListWorkflowsBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkflowUnauthorized_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkflowUnauthorized
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListWorkflowUnauthorized
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestUpdateWorkflowBadRequest_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 UpdateWorkflowBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestUpdateWorkflowBadRequest_Examples(t *testing.T) {
+func TestListWorkflowsBadRequest_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6314,7 +4716,7 @@ func TestUpdateWorkflowBadRequest_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowBadRequest
+			var typ ListWorkflowsBadRequest
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6328,13 +4730,13 @@ func TestUpdateWorkflowBadRequest_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowBadRequest
+			var typ2 ListWorkflowsBadRequest
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowForbidden_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowForbidden
+func TestListWorkflowsForbidden_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowsForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6342,11 +4744,11 @@ func TestUpdateWorkflowForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowForbidden
+	var typ2 ListWorkflowsForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowForbidden_Examples(t *testing.T) {
+func TestListWorkflowsForbidden_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6355,7 +4757,7 @@ func TestUpdateWorkflowForbidden_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowForbidden
+			var typ ListWorkflowsForbidden
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6369,13 +4771,13 @@ func TestUpdateWorkflowForbidden_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowForbidden
+			var typ2 ListWorkflowsForbidden
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowInternalServerError_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowInternalServerError
+func TestListWorkflowsInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowsInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6383,11 +4785,11 @@ func TestUpdateWorkflowInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowInternalServerError
+	var typ2 ListWorkflowsInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowInternalServerError_Examples(t *testing.T) {
+func TestListWorkflowsInternalServerError_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6396,7 +4798,7 @@ func TestUpdateWorkflowInternalServerError_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowInternalServerError
+			var typ ListWorkflowsInternalServerError
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6410,13 +4812,13 @@ func TestUpdateWorkflowInternalServerError_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowInternalServerError
+			var typ2 ListWorkflowsInternalServerError
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowNotFound_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowNotFound
+func TestListWorkflowsNotFound_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowsNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6424,11 +4826,11 @@ func TestUpdateWorkflowNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowNotFound
+	var typ2 ListWorkflowsNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowNotFound_Examples(t *testing.T) {
+func TestListWorkflowsNotFound_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6437,7 +4839,7 @@ func TestUpdateWorkflowNotFound_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowNotFound
+			var typ ListWorkflowsNotFound
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6451,13 +4853,13 @@ func TestUpdateWorkflowNotFound_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowNotFound
+			var typ2 ListWorkflowsNotFound
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowOK_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowOK
+func TestListWorkflowsOK_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowsOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6465,11 +4867,346 @@ func TestUpdateWorkflowOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowOK
+	var typ2 ListWorkflowsOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowOK_Examples(t *testing.T) {
+func TestListWorkflowsOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Count\":0,\"From\":0,\"Total\":0,\"Workflows\":[{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}],\"is_ok\":true}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListWorkflowsOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListWorkflowsOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestListWorkflowsOKWorkflowsItem_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowsOKWorkflowsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListWorkflowsOKWorkflowsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListWorkflowsOKWorkflowsItemConcurrencyMode_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowsOKWorkflowsItemConcurrencyMode
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListWorkflowsOKWorkflowsItemConcurrencyMode
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListWorkflowsOKWorkflowsItemServicePrincipalId_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowsOKWorkflowsItemServicePrincipalId
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListWorkflowsOKWorkflowsItemServicePrincipalId
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListWorkflowsOKWorkflowsItemTagsItem_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowsOKWorkflowsItemTagsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListWorkflowsOKWorkflowsItemTagsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListWorkflowsPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowsPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListWorkflowsPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestListWorkflowsPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListWorkflowsPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListWorkflowsPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestListWorkflowsUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowsUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListWorkflowsUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestListWorkflowsUnauthorized_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListWorkflowsUnauthorized
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListWorkflowsUnauthorized
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestPatchWorkflowBadRequest_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchWorkflowBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestPatchWorkflowBadRequest_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ PatchWorkflowBadRequest
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 PatchWorkflowBadRequest
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestPatchWorkflowForbidden_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchWorkflowForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestPatchWorkflowForbidden_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ PatchWorkflowForbidden
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 PatchWorkflowForbidden
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestPatchWorkflowInternalServerError_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchWorkflowInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestPatchWorkflowInternalServerError_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ PatchWorkflowInternalServerError
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 PatchWorkflowInternalServerError
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestPatchWorkflowNotFound_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchWorkflowNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestPatchWorkflowNotFound_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ PatchWorkflowNotFound
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 PatchWorkflowNotFound
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestPatchWorkflowOK_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchWorkflowOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestPatchWorkflowOK_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6478,7 +5215,7 @@ func TestUpdateWorkflowOK_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowOK
+			var typ PatchWorkflowOK
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6492,13 +5229,13 @@ func TestUpdateWorkflowOK_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowOK
+			var typ2 PatchWorkflowOK
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowOKWorkflow_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowOKWorkflow
+func TestPatchWorkflowOKWorkflow_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowOKWorkflow
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6506,11 +5243,11 @@ func TestUpdateWorkflowOKWorkflow_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowOKWorkflow
+	var typ2 PatchWorkflowOKWorkflow
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestUpdateWorkflowOKWorkflowConcurrencyMode_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowOKWorkflowConcurrencyMode
+func TestPatchWorkflowOKWorkflowConcurrencyMode_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowOKWorkflowConcurrencyMode
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6518,11 +5255,11 @@ func TestUpdateWorkflowOKWorkflowConcurrencyMode_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowOKWorkflowConcurrencyMode
+	var typ2 PatchWorkflowOKWorkflowConcurrencyMode
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestUpdateWorkflowOKWorkflowServicePrincipalId_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowOKWorkflowServicePrincipalId
+func TestPatchWorkflowOKWorkflowServicePrincipalId_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowOKWorkflowServicePrincipalId
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6530,11 +5267,11 @@ func TestUpdateWorkflowOKWorkflowServicePrincipalId_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowOKWorkflowServicePrincipalId
+	var typ2 PatchWorkflowOKWorkflowServicePrincipalId
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestUpdateWorkflowOKWorkflowTagsItem_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowOKWorkflowTagsItem
+func TestPatchWorkflowOKWorkflowTagsItem_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowOKWorkflowTagsItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6542,11 +5279,11 @@ func TestUpdateWorkflowOKWorkflowTagsItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowOKWorkflowTagsItem
+	var typ2 PatchWorkflowOKWorkflowTagsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestUpdateWorkflowPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowPaymentRequired
+func TestPatchWorkflowPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowPaymentRequired
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6554,11 +5291,11 @@ func TestUpdateWorkflowPaymentRequired_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowPaymentRequired
+	var typ2 PatchWorkflowPaymentRequired
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowPaymentRequired_Examples(t *testing.T) {
+func TestPatchWorkflowPaymentRequired_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6567,7 +5304,7 @@ func TestUpdateWorkflowPaymentRequired_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowPaymentRequired
+			var typ PatchWorkflowPaymentRequired
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6581,13 +5318,13 @@ func TestUpdateWorkflowPaymentRequired_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowPaymentRequired
+			var typ2 PatchWorkflowPaymentRequired
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowReq_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowReq
+func TestPatchWorkflowReq_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowReq
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6595,11 +5332,11 @@ func TestUpdateWorkflowReq_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowReq
+	var typ2 PatchWorkflowReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowReq_Examples(t *testing.T) {
+func TestPatchWorkflowReq_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6608,7 +5345,7 @@ func TestUpdateWorkflowReq_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowReq
+			var typ PatchWorkflowReq
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6622,13 +5359,13 @@ func TestUpdateWorkflowReq_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowReq
+			var typ2 PatchWorkflowReq
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowReqConcurrencyMode_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowReqConcurrencyMode
+func TestPatchWorkflowReqConcurrencyMode_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowReqConcurrencyMode
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6636,11 +5373,11 @@ func TestUpdateWorkflowReqConcurrencyMode_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowReqConcurrencyMode
+	var typ2 PatchWorkflowReqConcurrencyMode
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestUpdateWorkflowReqTagsItem_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowReqTagsItem
+func TestPatchWorkflowReqTagsItem_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowReqTagsItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6648,11 +5385,11 @@ func TestUpdateWorkflowReqTagsItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowReqTagsItem
+	var typ2 PatchWorkflowReqTagsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestUpdateWorkflowRevisionAliasBadRequest_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowRevisionAliasBadRequest
+func TestPatchWorkflowUnauthorized_EncodeDecode(t *testing.T) {
+	var typ PatchWorkflowUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6660,11 +5397,52 @@ func TestUpdateWorkflowRevisionAliasBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowRevisionAliasBadRequest
+	var typ2 PatchWorkflowUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowRevisionAliasBadRequest_Examples(t *testing.T) {
+func TestPatchWorkflowUnauthorized_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ PatchWorkflowUnauthorized
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 PatchWorkflowUnauthorized
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadExecutionBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadExecutionBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadExecutionBadRequest_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6673,7 +5451,7 @@ func TestUpdateWorkflowRevisionAliasBadRequest_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowRevisionAliasBadRequest
+			var typ ReadExecutionBadRequest
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6687,13 +5465,13 @@ func TestUpdateWorkflowRevisionAliasBadRequest_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowRevisionAliasBadRequest
+			var typ2 ReadExecutionBadRequest
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowRevisionAliasConflict_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowRevisionAliasConflict
+func TestReadExecutionForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6701,52 +5479,11 @@ func TestUpdateWorkflowRevisionAliasConflict_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowRevisionAliasConflict
+	var typ2 ReadExecutionForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowRevisionAliasConflict_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"sampleString\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowRevisionAliasConflict
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 UpdateWorkflowRevisionAliasConflict
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestUpdateWorkflowRevisionAliasForbidden_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowRevisionAliasForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 UpdateWorkflowRevisionAliasForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestUpdateWorkflowRevisionAliasForbidden_Examples(t *testing.T) {
+func TestReadExecutionForbidden_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6755,7 +5492,7 @@ func TestUpdateWorkflowRevisionAliasForbidden_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowRevisionAliasForbidden
+			var typ ReadExecutionForbidden
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6769,13 +5506,13 @@ func TestUpdateWorkflowRevisionAliasForbidden_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowRevisionAliasForbidden
+			var typ2 ReadExecutionForbidden
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowRevisionAliasInternalServerError_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowRevisionAliasInternalServerError
+func TestReadExecutionInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6783,11 +5520,11 @@ func TestUpdateWorkflowRevisionAliasInternalServerError_EncodeDecode(t *testing.
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowRevisionAliasInternalServerError
+	var typ2 ReadExecutionInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowRevisionAliasInternalServerError_Examples(t *testing.T) {
+func TestReadExecutionInternalServerError_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6796,7 +5533,7 @@ func TestUpdateWorkflowRevisionAliasInternalServerError_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowRevisionAliasInternalServerError
+			var typ ReadExecutionInternalServerError
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6810,13 +5547,13 @@ func TestUpdateWorkflowRevisionAliasInternalServerError_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowRevisionAliasInternalServerError
+			var typ2 ReadExecutionInternalServerError
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowRevisionAliasNotFound_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowRevisionAliasNotFound
+func TestReadExecutionNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6824,11 +5561,11 @@ func TestUpdateWorkflowRevisionAliasNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowRevisionAliasNotFound
+	var typ2 ReadExecutionNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowRevisionAliasNotFound_Examples(t *testing.T) {
+func TestReadExecutionNotFound_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6837,7 +5574,7 @@ func TestUpdateWorkflowRevisionAliasNotFound_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowRevisionAliasNotFound
+			var typ ReadExecutionNotFound
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6851,13 +5588,13 @@ func TestUpdateWorkflowRevisionAliasNotFound_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowRevisionAliasNotFound
+			var typ2 ReadExecutionNotFound
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowRevisionAliasOK_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowRevisionAliasOK
+func TestReadExecutionOK_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6865,20 +5602,20 @@ func TestUpdateWorkflowRevisionAliasOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowRevisionAliasOK
+	var typ2 ReadExecutionOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowRevisionAliasOK_Examples(t *testing.T) {
+func TestReadExecutionOK_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Revision\":{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"RevisionAlias\":\"sampleString\",\"RevisionId\":123,\"Runbook\":\"sampleString\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"WorkflowId\":\"sampleString\"},\"is_ok\":true}"},
+		{Input: "{\"Execution\":{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"StepCount\":0,\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}},\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowRevisionAliasOK
+			var typ ReadExecutionOK
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6892,13 +5629,13 @@ func TestUpdateWorkflowRevisionAliasOK_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowRevisionAliasOK
+			var typ2 ReadExecutionOK
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowRevisionAliasOKRevision_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowRevisionAliasOKRevision
+func TestReadExecutionOKExecution_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionOKExecution
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6906,11 +5643,11 @@ func TestUpdateWorkflowRevisionAliasOKRevision_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowRevisionAliasOKRevision
+	var typ2 ReadExecutionOKExecution
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestUpdateWorkflowRevisionAliasPaymentRequired_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowRevisionAliasPaymentRequired
+func TestReadExecutionOKExecutionStatus_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionOKExecutionStatus
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6918,11 +5655,71 @@ func TestUpdateWorkflowRevisionAliasPaymentRequired_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowRevisionAliasPaymentRequired
+	var typ2 ReadExecutionOKExecutionStatus
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadExecutionOKExecutionWorkflow_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionOKExecutionWorkflow
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadExecutionOKExecutionWorkflow
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadExecutionOKExecutionWorkflowConcurrencyMode_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionOKExecutionWorkflowConcurrencyMode
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadExecutionOKExecutionWorkflowConcurrencyMode
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadExecutionOKExecutionWorkflowServicePrincipalId_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionOKExecutionWorkflowServicePrincipalId
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadExecutionOKExecutionWorkflowServicePrincipalId
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadExecutionOKExecutionWorkflowTagsItem_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionOKExecutionWorkflowTagsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadExecutionOKExecutionWorkflowTagsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadExecutionPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadExecutionPaymentRequired
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowRevisionAliasPaymentRequired_Examples(t *testing.T) {
+func TestReadExecutionPaymentRequired_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6931,7 +5728,7 @@ func TestUpdateWorkflowRevisionAliasPaymentRequired_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowRevisionAliasPaymentRequired
+			var typ ReadExecutionPaymentRequired
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6945,13 +5742,13 @@ func TestUpdateWorkflowRevisionAliasPaymentRequired_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowRevisionAliasPaymentRequired
+			var typ2 ReadExecutionPaymentRequired
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowRevisionAliasReq_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowRevisionAliasReq
+func TestReadExecutionUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadExecutionUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -6959,11 +5756,1255 @@ func TestUpdateWorkflowRevisionAliasReq_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowRevisionAliasReq
+	var typ2 ReadExecutionUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowRevisionAliasReq_Examples(t *testing.T) {
+func TestReadExecutionUnauthorized_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadExecutionUnauthorized
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadExecutionUnauthorized
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadRevisionBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadRevisionBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadRevisionBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadRevisionBadRequest_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadRevisionBadRequest
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadRevisionBadRequest
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadRevisionForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadRevisionForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadRevisionForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadRevisionForbidden_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadRevisionForbidden
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadRevisionForbidden
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadRevisionInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadRevisionInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadRevisionInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadRevisionInternalServerError_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadRevisionInternalServerError
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadRevisionInternalServerError
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadRevisionNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadRevisionNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadRevisionNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadRevisionNotFound_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadRevisionNotFound
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadRevisionNotFound
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadRevisionOK_EncodeDecode(t *testing.T) {
+	var typ ReadRevisionOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadRevisionOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadRevisionOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Revision\":{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"RevisionAlias\":\"sampleString\",\"RevisionId\":123,\"Runbook\":\"sampleString\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"WorkflowId\":\"sampleString\"},\"is_ok\":true}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadRevisionOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadRevisionOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadRevisionOKRevision_EncodeDecode(t *testing.T) {
+	var typ ReadRevisionOKRevision
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadRevisionOKRevision
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadRevisionPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ReadRevisionPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadRevisionPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadRevisionPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadRevisionPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadRevisionPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadRevisionUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadRevisionUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadRevisionUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadRevisionUnauthorized_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadRevisionUnauthorized
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadRevisionUnauthorized
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadSubscriptionBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadSubscriptionBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadSubscriptionBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadSubscriptionBadRequest_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadSubscriptionBadRequest
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadSubscriptionBadRequest
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadSubscriptionForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadSubscriptionForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadSubscriptionForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadSubscriptionForbidden_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadSubscriptionForbidden
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadSubscriptionForbidden
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadSubscriptionInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadSubscriptionInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadSubscriptionInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadSubscriptionInternalServerError_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadSubscriptionInternalServerError
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadSubscriptionInternalServerError
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadSubscriptionNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadSubscriptionNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadSubscriptionNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadSubscriptionNotFound_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadSubscriptionNotFound
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadSubscriptionNotFound
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadSubscriptionOK_EncodeDecode(t *testing.T) {
+	var typ ReadSubscriptionOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadSubscriptionOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadSubscriptionOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"CurrentPlan\":{\"accountId\":\"sampleString\",\"activateFrom\":\"2020-01-01T00:00:00Z\",\"activateUntil\":\"2020-01-01T00:00:00Z\",\"contractId\":\"sampleString\",\"createdAt\":\"2020-01-01T00:00:00Z\",\"id\":\"sampleString\",\"planId\":123,\"planName\":\"sampleString\",\"updatedAt\":\"2020-01-01T00:00:00Z\"},\"MonthAppliedPlan\":{\"accountId\":\"sampleString\",\"activateFrom\":\"2020-01-01T00:00:00Z\",\"activateUntil\":\"2020-01-01T00:00:00Z\",\"basePrice\":123,\"contractId\":\"sampleString\",\"createdAt\":\"2020-01-01T00:00:00Z\",\"id\":\"sampleString\",\"includedSteps\":123,\"overagePricePerUnit\":123,\"overageStepUnit\":123,\"planGrade\":123,\"planId\":123,\"planName\":\"sampleString\",\"updatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadSubscriptionOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadSubscriptionOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadSubscriptionOKCurrentPlan_EncodeDecode(t *testing.T) {
+	var typ ReadSubscriptionOKCurrentPlan
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadSubscriptionOKCurrentPlan
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadSubscriptionOKMonthAppliedPlan_EncodeDecode(t *testing.T) {
+	var typ ReadSubscriptionOKMonthAppliedPlan
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadSubscriptionOKMonthAppliedPlan
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadSubscriptionUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadSubscriptionUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadSubscriptionUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadSubscriptionUnauthorized_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadSubscriptionUnauthorized
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadSubscriptionUnauthorized
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadWorkflowBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadWorkflowBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadWorkflowBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadWorkflowBadRequest_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadWorkflowBadRequest
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadWorkflowBadRequest
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadWorkflowForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadWorkflowForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadWorkflowForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadWorkflowForbidden_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadWorkflowForbidden
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadWorkflowForbidden
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadWorkflowInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadWorkflowInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadWorkflowInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadWorkflowInternalServerError_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadWorkflowInternalServerError
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadWorkflowInternalServerError
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadWorkflowNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadWorkflowNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadWorkflowNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadWorkflowNotFound_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadWorkflowNotFound
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadWorkflowNotFound
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadWorkflowOK_EncodeDecode(t *testing.T) {
+	var typ ReadWorkflowOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadWorkflowOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadWorkflowOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadWorkflowOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadWorkflowOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadWorkflowOKWorkflow_EncodeDecode(t *testing.T) {
+	var typ ReadWorkflowOKWorkflow
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadWorkflowOKWorkflow
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadWorkflowOKWorkflowConcurrencyMode_EncodeDecode(t *testing.T) {
+	var typ ReadWorkflowOKWorkflowConcurrencyMode
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadWorkflowOKWorkflowConcurrencyMode
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadWorkflowOKWorkflowServicePrincipalId_EncodeDecode(t *testing.T) {
+	var typ ReadWorkflowOKWorkflowServicePrincipalId
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadWorkflowOKWorkflowServicePrincipalId
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadWorkflowOKWorkflowTagsItem_EncodeDecode(t *testing.T) {
+	var typ ReadWorkflowOKWorkflowTagsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadWorkflowOKWorkflowTagsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadWorkflowPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ReadWorkflowPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadWorkflowPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadWorkflowPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadWorkflowPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadWorkflowPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadWorkflowUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadWorkflowUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadWorkflowUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadWorkflowUnauthorized_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadWorkflowUnauthorized
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadWorkflowUnauthorized
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateRevisionAliasBadRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateRevisionAliasBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateRevisionAliasBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateRevisionAliasBadRequest_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Bad Request\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateRevisionAliasBadRequest
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateRevisionAliasBadRequest
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateRevisionAliasConflict_EncodeDecode(t *testing.T) {
+	var typ UpdateRevisionAliasConflict
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateRevisionAliasConflict
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateRevisionAliasConflict_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"sampleString\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateRevisionAliasConflict
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateRevisionAliasConflict
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateRevisionAliasForbidden_EncodeDecode(t *testing.T) {
+	var typ UpdateRevisionAliasForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateRevisionAliasForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateRevisionAliasForbidden_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Forbidden\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateRevisionAliasForbidden
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateRevisionAliasForbidden
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateRevisionAliasInternalServerError_EncodeDecode(t *testing.T) {
+	var typ UpdateRevisionAliasInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateRevisionAliasInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateRevisionAliasInternalServerError_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Internal Server Error\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateRevisionAliasInternalServerError
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateRevisionAliasInternalServerError
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateRevisionAliasNotFound_EncodeDecode(t *testing.T) {
+	var typ UpdateRevisionAliasNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateRevisionAliasNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateRevisionAliasNotFound_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Not Found\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateRevisionAliasNotFound
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateRevisionAliasNotFound
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateRevisionAliasOK_EncodeDecode(t *testing.T) {
+	var typ UpdateRevisionAliasOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateRevisionAliasOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateRevisionAliasOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Revision\":{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"RevisionAlias\":\"sampleString\",\"RevisionId\":123,\"Runbook\":\"sampleString\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"WorkflowId\":\"sampleString\"},\"is_ok\":true}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateRevisionAliasOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateRevisionAliasOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateRevisionAliasOKRevision_EncodeDecode(t *testing.T) {
+	var typ UpdateRevisionAliasOKRevision
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateRevisionAliasOKRevision
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateRevisionAliasPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ UpdateRevisionAliasPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateRevisionAliasPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateRevisionAliasPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateRevisionAliasPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateRevisionAliasPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateRevisionAliasReq_EncodeDecode(t *testing.T) {
+	var typ UpdateRevisionAliasReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateRevisionAliasReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateRevisionAliasReq_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -6972,7 +7013,7 @@ func TestUpdateWorkflowRevisionAliasReq_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowRevisionAliasReq
+			var typ UpdateRevisionAliasReq
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -6986,13 +7027,13 @@ func TestUpdateWorkflowRevisionAliasReq_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowRevisionAliasReq
+			var typ2 UpdateRevisionAliasReq
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestUpdateWorkflowRevisionAliasUnauthorized_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowRevisionAliasUnauthorized
+func TestUpdateRevisionAliasUnauthorized_EncodeDecode(t *testing.T) {
+	var typ UpdateRevisionAliasUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -7000,11 +7041,11 @@ func TestUpdateWorkflowRevisionAliasUnauthorized_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateWorkflowRevisionAliasUnauthorized
+	var typ2 UpdateRevisionAliasUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestUpdateWorkflowRevisionAliasUnauthorized_Examples(t *testing.T) {
+func TestUpdateRevisionAliasUnauthorized_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -7013,7 +7054,7 @@ func TestUpdateWorkflowRevisionAliasUnauthorized_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowRevisionAliasUnauthorized
+			var typ UpdateRevisionAliasUnauthorized
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -7027,48 +7068,7 @@ func TestUpdateWorkflowRevisionAliasUnauthorized_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 UpdateWorkflowRevisionAliasUnauthorized
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestUpdateWorkflowUnauthorized_EncodeDecode(t *testing.T) {
-	var typ UpdateWorkflowUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 UpdateWorkflowUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestUpdateWorkflowUnauthorized_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Message\":\"Unauthorized\",\"is_ok\":false}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ UpdateWorkflowUnauthorized
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 UpdateWorkflowUnauthorized
+			var typ2 UpdateRevisionAliasUnauthorized
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}

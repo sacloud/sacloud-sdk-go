@@ -139,6 +139,62 @@ func (s *CreateExecutionUnauthorized) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *CreateRevisionBadRequest) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateRevisionConflict) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateRevisionForbidden) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateRevisionInternalServerError) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateRevisionNotFound) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateRevisionPaymentRequired) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateRevisionUnauthorized) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *CreateSubscriptionBadRequest) setDefaults() {
 	{
 		val := bool(false)
@@ -219,62 +275,6 @@ func (s *CreateWorkflowPaymentRequired) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *CreateWorkflowRevisionBadRequest) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *CreateWorkflowRevisionConflict) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *CreateWorkflowRevisionForbidden) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *CreateWorkflowRevisionInternalServerError) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *CreateWorkflowRevisionNotFound) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *CreateWorkflowRevisionPaymentRequired) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *CreateWorkflowRevisionUnauthorized) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
 func (s *CreateWorkflowUnauthorized) setDefaults() {
 	{
 		val := bool(false)
@@ -332,6 +332,54 @@ func (s *DeleteExecutionPaymentRequired) setDefaults() {
 
 // setDefaults set default value of fields.
 func (s *DeleteExecutionUnauthorized) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *DeleteRevisionAliasBadRequest) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *DeleteRevisionAliasForbidden) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *DeleteRevisionAliasInternalServerError) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *DeleteRevisionAliasNotFound) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *DeleteRevisionAliasPaymentRequired) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *DeleteRevisionAliasUnauthorized) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -427,54 +475,6 @@ func (s *DeleteWorkflowPaymentRequired) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *DeleteWorkflowRevisionAliasBadRequest) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *DeleteWorkflowRevisionAliasForbidden) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *DeleteWorkflowRevisionAliasInternalServerError) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *DeleteWorkflowRevisionAliasNotFound) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *DeleteWorkflowRevisionAliasPaymentRequired) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *DeleteWorkflowRevisionAliasUnauthorized) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
 func (s *DeleteWorkflowUnauthorized) setDefaults() {
 	{
 		val := bool(false)
@@ -483,7 +483,7 @@ func (s *DeleteWorkflowUnauthorized) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *GetExecutionBadRequest) setDefaults() {
+func (s *ListExecutionHistoriesBadRequest) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -491,7 +491,7 @@ func (s *GetExecutionBadRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *GetExecutionForbidden) setDefaults() {
+func (s *ListExecutionHistoriesForbidden) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -499,7 +499,7 @@ func (s *GetExecutionForbidden) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *GetExecutionInternalServerError) setDefaults() {
+func (s *ListExecutionHistoriesInternalServerError) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -507,7 +507,7 @@ func (s *GetExecutionInternalServerError) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *GetExecutionNotFound) setDefaults() {
+func (s *ListExecutionHistoriesNotFound) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -515,215 +515,7 @@ func (s *GetExecutionNotFound) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *GetExecutionOKExecution) setDefaults() {
-	{
-		val := int(0)
-		s.StepCount = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetExecutionPaymentRequired) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetExecutionUnauthorized) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetSubscriptionBadRequest) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetSubscriptionForbidden) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetSubscriptionInternalServerError) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetSubscriptionNotFound) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetSubscriptionUnauthorized) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowBadRequest) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowForbidden) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowInternalServerError) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowNotFound) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowPaymentRequired) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowRevisionsBadRequest) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowRevisionsForbidden) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowRevisionsInternalServerError) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowRevisionsNotFound) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowRevisionsPaymentRequired) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowRevisionsUnauthorized) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *GetWorkflowUnauthorized) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *ListExecutionBadRequest) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *ListExecutionForbidden) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *ListExecutionHistoryBadRequest) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *ListExecutionHistoryForbidden) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *ListExecutionHistoryInternalServerError) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *ListExecutionHistoryNotFound) setDefaults() {
-	{
-		val := bool(false)
-		s.IsOk = val
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *ListExecutionHistoryOK) setDefaults() {
+func (s *ListExecutionHistoriesOK) setDefaults() {
 	{
 		val := int(0)
 		s.Total = val
@@ -739,7 +531,7 @@ func (s *ListExecutionHistoryOK) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListExecutionHistoryPaymentRequired) setDefaults() {
+func (s *ListExecutionHistoriesPaymentRequired) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -747,7 +539,7 @@ func (s *ListExecutionHistoryPaymentRequired) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListExecutionHistoryUnauthorized) setDefaults() {
+func (s *ListExecutionHistoriesUnauthorized) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -755,7 +547,7 @@ func (s *ListExecutionHistoryUnauthorized) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListExecutionInternalServerError) setDefaults() {
+func (s *ListExecutionsBadRequest) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -763,7 +555,7 @@ func (s *ListExecutionInternalServerError) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListExecutionNotFound) setDefaults() {
+func (s *ListExecutionsForbidden) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -771,7 +563,23 @@ func (s *ListExecutionNotFound) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListExecutionOK) setDefaults() {
+func (s *ListExecutionsInternalServerError) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ListExecutionsNotFound) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ListExecutionsOK) setDefaults() {
 	{
 		val := int(0)
 		s.Total = val
@@ -787,7 +595,7 @@ func (s *ListExecutionOK) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListExecutionOKExecutionsItem) setDefaults() {
+func (s *ListExecutionsOKExecutionsItem) setDefaults() {
 	{
 		val := int(0)
 		s.StepCount = val
@@ -795,7 +603,7 @@ func (s *ListExecutionOKExecutionsItem) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListExecutionPaymentRequired) setDefaults() {
+func (s *ListExecutionsPaymentRequired) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -803,7 +611,7 @@ func (s *ListExecutionPaymentRequired) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListExecutionUnauthorized) setDefaults() {
+func (s *ListExecutionsUnauthorized) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -859,7 +667,7 @@ func (s *ListPlansUnauthorized) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowBadRequest) setDefaults() {
+func (s *ListRevisionsBadRequest) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -867,7 +675,7 @@ func (s *ListWorkflowBadRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowForbidden) setDefaults() {
+func (s *ListRevisionsForbidden) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -875,7 +683,7 @@ func (s *ListWorkflowForbidden) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowInternalServerError) setDefaults() {
+func (s *ListRevisionsInternalServerError) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -883,7 +691,7 @@ func (s *ListWorkflowInternalServerError) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowNotFound) setDefaults() {
+func (s *ListRevisionsNotFound) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -891,7 +699,7 @@ func (s *ListWorkflowNotFound) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowOK) setDefaults() {
+func (s *ListRevisionsOK) setDefaults() {
 	{
 		val := int(0)
 		s.Total = val
@@ -907,7 +715,7 @@ func (s *ListWorkflowOK) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowPaymentRequired) setDefaults() {
+func (s *ListRevisionsPaymentRequired) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -915,7 +723,7 @@ func (s *ListWorkflowPaymentRequired) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowRevisionsBadRequest) setDefaults() {
+func (s *ListRevisionsUnauthorized) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -923,7 +731,7 @@ func (s *ListWorkflowRevisionsBadRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowRevisionsForbidden) setDefaults() {
+func (s *ListSuggestionsBadRequest) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -931,7 +739,7 @@ func (s *ListWorkflowRevisionsForbidden) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowRevisionsInternalServerError) setDefaults() {
+func (s *ListSuggestionsForbidden) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -939,7 +747,7 @@ func (s *ListWorkflowRevisionsInternalServerError) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowRevisionsNotFound) setDefaults() {
+func (s *ListSuggestionsInternalServerError) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -947,7 +755,15 @@ func (s *ListWorkflowRevisionsNotFound) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowRevisionsOK) setDefaults() {
+func (s *ListSuggestionsNotFound) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ListSuggestionsOK) setDefaults() {
 	{
 		val := int(0)
 		s.Total = val
@@ -963,7 +779,7 @@ func (s *ListWorkflowRevisionsOK) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowRevisionsPaymentRequired) setDefaults() {
+func (s *ListSuggestionsPaymentRequired) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -971,7 +787,7 @@ func (s *ListWorkflowRevisionsPaymentRequired) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowRevisionsUnauthorized) setDefaults() {
+func (s *ListSuggestionsUnauthorized) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -979,7 +795,7 @@ func (s *ListWorkflowRevisionsUnauthorized) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowSuggestBadRequest) setDefaults() {
+func (s *ListWorkflowsBadRequest) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -987,7 +803,7 @@ func (s *ListWorkflowSuggestBadRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowSuggestForbidden) setDefaults() {
+func (s *ListWorkflowsForbidden) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -995,7 +811,7 @@ func (s *ListWorkflowSuggestForbidden) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowSuggestInternalServerError) setDefaults() {
+func (s *ListWorkflowsInternalServerError) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1003,7 +819,7 @@ func (s *ListWorkflowSuggestInternalServerError) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowSuggestNotFound) setDefaults() {
+func (s *ListWorkflowsNotFound) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1011,7 +827,7 @@ func (s *ListWorkflowSuggestNotFound) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowSuggestOK) setDefaults() {
+func (s *ListWorkflowsOK) setDefaults() {
 	{
 		val := int(0)
 		s.Total = val
@@ -1027,7 +843,7 @@ func (s *ListWorkflowSuggestOK) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowSuggestPaymentRequired) setDefaults() {
+func (s *ListWorkflowsPaymentRequired) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1035,7 +851,7 @@ func (s *ListWorkflowSuggestPaymentRequired) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowSuggestUnauthorized) setDefaults() {
+func (s *ListWorkflowsUnauthorized) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1043,7 +859,7 @@ func (s *ListWorkflowSuggestUnauthorized) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *ListWorkflowUnauthorized) setDefaults() {
+func (s *PatchWorkflowBadRequest) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1051,7 +867,7 @@ func (s *ListWorkflowUnauthorized) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowBadRequest) setDefaults() {
+func (s *PatchWorkflowForbidden) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1059,7 +875,7 @@ func (s *UpdateWorkflowBadRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowForbidden) setDefaults() {
+func (s *PatchWorkflowInternalServerError) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1067,7 +883,7 @@ func (s *UpdateWorkflowForbidden) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowInternalServerError) setDefaults() {
+func (s *PatchWorkflowNotFound) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1075,7 +891,7 @@ func (s *UpdateWorkflowInternalServerError) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowNotFound) setDefaults() {
+func (s *PatchWorkflowPaymentRequired) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1083,7 +899,7 @@ func (s *UpdateWorkflowNotFound) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowPaymentRequired) setDefaults() {
+func (s *PatchWorkflowUnauthorized) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1091,7 +907,7 @@ func (s *UpdateWorkflowPaymentRequired) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowRevisionAliasBadRequest) setDefaults() {
+func (s *ReadExecutionBadRequest) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1099,7 +915,7 @@ func (s *UpdateWorkflowRevisionAliasBadRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowRevisionAliasConflict) setDefaults() {
+func (s *ReadExecutionForbidden) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1107,7 +923,7 @@ func (s *UpdateWorkflowRevisionAliasConflict) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowRevisionAliasForbidden) setDefaults() {
+func (s *ReadExecutionInternalServerError) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1115,7 +931,7 @@ func (s *UpdateWorkflowRevisionAliasForbidden) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowRevisionAliasInternalServerError) setDefaults() {
+func (s *ReadExecutionNotFound) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1123,7 +939,15 @@ func (s *UpdateWorkflowRevisionAliasInternalServerError) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowRevisionAliasNotFound) setDefaults() {
+func (s *ReadExecutionOKExecution) setDefaults() {
+	{
+		val := int(0)
+		s.StepCount = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadExecutionPaymentRequired) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1131,7 +955,7 @@ func (s *UpdateWorkflowRevisionAliasNotFound) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowRevisionAliasPaymentRequired) setDefaults() {
+func (s *ReadExecutionUnauthorized) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1139,7 +963,7 @@ func (s *UpdateWorkflowRevisionAliasPaymentRequired) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowRevisionAliasUnauthorized) setDefaults() {
+func (s *ReadRevisionBadRequest) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val
@@ -1147,7 +971,183 @@ func (s *UpdateWorkflowRevisionAliasUnauthorized) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *UpdateWorkflowUnauthorized) setDefaults() {
+func (s *ReadRevisionForbidden) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadRevisionInternalServerError) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadRevisionNotFound) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadRevisionPaymentRequired) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadRevisionUnauthorized) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadSubscriptionBadRequest) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadSubscriptionForbidden) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadSubscriptionInternalServerError) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadSubscriptionNotFound) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadSubscriptionUnauthorized) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadWorkflowBadRequest) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadWorkflowForbidden) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadWorkflowInternalServerError) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadWorkflowNotFound) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadWorkflowPaymentRequired) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReadWorkflowUnauthorized) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdateRevisionAliasBadRequest) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdateRevisionAliasConflict) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdateRevisionAliasForbidden) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdateRevisionAliasInternalServerError) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdateRevisionAliasNotFound) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdateRevisionAliasPaymentRequired) setDefaults() {
+	{
+		val := bool(false)
+		s.IsOk = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdateRevisionAliasUnauthorized) setDefaults() {
 	{
 		val := bool(false)
 		s.IsOk = val

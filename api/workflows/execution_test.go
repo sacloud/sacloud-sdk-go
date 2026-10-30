@@ -76,7 +76,7 @@ func TestExecutionAPI(t *testing.T) {
 	assert.Equal(t, workflow.ID, respCreate.Workflow.ID)
 
 	// List
-	respList, err := executionAPI.List(ctx, v1.ListExecutionParams{
+	respList, err := executionAPI.List(ctx, v1.ListExecutionsParams{
 		ID: workflow.ID,
 	})
 	require.NoError(t, err)
@@ -92,7 +92,7 @@ func TestExecutionAPI(t *testing.T) {
 	assert.True(t, found, "Created Execution not found in list")
 
 	// ListHistory
-	respListHistory, err := executionAPI.ListHistory(ctx, v1.ListExecutionHistoryParams{
+	respListHistory, err := executionAPI.ListHistory(ctx, v1.ListExecutionHistoriesParams{
 		ID:          workflow.ID,
 		ExecutionId: respCreate.ExecutionId,
 	})

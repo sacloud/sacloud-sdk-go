@@ -23,10 +23,10 @@ import (
 )
 
 type RevisionAPI interface {
-	Create(ctx context.Context, workflowID string, req v1.CreateWorkflowRevisionReq) (*v1.CreateWorkflowRevisionCreatedRevision, error)
-	List(ctx context.Context, params v1.ListWorkflowRevisionsParams) (*v1.ListWorkflowRevisionsOK, error)
-	Read(ctx context.Context, workflowID string, revisionNumber int) (*v1.GetWorkflowRevisionsOKRevision, error)
-	UpdateAlias(ctx context.Context, workflowID string, revisionNumber int, req v1.UpdateWorkflowRevisionAliasReq) (*v1.UpdateWorkflowRevisionAliasOKRevision, error)
+	Create(ctx context.Context, workflowID string, req v1.CreateRevisionReq) (*v1.CreateRevisionCreatedRevision, error)
+	List(ctx context.Context, params v1.ListRevisionsParams) (*v1.ListRevisionsOK, error)
+	Read(ctx context.Context, workflowID string, revisionNumber int) (*v1.ReadRevisionOKRevision, error)
+	UpdateAlias(ctx context.Context, workflowID string, revisionNumber int, req v1.UpdateRevisionAliasReq) (*v1.UpdateRevisionAliasOKRevision, error)
 	DeleteAlias(ctx context.Context, workflowID string, revisionNumber int) error
 }
 
@@ -40,68 +40,68 @@ func NewRevisionOp(client *v1.Client) RevisionAPI {
 	return &revisionOp{client: client}
 }
 
-func (op *revisionOp) Create(ctx context.Context, workflowID string, req v1.CreateWorkflowRevisionReq) (*v1.CreateWorkflowRevisionCreatedRevision, error) {
+func (op *revisionOp) Create(ctx context.Context, workflowID string, req v1.CreateRevisionReq) (*v1.CreateRevisionCreatedRevision, error) {
 	const methodName = "Revision.Create"
 
-	res, err := op.client.CreateWorkflowRevision(ctx, &req, v1.CreateWorkflowRevisionParams{ID: workflowID})
+	res, err := op.client.CreateRevision(ctx, &req, v1.CreateRevisionParams{ID: workflowID})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v1.CreateWorkflowRevisionCreated:
+	case *v1.CreateRevisionCreated:
 		return &r.Revision, nil
-	case *v1.CreateWorkflowRevisionBadRequest:
+	case *v1.CreateRevisionBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.CreateWorkflowRevisionUnauthorized:
+	case *v1.CreateRevisionUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.CreateWorkflowRevisionPaymentRequired:
+	case *v1.CreateRevisionPaymentRequired:
 		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.CreateWorkflowRevisionForbidden:
+	case *v1.CreateRevisionForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.CreateWorkflowRevisionNotFound:
+	case *v1.CreateRevisionNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.CreateWorkflowRevisionConflict:
+	case *v1.CreateRevisionConflict:
 		return nil, NewAPIError(methodName, http.StatusConflict, errors.New(r.Message))
-	case *v1.CreateWorkflowRevisionInternalServerError:
+	case *v1.CreateRevisionInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, err)
 	}
 }
 
-func (op *revisionOp) List(ctx context.Context, params v1.ListWorkflowRevisionsParams) (*v1.ListWorkflowRevisionsOK, error) {
+func (op *revisionOp) List(ctx context.Context, params v1.ListRevisionsParams) (*v1.ListRevisionsOK, error) {
 	const methodName = "Revision.List"
 
-	res, err := op.client.ListWorkflowRevisions(ctx, params)
+	res, err := op.client.ListRevisions(ctx, params)
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v1.ListWorkflowRevisionsOK:
+	case *v1.ListRevisionsOK:
 		return r, nil
-	case *v1.ListWorkflowRevisionsBadRequest:
+	case *v1.ListRevisionsBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.ListWorkflowRevisionsUnauthorized:
+	case *v1.ListRevisionsUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.ListWorkflowRevisionsPaymentRequired:
+	case *v1.ListRevisionsPaymentRequired:
 		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.ListWorkflowRevisionsForbidden:
+	case *v1.ListRevisionsForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.ListWorkflowRevisionsNotFound:
+	case *v1.ListRevisionsNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.ListWorkflowRevisionsInternalServerError:
+	case *v1.ListRevisionsInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, err)
 	}
 }
 
-func (op *revisionOp) Read(ctx context.Context, workflowID string, revisionNumber int) (*v1.GetWorkflowRevisionsOKRevision, error) {
+func (op *revisionOp) Read(ctx context.Context, workflowID string, revisionNumber int) (*v1.ReadRevisionOKRevision, error) {
 	const methodName = "Revision.Read"
 
-	res, err := op.client.GetWorkflowRevisions(ctx, v1.GetWorkflowRevisionsParams{
+	res, err := op.client.ReadRevision(ctx, v1.ReadRevisionParams{
 		ID:         workflowID,
 		RevisionId: revisionNumber,
 	})
@@ -110,29 +110,29 @@ func (op *revisionOp) Read(ctx context.Context, workflowID string, revisionNumbe
 	}
 
 	switch r := res.(type) {
-	case *v1.GetWorkflowRevisionsOK:
+	case *v1.ReadRevisionOK:
 		return &r.Revision, nil
-	case *v1.GetWorkflowRevisionsBadRequest:
+	case *v1.ReadRevisionBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.GetWorkflowRevisionsUnauthorized:
+	case *v1.ReadRevisionUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.GetWorkflowRevisionsPaymentRequired:
+	case *v1.ReadRevisionPaymentRequired:
 		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.GetWorkflowRevisionsForbidden:
+	case *v1.ReadRevisionForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.GetWorkflowRevisionsNotFound:
+	case *v1.ReadRevisionNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.GetWorkflowRevisionsInternalServerError:
+	case *v1.ReadRevisionInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, err)
 	}
 }
 
-func (op *revisionOp) UpdateAlias(ctx context.Context, workflowID string, revisionNumber int, req v1.UpdateWorkflowRevisionAliasReq) (*v1.UpdateWorkflowRevisionAliasOKRevision, error) {
+func (op *revisionOp) UpdateAlias(ctx context.Context, workflowID string, revisionNumber int, req v1.UpdateRevisionAliasReq) (*v1.UpdateRevisionAliasOKRevision, error) {
 	const methodName = "Revision.UpdateAlias"
 
-	res, err := op.client.UpdateWorkflowRevisionAlias(ctx, &req, v1.UpdateWorkflowRevisionAliasParams{
+	res, err := op.client.UpdateRevisionAlias(ctx, &req, v1.UpdateRevisionAliasParams{
 		ID:         workflowID,
 		RevisionId: revisionNumber,
 	})
@@ -141,21 +141,21 @@ func (op *revisionOp) UpdateAlias(ctx context.Context, workflowID string, revisi
 	}
 
 	switch r := res.(type) {
-	case *v1.UpdateWorkflowRevisionAliasOK:
+	case *v1.UpdateRevisionAliasOK:
 		return &r.Revision, nil
-	case *v1.UpdateWorkflowRevisionAliasBadRequest:
+	case *v1.UpdateRevisionAliasBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.UpdateWorkflowRevisionAliasUnauthorized:
+	case *v1.UpdateRevisionAliasUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.UpdateWorkflowRevisionAliasPaymentRequired:
+	case *v1.UpdateRevisionAliasPaymentRequired:
 		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.UpdateWorkflowRevisionAliasForbidden:
+	case *v1.UpdateRevisionAliasForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.UpdateWorkflowRevisionAliasNotFound:
+	case *v1.UpdateRevisionAliasNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.UpdateWorkflowRevisionAliasConflict:
+	case *v1.UpdateRevisionAliasConflict:
 		return nil, NewAPIError(methodName, http.StatusConflict, errors.New(r.Message))
-	case *v1.UpdateWorkflowRevisionAliasInternalServerError:
+	case *v1.UpdateRevisionAliasInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, err)
@@ -165,7 +165,7 @@ func (op *revisionOp) UpdateAlias(ctx context.Context, workflowID string, revisi
 func (op *revisionOp) DeleteAlias(ctx context.Context, workflowID string, revisionNumber int) error {
 	const methodName = "Revision.DeleteAlias"
 
-	res, err := op.client.DeleteWorkflowRevisionAlias(ctx, v1.DeleteWorkflowRevisionAliasParams{
+	res, err := op.client.DeleteRevisionAlias(ctx, v1.DeleteRevisionAliasParams{
 		ID:         workflowID,
 		RevisionId: revisionNumber,
 	})
@@ -174,19 +174,19 @@ func (op *revisionOp) DeleteAlias(ctx context.Context, workflowID string, revisi
 	}
 
 	switch r := res.(type) {
-	case *v1.DeleteWorkflowRevisionAliasOK:
+	case *v1.DeleteRevisionAliasOK:
 		return nil
-	case *v1.DeleteWorkflowRevisionAliasBadRequest:
+	case *v1.DeleteRevisionAliasBadRequest:
 		return NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.DeleteWorkflowRevisionAliasUnauthorized:
+	case *v1.DeleteRevisionAliasUnauthorized:
 		return NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.DeleteWorkflowRevisionAliasPaymentRequired:
+	case *v1.DeleteRevisionAliasPaymentRequired:
 		return NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.DeleteWorkflowRevisionAliasForbidden:
+	case *v1.DeleteRevisionAliasForbidden:
 		return NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.DeleteWorkflowRevisionAliasNotFound:
+	case *v1.DeleteRevisionAliasNotFound:
 		return NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.DeleteWorkflowRevisionAliasInternalServerError:
+	case *v1.DeleteRevisionAliasInternalServerError:
 		return NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return NewAPIError(methodName, 0, err)

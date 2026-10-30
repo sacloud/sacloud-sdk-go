@@ -9,6 +9,10 @@ type CreateExecutionRes interface {
 	createExecutionRes()
 }
 
+type CreateRevisionRes interface {
+	createRevisionRes()
+}
+
 type CreateSubscriptionRes interface {
 	createSubscriptionRes()
 }
@@ -17,12 +21,12 @@ type CreateWorkflowRes interface {
 	createWorkflowRes()
 }
 
-type CreateWorkflowRevisionRes interface {
-	createWorkflowRevisionRes()
-}
-
 type DeleteExecutionRes interface {
 	deleteExecutionRes()
+}
+
+type DeleteRevisionAliasRes interface {
+	deleteRevisionAliasRes()
 }
 
 type DeleteSubscriptionRes interface {
@@ -33,54 +37,50 @@ type DeleteWorkflowRes interface {
 	deleteWorkflowRes()
 }
 
-type DeleteWorkflowRevisionAliasRes interface {
-	deleteWorkflowRevisionAliasRes()
+type ListExecutionHistoriesRes interface {
+	listExecutionHistoriesRes()
 }
 
-type GetExecutionRes interface {
-	getExecutionRes()
-}
-
-type GetSubscriptionRes interface {
-	getSubscriptionRes()
-}
-
-type GetWorkflowRes interface {
-	getWorkflowRes()
-}
-
-type GetWorkflowRevisionsRes interface {
-	getWorkflowRevisionsRes()
-}
-
-type ListExecutionHistoryRes interface {
-	listExecutionHistoryRes()
-}
-
-type ListExecutionRes interface {
-	listExecutionRes()
+type ListExecutionsRes interface {
+	listExecutionsRes()
 }
 
 type ListPlansRes interface {
 	listPlansRes()
 }
 
-type ListWorkflowRes interface {
-	listWorkflowRes()
+type ListRevisionsRes interface {
+	listRevisionsRes()
 }
 
-type ListWorkflowRevisionsRes interface {
-	listWorkflowRevisionsRes()
+type ListSuggestionsRes interface {
+	listSuggestionsRes()
 }
 
-type ListWorkflowSuggestRes interface {
-	listWorkflowSuggestRes()
+type ListWorkflowsRes interface {
+	listWorkflowsRes()
 }
 
-type UpdateWorkflowRes interface {
-	updateWorkflowRes()
+type PatchWorkflowRes interface {
+	patchWorkflowRes()
 }
 
-type UpdateWorkflowRevisionAliasRes interface {
-	updateWorkflowRevisionAliasRes()
+type ReadExecutionRes interface {
+	readExecutionRes()
+}
+
+type ReadRevisionRes interface {
+	readRevisionRes()
+}
+
+type ReadSubscriptionRes interface {
+	readSubscriptionRes()
+}
+
+type ReadWorkflowRes interface {
+	readWorkflowRes()
+}
+
+type UpdateRevisionAliasRes interface {
+	updateRevisionAliasRes()
 }

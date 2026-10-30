@@ -24,7 +24,7 @@ import (
 
 type SubscriptionAPI interface {
 	ListPlans(ctx context.Context) (*v1.ListPlansOK, error)
-	Read(ctx context.Context) (*v1.GetSubscriptionOK, error)
+	Read(ctx context.Context) (*v1.ReadSubscriptionOK, error)
 	Create(ctx context.Context, request v1.CreateSubscriptionReq) error
 	Delete(ctx context.Context) error
 }
@@ -65,26 +65,26 @@ func (op *subscriptionOp) ListPlans(ctx context.Context) (*v1.ListPlansOK, error
 	}
 }
 
-func (op *subscriptionOp) Read(ctx context.Context) (*v1.GetSubscriptionOK, error) {
+func (op *subscriptionOp) Read(ctx context.Context) (*v1.ReadSubscriptionOK, error) {
 	const methodName = "Subscription.Read"
 
-	res, err := op.client.GetSubscription(ctx)
+	res, err := op.client.ReadSubscription(ctx)
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v1.GetSubscriptionOK:
+	case *v1.ReadSubscriptionOK:
 		return r, nil
-	case *v1.GetSubscriptionBadRequest:
+	case *v1.ReadSubscriptionBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.GetSubscriptionUnauthorized:
+	case *v1.ReadSubscriptionUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.GetSubscriptionForbidden:
+	case *v1.ReadSubscriptionForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.GetSubscriptionNotFound:
+	case *v1.ReadSubscriptionNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.GetSubscriptionInternalServerError:
+	case *v1.ReadSubscriptionInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))

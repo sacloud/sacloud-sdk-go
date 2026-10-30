@@ -30,6 +30,20 @@ func encodeCreateExecutionRequest(
 	return nil
 }
 
+func encodeCreateRevisionRequest(
+	req *CreateRevisionReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateSubscriptionRequest(
 	req *CreateSubscriptionReq,
 	r *http.Request,
@@ -58,8 +72,8 @@ func encodeCreateWorkflowRequest(
 	return nil
 }
 
-func encodeCreateWorkflowRevisionRequest(
-	req *CreateWorkflowRevisionReq,
+func encodePatchWorkflowRequest(
+	req *PatchWorkflowReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -72,22 +86,8 @@ func encodeCreateWorkflowRevisionRequest(
 	return nil
 }
 
-func encodeUpdateWorkflowRequest(
-	req *UpdateWorkflowReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeUpdateWorkflowRevisionAliasRequest(
-	req *UpdateWorkflowRevisionAliasReq,
+func encodeUpdateRevisionAliasRequest(
+	req *UpdateRevisionAliasReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

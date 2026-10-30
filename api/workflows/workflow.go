@@ -24,10 +24,10 @@ import (
 
 type WorkflowAPI interface {
 	Create(ctx context.Context, request v1.CreateWorkflowReq) (*v1.CreateWorkflowCreatedWorkflow, error)
-	List(ctx context.Context, parameter v1.ListWorkflowParams) (*v1.ListWorkflowOK, error)
-	ListSuggest(ctx context.Context, parameter v1.ListWorkflowSuggestParams) (*v1.ListWorkflowSuggestOK, error)
-	Read(ctx context.Context, id string) (*v1.GetWorkflowOKWorkflow, error)
-	Update(ctx context.Context, id string, request v1.UpdateWorkflowReq) (*v1.UpdateWorkflowOKWorkflow, error)
+	List(ctx context.Context, parameter v1.ListWorkflowsParams) (*v1.ListWorkflowsOK, error)
+	ListSuggest(ctx context.Context, parameter v1.ListSuggestionsParams) (*v1.ListSuggestionsOK, error)
+	Read(ctx context.Context, id string) (*v1.ReadWorkflowOKWorkflow, error)
+	Update(ctx context.Context, id string, request v1.PatchWorkflowReq) (*v1.PatchWorkflowOKWorkflow, error)
 	Delete(ctx context.Context, id string) error
 }
 
@@ -69,112 +69,112 @@ func (op *workflowOp) Create(ctx context.Context, req v1.CreateWorkflowReq) (*v1
 	}
 }
 
-func (op *workflowOp) List(ctx context.Context, params v1.ListWorkflowParams) (*v1.ListWorkflowOK, error) {
+func (op *workflowOp) List(ctx context.Context, params v1.ListWorkflowsParams) (*v1.ListWorkflowsOK, error) {
 	const methodName = "Workflow.List"
 
-	res, err := op.client.ListWorkflow(ctx, params)
+	res, err := op.client.ListWorkflows(ctx, params)
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v1.ListWorkflowOK:
+	case *v1.ListWorkflowsOK:
 		return r, nil
-	case *v1.ListWorkflowBadRequest:
+	case *v1.ListWorkflowsBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.ListWorkflowUnauthorized:
+	case *v1.ListWorkflowsUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.ListWorkflowPaymentRequired:
+	case *v1.ListWorkflowsPaymentRequired:
 		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.ListWorkflowForbidden:
+	case *v1.ListWorkflowsForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.ListWorkflowNotFound:
+	case *v1.ListWorkflowsNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.ListWorkflowInternalServerError:
+	case *v1.ListWorkflowsInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, err)
 	}
 }
 
-func (op *workflowOp) ListSuggest(ctx context.Context, params v1.ListWorkflowSuggestParams) (*v1.ListWorkflowSuggestOK, error) {
+func (op *workflowOp) ListSuggest(ctx context.Context, params v1.ListSuggestionsParams) (*v1.ListSuggestionsOK, error) {
 	const methodName = "Workflow.ListSuggest"
 
-	res, err := op.client.ListWorkflowSuggest(ctx, params)
+	res, err := op.client.ListSuggestions(ctx, params)
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v1.ListWorkflowSuggestOK:
+	case *v1.ListSuggestionsOK:
 		return r, nil
-	case *v1.ListWorkflowSuggestBadRequest:
+	case *v1.ListSuggestionsBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.ListWorkflowSuggestUnauthorized:
+	case *v1.ListSuggestionsUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.ListWorkflowSuggestPaymentRequired:
+	case *v1.ListSuggestionsPaymentRequired:
 		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.ListWorkflowSuggestForbidden:
+	case *v1.ListSuggestionsForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.ListWorkflowSuggestNotFound:
+	case *v1.ListSuggestionsNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.ListWorkflowSuggestInternalServerError:
+	case *v1.ListSuggestionsInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
 	}
 }
 
-func (op *workflowOp) Read(ctx context.Context, id string) (*v1.GetWorkflowOKWorkflow, error) {
+func (op *workflowOp) Read(ctx context.Context, id string) (*v1.ReadWorkflowOKWorkflow, error) {
 	const methodName = "Workflow.Read"
 
-	res, err := op.client.GetWorkflow(ctx, v1.GetWorkflowParams{ID: id})
+	res, err := op.client.ReadWorkflow(ctx, v1.ReadWorkflowParams{ID: id})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v1.GetWorkflowOK:
+	case *v1.ReadWorkflowOK:
 		return &r.Workflow, nil
-	case *v1.GetWorkflowBadRequest:
+	case *v1.ReadWorkflowBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.GetWorkflowUnauthorized:
+	case *v1.ReadWorkflowUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.GetWorkflowPaymentRequired:
+	case *v1.ReadWorkflowPaymentRequired:
 		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.GetWorkflowForbidden:
+	case *v1.ReadWorkflowForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.GetWorkflowNotFound:
+	case *v1.ReadWorkflowNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.GetWorkflowInternalServerError:
+	case *v1.ReadWorkflowInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, err)
 	}
 }
 
-func (op *workflowOp) Update(ctx context.Context, id string, req v1.UpdateWorkflowReq) (*v1.UpdateWorkflowOKWorkflow, error) {
+func (op *workflowOp) Update(ctx context.Context, id string, req v1.PatchWorkflowReq) (*v1.PatchWorkflowOKWorkflow, error) {
 	const methodName = "Workflow.Update"
 
-	res, err := op.client.UpdateWorkflow(ctx, &req, v1.UpdateWorkflowParams{ID: id})
+	res, err := op.client.PatchWorkflow(ctx, &req, v1.PatchWorkflowParams{ID: id})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v1.UpdateWorkflowOK:
+	case *v1.PatchWorkflowOK:
 		return &r.Workflow, nil
-	case *v1.UpdateWorkflowBadRequest:
+	case *v1.PatchWorkflowBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.UpdateWorkflowUnauthorized:
+	case *v1.PatchWorkflowUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.UpdateWorkflowPaymentRequired:
+	case *v1.PatchWorkflowPaymentRequired:
 		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.UpdateWorkflowForbidden:
+	case *v1.PatchWorkflowForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.UpdateWorkflowNotFound:
+	case *v1.PatchWorkflowNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.UpdateWorkflowInternalServerError:
+	case *v1.PatchWorkflowInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, err)

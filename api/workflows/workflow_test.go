@@ -63,7 +63,7 @@ func TestWorkflowAPI(t *testing.T) {
 	assert.False(t, respRead.Logging)
 
 	// ListWorkflows
-	respList, err := workflowAPI.List(ctx, v1.ListWorkflowParams{})
+	respList, err := workflowAPI.List(ctx, v1.ListWorkflowsParams{})
 	require.NoError(t, err)
 	found := false
 	for _, workflow := range respList.Workflows {
@@ -78,7 +78,7 @@ func TestWorkflowAPI(t *testing.T) {
 	assert.True(t, found, "Created Workflow not found in list")
 
 	// ListWorkflowSuggest
-	respListSuggest, err := workflowAPI.ListSuggest(ctx, v1.ListWorkflowSuggestParams{Name: "test-workflow"})
+	respListSuggest, err := workflowAPI.ListSuggest(ctx, v1.ListSuggestionsParams{Name: "test-workflow"})
 	require.NoError(t, err)
 	found = false
 	for _, workflow := range respListSuggest.Suggests {
@@ -90,7 +90,7 @@ func TestWorkflowAPI(t *testing.T) {
 	assert.True(t, found, "Created Workflow not found in suggest list")
 
 	// UpdateWorkflow
-	respUpdate, err := workflowAPI.Update(ctx, respCreate.ID, v1.UpdateWorkflowReq{
+	respUpdate, err := workflowAPI.Update(ctx, respCreate.ID, v1.PatchWorkflowReq{
 		Name:        v1.NewOptString("test-workflow-updated"),
 		Description: v1.NewOptString("test workflow updated"),
 		Publish:     v1.NewOptBool(true),
