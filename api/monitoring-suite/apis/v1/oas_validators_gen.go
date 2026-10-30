@@ -627,39 +627,6 @@ func (s *AlertRuleRequest) Validate() error {
 	return nil
 }
 
-func (s AlertsProjectsHistoriesListSeverity) Validate() error {
-	switch s {
-	case "critical":
-		return nil
-	case "warning":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s AlertsProjectsNotificationTargetsListServiceType) Validate() error {
-	switch s {
-	case "SAKURA_EVENT_BUS":
-		return nil
-	case "SAKURA_SIMPLE_NOTICE":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s AlertsProjectsRulesHistoriesListSeverity) Validate() error {
-	switch s {
-	case "critical":
-		return nil
-	case "warning":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
 func (s *AndMatcher) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -711,6 +678,15 @@ func (s *AndMatcher) Validate() error {
 	return nil
 }
 
+func (s AndMatcherType) Validate() error {
+	switch s {
+	case "and":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *BoolMatcher) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -754,6 +730,15 @@ func (s *BoolMatcher) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s BoolMatcherType) Validate() error {
+	switch s {
+	case "boolean":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 
 func (s BooleanFieldName) Validate() error {
@@ -1077,6 +1062,15 @@ func (s *EnumMatcher) Validate() error {
 	return nil
 }
 
+func (s EnumMatcherType) Validate() error {
+	switch s {
+	case "enum":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s FieldMatcher) Validate() error {
 	switch s.Type {
 	case OrMatcherFieldMatcher:
@@ -1272,6 +1266,78 @@ func (s HistorySeverity) Validate() error {
 	case "warning":
 		return nil
 	case "critical":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s ListAlertProjectHistoriesSeverity) Validate() error {
+	switch s {
+	case "critical":
+		return nil
+	case "warning":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s ListAlertProjectNotificationTargetsServiceType) Validate() error {
+	switch s {
+	case "SAKURA_EVENT_BUS":
+		return nil
+	case "SAKURA_SIMPLE_NOTICE":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s ListAlertProjectRuleHistoriesSeverity) Validate() error {
+	switch s {
+	case "critical":
+		return nil
+	case "warning":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s ListLogStoragesBucketClassification) Validate() error {
+	switch s {
+	case "dedicated":
+		return nil
+	case "shared":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s ListLogStoragesStatus) Validate() error {
+	switch s {
+	case "assigned":
+		return nil
+	case "deleted":
+		return nil
+	case "free":
+		return nil
+	case "init":
+		return nil
+	case "purged":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s ListTraceStoragesLogStorageBucketClassification) Validate() error {
+	switch s {
+	case "dedicated":
+		return nil
+	case "shared":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -2251,34 +2317,6 @@ func (s *LogStorageRequest) Validate() error {
 	return nil
 }
 
-func (s LogsStoragesListBucketClassification) Validate() error {
-	switch s {
-	case "dedicated":
-		return nil
-	case "shared":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s LogsStoragesListStatus) Validate() error {
-	switch s {
-	case "assigned":
-		return nil
-	case "deleted":
-		return nil
-	case "free":
-		return nil
-	case "init":
-		return nil
-	case "purged":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
 func (s MapFieldName) Validate() error {
 	switch s {
 	case "resource_labels":
@@ -2330,6 +2368,15 @@ func (s *MapKeyExistsMatcher) Validate() error {
 	return nil
 }
 
+func (s MapKeyExistsMatcherType) Validate() error {
+	switch s {
+	case "map-key-exists":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *MapKeyValueMatcher) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -2362,6 +2409,15 @@ func (s *MapKeyValueMatcher) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s MapKeyValueMatcherType) Validate() error {
+	switch s {
+	case "map-key-value-matcher":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 
 func (s *MapValueNumMatcher) Validate() error {
@@ -2448,6 +2504,15 @@ func (s *MapValueNumMatcher) Validate() error {
 	return nil
 }
 
+func (s MapValueNumMatcherType) Validate() error {
+	switch s {
+	case "map-value-number":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *MapValueStrMatcher) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -2502,6 +2567,15 @@ func (s *MapValueStrMatcher) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s MapValueStrMatcherType) Validate() error {
+	switch s {
+	case "map-value-string":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 
 func (s *MatchLabelsItem) Validate() error {
@@ -3584,6 +3658,15 @@ func (s *NumMatcher) Validate() error {
 	return nil
 }
 
+func (s NumMatcherType) Validate() error {
+	switch s {
+	case "number":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s NumberFieldName) Validate() error {
 	switch s {
 	case "http_request_size":
@@ -3763,6 +3846,15 @@ func (s *OrMatcher) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s OrMatcherType) Validate() error {
+	switch s {
+	case "or":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 
 func (s *PaginatedAlertProjectList) Validate() error {
@@ -5754,6 +5846,15 @@ func (s *StrMatcher) Validate() error {
 	return nil
 }
 
+func (s StrMatcherType) Validate() error {
+	switch s {
+	case "string":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s StringFieldName) Validate() error {
 	switch s {
 	case "log_name":
@@ -6297,107 +6398,6 @@ func (s *TraceStorageRequest) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s TracesStoragesListLogStorageBucketClassification) Validate() error {
-	switch s {
-	case "dedicated":
-		return nil
-	case "shared":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s Type) Validate() error {
-	switch s {
-	case "or":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s Type1) Validate() error {
-	switch s {
-	case "and":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s Type2) Validate() error {
-	switch s {
-	case "string":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s Type3) Validate() error {
-	switch s {
-	case "number":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s Type4) Validate() error {
-	switch s {
-	case "enum":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s Type5) Validate() error {
-	switch s {
-	case "boolean":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s Type6) Validate() error {
-	switch s {
-	case "map-key-exists":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s Type7) Validate() error {
-	switch s {
-	case "map-key-value-matcher":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s Type8) Validate() error {
-	switch s {
-	case "map-value-string":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s Type9) Validate() error {
-	switch s {
-	case "map-value-number":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
 }
 
 func (s ValueEnum) Validate() error {

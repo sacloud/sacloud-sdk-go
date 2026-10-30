@@ -39,8 +39,8 @@ func TestLogsStorageOp_List(t *testing.T) {
 	ctx := t.Context()
 	params := LogsStoragesListParams{
 		IsSystem:             new(false),
-		BucketClassification: new(v1.LogsStoragesListBucketClassificationShared),
-		Status:               new(v1.LogsStoragesListStatusAssigned),
+		BucketClassification: new(v1.ListLogStoragesBucketClassificationShared),
+		Status:               new(v1.ListLogStoragesStatusAssigned),
 	}
 	tables, err := api.List(ctx, params)
 	require.NoError(t, err)
@@ -121,6 +121,32 @@ func TestLogsStorageOp_Create(t *testing.T) {
 	require.Equal(t, TemplateLogStorage.GetEndpoints(), actual.GetEndpoints())
 	require.Equal(t, TemplateLogStorage.GetUsage(), actual.GetUsage())
 	require.Equal(t, TemplateLogStorage.GetTags(), actual.GetTags())
+}
+
+func TestLogsStorageOp_Create_Dedicated(t *testing.T) {
+	expected := TemplateLogStorage
+	expected.Classification = v1.LogStorageClassificationDedicated
+	expected.KmsKeyID = v1.NewNilInt64(110000000001)
+	expected.ServicePrincipalID = v1.NewOptNilInt64(110000000002)
+	client := newTestClient(expected, http.StatusCreated)
+	api := NewLogsStorageOp(client)
+	ctx := t.Context()
+
+	createReq := LogStorageCreateParams{
+		Name:               "dedicated-log-storage",
+		Description:        new("Dedicated log storage with KMS"),
+		IsSystem:           false,
+		Classification:     new(v1.LogStorageCreateRequestClassificationDedicated),
+		KmsKeyID:           v1.NewOptNilInt64(110000000001),
+		ServicePrincipalID: v1.NewOptNilInt64(110000000002),
+	}
+	actual, err := api.Create(ctx, createReq)
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+	require.Equal(t, expected.GetClassification(), actual.GetClassification())
+	require.Equal(t, expected.GetKmsKeyID(), actual.GetKmsKeyID())
+	require.Equal(t, expected.GetServicePrincipalID(), actual.GetServicePrincipalID())
+	require.Equal(t, expected, *actual)
 }
 
 func TestLogsStorageOp_Create_400(t *testing.T) {
@@ -414,8 +440,8 @@ func TestLogStorageIntegrated(t *testing.T) {
 	// List
 	params := LogsStoragesListParams{
 		IsSystem:             new(false),
-		BucketClassification: new(v1.LogsStoragesListBucketClassificationShared),
-		Status:               new(v1.LogsStoragesListStatusAssigned),
+		BucketClassification: new(v1.ListLogStoragesBucketClassificationShared),
+		Status:               new(v1.ListLogStoragesStatusAssigned),
 	}
 	list, err := api.List(ctx, params)
 	require.NoError(t, err)

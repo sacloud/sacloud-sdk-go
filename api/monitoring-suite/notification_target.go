@@ -42,8 +42,9 @@ func NewNotificationTargetOp(client *v1.Client) NotificationTargetAPI {
 }
 
 type NotificationTargetsListParams struct {
-	Count *int
-	From  *int
+	Count       *int
+	From        *int
+	ServiceType *v1.ListAlertProjectNotificationTargetsServiceType
 }
 
 func (op *notificationTargetOp) List(ctx context.Context, projectId string, p NotificationTargetsListParams) (ret []v1.NotificationTarget, err error) {
@@ -52,10 +53,11 @@ func (op *notificationTargetOp) List(ctx context.Context, projectId string, p No
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsNotificationTargetsList(ctx, v1.AlertsProjectsNotificationTargetsListParams{
-			ProjectResourceID: id,
+		return op.client.ListAlertProjectNotificationTargets(ctx, v1.ListAlertProjectNotificationTargetsParams{
+			ProjectResourceId: id,
 			Count:             into.Opt[v1.OptInt](p.Count),
 			From:              into.Opt[v1.OptInt](p.From),
+			ServiceType:       into.Opt[v1.OptListAlertProjectNotificationTargetsServiceType](p.ServiceType),
 		})
 	})
 	if err == nil {
@@ -70,8 +72,8 @@ func (op *notificationTargetOp) Read(ctx context.Context, projectId string, uid 
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsNotificationTargetsRetrieve(ctx, v1.AlertsProjectsNotificationTargetsRetrieveParams{
-			ProjectResourceID: pid,
+		return op.client.ReadAlertProjectNotificationTarget(ctx, v1.ReadAlertProjectNotificationTargetParams{
+			ProjectResourceId: pid,
 			UID:               uid,
 		})
 	})
@@ -96,11 +98,11 @@ func (op *notificationTargetOp) Create(ctx context.Context, projectId string, pa
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsNotificationTargetsCreate(ctx, &v1.NotificationTargetRequest{
+		return op.client.CreateAlertProjectNotificationTarget(ctx, &v1.NotificationTargetRequest{
 			ServiceType: v1.NotificationTargetRequestServiceType(params.ServiceType),
 			URL:         into.Opt[v1.OptString](params.urlstr()),
 			Description: into.Opt[v1.OptString](params.Description),
-		}, v1.AlertsProjectsNotificationTargetsCreateParams{ProjectResourceID: pid})
+		}, v1.CreateAlertProjectNotificationTargetParams{ProjectResourceId: pid})
 	})
 }
 
@@ -116,12 +118,12 @@ func (op *notificationTargetOp) Update(ctx context.Context, projectId string, ui
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsNotificationTargetsPartialUpdate(ctx, v1.NewOptPatchedNotificationTargetRequest(v1.PatchedNotificationTargetRequest{
+		return op.client.PatchAlertProjectNotificationTarget(ctx, v1.NewOptPatchedNotificationTargetRequest(v1.PatchedNotificationTargetRequest{
 			ServiceType: into.Opt[v1.OptPatchedNotificationTargetRequestServiceType](params.ServiceType),
 			URL:         into.Opt[v1.OptString](params.URL),
 			Description: into.Opt[v1.OptString](params.Description),
-		}), v1.AlertsProjectsNotificationTargetsPartialUpdateParams{
-			ProjectResourceID: pid,
+		}), v1.PatchAlertProjectNotificationTargetParams{
+			ProjectResourceId: pid,
 			UID:               uid,
 		})
 	})
@@ -133,8 +135,8 @@ func (op *notificationTargetOp) Delete(ctx context.Context, projectId string, ui
 		if err != nil {
 			return err
 		}
-		return op.client.AlertsProjectsNotificationTargetsDestroy(ctx, v1.AlertsProjectsNotificationTargetsDestroyParams{
-			ProjectResourceID: pid,
+		return op.client.DeleteAlertProjectNotificationTarget(ctx, v1.DeleteAlertProjectNotificationTargetParams{
+			ProjectResourceId: pid,
 			UID:               uid,
 		})
 	})

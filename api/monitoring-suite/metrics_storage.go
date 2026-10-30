@@ -65,7 +65,7 @@ func (op *metricsStorageOp) List(ctx context.Context, params MetricsStorageListP
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesList(ctx, v1.MetricsStoragesListParams{
+		return op.client.ListMetricStorages(ctx, v1.ListMetricStoragesParams{
 			Count:      into.Opt[v1.OptInt](params.Count),
 			From:       into.Opt[v1.OptInt](params.From),
 			AccountID:  into.Opt[v1.OptString](params.AccountID),
@@ -85,7 +85,7 @@ func (op *metricsStorageOp) Read(ctx context.Context, resourceID string) (*v1.Me
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesRetrieve(ctx, v1.MetricsStoragesRetrieveParams{ResourceID: id})
+		return op.client.ReadMetricStorage(ctx, v1.ReadMetricStorageParams{ResourceId: id})
 	})
 	return unwrapE[*v1.MetricsStorage](res, err)
 }
@@ -98,7 +98,7 @@ type MetricsStorageCreateParams struct {
 
 func (op *metricsStorageOp) Create(ctx context.Context, params MetricsStorageCreateParams) (*v1.MetricsStorage, error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.Create", func() (*v1.MetricsStorage, error) {
-		return op.client.MetricsStoragesCreate(ctx, &v1.MetricsStorageCreateRequest{
+		return op.client.CreateMetricStorage(ctx, &v1.MetricsStorageCreateRequest{
 			Name:        params.Name,
 			Description: into.Opt[v1.OptString](params.Description),
 			IsSystem:    params.IsSystem,
@@ -118,10 +118,10 @@ func (op *metricsStorageOp) Update(ctx context.Context, id string, params Metric
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesPartialUpdate(ctx, v1.NewOptPatchedMetricsStorageRequest(v1.PatchedMetricsStorageRequest{
+		return op.client.PatchMetricStorage(ctx, v1.NewOptPatchedMetricsStorageRequest(v1.PatchedMetricsStorageRequest{
 			Name:        into.Opt[v1.OptString](params.Name),
 			Description: into.Opt[v1.OptString](params.Description),
-		}), v1.MetricsStoragesPartialUpdateParams{ResourceID: rid})
+		}), v1.PatchMetricStorageParams{ResourceId: rid})
 	})
 	return unwrapE[*v1.MetricsStorage](res, err)
 }
@@ -132,7 +132,7 @@ func (op *metricsStorageOp) Delete(ctx context.Context, resourceID string) error
 		if err != nil {
 			return err
 		}
-		return op.client.MetricsStoragesDestroy(ctx, v1.MetricsStoragesDestroyParams{ResourceID: rid})
+		return op.client.DeleteMetricStorage(ctx, v1.DeleteMetricStorageParams{ResourceId: rid})
 	})
 }
 
@@ -142,8 +142,8 @@ func (op *metricsStorageOp) ReadDailyStats(ctx context.Context, resourceID strin
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesStatsDailyRetrieve(ctx, v1.MetricsStoragesStatsDailyRetrieveParams{
-			ResourceID: rid,
+		return op.client.ReadMetricStorageStatsDaily(ctx, v1.ReadMetricStorageStatsDailyParams{
+			ResourceId: rid,
 			StartDate:  into.Opt[v1.OptDate](startDate),
 			EndDate:    into.Opt[v1.OptDate](endDate),
 		})
@@ -160,8 +160,8 @@ func (op *metricsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID str
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesStatsMonthlyRetrieve(ctx, v1.MetricsStoragesStatsMonthlyRetrieveParams{
-			ResourceID: rid,
+		return op.client.ReadMetricStorageStatsMonthly(ctx, v1.ReadMetricStorageStatsMonthlyParams{
+			ResourceId: rid,
 			Year:       year,
 		})
 	})
@@ -177,8 +177,8 @@ func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId stri
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesKeysList(ctx, v1.MetricsStoragesKeysListParams{
-			MetricsResourceID: rid,
+		return op.client.ListMetricStorageKeys(ctx, v1.ListMetricStorageKeysParams{
+			MetricsResourceId: rid,
 			Count:             into.Opt[v1.OptInt](count),
 			From:              into.Opt[v1.OptInt](from),
 		})
@@ -195,9 +195,9 @@ func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId str
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesKeysCreate(ctx, v1.NewOptMetricsStorageAccessKeyRequest(v1.MetricsStorageAccessKeyRequest{
+		return op.client.CreateMetricStorageKey(ctx, v1.NewOptMetricsStorageAccessKeyRequest(v1.MetricsStorageAccessKeyRequest{
 			Description: into.Opt[v1.OptString](description),
-		}), v1.MetricsStoragesKeysCreateParams{MetricsResourceID: rid})
+		}), v1.CreateMetricStorageKeyParams{MetricsResourceId: rid})
 	})
 	return unwrapE[*v1.MetricsStorageAccessKey](res, err)
 }
@@ -208,8 +208,8 @@ func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId strin
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesKeysRetrieve(ctx, v1.MetricsStoragesKeysRetrieveParams{
-			MetricsResourceID: rid,
+		return op.client.ReadMetricStorageKey(ctx, v1.ReadMetricStorageKeyParams{
+			MetricsResourceId: rid,
 			UID:               id,
 		})
 	})
@@ -222,10 +222,10 @@ func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId str
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesKeysUpdate(ctx, v1.NewOptMetricsStorageAccessKeyRequest(v1.MetricsStorageAccessKeyRequest{
+		return op.client.UpdateMetricStorageKey(ctx, v1.NewOptMetricsStorageAccessKeyRequest(v1.MetricsStorageAccessKeyRequest{
 			Description: into.Opt[v1.OptString](description),
-		}), v1.MetricsStoragesKeysUpdateParams{
-			MetricsResourceID: rid,
+		}), v1.UpdateMetricStorageKeyParams{
+			MetricsResourceId: rid,
 			UID:               id,
 		})
 	})
@@ -239,8 +239,8 @@ func (op *metricsStorageOp) DeleteKey(ctx context.Context, metricsResourceId str
 		if err != nil {
 			return err
 		}
-		return op.client.MetricsStoragesKeysDestroy(ctx, v1.MetricsStoragesKeysDestroyParams{
-			MetricsResourceID: rid,
+		return op.client.DeleteMetricStorageKey(ctx, v1.DeleteMetricStorageKeyParams{
+			MetricsResourceId: rid,
 			UID:               id,
 		})
 	})

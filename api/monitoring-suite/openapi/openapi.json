@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "モニタリングスイート API ドキュメント",
-    "version": "1.1.0",
+    "version": "1.3.0",
     "description": "\n---\n「モニタリングスイート」が提供するAPIの利用方法とサンプルを公開しております。\n# 基本的な使い方\n## APIキーの発行\nAPIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。\nAPIキーは「ユーザーID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n|   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |\n|------------|------------------------------|--------------------------------------|\n| ユーザーID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n<div class=\"warning\">\n  <b>操作マニュアル</b><br />\n  <ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n</div>\n\n## 入力パラメータ\n\nAPIの入力には送信先URLに対して、いくつかのヘッダーとAPIキーを送信します。\n\n* 認証方式はHTTP Basic認証です。APIキーのアクセストークンをユーザーID、アクセストークンシークレットをパスワードとして指定します。\n* 常にリクエストのHTTPヘッダに `X-Sakura-Bigint-As-Int: 1` を付与してください。ヘッダが未指定の場合、一部のフィールドがこのドキュメントと異なる型でレスポンスされる場合があります。\n\n```\n# 入力サンプル\ncurl \\\n  -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n  -H 'X-Sakura-Bigint-As-Int: 1' \\\n  -X GET \\\n  'https://secure.sakura.ad.jp/cloud/zone/is1a/api/monitoring/1.0/logs/storages/'\n```\n\n## 出力結果と応答コード（HTTPステータスコード）\n\nAPIからの結果は、「応答コード（HTTPステータスコード）」と、「JSON形式(UTF-8)の結果」として出力されます。\n\n応答コードは、リクエストが成功したのか、失敗したのか大まかな情報を判断することができるもので、例えば失敗したときには、なぜこのような結果になったのかなど、具体的な情報は応答コードと主に返された本文を見ることで把握することができます。\n\n| 結果                                | 応答コード/status   |\n|-------------------------------------|---------------------|\n| 成功（要求を受け付けた）             | 2xx                 |\n| 失敗（要求が受け付けられなかった）  | 4xx, 5xx            |\n",
     "contact": {
       "name": "SAKURA internet Inc."
@@ -14,7 +14,7 @@
   "paths": {
     "/alerts/projects/": {
       "get": {
-        "operationId": "alerts_projects_list",
+        "operationId": "listAlertProjects",
         "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -54,7 +54,7 @@
         "summary": "アラートプロジェクト一覧取得API"
       },
       "post": {
-        "operationId": "alerts_projects_create",
+        "operationId": "createAlertProject",
         "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
         "tags": [
           "アラート"
@@ -84,9 +84,9 @@
         "summary": "アラートプロジェクト作成API"
       }
     },
-    "/alerts/projects/{project_resource_id}/histories/": {
+    "/alerts/projects/{projectResourceId}/histories/": {
       "get": {
-        "operationId": "alerts_projects_histories_list",
+        "operationId": "listAlertProjectHistories",
         "description": "アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。",
         "parameters": [
           {
@@ -116,7 +116,7 @@
           },
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -163,14 +163,14 @@
         "summary": "プロジェクトのアラート履歴一覧取得API"
       }
     },
-    "/alerts/projects/{project_resource_id}/histories/{uid}/": {
+    "/alerts/projects/{projectResourceId}/histories/{uid}/": {
       "get": {
-        "operationId": "alerts_projects_histories_retrieve",
+        "operationId": "readAlertProjectHistory",
         "description": "アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -205,9 +205,9 @@
         "summary": "プロジェクトのアラート履歴詳細取得API"
       }
     },
-    "/alerts/projects/{project_resource_id}/log-measure-rules/": {
+    "/alerts/projects/{projectResourceId}/log-measure-rules/": {
       "get": {
-        "operationId": "alerts_projects_log_measure_rules_list",
+        "operationId": "listAlertProjectLogMeasureRules",
         "description": "ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。",
         "parameters": [
           {
@@ -246,7 +246,7 @@
           },
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -272,12 +272,12 @@
         "summary": "ログ計測ルール一覧取得API"
       },
       "post": {
-        "operationId": "alerts_projects_log_measure_rules_create",
+        "operationId": "createAlertProjectLogMeasureRule",
         "description": "ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -313,14 +313,14 @@
         "summary": "ログ計測ルール作成API"
       }
     },
-    "/alerts/projects/{project_resource_id}/log-measure-rules/{uid}/": {
+    "/alerts/projects/{projectResourceId}/log-measure-rules/{uid}/": {
       "get": {
-        "operationId": "alerts_projects_log_measure_rules_retrieve",
+        "operationId": "readAlertProjectLogMeasureRule",
         "description": "ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -355,12 +355,12 @@
         "summary": "ログ計測ルール詳細取得API"
       },
       "put": {
-        "operationId": "alerts_projects_log_measure_rules_update",
+        "operationId": "updateAlertProjectLogMeasureRule",
         "description": "ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -405,12 +405,12 @@
         "summary": "ログ計測ルール更新API"
       },
       "patch": {
-        "operationId": "alerts_projects_log_measure_rules_partial_update",
+        "operationId": "patchAlertProjectLogMeasureRule",
         "description": "ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -454,12 +454,12 @@
         "summary": "ログ計測ルール部分更新API"
       },
       "delete": {
-        "operationId": "alerts_projects_log_measure_rules_destroy",
+        "operationId": "deleteAlertProjectLogMeasureRule",
         "description": "ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -487,9 +487,9 @@
         "summary": "ログ計測ルール削除API"
       }
     },
-    "/alerts/projects/{project_resource_id}/notification-routings/": {
+    "/alerts/projects/{projectResourceId}/notification-routings/": {
       "get": {
-        "operationId": "alerts_projects_notification_routings_list",
+        "operationId": "listAlertProjectNotificationRoutings",
         "description": "アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。",
         "parameters": [
           {
@@ -512,7 +512,7 @@
           },
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -545,12 +545,12 @@
         "summary": "通知ルーティング一覧取得API"
       },
       "post": {
-        "operationId": "alerts_projects_notification_routings_create",
+        "operationId": "createAlertProjectNotificationRouting",
         "description": "アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -586,14 +586,14 @@
         "summary": "通知ルーティング作成API"
       }
     },
-    "/alerts/projects/{project_resource_id}/notification-routings/{uid}/": {
+    "/alerts/projects/{projectResourceId}/notification-routings/{uid}/": {
       "get": {
-        "operationId": "alerts_projects_notification_routings_retrieve",
+        "operationId": "readAlertProjectNotificationRouting",
         "description": "アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -628,12 +628,12 @@
         "summary": "通知ルーティング詳細取得API"
       },
       "put": {
-        "operationId": "alerts_projects_notification_routings_update",
+        "operationId": "updateAlertProjectNotificationRouting",
         "description": "アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -678,12 +678,12 @@
         "summary": "通知ルーティング更新API"
       },
       "patch": {
-        "operationId": "alerts_projects_notification_routings_partial_update",
+        "operationId": "patchAlertProjectNotificationRouting",
         "description": "アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -727,12 +727,12 @@
         "summary": "通知ルーティング部分更新API"
       },
       "delete": {
-        "operationId": "alerts_projects_notification_routings_destroy",
+        "operationId": "deleteAlertProjectNotificationRouting",
         "description": "アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -760,15 +760,15 @@
         "summary": "通知ルーティング削除API"
       }
     },
-    "/alerts/projects/{project_resource_id}/notification-routings/reorder/": {
+    "/alerts/projects/{projectResourceId}/notification-routings/reorder/": {
       "put": {
-        "operationId": "alerts_projects_notification_routings_reorder_update",
+        "operationId": "reorderAlertProjectNotificationRoutings",
         "description": "アラートプロジェクト内の通知ルーティングの並び順を一括変更するAPIエンドポイントです。",
         "summary": "通知ルーティング順序更新API",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -799,9 +799,9 @@
         }
       }
     },
-    "/alerts/projects/{project_resource_id}/notification-targets/": {
+    "/alerts/projects/{projectResourceId}/notification-targets/": {
       "get": {
-        "operationId": "alerts_projects_notification_targets_list",
+        "operationId": "listAlertProjectNotificationTargets",
         "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
         "parameters": [
           {
@@ -824,7 +824,7 @@
           },
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -863,12 +863,12 @@
         "summary": "通知対象一覧取得API"
       },
       "post": {
-        "operationId": "alerts_projects_notification_targets_create",
+        "operationId": "createAlertProjectNotificationTarget",
         "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -904,14 +904,14 @@
         "summary": "通知対象作成API"
       }
     },
-    "/alerts/projects/{project_resource_id}/notification-targets/{uid}/": {
+    "/alerts/projects/{projectResourceId}/notification-targets/{uid}/": {
       "get": {
-        "operationId": "alerts_projects_notification_targets_retrieve",
+        "operationId": "readAlertProjectNotificationTarget",
         "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -946,12 +946,12 @@
         "summary": "通知対象詳細取得API"
       },
       "put": {
-        "operationId": "alerts_projects_notification_targets_update",
+        "operationId": "updateAlertProjectNotificationTarget",
         "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -996,12 +996,12 @@
         "summary": "通知対象更新API"
       },
       "patch": {
-        "operationId": "alerts_projects_notification_targets_partial_update",
+        "operationId": "patchAlertProjectNotificationTarget",
         "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1045,12 +1045,12 @@
         "summary": "通知対象部分更新API"
       },
       "delete": {
-        "operationId": "alerts_projects_notification_targets_destroy",
+        "operationId": "deleteAlertProjectNotificationTarget",
         "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1078,9 +1078,9 @@
         "summary": "通知対象削除API"
       }
     },
-    "/alerts/projects/{project_resource_id}/rules/": {
+    "/alerts/projects/{projectResourceId}/rules/": {
       "get": {
-        "operationId": "alerts_projects_rules_list",
+        "operationId": "listAlertProjectRules",
         "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -1103,7 +1103,7 @@
           },
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1129,12 +1129,12 @@
         "summary": "アラートルール一覧取得API"
       },
       "post": {
-        "operationId": "alerts_projects_rules_create",
+        "operationId": "createAlertProjectRule",
         "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1170,9 +1170,9 @@
         "summary": "アラートルール作成API"
       }
     },
-    "/alerts/projects/{project_resource_id}/rules/{rule_uid}/histories/": {
+    "/alerts/projects/{projectResourceId}/rules/{ruleUid}/histories/": {
       "get": {
-        "operationId": "alerts_projects_rules_histories_list",
+        "operationId": "listAlertProjectRuleHistories",
         "description": "ルール内のアラート履歴を取得するAPIエンドポイントです。",
         "parameters": [
           {
@@ -1202,7 +1202,7 @@
           },
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1211,7 +1211,7 @@
           },
           {
             "in": "path",
-            "name": "rule_uid",
+            "name": "ruleUid",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -1258,14 +1258,14 @@
         "summary": "ルールのアラート履歴一覧取得API"
       }
     },
-    "/alerts/projects/{project_resource_id}/rules/{rule_uid}/histories/{uid}/": {
+    "/alerts/projects/{projectResourceId}/rules/{ruleUid}/histories/{uid}/": {
       "get": {
-        "operationId": "alerts_projects_rules_histories_retrieve",
+        "operationId": "readAlertProjectRuleHistory",
         "description": "ルール内のアラート履歴を取得するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1274,7 +1274,7 @@
           },
           {
             "in": "path",
-            "name": "rule_uid",
+            "name": "ruleUid",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -1309,14 +1309,14 @@
         "summary": "ルールのアラート履歴詳細取得API"
       }
     },
-    "/alerts/projects/{project_resource_id}/rules/{uid}/": {
+    "/alerts/projects/{projectResourceId}/rules/{uid}/": {
       "get": {
-        "operationId": "alerts_projects_rules_retrieve",
+        "operationId": "readAlertProjectRule",
         "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1351,12 +1351,12 @@
         "summary": "アラートルール詳細取得API"
       },
       "put": {
-        "operationId": "alerts_projects_rules_update",
+        "operationId": "updateAlertProjectRule",
         "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1401,12 +1401,12 @@
         "summary": "アラートルール更新API"
       },
       "patch": {
-        "operationId": "alerts_projects_rules_partial_update",
+        "operationId": "patchAlertProjectRule",
         "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1450,12 +1450,12 @@
         "summary": "アラートルール部分更新API"
       },
       "delete": {
-        "operationId": "alerts_projects_rules_destroy",
+        "operationId": "deleteAlertProjectRule",
         "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "project_resource_id",
+            "name": "projectResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1483,14 +1483,14 @@
         "summary": "アラートルール削除API"
       }
     },
-    "/alerts/projects/{resource_id}/": {
+    "/alerts/projects/{resourceId}/": {
       "get": {
-        "operationId": "alerts_projects_retrieve",
+        "operationId": "readAlertProject",
         "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -1520,12 +1520,12 @@
         "summary": "アラートプロジェクト詳細取得API"
       },
       "put": {
-        "operationId": "alerts_projects_update",
+        "operationId": "updateAlertProject",
         "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -1564,12 +1564,12 @@
         "summary": "アラートプロジェクト更新API"
       },
       "patch": {
-        "operationId": "alerts_projects_partial_update",
+        "operationId": "patchAlertProject",
         "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -1608,12 +1608,12 @@
         "summary": "アラートプロジェクト部分更新API"
       },
       "delete": {
-        "operationId": "alerts_projects_destroy",
+        "operationId": "deleteAlertProject",
         "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -1638,7 +1638,7 @@
     },
     "/dashboards/projects/": {
       "get": {
-        "operationId": "dashboards_projects_list",
+        "operationId": "listDashboardProjects",
         "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -1678,7 +1678,7 @@
         "summary": "ダッシュボード一覧取得API"
       },
       "post": {
-        "operationId": "dashboards_projects_create",
+        "operationId": "createDashboardProject",
         "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "tags": [
           "ダッシュボード"
@@ -1708,14 +1708,14 @@
         "summary": "ダッシュボード作成API"
       }
     },
-    "/dashboards/projects/{resource_id}/": {
+    "/dashboards/projects/{resourceId}/": {
       "get": {
-        "operationId": "dashboards_projects_retrieve",
+        "operationId": "readDashboardProject",
         "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -1745,12 +1745,12 @@
         "summary": "ダッシュボード詳細取得API"
       },
       "put": {
-        "operationId": "dashboards_projects_update",
+        "operationId": "updateDashboardProject",
         "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -1789,12 +1789,12 @@
         "summary": "ダッシュボード更新API"
       },
       "patch": {
-        "operationId": "dashboards_projects_partial_update",
+        "operationId": "patchDashboardProject",
         "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -1833,12 +1833,12 @@
         "summary": "ダッシュボード部分更新API"
       },
       "delete": {
-        "operationId": "dashboards_projects_destroy",
+        "operationId": "deleteDashboardProject",
         "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -1863,7 +1863,7 @@
     },
     "/logs/routings/": {
       "get": {
-        "operationId": "logs_routings_list",
+        "operationId": "listLogRoutings",
         "description": "ログルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -1926,7 +1926,7 @@
         "summary": "ログルーティング一覧取得API"
       },
       "post": {
-        "operationId": "logs_routings_create",
+        "operationId": "createLogRouting",
         "description": "ログルーティングを管理するためのAPIエンドポイントです。",
         "tags": [
           "ログルーティング"
@@ -1958,7 +1958,7 @@
     },
     "/logs/routings/{uid}/": {
       "get": {
-        "operationId": "logs_routings_retrieve",
+        "operationId": "readLogRouting",
         "description": "ログルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -1989,7 +1989,7 @@
         "summary": "ログルーティング詳細取得API"
       },
       "put": {
-        "operationId": "logs_routings_update",
+        "operationId": "updateLogRouting",
         "description": "ログルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -2030,7 +2030,7 @@
         "summary": "ログルーティング更新API"
       },
       "patch": {
-        "operationId": "logs_routings_partial_update",
+        "operationId": "patchLogRouting",
         "description": "ログルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -2070,7 +2070,7 @@
         "summary": "ログルーティング部分更新API"
       },
       "delete": {
-        "operationId": "logs_routings_destroy",
+        "operationId": "deleteLogRouting",
         "description": "ログルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -2096,7 +2096,7 @@
     },
     "/logs/storages/": {
       "get": {
-        "operationId": "logs_storages_list",
+        "operationId": "listLogStorages",
         "description": "ログストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -2188,7 +2188,7 @@
         "summary": "ログストレージ一覧取得API"
       },
       "post": {
-        "operationId": "logs_storages_create",
+        "operationId": "createLogStorage",
         "description": "ログストレージを管理するためのAPIエンドポイントです。",
         "tags": [
           "ログストレージ"
@@ -2218,9 +2218,9 @@
         "summary": "ログストレージ作成API"
       }
     },
-    "/logs/storages/{log_resource_id}/keys/": {
+    "/logs/storages/{logResourceId}/keys/": {
       "get": {
-        "operationId": "logs_storages_keys_list",
+        "operationId": "listLogStorageKeys",
         "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
@@ -2243,7 +2243,7 @@
           },
           {
             "in": "path",
-            "name": "log_resource_id",
+            "name": "logResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -2269,12 +2269,12 @@
         "summary": "ログストレージのアクセスキー一覧取得API"
       },
       "post": {
-        "operationId": "logs_storages_keys_create",
+        "operationId": "createLogStorageKey",
         "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "log_resource_id",
+            "name": "logResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -2309,14 +2309,14 @@
         "summary": "ログストレージのアクセスキー作成API"
       }
     },
-    "/logs/storages/{log_resource_id}/keys/{uid}/": {
+    "/logs/storages/{logResourceId}/keys/{uid}/": {
       "get": {
-        "operationId": "logs_storages_keys_retrieve",
+        "operationId": "readLogStorageKey",
         "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "log_resource_id",
+            "name": "logResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -2351,12 +2351,12 @@
         "summary": "ログストレージのアクセスキー詳細取得API"
       },
       "put": {
-        "operationId": "logs_storages_keys_update",
+        "operationId": "updateLogStorageKey",
         "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "log_resource_id",
+            "name": "logResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -2400,12 +2400,12 @@
         "summary": "ログストレージのアクセスキー更新API"
       },
       "patch": {
-        "operationId": "logs_storages_keys_partial_update",
+        "operationId": "patchLogStorageKey",
         "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "log_resource_id",
+            "name": "logResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -2449,12 +2449,12 @@
         "summary": "ログストレージのアクセスキー部分更新API"
       },
       "delete": {
-        "operationId": "logs_storages_keys_destroy",
+        "operationId": "deleteLogStorageKey",
         "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "log_resource_id",
+            "name": "logResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -2482,14 +2482,14 @@
         "summary": "ログストレージのアクセスキー削除API"
       }
     },
-    "/logs/storages/{resource_id}/": {
+    "/logs/storages/{resourceId}/": {
       "get": {
-        "operationId": "logs_storages_retrieve",
+        "operationId": "readLogStorage",
         "description": "ログストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -2519,12 +2519,12 @@
         "summary": "ログストレージ詳細取得API"
       },
       "put": {
-        "operationId": "logs_storages_update",
+        "operationId": "updateLogStorage",
         "description": "ログストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -2563,12 +2563,12 @@
         "summary": "ログストレージ更新API"
       },
       "patch": {
-        "operationId": "logs_storages_partial_update",
+        "operationId": "patchLogStorage",
         "description": "ログストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -2607,12 +2607,12 @@
         "summary": "ログストレージ部分更新API"
       },
       "delete": {
-        "operationId": "logs_storages_destroy",
+        "operationId": "deleteLogStorage",
         "description": "ログストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -2635,14 +2635,14 @@
         "summary": "ログストレージ削除API"
       }
     },
-    "/logs/storages/{resource_id}/set-expire/": {
+    "/logs/storages/{resourceId}/set-expire/": {
       "post": {
-        "operationId": "logs_storages_set_expire_create",
+        "operationId": "setLogStorageExpire",
         "description": "ログストレージの保存期間を設定します。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -2679,12 +2679,12 @@
             "description": ""
           }
         },
-        "summary": "logs_storages_set_expire作成API"
+        "summary": "ログストレージ有効期限設定API"
       }
     },
-    "/logs/storages/{resource_id}/stats/daily/": {
+    "/logs/storages/{resourceId}/stats/daily/": {
       "get": {
-        "operationId": "logs_storages_stats_daily_retrieve",
+        "operationId": "readLogStorageStatsDaily",
         "description": "ログストレージの日次利用状況を取得します。",
         "parameters": [
           {
@@ -2697,7 +2697,7 @@
           },
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -2732,17 +2732,17 @@
             "description": ""
           }
         },
-        "summary": "logs_storages_stats_daily詳細取得API"
+        "summary": "ログストレージ日次利用状況詳細取得API"
       }
     },
-    "/logs/storages/{resource_id}/stats/monthly/": {
+    "/logs/storages/{resourceId}/stats/monthly/": {
       "get": {
-        "operationId": "logs_storages_stats_monthly_retrieve",
+        "operationId": "readLogStorageStatsMonthly",
         "description": "ログストレージの月次利用状況を取得します。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -2779,12 +2779,12 @@
             "description": ""
           }
         },
-        "summary": "logs_storages_stats_monthly詳細取得API"
+        "summary": "ログストレージ月次利用状況詳細取得API"
       }
     },
     "/management/limits/": {
       "get": {
-        "operationId": "get_resources_limits",
+        "operationId": "readResourceLimits",
         "description": "アカウントのリソース上限（ログストレージ、メトリクスストレージ、アラートプロジェクト、ダッシュボード）を取得するAPIエンドポイントです。",
         "tags": [
           "管理"
@@ -2801,12 +2801,12 @@
             "description": ""
           }
         },
-        "summary": "リソース制限取得API"
+        "summary": "リソース制限詳細取得API"
       }
     },
     "/management/provisioning/initialize/": {
       "post": {
-        "operationId": "post_provisioning_initialize",
+        "operationId": "initializeProvisioning",
         "description": "リソース（ログストレージ、メトリクスストレージ）のプロビジョニング（初期化）を行うAPIエンドポイントです。指定した種別のリソースが存在しない場合のみ作成を行います。既存のリソースは変更されません。",
         "tags": [
           "管理"
@@ -2847,7 +2847,7 @@
     },
     "/management/provisioning/state/": {
       "get": {
-        "operationId": "get_provisioning_state",
+        "operationId": "readProvisioningState",
         "description": "リソース（ログストレージ、メトリクスストレージ）のプロビジョニング状態を確認するAPIエンドポイントです。",
         "tags": [
           "管理"
@@ -2864,12 +2864,12 @@
             "description": ""
           }
         },
-        "summary": "プロビジョニング状態取得API"
+        "summary": "プロビジョニング状態詳細取得API"
       }
     },
     "/metrics/routings/": {
       "get": {
-        "operationId": "metrics_routings_list",
+        "operationId": "listMetricRoutings",
         "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -2932,7 +2932,7 @@
         "summary": "メトリクスルーティング一覧取得API"
       },
       "post": {
-        "operationId": "metrics_routings_create",
+        "operationId": "createMetricRouting",
         "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
         "tags": [
           "メトリクスルーティング"
@@ -2964,7 +2964,7 @@
     },
     "/metrics/routings/{uid}/": {
       "get": {
-        "operationId": "metrics_routings_retrieve",
+        "operationId": "readMetricRouting",
         "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -2995,7 +2995,7 @@
         "summary": "メトリクスルーティング詳細取得API"
       },
       "put": {
-        "operationId": "metrics_routings_update",
+        "operationId": "updateMetricRouting",
         "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -3036,7 +3036,7 @@
         "summary": "メトリクスルーティング更新API"
       },
       "patch": {
-        "operationId": "metrics_routings_partial_update",
+        "operationId": "patchMetricRouting",
         "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -3076,7 +3076,7 @@
         "summary": "メトリクスルーティング部分更新API"
       },
       "delete": {
-        "operationId": "metrics_routings_destroy",
+        "operationId": "deleteMetricRouting",
         "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -3102,7 +3102,7 @@
     },
     "/metrics/storages/": {
       "get": {
-        "operationId": "metrics_storages_list",
+        "operationId": "listMetricStorages",
         "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -3165,7 +3165,7 @@
         "summary": "メトリクスストレージ一覧取得API"
       },
       "post": {
-        "operationId": "metrics_storages_create",
+        "operationId": "createMetricStorage",
         "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
         "tags": [
           "メトリクスストレージ"
@@ -3195,9 +3195,9 @@
         "summary": "メトリクスストレージ作成API"
       }
     },
-    "/metrics/storages/{metrics_resource_id}/keys/": {
+    "/metrics/storages/{metricsResourceId}/keys/": {
       "get": {
-        "operationId": "metrics_storages_keys_list",
+        "operationId": "listMetricStorageKeys",
         "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
@@ -3220,7 +3220,7 @@
           },
           {
             "in": "path",
-            "name": "metrics_resource_id",
+            "name": "metricsResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -3246,12 +3246,12 @@
         "summary": "メトリクスストレージのアクセスキー一覧取得API"
       },
       "post": {
-        "operationId": "metrics_storages_keys_create",
+        "operationId": "createMetricStorageKey",
         "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "metrics_resource_id",
+            "name": "metricsResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -3286,14 +3286,14 @@
         "summary": "メトリクスストレージのアクセスキー作成API"
       }
     },
-    "/metrics/storages/{metrics_resource_id}/keys/{uid}/": {
+    "/metrics/storages/{metricsResourceId}/keys/{uid}/": {
       "get": {
-        "operationId": "metrics_storages_keys_retrieve",
+        "operationId": "readMetricStorageKey",
         "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "metrics_resource_id",
+            "name": "metricsResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -3328,12 +3328,12 @@
         "summary": "メトリクスストレージのアクセスキー詳細取得API"
       },
       "put": {
-        "operationId": "metrics_storages_keys_update",
+        "operationId": "updateMetricStorageKey",
         "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "metrics_resource_id",
+            "name": "metricsResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -3377,12 +3377,12 @@
         "summary": "メトリクスストレージのアクセスキー更新API"
       },
       "patch": {
-        "operationId": "metrics_storages_keys_partial_update",
+        "operationId": "patchMetricStorageKey",
         "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "metrics_resource_id",
+            "name": "metricsResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -3426,12 +3426,12 @@
         "summary": "メトリクスストレージのアクセスキー部分更新API"
       },
       "delete": {
-        "operationId": "metrics_storages_keys_destroy",
+        "operationId": "deleteMetricStorageKey",
         "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "metrics_resource_id",
+            "name": "metricsResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -3459,14 +3459,14 @@
         "summary": "メトリクスストレージのアクセスキー削除API"
       }
     },
-    "/metrics/storages/{resource_id}/": {
+    "/metrics/storages/{resourceId}/": {
       "get": {
-        "operationId": "metrics_storages_retrieve",
+        "operationId": "readMetricStorage",
         "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -3496,12 +3496,12 @@
         "summary": "メトリクスストレージ詳細取得API"
       },
       "put": {
-        "operationId": "metrics_storages_update",
+        "operationId": "updateMetricStorage",
         "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -3540,12 +3540,12 @@
         "summary": "メトリクスストレージ更新API"
       },
       "patch": {
-        "operationId": "metrics_storages_partial_update",
+        "operationId": "patchMetricStorage",
         "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -3584,12 +3584,12 @@
         "summary": "メトリクスストレージ部分更新API"
       },
       "delete": {
-        "operationId": "metrics_storages_destroy",
+        "operationId": "deleteMetricStorage",
         "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -3612,9 +3612,9 @@
         "summary": "メトリクスストレージ削除API"
       }
     },
-    "/metrics/storages/{resource_id}/stats/daily/": {
+    "/metrics/storages/{resourceId}/stats/daily/": {
       "get": {
-        "operationId": "metrics_storages_stats_daily_retrieve",
+        "operationId": "readMetricStorageStatsDaily",
         "description": "メトリクスストレージの日次利用状況を取得します。",
         "parameters": [
           {
@@ -3627,7 +3627,7 @@
           },
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -3662,17 +3662,17 @@
             "description": ""
           }
         },
-        "summary": "metrics_storages_stats_daily詳細取得API"
+        "summary": "メトリクスストレージ日次利用状況詳細取得API"
       }
     },
-    "/metrics/storages/{resource_id}/stats/monthly/": {
+    "/metrics/storages/{resourceId}/stats/monthly/": {
       "get": {
-        "operationId": "metrics_storages_stats_monthly_retrieve",
+        "operationId": "readMetricStorageStatsMonthly",
         "description": "メトリクスストレージの月次利用状況を取得します。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -3709,12 +3709,12 @@
             "description": ""
           }
         },
-        "summary": "metrics_storages_stats_monthly詳細取得API"
+        "summary": "メトリクスストレージ月次利用状況詳細取得API"
       }
     },
     "/publishers/": {
       "get": {
-        "operationId": "publishers_list",
+        "operationId": "listPublishers",
         "description": "連携サービス情報を取得するAPIエンドポイントです。",
         "parameters": [
           {
@@ -3756,7 +3756,7 @@
     },
     "/publishers/{code}/": {
       "get": {
-        "operationId": "publishers_retrieve",
+        "operationId": "readPublisher",
         "description": "連携サービス情報を取得するAPIエンドポイントです。",
         "parameters": [
           {
@@ -3788,7 +3788,7 @@
     },
     "/traces/storages/": {
       "get": {
-        "operationId": "traces_storages_list",
+        "operationId": "listTraceStorages",
         "description": "トレースストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
@@ -3856,7 +3856,7 @@
         "summary": "トレースストレージ一覧取得API"
       },
       "post": {
-        "operationId": "traces_storages_create",
+        "operationId": "createTraceStorage",
         "description": "トレースストレージを管理するためのAPIエンドポイントです。",
         "tags": [
           "トレースストレージ"
@@ -3886,14 +3886,14 @@
         "summary": "トレースストレージ作成API"
       }
     },
-    "/traces/storages/{resource_id}/": {
+    "/traces/storages/{resourceId}/": {
       "get": {
-        "operationId": "traces_storages_retrieve",
+        "operationId": "readTraceStorage",
         "description": "トレースストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -3923,12 +3923,12 @@
         "summary": "トレースストレージ詳細取得API"
       },
       "put": {
-        "operationId": "traces_storages_update",
+        "operationId": "updateTraceStorage",
         "description": "トレースストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -3967,12 +3967,12 @@
         "summary": "トレースストレージ更新API"
       },
       "patch": {
-        "operationId": "traces_storages_partial_update",
+        "operationId": "patchTraceStorage",
         "description": "トレースストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -4011,12 +4011,12 @@
         "summary": "トレースストレージ部分更新API"
       },
       "delete": {
-        "operationId": "traces_storages_destroy",
+        "operationId": "deleteTraceStorage",
         "description": "トレースストレージを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -4039,14 +4039,14 @@
         "summary": "トレースストレージ削除API"
       }
     },
-    "/traces/storages/{resource_id}/set-expire/": {
+    "/traces/storages/{resourceId}/set-expire/": {
       "post": {
-        "operationId": "traces_storages_set_expire_create",
+        "operationId": "setTraceStorageExpire",
         "description": "トレースストレージの保存期間を設定します。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -4083,12 +4083,12 @@
             "description": ""
           }
         },
-        "summary": "traces_storages_set_expire作成API"
+        "summary": "トレースストレージ有効期限設定API"
       }
     },
-    "/traces/storages/{resource_id}/stats/daily/": {
+    "/traces/storages/{resourceId}/stats/daily/": {
       "get": {
-        "operationId": "traces_storages_stats_daily_retrieve",
+        "operationId": "readTraceStorageStatsDaily",
         "description": "トレースストレージの日次利用状況を取得します。",
         "parameters": [
           {
@@ -4101,7 +4101,7 @@
           },
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -4136,17 +4136,17 @@
             "description": ""
           }
         },
-        "summary": "traces_storages_stats_daily詳細取得API"
+        "summary": "トレースストレージ日次利用状況詳細取得API"
       }
     },
-    "/traces/storages/{resource_id}/stats/monthly/": {
+    "/traces/storages/{resourceId}/stats/monthly/": {
       "get": {
-        "operationId": "traces_storages_stats_monthly_retrieve",
+        "operationId": "readTraceStorageStatsMonthly",
         "description": "トレースストレージの月次利用状況を取得します。",
         "parameters": [
           {
             "in": "path",
-            "name": "resource_id",
+            "name": "resourceId",
             "schema": {
               "type": "integer",
               "maximum": 999999999999,
@@ -4183,12 +4183,12 @@
             "description": ""
           }
         },
-        "summary": "traces_storages_stats_monthly詳細取得API"
+        "summary": "トレースストレージ月次利用状況詳細取得API"
       }
     },
-    "/traces/storages/{trace_resource_id}/keys/": {
+    "/traces/storages/{traceResourceId}/keys/": {
       "get": {
-        "operationId": "traces_storages_keys_list",
+        "operationId": "listTraceStorageKeys",
         "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
@@ -4211,7 +4211,7 @@
           },
           {
             "in": "path",
-            "name": "trace_resource_id",
+            "name": "traceResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -4237,12 +4237,12 @@
         "summary": "トレースストレージのアクセスキー一覧取得API"
       },
       "post": {
-        "operationId": "traces_storages_keys_create",
+        "operationId": "createTraceStorageKey",
         "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "trace_resource_id",
+            "name": "traceResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -4277,14 +4277,14 @@
         "summary": "トレースストレージのアクセスキー作成API"
       }
     },
-    "/traces/storages/{trace_resource_id}/keys/{uid}/": {
+    "/traces/storages/{traceResourceId}/keys/{uid}/": {
       "get": {
-        "operationId": "traces_storages_keys_retrieve",
+        "operationId": "readTraceStorageKey",
         "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "trace_resource_id",
+            "name": "traceResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -4319,12 +4319,12 @@
         "summary": "トレースストレージのアクセスキー詳細取得API"
       },
       "put": {
-        "operationId": "traces_storages_keys_update",
+        "operationId": "updateTraceStorageKey",
         "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "trace_resource_id",
+            "name": "traceResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -4368,12 +4368,12 @@
         "summary": "トレースストレージのアクセスキー更新API"
       },
       "patch": {
-        "operationId": "traces_storages_keys_partial_update",
+        "operationId": "patchTraceStorageKey",
         "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "trace_resource_id",
+            "name": "traceResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -4417,12 +4417,12 @@
         "summary": "トレースストレージのアクセスキー部分更新API"
       },
       "delete": {
-        "operationId": "traces_storages_keys_destroy",
+        "operationId": "deleteTraceStorageKey",
         "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "trace_resource_id",
+            "name": "traceResourceId",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -4684,7 +4684,11 @@
       "AndMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type1"
+            "title": "Type",
+            "type": "string",
+            "enum": [
+              "and"
+            ]
           },
           "matchers": {
             "items": {
@@ -4704,7 +4708,11 @@
       "BoolMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type5"
+            "title": "Type",
+            "type": "string",
+            "enum": [
+              "boolean"
+            ]
           },
           "operator": {
             "$ref": "#/components/schemas/Operator2"
@@ -4831,7 +4839,11 @@
       "EnumMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type4"
+            "title": "Type",
+            "type": "string",
+            "enum": [
+              "enum"
+            ]
           },
           "field": {
             "$ref": "#/components/schemas/FieldModel"
@@ -4853,7 +4865,22 @@
         "type": "object"
       },
       "FieldMatcher": {
-        "anyOf": [
+        "discriminator": {
+          "mapping": {
+            "and": "#/components/schemas/AndMatcher",
+            "boolean": "#/components/schemas/BoolMatcher",
+            "enum": "#/components/schemas/EnumMatcher",
+            "map-key-exists": "#/components/schemas/MapKeyExistsMatcher",
+            "map-key-value-matcher": "#/components/schemas/MapKeyValueMatcher",
+            "map-value-number": "#/components/schemas/MapValueNumMatcher",
+            "map-value-string": "#/components/schemas/MapValueStrMatcher",
+            "number": "#/components/schemas/NumMatcher",
+            "or": "#/components/schemas/OrMatcher",
+            "string": "#/components/schemas/StrMatcher"
+          },
+          "propertyName": "type"
+        },
+        "oneOf": [
           {
             "$ref": "#/components/schemas/OrMatcher"
           },
@@ -4885,22 +4912,7 @@
             "$ref": "#/components/schemas/MapValueNumMatcher"
           }
         ],
-        "title": "FieldMatcher",
-        "discriminator": {
-          "propertyName": "type",
-          "mapping": {
-            "or": "#/components/schemas/OrMatcher",
-            "and": "#/components/schemas/AndMatcher",
-            "string": "#/components/schemas/StrMatcher",
-            "number": "#/components/schemas/NumMatcher",
-            "boolean": "#/components/schemas/BoolMatcher",
-            "enum": "#/components/schemas/EnumMatcher",
-            "map-key-exists": "#/components/schemas/MapKeyExistsMatcher",
-            "map-key-value-matcher": "#/components/schemas/MapKeyValueMatcher",
-            "map-value-string": "#/components/schemas/MapValueStrMatcher",
-            "map-value-number": "#/components/schemas/MapValueNumMatcher"
-          }
-        }
+        "title": "FieldMatcher"
       },
       "FieldModel": {
         "enum": [
@@ -5605,7 +5617,11 @@
       "MapKeyExistsMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type6"
+            "title": "Type",
+            "type": "string",
+            "enum": [
+              "map-key-exists"
+            ]
           },
           "field": {
             "$ref": "#/components/schemas/MapFieldName"
@@ -5626,7 +5642,11 @@
       "MapKeyValueMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type7"
+            "title": "Type",
+            "type": "string",
+            "enum": [
+              "map-key-value-matcher"
+            ]
           },
           "field": {
             "$ref": "#/components/schemas/MapFieldName"
@@ -5652,7 +5672,11 @@
       "MapValueNumMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type9"
+            "title": "Type",
+            "type": "string",
+            "enum": [
+              "map-value-number"
+            ]
           },
           "operator": {
             "$ref": "#/components/schemas/Operator4"
@@ -5693,7 +5717,11 @@
       "MapValueStrMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type8"
+            "title": "Type",
+            "type": "string",
+            "enum": [
+              "map-value-string"
+            ]
           },
           "operator": {
             "$ref": "#/components/schemas/Operator3"
@@ -6296,7 +6324,11 @@
       "NumMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type3"
+            "title": "Type",
+            "type": "string",
+            "enum": [
+              "number"
+            ]
           },
           "operator": {
             "$ref": "#/components/schemas/Operator1"
@@ -6412,7 +6444,11 @@
       "OrMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type"
+            "title": "Type",
+            "type": "string",
+            "enum": [
+              "or"
+            ]
           },
           "matchers": {
             "items": {
@@ -7620,7 +7656,11 @@
       "StrMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type2"
+            "title": "Type",
+            "type": "string",
+            "enum": [
+              "string"
+            ]
           },
           "operator": {
             "$ref": "#/components/schemas/Operator"
@@ -7924,76 +7964,6 @@
             "nullable": true
           }
         }
-      },
-      "Type": {
-        "enum": [
-          "or"
-        ],
-        "title": "Type",
-        "type": "string"
-      },
-      "Type1": {
-        "enum": [
-          "and"
-        ],
-        "title": "Type1",
-        "type": "string"
-      },
-      "Type2": {
-        "enum": [
-          "string"
-        ],
-        "title": "Type2",
-        "type": "string"
-      },
-      "Type3": {
-        "enum": [
-          "number"
-        ],
-        "title": "Type3",
-        "type": "string"
-      },
-      "Type4": {
-        "enum": [
-          "enum"
-        ],
-        "title": "Type4",
-        "type": "string"
-      },
-      "Type5": {
-        "enum": [
-          "boolean"
-        ],
-        "title": "Type5",
-        "type": "string"
-      },
-      "Type6": {
-        "enum": [
-          "map-key-exists"
-        ],
-        "title": "Type6",
-        "type": "string"
-      },
-      "Type7": {
-        "enum": [
-          "map-key-value-matcher"
-        ],
-        "title": "Type7",
-        "type": "string"
-      },
-      "Type8": {
-        "enum": [
-          "map-value-string"
-        ],
-        "title": "Type8",
-        "type": "string"
-      },
-      "Type9": {
-        "enum": [
-          "map-value-number"
-        ],
-        "title": "Type9",
-        "type": "string"
       },
       "User": {
         "type": "object",

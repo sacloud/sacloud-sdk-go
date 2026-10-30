@@ -52,7 +52,7 @@ type MetricsRoutingsListParams struct {
 
 func (op *metricsRoutingOp) List(ctx context.Context, p MetricsRoutingsListParams) (ret []v1.MetricsRouting, err error) {
 	res, err := errorFromDecodedResponse("MetricsRouting.List", func() (*v1.PaginatedMetricsRoutingList, error) {
-		return op.client.MetricsRoutingsList(ctx, v1.MetricsRoutingsListParams{
+		return op.client.ListMetricRoutings(ctx, v1.ListMetricRoutingsParams{
 			Count:         into.Opt[v1.OptInt](p.Count),
 			From:          into.Opt[v1.OptInt](p.From),
 			PublisherCode: into.Opt[v1.OptString](p.PublisherCode),
@@ -90,14 +90,14 @@ func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCre
 			MetricsStorageID: v1.NewNilInt64(mid),
 		}
 
-		return op.client.MetricsRoutingsCreate(ctx, &req)
+		return op.client.CreateMetricRouting(ctx, &req)
 	})
 	return unwrapE[*v1.MetricsRouting](res, err)
 }
 
 func (op *metricsRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.MetricsRouting, error) {
 	res, err := errorFromDecodedResponse("MetricsRouting.Read", func() (*v1.WrappedMetricsRouting, error) {
-		return op.client.MetricsRoutingsRetrieve(ctx, v1.MetricsRoutingsRetrieveParams{UID: id})
+		return op.client.ReadMetricRouting(ctx, v1.ReadMetricRoutingParams{UID: id})
 	})
 	return unwrapE[*v1.MetricsRouting](res, err)
 }
@@ -119,18 +119,18 @@ func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, params Met
 		if err != nil {
 			return nil, fmt.Errorf("MetricsRoutingUpdateParams.MetricsStorageID: %w", err)
 		}
-		return op.client.MetricsRoutingsPartialUpdate(ctx, v1.NewOptPatchedMetricsRoutingRequest(v1.PatchedMetricsRoutingRequest{
+		return op.client.PatchMetricRouting(ctx, v1.NewOptPatchedMetricsRoutingRequest(v1.PatchedMetricsRoutingRequest{
 			PublisherCode:    into.Opt[v1.OptString](params.PublisherCode),
 			ResourceID:       rid,
 			Variant:          into.Opt[v1.OptString](params.Variant),
 			MetricsStorageID: mid,
-		}), v1.MetricsRoutingsPartialUpdateParams{UID: id})
+		}), v1.PatchMetricRoutingParams{UID: id})
 	})
 	return unwrapE[*v1.MetricsRouting](res, err)
 }
 
 func (op *metricsRoutingOp) Delete(ctx context.Context, id uuid.UUID) error {
 	return errorFromDecodedResponse1("MetricsRouting.Delete", func() error {
-		return op.client.MetricsRoutingsDestroy(ctx, v1.MetricsRoutingsDestroyParams{UID: id})
+		return op.client.DeleteMetricRouting(ctx, v1.DeleteMetricRoutingParams{UID: id})
 	})
 }

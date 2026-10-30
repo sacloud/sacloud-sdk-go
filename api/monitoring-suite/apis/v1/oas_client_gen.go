@@ -23,618 +23,618 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
-	// AlertsProjectsCreate invokes alerts_projects_create operation.
+	// CreateAlertProject invokes createAlertProject operation.
 	//
 	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
 	//
 	// POST /alerts/projects/
-	AlertsProjectsCreate(ctx context.Context, request *AlertProjectCreateRequest) (*AlertProject, error)
-	// AlertsProjectsDestroy invokes alerts_projects_destroy operation.
-	//
-	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
-	//
-	// DELETE /alerts/projects/{resource_id}/
-	AlertsProjectsDestroy(ctx context.Context, params AlertsProjectsDestroyParams) error
-	// AlertsProjectsHistoriesList invokes alerts_projects_histories_list operation.
-	//
-	// アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/histories/
-	AlertsProjectsHistoriesList(ctx context.Context, params AlertsProjectsHistoriesListParams) (*PaginatedHistoryList, error)
-	// AlertsProjectsHistoriesRetrieve invokes alerts_projects_histories_retrieve operation.
-	//
-	// アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/histories/{uid}/
-	AlertsProjectsHistoriesRetrieve(ctx context.Context, params AlertsProjectsHistoriesRetrieveParams) (*History, error)
-	// AlertsProjectsList invokes alerts_projects_list operation.
-	//
-	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/
-	AlertsProjectsList(ctx context.Context, params AlertsProjectsListParams) (*PaginatedAlertProjectList, error)
-	// AlertsProjectsLogMeasureRulesCreate invokes alerts_projects_log_measure_rules_create operation.
+	CreateAlertProject(ctx context.Context, request *AlertProjectCreateRequest) (*AlertProject, error)
+	// CreateAlertProjectLogMeasureRule invokes createAlertProjectLogMeasureRule operation.
 	//
 	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
 	//
-	// POST /alerts/projects/{project_resource_id}/log-measure-rules/
-	AlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesCreateParams) (*LogMeasureRule, error)
-	// AlertsProjectsLogMeasureRulesDestroy invokes alerts_projects_log_measure_rules_destroy operation.
-	//
-	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
-	//
-	// DELETE /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-	AlertsProjectsLogMeasureRulesDestroy(ctx context.Context, params AlertsProjectsLogMeasureRulesDestroyParams) error
-	// AlertsProjectsLogMeasureRulesList invokes alerts_projects_log_measure_rules_list operation.
-	//
-	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/log-measure-rules/
-	AlertsProjectsLogMeasureRulesList(ctx context.Context, params AlertsProjectsLogMeasureRulesListParams) (*PaginatedLogMeasureRuleList, error)
-	// AlertsProjectsLogMeasureRulesPartialUpdate invokes alerts_projects_log_measure_rules_partial_update operation.
-	//
-	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
-	//
-	// PATCH /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-	AlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (*LogMeasureRule, error)
-	// AlertsProjectsLogMeasureRulesRetrieve invokes alerts_projects_log_measure_rules_retrieve operation.
-	//
-	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-	AlertsProjectsLogMeasureRulesRetrieve(ctx context.Context, params AlertsProjectsLogMeasureRulesRetrieveParams) (*LogMeasureRule, error)
-	// AlertsProjectsLogMeasureRulesUpdate invokes alerts_projects_log_measure_rules_update operation.
-	//
-	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
-	//
-	// PUT /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-	AlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesUpdateParams) (*LogMeasureRule, error)
-	// AlertsProjectsNotificationRoutingsCreate invokes alerts_projects_notification_routings_create operation.
+	// POST /alerts/projects/{projectResourceId}/log-measure-rules/
+	CreateAlertProjectLogMeasureRule(ctx context.Context, request *LogMeasureRuleRequest, params CreateAlertProjectLogMeasureRuleParams) (*LogMeasureRule, error)
+	// CreateAlertProjectNotificationRouting invokes createAlertProjectNotificationRouting operation.
 	//
 	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
 	//
-	// POST /alerts/projects/{project_resource_id}/notification-routings/
-	AlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsCreateParams) (*NotificationRouting, error)
-	// AlertsProjectsNotificationRoutingsDestroy invokes alerts_projects_notification_routings_destroy operation.
-	//
-	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
-	//
-	// DELETE /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-	AlertsProjectsNotificationRoutingsDestroy(ctx context.Context, params AlertsProjectsNotificationRoutingsDestroyParams) error
-	// AlertsProjectsNotificationRoutingsList invokes alerts_projects_notification_routings_list operation.
-	//
-	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/notification-routings/
-	AlertsProjectsNotificationRoutingsList(ctx context.Context, params AlertsProjectsNotificationRoutingsListParams) (*PaginatedNotificationRoutingList, error)
-	// AlertsProjectsNotificationRoutingsPartialUpdate invokes alerts_projects_notification_routings_partial_update operation.
-	//
-	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
-	//
-	// PATCH /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-	AlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRoutingRequest, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (*NotificationRouting, error)
-	// AlertsProjectsNotificationRoutingsReorderUpdate invokes alerts_projects_notification_routings_reorder_update operation.
-	//
-	// アラートプロジェクト内の通知ルーティングの並び順を一括変更するAPIエンドポイントです。.
-	//
-	// PUT /alerts/projects/{project_resource_id}/notification-routings/reorder/
-	AlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrderRequest, params AlertsProjectsNotificationRoutingsReorderUpdateParams) error
-	// AlertsProjectsNotificationRoutingsRetrieve invokes alerts_projects_notification_routings_retrieve operation.
-	//
-	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-	AlertsProjectsNotificationRoutingsRetrieve(ctx context.Context, params AlertsProjectsNotificationRoutingsRetrieveParams) (*NotificationRouting, error)
-	// AlertsProjectsNotificationRoutingsUpdate invokes alerts_projects_notification_routings_update operation.
-	//
-	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
-	//
-	// PUT /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-	AlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsUpdateParams) (*NotificationRouting, error)
-	// AlertsProjectsNotificationTargetsCreate invokes alerts_projects_notification_targets_create operation.
+	// POST /alerts/projects/{projectResourceId}/notification-routings/
+	CreateAlertProjectNotificationRouting(ctx context.Context, request *NotificationRoutingRequest, params CreateAlertProjectNotificationRoutingParams) (*NotificationRouting, error)
+	// CreateAlertProjectNotificationTarget invokes createAlertProjectNotificationTarget operation.
 	//
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 	//
-	// POST /alerts/projects/{project_resource_id}/notification-targets/
-	AlertsProjectsNotificationTargetsCreate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsCreateParams) (*NotificationTarget, error)
-	// AlertsProjectsNotificationTargetsDestroy invokes alerts_projects_notification_targets_destroy operation.
-	//
-	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
-	//
-	// DELETE /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-	AlertsProjectsNotificationTargetsDestroy(ctx context.Context, params AlertsProjectsNotificationTargetsDestroyParams) error
-	// AlertsProjectsNotificationTargetsList invokes alerts_projects_notification_targets_list operation.
-	//
-	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/notification-targets/
-	AlertsProjectsNotificationTargetsList(ctx context.Context, params AlertsProjectsNotificationTargetsListParams) (*PaginatedNotificationTargetList, error)
-	// AlertsProjectsNotificationTargetsPartialUpdate invokes alerts_projects_notification_targets_partial_update operation.
-	//
-	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
-	//
-	// PATCH /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-	AlertsProjectsNotificationTargetsPartialUpdate(ctx context.Context, request OptPatchedNotificationTargetRequest, params AlertsProjectsNotificationTargetsPartialUpdateParams) (*NotificationTarget, error)
-	// AlertsProjectsNotificationTargetsRetrieve invokes alerts_projects_notification_targets_retrieve operation.
-	//
-	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-	AlertsProjectsNotificationTargetsRetrieve(ctx context.Context, params AlertsProjectsNotificationTargetsRetrieveParams) (*NotificationTarget, error)
-	// AlertsProjectsNotificationTargetsUpdate invokes alerts_projects_notification_targets_update operation.
-	//
-	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
-	//
-	// PUT /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-	AlertsProjectsNotificationTargetsUpdate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsUpdateParams) (*NotificationTarget, error)
-	// AlertsProjectsPartialUpdate invokes alerts_projects_partial_update operation.
-	//
-	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
-	//
-	// PATCH /alerts/projects/{resource_id}/
-	AlertsProjectsPartialUpdate(ctx context.Context, request OptPatchedAlertProjectRequest, params AlertsProjectsPartialUpdateParams) (*WrappedAlertProject, error)
-	// AlertsProjectsRetrieve invokes alerts_projects_retrieve operation.
-	//
-	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{resource_id}/
-	AlertsProjectsRetrieve(ctx context.Context, params AlertsProjectsRetrieveParams) (*WrappedAlertProject, error)
-	// AlertsProjectsRulesCreate invokes alerts_projects_rules_create operation.
+	// POST /alerts/projects/{projectResourceId}/notification-targets/
+	CreateAlertProjectNotificationTarget(ctx context.Context, request *NotificationTargetRequest, params CreateAlertProjectNotificationTargetParams) (*NotificationTarget, error)
+	// CreateAlertProjectRule invokes createAlertProjectRule operation.
 	//
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 	//
-	// POST /alerts/projects/{project_resource_id}/rules/
-	AlertsProjectsRulesCreate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesCreateParams) (*AlertRule, error)
-	// AlertsProjectsRulesDestroy invokes alerts_projects_rules_destroy operation.
-	//
-	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
-	//
-	// DELETE /alerts/projects/{project_resource_id}/rules/{uid}/
-	AlertsProjectsRulesDestroy(ctx context.Context, params AlertsProjectsRulesDestroyParams) error
-	// AlertsProjectsRulesHistoriesList invokes alerts_projects_rules_histories_list operation.
-	//
-	// ルール内のアラート履歴を取得するAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/rules/{rule_uid}/histories/
-	AlertsProjectsRulesHistoriesList(ctx context.Context, params AlertsProjectsRulesHistoriesListParams) (*PaginatedHistoryList, error)
-	// AlertsProjectsRulesHistoriesRetrieve invokes alerts_projects_rules_histories_retrieve operation.
-	//
-	// ルール内のアラート履歴を取得するAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/rules/{rule_uid}/histories/{uid}/
-	AlertsProjectsRulesHistoriesRetrieve(ctx context.Context, params AlertsProjectsRulesHistoriesRetrieveParams) (*History, error)
-	// AlertsProjectsRulesList invokes alerts_projects_rules_list operation.
-	//
-	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/rules/
-	AlertsProjectsRulesList(ctx context.Context, params AlertsProjectsRulesListParams) (*PaginatedAlertRuleList, error)
-	// AlertsProjectsRulesPartialUpdate invokes alerts_projects_rules_partial_update operation.
-	//
-	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
-	//
-	// PATCH /alerts/projects/{project_resource_id}/rules/{uid}/
-	AlertsProjectsRulesPartialUpdate(ctx context.Context, request OptPatchedAlertRuleRequest, params AlertsProjectsRulesPartialUpdateParams) (*AlertRule, error)
-	// AlertsProjectsRulesRetrieve invokes alerts_projects_rules_retrieve operation.
-	//
-	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
-	//
-	// GET /alerts/projects/{project_resource_id}/rules/{uid}/
-	AlertsProjectsRulesRetrieve(ctx context.Context, params AlertsProjectsRulesRetrieveParams) (*AlertRule, error)
-	// AlertsProjectsRulesUpdate invokes alerts_projects_rules_update operation.
-	//
-	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
-	//
-	// PUT /alerts/projects/{project_resource_id}/rules/{uid}/
-	AlertsProjectsRulesUpdate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesUpdateParams) (*AlertRule, error)
-	// AlertsProjectsUpdate invokes alerts_projects_update operation.
-	//
-	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
-	//
-	// PUT /alerts/projects/{resource_id}/
-	AlertsProjectsUpdate(ctx context.Context, request OptAlertProjectRequest, params AlertsProjectsUpdateParams) (*WrappedAlertProject, error)
-	// DashboardsProjectsCreate invokes dashboards_projects_create operation.
+	// POST /alerts/projects/{projectResourceId}/rules/
+	CreateAlertProjectRule(ctx context.Context, request *AlertRuleRequest, params CreateAlertProjectRuleParams) (*AlertRule, error)
+	// CreateDashboardProject invokes createDashboardProject operation.
 	//
 	// ダッシュボードを管理するためのAPIエンドポイントです。.
 	//
 	// POST /dashboards/projects/
-	DashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreateRequest) (*DashboardProject, error)
-	// DashboardsProjectsDestroy invokes dashboards_projects_destroy operation.
-	//
-	// ダッシュボードを管理するためのAPIエンドポイントです。.
-	//
-	// DELETE /dashboards/projects/{resource_id}/
-	DashboardsProjectsDestroy(ctx context.Context, params DashboardsProjectsDestroyParams) error
-	// DashboardsProjectsList invokes dashboards_projects_list operation.
-	//
-	// ダッシュボードを管理するためのAPIエンドポイントです。.
-	//
-	// GET /dashboards/projects/
-	DashboardsProjectsList(ctx context.Context, params DashboardsProjectsListParams) (*PaginatedDashboardProjectList, error)
-	// DashboardsProjectsPartialUpdate invokes dashboards_projects_partial_update operation.
-	//
-	// ダッシュボードを管理するためのAPIエンドポイントです。.
-	//
-	// PATCH /dashboards/projects/{resource_id}/
-	DashboardsProjectsPartialUpdate(ctx context.Context, request OptPatchedDashboardProjectRequest, params DashboardsProjectsPartialUpdateParams) (*WrappedDashboardProject, error)
-	// DashboardsProjectsRetrieve invokes dashboards_projects_retrieve operation.
-	//
-	// ダッシュボードを管理するためのAPIエンドポイントです。.
-	//
-	// GET /dashboards/projects/{resource_id}/
-	DashboardsProjectsRetrieve(ctx context.Context, params DashboardsProjectsRetrieveParams) (*WrappedDashboardProject, error)
-	// DashboardsProjectsUpdate invokes dashboards_projects_update operation.
-	//
-	// ダッシュボードを管理するためのAPIエンドポイントです。.
-	//
-	// PUT /dashboards/projects/{resource_id}/
-	DashboardsProjectsUpdate(ctx context.Context, request OptDashboardProjectRequest, params DashboardsProjectsUpdateParams) (*WrappedDashboardProject, error)
-	// GetProvisioningState invokes get_provisioning_state operation.
-	//
-	// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング状態を確認するAPIエンドポイントです。.
-	//
-	// GET /management/provisioning/state/
-	GetProvisioningState(ctx context.Context) (*Provisioning, error)
-	// GetResourcesLimits invokes get_resources_limits operation.
-	//
-	// アカウントのリソース上限（ログストレージ、メトリクスストレージ、アラートプロジェクト、ダッシュボード）を取得するAPIエンドポイントです。.
-	//
-	// GET /management/limits/
-	GetResourcesLimits(ctx context.Context) (*ResourcesLimits, error)
-	// LogsRoutingsCreate invokes logs_routings_create operation.
+	CreateDashboardProject(ctx context.Context, request *DashboardProjectCreateRequest) (*DashboardProject, error)
+	// CreateLogRouting invokes createLogRouting operation.
 	//
 	// ログルーティングを管理するためのAPIエンドポイントです。.
 	//
 	// POST /logs/routings/
-	LogsRoutingsCreate(ctx context.Context, request *LogRoutingRequest) (*WrappedLogRouting, error)
-	// LogsRoutingsDestroy invokes logs_routings_destroy operation.
-	//
-	// ログルーティングを管理するためのAPIエンドポイントです。.
-	//
-	// DELETE /logs/routings/{uid}/
-	LogsRoutingsDestroy(ctx context.Context, params LogsRoutingsDestroyParams) error
-	// LogsRoutingsList invokes logs_routings_list operation.
-	//
-	// ログルーティングを管理するためのAPIエンドポイントです。.
-	//
-	// GET /logs/routings/
-	LogsRoutingsList(ctx context.Context, params LogsRoutingsListParams) (*PaginatedLogRoutingList, error)
-	// LogsRoutingsPartialUpdate invokes logs_routings_partial_update operation.
-	//
-	// ログルーティングを管理するためのAPIエンドポイントです。.
-	//
-	// PATCH /logs/routings/{uid}/
-	LogsRoutingsPartialUpdate(ctx context.Context, request OptPatchedLogRoutingRequest, params LogsRoutingsPartialUpdateParams) (*WrappedLogRouting, error)
-	// LogsRoutingsRetrieve invokes logs_routings_retrieve operation.
-	//
-	// ログルーティングを管理するためのAPIエンドポイントです。.
-	//
-	// GET /logs/routings/{uid}/
-	LogsRoutingsRetrieve(ctx context.Context, params LogsRoutingsRetrieveParams) (*WrappedLogRouting, error)
-	// LogsRoutingsUpdate invokes logs_routings_update operation.
-	//
-	// ログルーティングを管理するためのAPIエンドポイントです。.
-	//
-	// PUT /logs/routings/{uid}/
-	LogsRoutingsUpdate(ctx context.Context, request *LogRoutingRequest, params LogsRoutingsUpdateParams) (*WrappedLogRouting, error)
-	// LogsStoragesCreate invokes logs_storages_create operation.
+	CreateLogRouting(ctx context.Context, request *LogRoutingRequest) (*WrappedLogRouting, error)
+	// CreateLogStorage invokes createLogStorage operation.
 	//
 	// ログストレージを管理するためのAPIエンドポイントです。.
 	//
 	// POST /logs/storages/
-	LogsStoragesCreate(ctx context.Context, request *LogStorageCreateRequest) (*LogStorage, error)
-	// LogsStoragesDestroy invokes logs_storages_destroy operation.
-	//
-	// ログストレージを管理するためのAPIエンドポイントです。.
-	//
-	// DELETE /logs/storages/{resource_id}/
-	LogsStoragesDestroy(ctx context.Context, params LogsStoragesDestroyParams) error
-	// LogsStoragesKeysCreate invokes logs_storages_keys_create operation.
+	CreateLogStorage(ctx context.Context, request *LogStorageCreateRequest) (*LogStorage, error)
+	// CreateLogStorageKey invokes createLogStorageKey operation.
 	//
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// POST /logs/storages/{log_resource_id}/keys/
-	LogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysCreateParams) (*WrappedLogStorageAccessKey, error)
-	// LogsStoragesKeysDestroy invokes logs_storages_keys_destroy operation.
-	//
-	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// DELETE /logs/storages/{log_resource_id}/keys/{uid}/
-	LogsStoragesKeysDestroy(ctx context.Context, params LogsStoragesKeysDestroyParams) error
-	// LogsStoragesKeysList invokes logs_storages_keys_list operation.
-	//
-	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// GET /logs/storages/{log_resource_id}/keys/
-	LogsStoragesKeysList(ctx context.Context, params LogsStoragesKeysListParams) (*PaginatedLogStorageAccessKeyList, error)
-	// LogsStoragesKeysPartialUpdate invokes logs_storages_keys_partial_update operation.
-	//
-	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// PATCH /logs/storages/{log_resource_id}/keys/{uid}/
-	LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKeyRequest, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogStorageAccessKey, error)
-	// LogsStoragesKeysRetrieve invokes logs_storages_keys_retrieve operation.
-	//
-	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// GET /logs/storages/{log_resource_id}/keys/{uid}/
-	LogsStoragesKeysRetrieve(ctx context.Context, params LogsStoragesKeysRetrieveParams) (*WrappedLogStorageAccessKey, error)
-	// LogsStoragesKeysUpdate invokes logs_storages_keys_update operation.
-	//
-	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// PUT /logs/storages/{log_resource_id}/keys/{uid}/
-	LogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysUpdateParams) (*WrappedLogStorageAccessKey, error)
-	// LogsStoragesList invokes logs_storages_list operation.
-	//
-	// ログストレージを管理するためのAPIエンドポイントです。.
-	//
-	// GET /logs/storages/
-	LogsStoragesList(ctx context.Context, params LogsStoragesListParams) (*PaginatedLogStorageList, error)
-	// LogsStoragesPartialUpdate invokes logs_storages_partial_update operation.
-	//
-	// ログストレージを管理するためのAPIエンドポイントです。.
-	//
-	// PATCH /logs/storages/{resource_id}/
-	LogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorageRequest, params LogsStoragesPartialUpdateParams) (*WrappedLogStorage, error)
-	// LogsStoragesRetrieve invokes logs_storages_retrieve operation.
-	//
-	// ログストレージを管理するためのAPIエンドポイントです。.
-	//
-	// GET /logs/storages/{resource_id}/
-	LogsStoragesRetrieve(ctx context.Context, params LogsStoragesRetrieveParams) (*WrappedLogStorage, error)
-	// LogsStoragesSetExpireCreate invokes logs_storages_set_expire_create operation.
-	//
-	// ログストレージの保存期間を設定します。.
-	//
-	// POST /logs/storages/{resource_id}/set-expire/
-	LogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDayRequest, params LogsStoragesSetExpireCreateParams) (*LogStorage, error)
-	// LogsStoragesStatsDailyRetrieve invokes logs_storages_stats_daily_retrieve operation.
-	//
-	// ログストレージの日次利用状況を取得します。.
-	//
-	// GET /logs/storages/{resource_id}/stats/daily/
-	LogsStoragesStatsDailyRetrieve(ctx context.Context, params LogsStoragesStatsDailyRetrieveParams) (*LogStorageDailyUsageBody, error)
-	// LogsStoragesStatsMonthlyRetrieve invokes logs_storages_stats_monthly_retrieve operation.
-	//
-	// ログストレージの月次利用状況を取得します。.
-	//
-	// GET /logs/storages/{resource_id}/stats/monthly/
-	LogsStoragesStatsMonthlyRetrieve(ctx context.Context, params LogsStoragesStatsMonthlyRetrieveParams) (*LogStorageMonthlyUsageBody, error)
-	// LogsStoragesUpdate invokes logs_storages_update operation.
-	//
-	// ログストレージを管理するためのAPIエンドポイントです。.
-	//
-	// PUT /logs/storages/{resource_id}/
-	LogsStoragesUpdate(ctx context.Context, request OptLogStorageRequest, params LogsStoragesUpdateParams) (*WrappedLogStorage, error)
-	// MetricsRoutingsCreate invokes metrics_routings_create operation.
+	// POST /logs/storages/{logResourceId}/keys/
+	CreateLogStorageKey(ctx context.Context, request OptLogStorageAccessKeyRequest, params CreateLogStorageKeyParams) (*WrappedLogStorageAccessKey, error)
+	// CreateMetricRouting invokes createMetricRouting operation.
 	//
 	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
 	//
 	// POST /metrics/routings/
-	MetricsRoutingsCreate(ctx context.Context, request *MetricsRoutingRequest) (*WrappedMetricsRouting, error)
-	// MetricsRoutingsDestroy invokes metrics_routings_destroy operation.
-	//
-	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
-	//
-	// DELETE /metrics/routings/{uid}/
-	MetricsRoutingsDestroy(ctx context.Context, params MetricsRoutingsDestroyParams) error
-	// MetricsRoutingsList invokes metrics_routings_list operation.
-	//
-	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
-	//
-	// GET /metrics/routings/
-	MetricsRoutingsList(ctx context.Context, params MetricsRoutingsListParams) (*PaginatedMetricsRoutingList, error)
-	// MetricsRoutingsPartialUpdate invokes metrics_routings_partial_update operation.
-	//
-	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
-	//
-	// PATCH /metrics/routings/{uid}/
-	MetricsRoutingsPartialUpdate(ctx context.Context, request OptPatchedMetricsRoutingRequest, params MetricsRoutingsPartialUpdateParams) (*WrappedMetricsRouting, error)
-	// MetricsRoutingsRetrieve invokes metrics_routings_retrieve operation.
-	//
-	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
-	//
-	// GET /metrics/routings/{uid}/
-	MetricsRoutingsRetrieve(ctx context.Context, params MetricsRoutingsRetrieveParams) (*WrappedMetricsRouting, error)
-	// MetricsRoutingsUpdate invokes metrics_routings_update operation.
-	//
-	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
-	//
-	// PUT /metrics/routings/{uid}/
-	MetricsRoutingsUpdate(ctx context.Context, request *MetricsRoutingRequest, params MetricsRoutingsUpdateParams) (*WrappedMetricsRouting, error)
-	// MetricsStoragesCreate invokes metrics_storages_create operation.
+	CreateMetricRouting(ctx context.Context, request *MetricsRoutingRequest) (*WrappedMetricsRouting, error)
+	// CreateMetricStorage invokes createMetricStorage operation.
 	//
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
 	//
 	// POST /metrics/storages/
-	MetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreateRequest) (*MetricsStorage, error)
-	// MetricsStoragesDestroy invokes metrics_storages_destroy operation.
-	//
-	// メトリクスストレージを管理するためのAPIエンドポイントです。.
-	//
-	// DELETE /metrics/storages/{resource_id}/
-	MetricsStoragesDestroy(ctx context.Context, params MetricsStoragesDestroyParams) error
-	// MetricsStoragesKeysCreate invokes metrics_storages_keys_create operation.
+	CreateMetricStorage(ctx context.Context, request *MetricsStorageCreateRequest) (*MetricsStorage, error)
+	// CreateMetricStorageKey invokes createMetricStorageKey operation.
 	//
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// POST /metrics/storages/{metrics_resource_id}/keys/
-	MetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysCreateParams) (*WrappedMetricsStorageAccessKey, error)
-	// MetricsStoragesKeysDestroy invokes metrics_storages_keys_destroy operation.
-	//
-	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// DELETE /metrics/storages/{metrics_resource_id}/keys/{uid}/
-	MetricsStoragesKeysDestroy(ctx context.Context, params MetricsStoragesKeysDestroyParams) error
-	// MetricsStoragesKeysList invokes metrics_storages_keys_list operation.
-	//
-	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// GET /metrics/storages/{metrics_resource_id}/keys/
-	MetricsStoragesKeysList(ctx context.Context, params MetricsStoragesKeysListParams) (*PaginatedMetricsStorageAccessKeyList, error)
-	// MetricsStoragesKeysPartialUpdate invokes metrics_storages_keys_partial_update operation.
-	//
-	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// PATCH /metrics/storages/{metrics_resource_id}/keys/{uid}/
-	MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKeyRequest, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsStorageAccessKey, error)
-	// MetricsStoragesKeysRetrieve invokes metrics_storages_keys_retrieve operation.
-	//
-	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// GET /metrics/storages/{metrics_resource_id}/keys/{uid}/
-	MetricsStoragesKeysRetrieve(ctx context.Context, params MetricsStoragesKeysRetrieveParams) (*WrappedMetricsStorageAccessKey, error)
-	// MetricsStoragesKeysUpdate invokes metrics_storages_keys_update operation.
-	//
-	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// PUT /metrics/storages/{metrics_resource_id}/keys/{uid}/
-	MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsStorageAccessKey, error)
-	// MetricsStoragesList invokes metrics_storages_list operation.
-	//
-	// メトリクスストレージを管理するためのAPIエンドポイントです。.
-	//
-	// GET /metrics/storages/
-	MetricsStoragesList(ctx context.Context, params MetricsStoragesListParams) (*PaginatedMetricsStorageList, error)
-	// MetricsStoragesPartialUpdate invokes metrics_storages_partial_update operation.
-	//
-	// メトリクスストレージを管理するためのAPIエンドポイントです。.
-	//
-	// PATCH /metrics/storages/{resource_id}/
-	MetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageRequest, params MetricsStoragesPartialUpdateParams) (*WrappedMetricsStorage, error)
-	// MetricsStoragesRetrieve invokes metrics_storages_retrieve operation.
-	//
-	// メトリクスストレージを管理するためのAPIエンドポイントです。.
-	//
-	// GET /metrics/storages/{resource_id}/
-	MetricsStoragesRetrieve(ctx context.Context, params MetricsStoragesRetrieveParams) (*WrappedMetricsStorage, error)
-	// MetricsStoragesStatsDailyRetrieve invokes metrics_storages_stats_daily_retrieve operation.
-	//
-	// メトリクスストレージの日次利用状況を取得します。.
-	//
-	// GET /metrics/storages/{resource_id}/stats/daily/
-	MetricsStoragesStatsDailyRetrieve(ctx context.Context, params MetricsStoragesStatsDailyRetrieveParams) (*MetricsStorageDailyUsageBody, error)
-	// MetricsStoragesStatsMonthlyRetrieve invokes metrics_storages_stats_monthly_retrieve operation.
-	//
-	// メトリクスストレージの月次利用状況を取得します。.
-	//
-	// GET /metrics/storages/{resource_id}/stats/monthly/
-	MetricsStoragesStatsMonthlyRetrieve(ctx context.Context, params MetricsStoragesStatsMonthlyRetrieveParams) (*MetricsStorageMonthlyUsageBody, error)
-	// MetricsStoragesUpdate invokes metrics_storages_update operation.
-	//
-	// メトリクスストレージを管理するためのAPIエンドポイントです。.
-	//
-	// PUT /metrics/storages/{resource_id}/
-	MetricsStoragesUpdate(ctx context.Context, request OptMetricsStorageRequest, params MetricsStoragesUpdateParams) (*WrappedMetricsStorage, error)
-	// PostProvisioningInitialize invokes post_provisioning_initialize operation.
-	//
-	// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング（初期化）を行うAPIエンドポイントです。指定した種別のリソースが存在しない場合のみ作成を行います。既存のリソースは変更されません。.
-	//
-	// POST /management/provisioning/initialize/
-	PostProvisioningInitialize(ctx context.Context, request OptProvisioningCreateRequest) (PostProvisioningInitializeRes, error)
-	// PublishersList invokes publishers_list operation.
-	//
-	// 連携サービス情報を取得するAPIエンドポイントです。.
-	//
-	// GET /publishers/
-	PublishersList(ctx context.Context, params PublishersListParams) (*PaginatedPublisherList, error)
-	// PublishersRetrieve invokes publishers_retrieve operation.
-	//
-	// 連携サービス情報を取得するAPIエンドポイントです。.
-	//
-	// GET /publishers/{code}/
-	PublishersRetrieve(ctx context.Context, params PublishersRetrieveParams) (*WrappedPublisher, error)
-	// TracesStoragesCreate invokes traces_storages_create operation.
+	// POST /metrics/storages/{metricsResourceId}/keys/
+	CreateMetricStorageKey(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params CreateMetricStorageKeyParams) (*WrappedMetricsStorageAccessKey, error)
+	// CreateTraceStorage invokes createTraceStorage operation.
 	//
 	// トレースストレージを管理するためのAPIエンドポイントです。.
 	//
 	// POST /traces/storages/
-	TracesStoragesCreate(ctx context.Context, request *TraceStorageCreateRequest) (*TraceStorage, error)
-	// TracesStoragesDestroy invokes traces_storages_destroy operation.
+	CreateTraceStorage(ctx context.Context, request *TraceStorageCreateRequest) (*TraceStorage, error)
+	// CreateTraceStorageKey invokes createTraceStorageKey operation.
+	//
+	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// POST /traces/storages/{traceResourceId}/keys/
+	CreateTraceStorageKey(ctx context.Context, request OptTraceStorageAccessKeyRequest, params CreateTraceStorageKeyParams) (*WrappedTraceStorageAccessKey, error)
+	// DeleteAlertProject invokes deleteAlertProject operation.
+	//
+	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
+	//
+	// DELETE /alerts/projects/{resourceId}/
+	DeleteAlertProject(ctx context.Context, params DeleteAlertProjectParams) error
+	// DeleteAlertProjectLogMeasureRule invokes deleteAlertProjectLogMeasureRule operation.
+	//
+	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+	//
+	// DELETE /alerts/projects/{projectResourceId}/log-measure-rules/{uid}/
+	DeleteAlertProjectLogMeasureRule(ctx context.Context, params DeleteAlertProjectLogMeasureRuleParams) error
+	// DeleteAlertProjectNotificationRouting invokes deleteAlertProjectNotificationRouting operation.
+	//
+	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+	//
+	// DELETE /alerts/projects/{projectResourceId}/notification-routings/{uid}/
+	DeleteAlertProjectNotificationRouting(ctx context.Context, params DeleteAlertProjectNotificationRoutingParams) error
+	// DeleteAlertProjectNotificationTarget invokes deleteAlertProjectNotificationTarget operation.
+	//
+	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
+	//
+	// DELETE /alerts/projects/{projectResourceId}/notification-targets/{uid}/
+	DeleteAlertProjectNotificationTarget(ctx context.Context, params DeleteAlertProjectNotificationTargetParams) error
+	// DeleteAlertProjectRule invokes deleteAlertProjectRule operation.
+	//
+	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
+	//
+	// DELETE /alerts/projects/{projectResourceId}/rules/{uid}/
+	DeleteAlertProjectRule(ctx context.Context, params DeleteAlertProjectRuleParams) error
+	// DeleteDashboardProject invokes deleteDashboardProject operation.
+	//
+	// ダッシュボードを管理するためのAPIエンドポイントです。.
+	//
+	// DELETE /dashboards/projects/{resourceId}/
+	DeleteDashboardProject(ctx context.Context, params DeleteDashboardProjectParams) error
+	// DeleteLogRouting invokes deleteLogRouting operation.
+	//
+	// ログルーティングを管理するためのAPIエンドポイントです。.
+	//
+	// DELETE /logs/routings/{uid}/
+	DeleteLogRouting(ctx context.Context, params DeleteLogRoutingParams) error
+	// DeleteLogStorage invokes deleteLogStorage operation.
+	//
+	// ログストレージを管理するためのAPIエンドポイントです。.
+	//
+	// DELETE /logs/storages/{resourceId}/
+	DeleteLogStorage(ctx context.Context, params DeleteLogStorageParams) error
+	// DeleteLogStorageKey invokes deleteLogStorageKey operation.
+	//
+	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// DELETE /logs/storages/{logResourceId}/keys/{uid}/
+	DeleteLogStorageKey(ctx context.Context, params DeleteLogStorageKeyParams) error
+	// DeleteMetricRouting invokes deleteMetricRouting operation.
+	//
+	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
+	//
+	// DELETE /metrics/routings/{uid}/
+	DeleteMetricRouting(ctx context.Context, params DeleteMetricRoutingParams) error
+	// DeleteMetricStorage invokes deleteMetricStorage operation.
+	//
+	// メトリクスストレージを管理するためのAPIエンドポイントです。.
+	//
+	// DELETE /metrics/storages/{resourceId}/
+	DeleteMetricStorage(ctx context.Context, params DeleteMetricStorageParams) error
+	// DeleteMetricStorageKey invokes deleteMetricStorageKey operation.
+	//
+	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// DELETE /metrics/storages/{metricsResourceId}/keys/{uid}/
+	DeleteMetricStorageKey(ctx context.Context, params DeleteMetricStorageKeyParams) error
+	// DeleteTraceStorage invokes deleteTraceStorage operation.
 	//
 	// トレースストレージを管理するためのAPIエンドポイントです。.
 	//
-	// DELETE /traces/storages/{resource_id}/
-	TracesStoragesDestroy(ctx context.Context, params TracesStoragesDestroyParams) error
-	// TracesStoragesKeysCreate invokes traces_storages_keys_create operation.
+	// DELETE /traces/storages/{resourceId}/
+	DeleteTraceStorage(ctx context.Context, params DeleteTraceStorageParams) error
+	// DeleteTraceStorageKey invokes deleteTraceStorageKey operation.
 	//
 	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// POST /traces/storages/{trace_resource_id}/keys/
-	TracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysCreateParams) (*WrappedTraceStorageAccessKey, error)
-	// TracesStoragesKeysDestroy invokes traces_storages_keys_destroy operation.
+	// DELETE /traces/storages/{traceResourceId}/keys/{uid}/
+	DeleteTraceStorageKey(ctx context.Context, params DeleteTraceStorageKeyParams) error
+	// InitializeProvisioning invokes initializeProvisioning operation.
+	//
+	// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング（初期化）を行うAPIエンドポイントです。指定した種別のリソースが存在しない場合のみ作成を行います。既存のリソースは変更されません。.
+	//
+	// POST /management/provisioning/initialize/
+	InitializeProvisioning(ctx context.Context, request OptProvisioningCreateRequest) (InitializeProvisioningRes, error)
+	// ListAlertProjectHistories invokes listAlertProjectHistories operation.
+	//
+	// アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/histories/
+	ListAlertProjectHistories(ctx context.Context, params ListAlertProjectHistoriesParams) (*PaginatedHistoryList, error)
+	// ListAlertProjectLogMeasureRules invokes listAlertProjectLogMeasureRules operation.
+	//
+	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/log-measure-rules/
+	ListAlertProjectLogMeasureRules(ctx context.Context, params ListAlertProjectLogMeasureRulesParams) (*PaginatedLogMeasureRuleList, error)
+	// ListAlertProjectNotificationRoutings invokes listAlertProjectNotificationRoutings operation.
+	//
+	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/notification-routings/
+	ListAlertProjectNotificationRoutings(ctx context.Context, params ListAlertProjectNotificationRoutingsParams) (*PaginatedNotificationRoutingList, error)
+	// ListAlertProjectNotificationTargets invokes listAlertProjectNotificationTargets operation.
+	//
+	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/notification-targets/
+	ListAlertProjectNotificationTargets(ctx context.Context, params ListAlertProjectNotificationTargetsParams) (*PaginatedNotificationTargetList, error)
+	// ListAlertProjectRuleHistories invokes listAlertProjectRuleHistories operation.
+	//
+	// ルール内のアラート履歴を取得するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/rules/{ruleUid}/histories/
+	ListAlertProjectRuleHistories(ctx context.Context, params ListAlertProjectRuleHistoriesParams) (*PaginatedHistoryList, error)
+	// ListAlertProjectRules invokes listAlertProjectRules operation.
+	//
+	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/rules/
+	ListAlertProjectRules(ctx context.Context, params ListAlertProjectRulesParams) (*PaginatedAlertRuleList, error)
+	// ListAlertProjects invokes listAlertProjects operation.
+	//
+	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/
+	ListAlertProjects(ctx context.Context, params ListAlertProjectsParams) (*PaginatedAlertProjectList, error)
+	// ListDashboardProjects invokes listDashboardProjects operation.
+	//
+	// ダッシュボードを管理するためのAPIエンドポイントです。.
+	//
+	// GET /dashboards/projects/
+	ListDashboardProjects(ctx context.Context, params ListDashboardProjectsParams) (*PaginatedDashboardProjectList, error)
+	// ListLogRoutings invokes listLogRoutings operation.
+	//
+	// ログルーティングを管理するためのAPIエンドポイントです。.
+	//
+	// GET /logs/routings/
+	ListLogRoutings(ctx context.Context, params ListLogRoutingsParams) (*PaginatedLogRoutingList, error)
+	// ListLogStorageKeys invokes listLogStorageKeys operation.
+	//
+	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// GET /logs/storages/{logResourceId}/keys/
+	ListLogStorageKeys(ctx context.Context, params ListLogStorageKeysParams) (*PaginatedLogStorageAccessKeyList, error)
+	// ListLogStorages invokes listLogStorages operation.
+	//
+	// ログストレージを管理するためのAPIエンドポイントです。.
+	//
+	// GET /logs/storages/
+	ListLogStorages(ctx context.Context, params ListLogStoragesParams) (*PaginatedLogStorageList, error)
+	// ListMetricRoutings invokes listMetricRoutings operation.
+	//
+	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
+	//
+	// GET /metrics/routings/
+	ListMetricRoutings(ctx context.Context, params ListMetricRoutingsParams) (*PaginatedMetricsRoutingList, error)
+	// ListMetricStorageKeys invokes listMetricStorageKeys operation.
+	//
+	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// GET /metrics/storages/{metricsResourceId}/keys/
+	ListMetricStorageKeys(ctx context.Context, params ListMetricStorageKeysParams) (*PaginatedMetricsStorageAccessKeyList, error)
+	// ListMetricStorages invokes listMetricStorages operation.
+	//
+	// メトリクスストレージを管理するためのAPIエンドポイントです。.
+	//
+	// GET /metrics/storages/
+	ListMetricStorages(ctx context.Context, params ListMetricStoragesParams) (*PaginatedMetricsStorageList, error)
+	// ListPublishers invokes listPublishers operation.
+	//
+	// 連携サービス情報を取得するAPIエンドポイントです。.
+	//
+	// GET /publishers/
+	ListPublishers(ctx context.Context, params ListPublishersParams) (*PaginatedPublisherList, error)
+	// ListTraceStorageKeys invokes listTraceStorageKeys operation.
 	//
 	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// DELETE /traces/storages/{trace_resource_id}/keys/{uid}/
-	TracesStoragesKeysDestroy(ctx context.Context, params TracesStoragesKeysDestroyParams) error
-	// TracesStoragesKeysList invokes traces_storages_keys_list operation.
-	//
-	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// GET /traces/storages/{trace_resource_id}/keys/
-	TracesStoragesKeysList(ctx context.Context, params TracesStoragesKeysListParams) (*PaginatedTraceStorageAccessKeyList, error)
-	// TracesStoragesKeysPartialUpdate invokes traces_storages_keys_partial_update operation.
-	//
-	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// PATCH /traces/storages/{trace_resource_id}/keys/{uid}/
-	TracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKeyRequest, params TracesStoragesKeysPartialUpdateParams) (*WrappedTraceStorageAccessKey, error)
-	// TracesStoragesKeysRetrieve invokes traces_storages_keys_retrieve operation.
-	//
-	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// GET /traces/storages/{trace_resource_id}/keys/{uid}/
-	TracesStoragesKeysRetrieve(ctx context.Context, params TracesStoragesKeysRetrieveParams) (*WrappedTraceStorageAccessKey, error)
-	// TracesStoragesKeysUpdate invokes traces_storages_keys_update operation.
-	//
-	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
-	//
-	// PUT /traces/storages/{trace_resource_id}/keys/{uid}/
-	TracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysUpdateParams) (*WrappedTraceStorageAccessKey, error)
-	// TracesStoragesList invokes traces_storages_list operation.
+	// GET /traces/storages/{traceResourceId}/keys/
+	ListTraceStorageKeys(ctx context.Context, params ListTraceStorageKeysParams) (*PaginatedTraceStorageAccessKeyList, error)
+	// ListTraceStorages invokes listTraceStorages operation.
 	//
 	// トレースストレージを管理するためのAPIエンドポイントです。.
 	//
 	// GET /traces/storages/
-	TracesStoragesList(ctx context.Context, params TracesStoragesListParams) (*PaginatedTraceStorageList, error)
-	// TracesStoragesPartialUpdate invokes traces_storages_partial_update operation.
+	ListTraceStorages(ctx context.Context, params ListTraceStoragesParams) (*PaginatedTraceStorageList, error)
+	// PatchAlertProject invokes patchAlertProject operation.
+	//
+	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
+	//
+	// PATCH /alerts/projects/{resourceId}/
+	PatchAlertProject(ctx context.Context, request OptPatchedAlertProjectRequest, params PatchAlertProjectParams) (*WrappedAlertProject, error)
+	// PatchAlertProjectLogMeasureRule invokes patchAlertProjectLogMeasureRule operation.
+	//
+	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+	//
+	// PATCH /alerts/projects/{projectResourceId}/log-measure-rules/{uid}/
+	PatchAlertProjectLogMeasureRule(ctx context.Context, request OptPatchedLogMeasureRuleRequest, params PatchAlertProjectLogMeasureRuleParams) (*LogMeasureRule, error)
+	// PatchAlertProjectNotificationRouting invokes patchAlertProjectNotificationRouting operation.
+	//
+	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+	//
+	// PATCH /alerts/projects/{projectResourceId}/notification-routings/{uid}/
+	PatchAlertProjectNotificationRouting(ctx context.Context, request OptPatchedNotificationRoutingRequest, params PatchAlertProjectNotificationRoutingParams) (*NotificationRouting, error)
+	// PatchAlertProjectNotificationTarget invokes patchAlertProjectNotificationTarget operation.
+	//
+	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
+	//
+	// PATCH /alerts/projects/{projectResourceId}/notification-targets/{uid}/
+	PatchAlertProjectNotificationTarget(ctx context.Context, request OptPatchedNotificationTargetRequest, params PatchAlertProjectNotificationTargetParams) (*NotificationTarget, error)
+	// PatchAlertProjectRule invokes patchAlertProjectRule operation.
+	//
+	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
+	//
+	// PATCH /alerts/projects/{projectResourceId}/rules/{uid}/
+	PatchAlertProjectRule(ctx context.Context, request OptPatchedAlertRuleRequest, params PatchAlertProjectRuleParams) (*AlertRule, error)
+	// PatchDashboardProject invokes patchDashboardProject operation.
+	//
+	// ダッシュボードを管理するためのAPIエンドポイントです。.
+	//
+	// PATCH /dashboards/projects/{resourceId}/
+	PatchDashboardProject(ctx context.Context, request OptPatchedDashboardProjectRequest, params PatchDashboardProjectParams) (*WrappedDashboardProject, error)
+	// PatchLogRouting invokes patchLogRouting operation.
+	//
+	// ログルーティングを管理するためのAPIエンドポイントです。.
+	//
+	// PATCH /logs/routings/{uid}/
+	PatchLogRouting(ctx context.Context, request OptPatchedLogRoutingRequest, params PatchLogRoutingParams) (*WrappedLogRouting, error)
+	// PatchLogStorage invokes patchLogStorage operation.
+	//
+	// ログストレージを管理するためのAPIエンドポイントです。.
+	//
+	// PATCH /logs/storages/{resourceId}/
+	PatchLogStorage(ctx context.Context, request OptPatchedLogStorageRequest, params PatchLogStorageParams) (*WrappedLogStorage, error)
+	// PatchLogStorageKey invokes patchLogStorageKey operation.
+	//
+	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// PATCH /logs/storages/{logResourceId}/keys/{uid}/
+	PatchLogStorageKey(ctx context.Context, request OptPatchedLogStorageAccessKeyRequest, params PatchLogStorageKeyParams) (*WrappedLogStorageAccessKey, error)
+	// PatchMetricRouting invokes patchMetricRouting operation.
+	//
+	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
+	//
+	// PATCH /metrics/routings/{uid}/
+	PatchMetricRouting(ctx context.Context, request OptPatchedMetricsRoutingRequest, params PatchMetricRoutingParams) (*WrappedMetricsRouting, error)
+	// PatchMetricStorage invokes patchMetricStorage operation.
+	//
+	// メトリクスストレージを管理するためのAPIエンドポイントです。.
+	//
+	// PATCH /metrics/storages/{resourceId}/
+	PatchMetricStorage(ctx context.Context, request OptPatchedMetricsStorageRequest, params PatchMetricStorageParams) (*WrappedMetricsStorage, error)
+	// PatchMetricStorageKey invokes patchMetricStorageKey operation.
+	//
+	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// PATCH /metrics/storages/{metricsResourceId}/keys/{uid}/
+	PatchMetricStorageKey(ctx context.Context, request OptPatchedMetricsStorageAccessKeyRequest, params PatchMetricStorageKeyParams) (*WrappedMetricsStorageAccessKey, error)
+	// PatchTraceStorage invokes patchTraceStorage operation.
 	//
 	// トレースストレージを管理するためのAPIエンドポイントです。.
 	//
-	// PATCH /traces/storages/{resource_id}/
-	TracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorageRequest, params TracesStoragesPartialUpdateParams) (*WrappedTraceStorage, error)
-	// TracesStoragesRetrieve invokes traces_storages_retrieve operation.
+	// PATCH /traces/storages/{resourceId}/
+	PatchTraceStorage(ctx context.Context, request OptPatchedTraceStorageRequest, params PatchTraceStorageParams) (*WrappedTraceStorage, error)
+	// PatchTraceStorageKey invokes patchTraceStorageKey operation.
+	//
+	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// PATCH /traces/storages/{traceResourceId}/keys/{uid}/
+	PatchTraceStorageKey(ctx context.Context, request OptPatchedTraceStorageAccessKeyRequest, params PatchTraceStorageKeyParams) (*WrappedTraceStorageAccessKey, error)
+	// ReadAlertProject invokes readAlertProject operation.
+	//
+	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{resourceId}/
+	ReadAlertProject(ctx context.Context, params ReadAlertProjectParams) (*WrappedAlertProject, error)
+	// ReadAlertProjectHistory invokes readAlertProjectHistory operation.
+	//
+	// アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/histories/{uid}/
+	ReadAlertProjectHistory(ctx context.Context, params ReadAlertProjectHistoryParams) (*History, error)
+	// ReadAlertProjectLogMeasureRule invokes readAlertProjectLogMeasureRule operation.
+	//
+	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/log-measure-rules/{uid}/
+	ReadAlertProjectLogMeasureRule(ctx context.Context, params ReadAlertProjectLogMeasureRuleParams) (*LogMeasureRule, error)
+	// ReadAlertProjectNotificationRouting invokes readAlertProjectNotificationRouting operation.
+	//
+	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/notification-routings/{uid}/
+	ReadAlertProjectNotificationRouting(ctx context.Context, params ReadAlertProjectNotificationRoutingParams) (*NotificationRouting, error)
+	// ReadAlertProjectNotificationTarget invokes readAlertProjectNotificationTarget operation.
+	//
+	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/notification-targets/{uid}/
+	ReadAlertProjectNotificationTarget(ctx context.Context, params ReadAlertProjectNotificationTargetParams) (*NotificationTarget, error)
+	// ReadAlertProjectRule invokes readAlertProjectRule operation.
+	//
+	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/rules/{uid}/
+	ReadAlertProjectRule(ctx context.Context, params ReadAlertProjectRuleParams) (*AlertRule, error)
+	// ReadAlertProjectRuleHistory invokes readAlertProjectRuleHistory operation.
+	//
+	// ルール内のアラート履歴を取得するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{projectResourceId}/rules/{ruleUid}/histories/{uid}/
+	ReadAlertProjectRuleHistory(ctx context.Context, params ReadAlertProjectRuleHistoryParams) (*History, error)
+	// ReadDashboardProject invokes readDashboardProject operation.
+	//
+	// ダッシュボードを管理するためのAPIエンドポイントです。.
+	//
+	// GET /dashboards/projects/{resourceId}/
+	ReadDashboardProject(ctx context.Context, params ReadDashboardProjectParams) (*WrappedDashboardProject, error)
+	// ReadLogRouting invokes readLogRouting operation.
+	//
+	// ログルーティングを管理するためのAPIエンドポイントです。.
+	//
+	// GET /logs/routings/{uid}/
+	ReadLogRouting(ctx context.Context, params ReadLogRoutingParams) (*WrappedLogRouting, error)
+	// ReadLogStorage invokes readLogStorage operation.
+	//
+	// ログストレージを管理するためのAPIエンドポイントです。.
+	//
+	// GET /logs/storages/{resourceId}/
+	ReadLogStorage(ctx context.Context, params ReadLogStorageParams) (*WrappedLogStorage, error)
+	// ReadLogStorageKey invokes readLogStorageKey operation.
+	//
+	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// GET /logs/storages/{logResourceId}/keys/{uid}/
+	ReadLogStorageKey(ctx context.Context, params ReadLogStorageKeyParams) (*WrappedLogStorageAccessKey, error)
+	// ReadLogStorageStatsDaily invokes readLogStorageStatsDaily operation.
+	//
+	// ログストレージの日次利用状況を取得します。.
+	//
+	// GET /logs/storages/{resourceId}/stats/daily/
+	ReadLogStorageStatsDaily(ctx context.Context, params ReadLogStorageStatsDailyParams) (*LogStorageDailyUsageBody, error)
+	// ReadLogStorageStatsMonthly invokes readLogStorageStatsMonthly operation.
+	//
+	// ログストレージの月次利用状況を取得します。.
+	//
+	// GET /logs/storages/{resourceId}/stats/monthly/
+	ReadLogStorageStatsMonthly(ctx context.Context, params ReadLogStorageStatsMonthlyParams) (*LogStorageMonthlyUsageBody, error)
+	// ReadMetricRouting invokes readMetricRouting operation.
+	//
+	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
+	//
+	// GET /metrics/routings/{uid}/
+	ReadMetricRouting(ctx context.Context, params ReadMetricRoutingParams) (*WrappedMetricsRouting, error)
+	// ReadMetricStorage invokes readMetricStorage operation.
+	//
+	// メトリクスストレージを管理するためのAPIエンドポイントです。.
+	//
+	// GET /metrics/storages/{resourceId}/
+	ReadMetricStorage(ctx context.Context, params ReadMetricStorageParams) (*WrappedMetricsStorage, error)
+	// ReadMetricStorageKey invokes readMetricStorageKey operation.
+	//
+	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// GET /metrics/storages/{metricsResourceId}/keys/{uid}/
+	ReadMetricStorageKey(ctx context.Context, params ReadMetricStorageKeyParams) (*WrappedMetricsStorageAccessKey, error)
+	// ReadMetricStorageStatsDaily invokes readMetricStorageStatsDaily operation.
+	//
+	// メトリクスストレージの日次利用状況を取得します。.
+	//
+	// GET /metrics/storages/{resourceId}/stats/daily/
+	ReadMetricStorageStatsDaily(ctx context.Context, params ReadMetricStorageStatsDailyParams) (*MetricsStorageDailyUsageBody, error)
+	// ReadMetricStorageStatsMonthly invokes readMetricStorageStatsMonthly operation.
+	//
+	// メトリクスストレージの月次利用状況を取得します。.
+	//
+	// GET /metrics/storages/{resourceId}/stats/monthly/
+	ReadMetricStorageStatsMonthly(ctx context.Context, params ReadMetricStorageStatsMonthlyParams) (*MetricsStorageMonthlyUsageBody, error)
+	// ReadProvisioningState invokes readProvisioningState operation.
+	//
+	// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング状態を確認するAPIエンドポイントです。.
+	//
+	// GET /management/provisioning/state/
+	ReadProvisioningState(ctx context.Context) (*Provisioning, error)
+	// ReadPublisher invokes readPublisher operation.
+	//
+	// 連携サービス情報を取得するAPIエンドポイントです。.
+	//
+	// GET /publishers/{code}/
+	ReadPublisher(ctx context.Context, params ReadPublisherParams) (*WrappedPublisher, error)
+	// ReadResourceLimits invokes readResourceLimits operation.
+	//
+	// アカウントのリソース上限（ログストレージ、メトリクスストレージ、アラートプロジェクト、ダッシュボード）を取得するAPIエンドポイントです。.
+	//
+	// GET /management/limits/
+	ReadResourceLimits(ctx context.Context) (*ResourcesLimits, error)
+	// ReadTraceStorage invokes readTraceStorage operation.
 	//
 	// トレースストレージを管理するためのAPIエンドポイントです。.
 	//
-	// GET /traces/storages/{resource_id}/
-	TracesStoragesRetrieve(ctx context.Context, params TracesStoragesRetrieveParams) (*WrappedTraceStorage, error)
-	// TracesStoragesSetExpireCreate invokes traces_storages_set_expire_create operation.
+	// GET /traces/storages/{resourceId}/
+	ReadTraceStorage(ctx context.Context, params ReadTraceStorageParams) (*WrappedTraceStorage, error)
+	// ReadTraceStorageKey invokes readTraceStorageKey operation.
 	//
-	// トレースストレージの保存期間を設定します。.
+	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// POST /traces/storages/{resource_id}/set-expire/
-	TracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDayRequest, params TracesStoragesSetExpireCreateParams) (*TraceStorage, error)
-	// TracesStoragesStatsDailyRetrieve invokes traces_storages_stats_daily_retrieve operation.
+	// GET /traces/storages/{traceResourceId}/keys/{uid}/
+	ReadTraceStorageKey(ctx context.Context, params ReadTraceStorageKeyParams) (*WrappedTraceStorageAccessKey, error)
+	// ReadTraceStorageStatsDaily invokes readTraceStorageStatsDaily operation.
 	//
 	// トレースストレージの日次利用状況を取得します。.
 	//
-	// GET /traces/storages/{resource_id}/stats/daily/
-	TracesStoragesStatsDailyRetrieve(ctx context.Context, params TracesStoragesStatsDailyRetrieveParams) (*TraceStorageDailyUsageBody, error)
-	// TracesStoragesStatsMonthlyRetrieve invokes traces_storages_stats_monthly_retrieve operation.
+	// GET /traces/storages/{resourceId}/stats/daily/
+	ReadTraceStorageStatsDaily(ctx context.Context, params ReadTraceStorageStatsDailyParams) (*TraceStorageDailyUsageBody, error)
+	// ReadTraceStorageStatsMonthly invokes readTraceStorageStatsMonthly operation.
 	//
 	// トレースストレージの月次利用状況を取得します。.
 	//
-	// GET /traces/storages/{resource_id}/stats/monthly/
-	TracesStoragesStatsMonthlyRetrieve(ctx context.Context, params TracesStoragesStatsMonthlyRetrieveParams) (*TraceStorageMonthlyUsageBody, error)
-	// TracesStoragesUpdate invokes traces_storages_update operation.
+	// GET /traces/storages/{resourceId}/stats/monthly/
+	ReadTraceStorageStatsMonthly(ctx context.Context, params ReadTraceStorageStatsMonthlyParams) (*TraceStorageMonthlyUsageBody, error)
+	// ReorderAlertProjectNotificationRoutings invokes reorderAlertProjectNotificationRoutings operation.
+	//
+	// アラートプロジェクト内の通知ルーティングの並び順を一括変更するAPIエンドポイントです。.
+	//
+	// PUT /alerts/projects/{projectResourceId}/notification-routings/reorder/
+	ReorderAlertProjectNotificationRoutings(ctx context.Context, request []NotificationRoutingOrderRequest, params ReorderAlertProjectNotificationRoutingsParams) error
+	// SetLogStorageExpire invokes setLogStorageExpire operation.
+	//
+	// ログストレージの保存期間を設定します。.
+	//
+	// POST /logs/storages/{resourceId}/set-expire/
+	SetLogStorageExpire(ctx context.Context, request *SetLogStorageExpireDayRequest, params SetLogStorageExpireParams) (*LogStorage, error)
+	// SetTraceStorageExpire invokes setTraceStorageExpire operation.
+	//
+	// トレースストレージの保存期間を設定します。.
+	//
+	// POST /traces/storages/{resourceId}/set-expire/
+	SetTraceStorageExpire(ctx context.Context, request *SetTraceStorageExpireDayRequest, params SetTraceStorageExpireParams) (*TraceStorage, error)
+	// UpdateAlertProject invokes updateAlertProject operation.
+	//
+	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
+	//
+	// PUT /alerts/projects/{resourceId}/
+	UpdateAlertProject(ctx context.Context, request OptAlertProjectRequest, params UpdateAlertProjectParams) (*WrappedAlertProject, error)
+	// UpdateAlertProjectLogMeasureRule invokes updateAlertProjectLogMeasureRule operation.
+	//
+	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+	//
+	// PUT /alerts/projects/{projectResourceId}/log-measure-rules/{uid}/
+	UpdateAlertProjectLogMeasureRule(ctx context.Context, request *LogMeasureRuleRequest, params UpdateAlertProjectLogMeasureRuleParams) (*LogMeasureRule, error)
+	// UpdateAlertProjectNotificationRouting invokes updateAlertProjectNotificationRouting operation.
+	//
+	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+	//
+	// PUT /alerts/projects/{projectResourceId}/notification-routings/{uid}/
+	UpdateAlertProjectNotificationRouting(ctx context.Context, request *NotificationRoutingRequest, params UpdateAlertProjectNotificationRoutingParams) (*NotificationRouting, error)
+	// UpdateAlertProjectNotificationTarget invokes updateAlertProjectNotificationTarget operation.
+	//
+	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
+	//
+	// PUT /alerts/projects/{projectResourceId}/notification-targets/{uid}/
+	UpdateAlertProjectNotificationTarget(ctx context.Context, request *NotificationTargetRequest, params UpdateAlertProjectNotificationTargetParams) (*NotificationTarget, error)
+	// UpdateAlertProjectRule invokes updateAlertProjectRule operation.
+	//
+	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
+	//
+	// PUT /alerts/projects/{projectResourceId}/rules/{uid}/
+	UpdateAlertProjectRule(ctx context.Context, request *AlertRuleRequest, params UpdateAlertProjectRuleParams) (*AlertRule, error)
+	// UpdateDashboardProject invokes updateDashboardProject operation.
+	//
+	// ダッシュボードを管理するためのAPIエンドポイントです。.
+	//
+	// PUT /dashboards/projects/{resourceId}/
+	UpdateDashboardProject(ctx context.Context, request OptDashboardProjectRequest, params UpdateDashboardProjectParams) (*WrappedDashboardProject, error)
+	// UpdateLogRouting invokes updateLogRouting operation.
+	//
+	// ログルーティングを管理するためのAPIエンドポイントです。.
+	//
+	// PUT /logs/routings/{uid}/
+	UpdateLogRouting(ctx context.Context, request *LogRoutingRequest, params UpdateLogRoutingParams) (*WrappedLogRouting, error)
+	// UpdateLogStorage invokes updateLogStorage operation.
+	//
+	// ログストレージを管理するためのAPIエンドポイントです。.
+	//
+	// PUT /logs/storages/{resourceId}/
+	UpdateLogStorage(ctx context.Context, request OptLogStorageRequest, params UpdateLogStorageParams) (*WrappedLogStorage, error)
+	// UpdateLogStorageKey invokes updateLogStorageKey operation.
+	//
+	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// PUT /logs/storages/{logResourceId}/keys/{uid}/
+	UpdateLogStorageKey(ctx context.Context, request OptLogStorageAccessKeyRequest, params UpdateLogStorageKeyParams) (*WrappedLogStorageAccessKey, error)
+	// UpdateMetricRouting invokes updateMetricRouting operation.
+	//
+	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
+	//
+	// PUT /metrics/routings/{uid}/
+	UpdateMetricRouting(ctx context.Context, request *MetricsRoutingRequest, params UpdateMetricRoutingParams) (*WrappedMetricsRouting, error)
+	// UpdateMetricStorage invokes updateMetricStorage operation.
+	//
+	// メトリクスストレージを管理するためのAPIエンドポイントです。.
+	//
+	// PUT /metrics/storages/{resourceId}/
+	UpdateMetricStorage(ctx context.Context, request OptMetricsStorageRequest, params UpdateMetricStorageParams) (*WrappedMetricsStorage, error)
+	// UpdateMetricStorageKey invokes updateMetricStorageKey operation.
+	//
+	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// PUT /metrics/storages/{metricsResourceId}/keys/{uid}/
+	UpdateMetricStorageKey(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params UpdateMetricStorageKeyParams) (*WrappedMetricsStorageAccessKey, error)
+	// UpdateTraceStorage invokes updateTraceStorage operation.
 	//
 	// トレースストレージを管理するためのAPIエンドポイントです。.
 	//
-	// PUT /traces/storages/{resource_id}/
-	TracesStoragesUpdate(ctx context.Context, request OptTraceStorageRequest, params TracesStoragesUpdateParams) (*WrappedTraceStorage, error)
+	// PUT /traces/storages/{resourceId}/
+	UpdateTraceStorage(ctx context.Context, request OptTraceStorageRequest, params UpdateTraceStorageParams) (*WrappedTraceStorage, error)
+	// UpdateTraceStorageKey invokes updateTraceStorageKey operation.
+	//
+	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// PUT /traces/storages/{traceResourceId}/keys/{uid}/
+	UpdateTraceStorageKey(ctx context.Context, request OptTraceStorageAccessKeyRequest, params UpdateTraceStorageKeyParams) (*WrappedTraceStorageAccessKey, error)
 }
 
 // Client implements OAS client.
@@ -676,17 +676,17 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
-// AlertsProjectsCreate invokes alerts_projects_create operation.
+// CreateAlertProject invokes createAlertProject operation.
 //
 // アラートプロジェクトを管理するためのAPIエンドポイントです。.
 //
 // POST /alerts/projects/
-func (c *Client) AlertsProjectsCreate(ctx context.Context, request *AlertProjectCreateRequest) (*AlertProject, error) {
-	res, err := c.sendAlertsProjectsCreate(ctx, request)
+func (c *Client) CreateAlertProject(ctx context.Context, request *AlertProjectCreateRequest) (*AlertProject, error) {
+	res, err := c.sendCreateAlertProject(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsCreate(ctx context.Context, request *AlertProjectCreateRequest) (res *AlertProject, err error) {
+func (c *Client) sendCreateAlertProject(ctx context.Context, request *AlertProjectCreateRequest) (res *AlertProject, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -706,7 +706,7 @@ func (c *Client) sendAlertsProjectsCreate(ctx context.Context, request *AlertPro
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeAlertsProjectsCreateRequest(request, r); err != nil {
+	if err := encodeCreateAlertProjectRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -723,7 +723,7 @@ func (c *Client) sendAlertsProjectsCreate(ctx context.Context, request *AlertPro
 		_ = body.Close()
 	}()
 
-	result, err := decodeAlertsProjectsCreateResponse(resp)
+	result, err := decodeCreateAlertProjectResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -731,30 +731,899 @@ func (c *Client) sendAlertsProjectsCreate(ctx context.Context, request *AlertPro
 	return result, nil
 }
 
-// AlertsProjectsDestroy invokes alerts_projects_destroy operation.
+// CreateAlertProjectLogMeasureRule invokes createAlertProjectLogMeasureRule operation.
 //
-// アラートプロジェクトを管理するためのAPIエンドポイントです。.
+// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
 //
-// DELETE /alerts/projects/{resource_id}/
-func (c *Client) AlertsProjectsDestroy(ctx context.Context, params AlertsProjectsDestroyParams) error {
-	_, err := c.sendAlertsProjectsDestroy(ctx, params)
-	return err
+// POST /alerts/projects/{projectResourceId}/log-measure-rules/
+func (c *Client) CreateAlertProjectLogMeasureRule(ctx context.Context, request *LogMeasureRuleRequest, params CreateAlertProjectLogMeasureRuleParams) (*LogMeasureRule, error) {
+	res, err := c.sendCreateAlertProjectLogMeasureRule(ctx, request, params)
+	return res, err
 }
 
-func (c *Client) sendAlertsProjectsDestroy(ctx context.Context, params AlertsProjectsDestroyParams) (res *AlertsProjectsDestroyNoContent, err error) {
+func (c *Client) sendCreateAlertProjectLogMeasureRule(ctx context.Context, request *LogMeasureRuleRequest, params CreateAlertProjectLogMeasureRuleParams) (res *LogMeasureRule, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "resource_id" parameter.
+		// Encode "projectResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
+			Param:   "projectResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/log-measure-rules/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateAlertProjectLogMeasureRuleRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateAlertProjectLogMeasureRuleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateAlertProjectNotificationRouting invokes createAlertProjectNotificationRouting operation.
+//
+// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+//
+// POST /alerts/projects/{projectResourceId}/notification-routings/
+func (c *Client) CreateAlertProjectNotificationRouting(ctx context.Context, request *NotificationRoutingRequest, params CreateAlertProjectNotificationRoutingParams) (*NotificationRouting, error) {
+	res, err := c.sendCreateAlertProjectNotificationRouting(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateAlertProjectNotificationRouting(ctx context.Context, request *NotificationRoutingRequest, params CreateAlertProjectNotificationRoutingParams) (res *NotificationRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateAlertProjectNotificationRoutingRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateAlertProjectNotificationRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateAlertProjectNotificationTarget invokes createAlertProjectNotificationTarget operation.
+//
+// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
+//
+// POST /alerts/projects/{projectResourceId}/notification-targets/
+func (c *Client) CreateAlertProjectNotificationTarget(ctx context.Context, request *NotificationTargetRequest, params CreateAlertProjectNotificationTargetParams) (*NotificationTarget, error) {
+	res, err := c.sendCreateAlertProjectNotificationTarget(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateAlertProjectNotificationTarget(ctx context.Context, request *NotificationTargetRequest, params CreateAlertProjectNotificationTargetParams) (res *NotificationTarget, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-targets/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateAlertProjectNotificationTargetRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateAlertProjectNotificationTargetResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateAlertProjectRule invokes createAlertProjectRule operation.
+//
+// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
+//
+// POST /alerts/projects/{projectResourceId}/rules/
+func (c *Client) CreateAlertProjectRule(ctx context.Context, request *AlertRuleRequest, params CreateAlertProjectRuleParams) (*AlertRule, error) {
+	res, err := c.sendCreateAlertProjectRule(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateAlertProjectRule(ctx context.Context, request *AlertRuleRequest, params CreateAlertProjectRuleParams) (res *AlertRule, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/rules/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateAlertProjectRuleRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateAlertProjectRuleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateDashboardProject invokes createDashboardProject operation.
+//
+// ダッシュボードを管理するためのAPIエンドポイントです。.
+//
+// POST /dashboards/projects/
+func (c *Client) CreateDashboardProject(ctx context.Context, request *DashboardProjectCreateRequest) (*DashboardProject, error) {
+	res, err := c.sendCreateDashboardProject(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateDashboardProject(ctx context.Context, request *DashboardProjectCreateRequest) (res *DashboardProject, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/dashboards/projects/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateDashboardProjectRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateDashboardProjectResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateLogRouting invokes createLogRouting operation.
+//
+// ログルーティングを管理するためのAPIエンドポイントです。.
+//
+// POST /logs/routings/
+func (c *Client) CreateLogRouting(ctx context.Context, request *LogRoutingRequest) (*WrappedLogRouting, error) {
+	res, err := c.sendCreateLogRouting(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateLogRouting(ctx context.Context, request *LogRoutingRequest) (res *WrappedLogRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/logs/routings/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateLogRoutingRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateLogRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateLogStorage invokes createLogStorage operation.
+//
+// ログストレージを管理するためのAPIエンドポイントです。.
+//
+// POST /logs/storages/
+func (c *Client) CreateLogStorage(ctx context.Context, request *LogStorageCreateRequest) (*LogStorage, error) {
+	res, err := c.sendCreateLogStorage(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateLogStorage(ctx context.Context, request *LogStorageCreateRequest) (res *LogStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/logs/storages/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateLogStorageRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateLogStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateLogStorageKey invokes createLogStorageKey operation.
+//
+// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// POST /logs/storages/{logResourceId}/keys/
+func (c *Client) CreateLogStorageKey(ctx context.Context, request OptLogStorageAccessKeyRequest, params CreateLogStorageKeyParams) (*WrappedLogStorageAccessKey, error) {
+	res, err := c.sendCreateLogStorageKey(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateLogStorageKey(ctx context.Context, request OptLogStorageAccessKeyRequest, params CreateLogStorageKeyParams) (res *WrappedLogStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "logResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "logResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.LogResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateLogStorageKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateLogStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateMetricRouting invokes createMetricRouting operation.
+//
+// メトリクスルーティングを管理するためのAPIエンドポイントです。.
+//
+// POST /metrics/routings/
+func (c *Client) CreateMetricRouting(ctx context.Context, request *MetricsRoutingRequest) (*WrappedMetricsRouting, error) {
+	res, err := c.sendCreateMetricRouting(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateMetricRouting(ctx context.Context, request *MetricsRoutingRequest) (res *WrappedMetricsRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/metrics/routings/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateMetricRoutingRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateMetricRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateMetricStorage invokes createMetricStorage operation.
+//
+// メトリクスストレージを管理するためのAPIエンドポイントです。.
+//
+// POST /metrics/storages/
+func (c *Client) CreateMetricStorage(ctx context.Context, request *MetricsStorageCreateRequest) (*MetricsStorage, error) {
+	res, err := c.sendCreateMetricStorage(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateMetricStorage(ctx context.Context, request *MetricsStorageCreateRequest) (res *MetricsStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/metrics/storages/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateMetricStorageRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateMetricStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateMetricStorageKey invokes createMetricStorageKey operation.
+//
+// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// POST /metrics/storages/{metricsResourceId}/keys/
+func (c *Client) CreateMetricStorageKey(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params CreateMetricStorageKeyParams) (*WrappedMetricsStorageAccessKey, error) {
+	res, err := c.sendCreateMetricStorageKey(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateMetricStorageKey(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params CreateMetricStorageKeyParams) (res *WrappedMetricsStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "metricsResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "metricsResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateMetricStorageKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateMetricStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateTraceStorage invokes createTraceStorage operation.
+//
+// トレースストレージを管理するためのAPIエンドポイントです。.
+//
+// POST /traces/storages/
+func (c *Client) CreateTraceStorage(ctx context.Context, request *TraceStorageCreateRequest) (*TraceStorage, error) {
+	res, err := c.sendCreateTraceStorage(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateTraceStorage(ctx context.Context, request *TraceStorageCreateRequest) (res *TraceStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/traces/storages/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateTraceStorageRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateTraceStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateTraceStorageKey invokes createTraceStorageKey operation.
+//
+// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// POST /traces/storages/{traceResourceId}/keys/
+func (c *Client) CreateTraceStorageKey(ctx context.Context, request OptTraceStorageAccessKeyRequest, params CreateTraceStorageKeyParams) (*WrappedTraceStorageAccessKey, error) {
+	res, err := c.sendCreateTraceStorageKey(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateTraceStorageKey(ctx context.Context, request OptTraceStorageAccessKeyRequest, params CreateTraceStorageKeyParams) (res *WrappedTraceStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "traceResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "traceResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateTraceStorageKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateTraceStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteAlertProject invokes deleteAlertProject operation.
+//
+// アラートプロジェクトを管理するためのAPIエンドポイントです。.
+//
+// DELETE /alerts/projects/{resourceId}/
+func (c *Client) DeleteAlertProject(ctx context.Context, params DeleteAlertProjectParams) error {
+	_, err := c.sendDeleteAlertProject(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteAlertProject(ctx context.Context, params DeleteAlertProjectParams) (res *DeleteAlertProjectNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -785,7 +1654,7 @@ func (c *Client) sendAlertsProjectsDestroy(ctx context.Context, params AlertsPro
 		_ = body.Close()
 	}()
 
-	result, err := decodeAlertsProjectsDestroyResponse(resp)
+	result, err := decodeDeleteAlertProjectResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -793,30 +1662,1015 @@ func (c *Client) sendAlertsProjectsDestroy(ctx context.Context, params AlertsPro
 	return result, nil
 }
 
-// AlertsProjectsHistoriesList invokes alerts_projects_histories_list operation.
+// DeleteAlertProjectLogMeasureRule invokes deleteAlertProjectLogMeasureRule operation.
 //
-// アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
+// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
 //
-// GET /alerts/projects/{project_resource_id}/histories/
-func (c *Client) AlertsProjectsHistoriesList(ctx context.Context, params AlertsProjectsHistoriesListParams) (*PaginatedHistoryList, error) {
-	res, err := c.sendAlertsProjectsHistoriesList(ctx, params)
+// DELETE /alerts/projects/{projectResourceId}/log-measure-rules/{uid}/
+func (c *Client) DeleteAlertProjectLogMeasureRule(ctx context.Context, params DeleteAlertProjectLogMeasureRuleParams) error {
+	_, err := c.sendDeleteAlertProjectLogMeasureRule(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteAlertProjectLogMeasureRule(ctx context.Context, params DeleteAlertProjectLogMeasureRuleParams) (res *DeleteAlertProjectLogMeasureRuleNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/log-measure-rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteAlertProjectLogMeasureRuleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteAlertProjectNotificationRouting invokes deleteAlertProjectNotificationRouting operation.
+//
+// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+//
+// DELETE /alerts/projects/{projectResourceId}/notification-routings/{uid}/
+func (c *Client) DeleteAlertProjectNotificationRouting(ctx context.Context, params DeleteAlertProjectNotificationRoutingParams) error {
+	_, err := c.sendDeleteAlertProjectNotificationRouting(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteAlertProjectNotificationRouting(ctx context.Context, params DeleteAlertProjectNotificationRoutingParams) (res *DeleteAlertProjectNotificationRoutingNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteAlertProjectNotificationRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteAlertProjectNotificationTarget invokes deleteAlertProjectNotificationTarget operation.
+//
+// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
+//
+// DELETE /alerts/projects/{projectResourceId}/notification-targets/{uid}/
+func (c *Client) DeleteAlertProjectNotificationTarget(ctx context.Context, params DeleteAlertProjectNotificationTargetParams) error {
+	_, err := c.sendDeleteAlertProjectNotificationTarget(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteAlertProjectNotificationTarget(ctx context.Context, params DeleteAlertProjectNotificationTargetParams) (res *DeleteAlertProjectNotificationTargetNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-targets/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteAlertProjectNotificationTargetResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteAlertProjectRule invokes deleteAlertProjectRule operation.
+//
+// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
+//
+// DELETE /alerts/projects/{projectResourceId}/rules/{uid}/
+func (c *Client) DeleteAlertProjectRule(ctx context.Context, params DeleteAlertProjectRuleParams) error {
+	_, err := c.sendDeleteAlertProjectRule(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteAlertProjectRule(ctx context.Context, params DeleteAlertProjectRuleParams) (res *DeleteAlertProjectRuleNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteAlertProjectRuleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteDashboardProject invokes deleteDashboardProject operation.
+//
+// ダッシュボードを管理するためのAPIエンドポイントです。.
+//
+// DELETE /dashboards/projects/{resourceId}/
+func (c *Client) DeleteDashboardProject(ctx context.Context, params DeleteDashboardProjectParams) error {
+	_, err := c.sendDeleteDashboardProject(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteDashboardProject(ctx context.Context, params DeleteDashboardProjectParams) (res *DeleteDashboardProjectNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/dashboards/projects/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteDashboardProjectResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteLogRouting invokes deleteLogRouting operation.
+//
+// ログルーティングを管理するためのAPIエンドポイントです。.
+//
+// DELETE /logs/routings/{uid}/
+func (c *Client) DeleteLogRouting(ctx context.Context, params DeleteLogRoutingParams) error {
+	_, err := c.sendDeleteLogRouting(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteLogRouting(ctx context.Context, params DeleteLogRoutingParams) (res *DeleteLogRoutingNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteLogRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteLogStorage invokes deleteLogStorage operation.
+//
+// ログストレージを管理するためのAPIエンドポイントです。.
+//
+// DELETE /logs/storages/{resourceId}/
+func (c *Client) DeleteLogStorage(ctx context.Context, params DeleteLogStorageParams) error {
+	_, err := c.sendDeleteLogStorage(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteLogStorage(ctx context.Context, params DeleteLogStorageParams) (res *DeleteLogStorageNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteLogStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteLogStorageKey invokes deleteLogStorageKey operation.
+//
+// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// DELETE /logs/storages/{logResourceId}/keys/{uid}/
+func (c *Client) DeleteLogStorageKey(ctx context.Context, params DeleteLogStorageKeyParams) error {
+	_, err := c.sendDeleteLogStorageKey(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteLogStorageKey(ctx context.Context, params DeleteLogStorageKeyParams) (res *DeleteLogStorageKeyNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "logResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "logResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.LogResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteLogStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteMetricRouting invokes deleteMetricRouting operation.
+//
+// メトリクスルーティングを管理するためのAPIエンドポイントです。.
+//
+// DELETE /metrics/routings/{uid}/
+func (c *Client) DeleteMetricRouting(ctx context.Context, params DeleteMetricRoutingParams) error {
+	_, err := c.sendDeleteMetricRouting(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteMetricRouting(ctx context.Context, params DeleteMetricRoutingParams) (res *DeleteMetricRoutingNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteMetricRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteMetricStorage invokes deleteMetricStorage operation.
+//
+// メトリクスストレージを管理するためのAPIエンドポイントです。.
+//
+// DELETE /metrics/storages/{resourceId}/
+func (c *Client) DeleteMetricStorage(ctx context.Context, params DeleteMetricStorageParams) error {
+	_, err := c.sendDeleteMetricStorage(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteMetricStorage(ctx context.Context, params DeleteMetricStorageParams) (res *DeleteMetricStorageNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteMetricStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteMetricStorageKey invokes deleteMetricStorageKey operation.
+//
+// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// DELETE /metrics/storages/{metricsResourceId}/keys/{uid}/
+func (c *Client) DeleteMetricStorageKey(ctx context.Context, params DeleteMetricStorageKeyParams) error {
+	_, err := c.sendDeleteMetricStorageKey(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteMetricStorageKey(ctx context.Context, params DeleteMetricStorageKeyParams) (res *DeleteMetricStorageKeyNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "metricsResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "metricsResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteMetricStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteTraceStorage invokes deleteTraceStorage operation.
+//
+// トレースストレージを管理するためのAPIエンドポイントです。.
+//
+// DELETE /traces/storages/{resourceId}/
+func (c *Client) DeleteTraceStorage(ctx context.Context, params DeleteTraceStorageParams) error {
+	_, err := c.sendDeleteTraceStorage(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteTraceStorage(ctx context.Context, params DeleteTraceStorageParams) (res *DeleteTraceStorageNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteTraceStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteTraceStorageKey invokes deleteTraceStorageKey operation.
+//
+// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// DELETE /traces/storages/{traceResourceId}/keys/{uid}/
+func (c *Client) DeleteTraceStorageKey(ctx context.Context, params DeleteTraceStorageKeyParams) error {
+	_, err := c.sendDeleteTraceStorageKey(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteTraceStorageKey(ctx context.Context, params DeleteTraceStorageKeyParams) (res *DeleteTraceStorageKeyNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "traceResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "traceResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteTraceStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// InitializeProvisioning invokes initializeProvisioning operation.
+//
+// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング（初期化）を行うAPIエンドポイントです。指定した種別のリソースが存在しない場合のみ作成を行います。既存のリソースは変更されません。.
+//
+// POST /management/provisioning/initialize/
+func (c *Client) InitializeProvisioning(ctx context.Context, request OptProvisioningCreateRequest) (InitializeProvisioningRes, error) {
+	res, err := c.sendInitializeProvisioning(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params AlertsProjectsHistoriesListParams) (res *PaginatedHistoryList, err error) {
+func (c *Client) sendInitializeProvisioning(ctx context.Context, request OptProvisioningCreateRequest) (res InitializeProvisioningRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/management/provisioning/initialize/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeInitializeProvisioningRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeInitializeProvisioningResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListAlertProjectHistories invokes listAlertProjectHistories operation.
+//
+// アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
+//
+// GET /alerts/projects/{projectResourceId}/histories/
+func (c *Client) ListAlertProjectHistories(ctx context.Context, params ListAlertProjectHistoriesParams) (*PaginatedHistoryList, error) {
+	res, err := c.sendListAlertProjectHistories(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListAlertProjectHistories(ctx context.Context, params ListAlertProjectHistoriesParams) (res *PaginatedHistoryList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_resource_id" parameter.
+		// Encode "projectResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
+			Param:   "projectResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -935,7 +2789,7 @@ func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params Ale
 		_ = body.Close()
 	}()
 
-	result, err := decodeAlertsProjectsHistoriesListResponse(resp)
+	result, err := decodeListAlertProjectHistoriesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -943,346 +2797,30 @@ func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params Ale
 	return result, nil
 }
 
-// AlertsProjectsHistoriesRetrieve invokes alerts_projects_histories_retrieve operation.
-//
-// アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
-//
-// GET /alerts/projects/{project_resource_id}/histories/{uid}/
-func (c *Client) AlertsProjectsHistoriesRetrieve(ctx context.Context, params AlertsProjectsHistoriesRetrieveParams) (*History, error) {
-	res, err := c.sendAlertsProjectsHistoriesRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsHistoriesRetrieve(ctx context.Context, params AlertsProjectsHistoriesRetrieveParams) (res *History, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/histories/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsHistoriesRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsList invokes alerts_projects_list operation.
-//
-// アラートプロジェクトを管理するためのAPIエンドポイントです。.
-//
-// GET /alerts/projects/
-func (c *Client) AlertsProjectsList(ctx context.Context, params AlertsProjectsListParams) (*PaginatedAlertProjectList, error) {
-	res, err := c.sendAlertsProjectsList(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsList(ctx context.Context, params AlertsProjectsListParams) (res *PaginatedAlertProjectList, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/alerts/projects/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "count" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "count",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "from" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "from",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsListResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsLogMeasureRulesCreate invokes alerts_projects_log_measure_rules_create operation.
+// ListAlertProjectLogMeasureRules invokes listAlertProjectLogMeasureRules operation.
 //
 // ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
 //
-// POST /alerts/projects/{project_resource_id}/log-measure-rules/
-func (c *Client) AlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesCreateParams) (*LogMeasureRule, error) {
-	res, err := c.sendAlertsProjectsLogMeasureRulesCreate(ctx, request, params)
+// GET /alerts/projects/{projectResourceId}/log-measure-rules/
+func (c *Client) ListAlertProjectLogMeasureRules(ctx context.Context, params ListAlertProjectLogMeasureRulesParams) (*PaginatedLogMeasureRuleList, error) {
+	res, err := c.sendListAlertProjectLogMeasureRules(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesCreateParams) (res *LogMeasureRule, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
+func (c *Client) sendListAlertProjectLogMeasureRules(ctx context.Context, params ListAlertProjectLogMeasureRulesParams) (res *PaginatedLogMeasureRuleList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_resource_id" parameter.
+		// Encode "projectResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
+			Param:   "projectResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/log-measure-rules/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsLogMeasureRulesCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsLogMeasureRulesCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsLogMeasureRulesDestroy invokes alerts_projects_log_measure_rules_destroy operation.
-//
-// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
-//
-// DELETE /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-func (c *Client) AlertsProjectsLogMeasureRulesDestroy(ctx context.Context, params AlertsProjectsLogMeasureRulesDestroyParams) error {
-	_, err := c.sendAlertsProjectsLogMeasureRulesDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendAlertsProjectsLogMeasureRulesDestroy(ctx context.Context, params AlertsProjectsLogMeasureRulesDestroyParams) (res *AlertsProjectsLogMeasureRulesDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/log-measure-rules/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsLogMeasureRulesDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsLogMeasureRulesList invokes alerts_projects_log_measure_rules_list operation.
-//
-// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
-//
-// GET /alerts/projects/{project_resource_id}/log-measure-rules/
-func (c *Client) AlertsProjectsLogMeasureRulesList(ctx context.Context, params AlertsProjectsLogMeasureRulesListParams) (*PaginatedLogMeasureRuleList, error) {
-	res, err := c.sendAlertsProjectsLogMeasureRulesList(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsLogMeasureRulesList(ctx context.Context, params AlertsProjectsLogMeasureRulesListParams) (res *PaginatedLogMeasureRuleList, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1384,7 +2922,7 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesList(ctx context.Context, para
 		_ = body.Close()
 	}()
 
-	result, err := decodeAlertsProjectsLogMeasureRulesListResponse(resp)
+	result, err := decodeListAlertProjectLogMeasureRulesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1392,459 +2930,30 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesList(ctx context.Context, para
 	return result, nil
 }
 
-// AlertsProjectsLogMeasureRulesPartialUpdate invokes alerts_projects_log_measure_rules_partial_update operation.
-//
-// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
-//
-// PATCH /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-func (c *Client) AlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (*LogMeasureRule, error) {
-	res, err := c.sendAlertsProjectsLogMeasureRulesPartialUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (res *LogMeasureRule, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/log-measure-rules/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsLogMeasureRulesPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsLogMeasureRulesPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsLogMeasureRulesRetrieve invokes alerts_projects_log_measure_rules_retrieve operation.
-//
-// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
-//
-// GET /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-func (c *Client) AlertsProjectsLogMeasureRulesRetrieve(ctx context.Context, params AlertsProjectsLogMeasureRulesRetrieveParams) (*LogMeasureRule, error) {
-	res, err := c.sendAlertsProjectsLogMeasureRulesRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsLogMeasureRulesRetrieve(ctx context.Context, params AlertsProjectsLogMeasureRulesRetrieveParams) (res *LogMeasureRule, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/log-measure-rules/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsLogMeasureRulesRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsLogMeasureRulesUpdate invokes alerts_projects_log_measure_rules_update operation.
-//
-// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
-//
-// PUT /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-func (c *Client) AlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesUpdateParams) (*LogMeasureRule, error) {
-	res, err := c.sendAlertsProjectsLogMeasureRulesUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesUpdateParams) (res *LogMeasureRule, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/log-measure-rules/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsLogMeasureRulesUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsLogMeasureRulesUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsNotificationRoutingsCreate invokes alerts_projects_notification_routings_create operation.
+// ListAlertProjectNotificationRoutings invokes listAlertProjectNotificationRoutings operation.
 //
 // アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
 //
-// POST /alerts/projects/{project_resource_id}/notification-routings/
-func (c *Client) AlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsCreateParams) (*NotificationRouting, error) {
-	res, err := c.sendAlertsProjectsNotificationRoutingsCreate(ctx, request, params)
+// GET /alerts/projects/{projectResourceId}/notification-routings/
+func (c *Client) ListAlertProjectNotificationRoutings(ctx context.Context, params ListAlertProjectNotificationRoutingsParams) (*PaginatedNotificationRoutingList, error) {
+	res, err := c.sendListAlertProjectNotificationRoutings(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsCreateParams) (res *NotificationRouting, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
+func (c *Client) sendListAlertProjectNotificationRoutings(ctx context.Context, params ListAlertProjectNotificationRoutingsParams) (res *PaginatedNotificationRoutingList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_resource_id" parameter.
+		// Encode "projectResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
+			Param:   "projectResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/notification-routings/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsNotificationRoutingsCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsNotificationRoutingsCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsNotificationRoutingsDestroy invokes alerts_projects_notification_routings_destroy operation.
-//
-// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
-//
-// DELETE /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-func (c *Client) AlertsProjectsNotificationRoutingsDestroy(ctx context.Context, params AlertsProjectsNotificationRoutingsDestroyParams) error {
-	_, err := c.sendAlertsProjectsNotificationRoutingsDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendAlertsProjectsNotificationRoutingsDestroy(ctx context.Context, params AlertsProjectsNotificationRoutingsDestroyParams) (res *AlertsProjectsNotificationRoutingsDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/notification-routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsNotificationRoutingsDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsNotificationRoutingsList invokes alerts_projects_notification_routings_list operation.
-//
-// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
-//
-// GET /alerts/projects/{project_resource_id}/notification-routings/
-func (c *Client) AlertsProjectsNotificationRoutingsList(ctx context.Context, params AlertsProjectsNotificationRoutingsListParams) (*PaginatedNotificationRoutingList, error) {
-	res, err := c.sendAlertsProjectsNotificationRoutingsList(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context, params AlertsProjectsNotificationRoutingsListParams) (res *PaginatedNotificationRoutingList, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1929,7 +3038,7 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context,
 		_ = body.Close()
 	}()
 
-	result, err := decodeAlertsProjectsNotificationRoutingsListResponse(resp)
+	result, err := decodeListAlertProjectNotificationRoutingsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1937,550 +3046,30 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context,
 	return result, nil
 }
 
-// AlertsProjectsNotificationRoutingsPartialUpdate invokes alerts_projects_notification_routings_partial_update operation.
+// ListAlertProjectNotificationTargets invokes listAlertProjectNotificationTargets operation.
 //
-// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 //
-// PATCH /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-func (c *Client) AlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRoutingRequest, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (*NotificationRouting, error) {
-	res, err := c.sendAlertsProjectsNotificationRoutingsPartialUpdate(ctx, request, params)
+// GET /alerts/projects/{projectResourceId}/notification-targets/
+func (c *Client) ListAlertProjectNotificationTargets(ctx context.Context, params ListAlertProjectNotificationTargetsParams) (*PaginatedNotificationTargetList, error) {
+	res, err := c.sendListAlertProjectNotificationTargets(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRoutingRequest, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (res *NotificationRouting, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/notification-routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsNotificationRoutingsPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsNotificationRoutingsPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsNotificationRoutingsReorderUpdate invokes alerts_projects_notification_routings_reorder_update operation.
-//
-// アラートプロジェクト内の通知ルーティングの並び順を一括変更するAPIエンドポイントです。.
-//
-// PUT /alerts/projects/{project_resource_id}/notification-routings/reorder/
-func (c *Client) AlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrderRequest, params AlertsProjectsNotificationRoutingsReorderUpdateParams) error {
-	_, err := c.sendAlertsProjectsNotificationRoutingsReorderUpdate(ctx, request, params)
-	return err
-}
-
-func (c *Client) sendAlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrderRequest, params AlertsProjectsNotificationRoutingsReorderUpdateParams) (res *AlertsProjectsNotificationRoutingsReorderUpdateNoContent, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if request == nil {
-			return errors.New("nil is invalid value")
-		}
-		var failures []validate.FieldError
-		for i, elem := range request {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
+func (c *Client) sendListAlertProjectNotificationTargets(ctx context.Context, params ListAlertProjectNotificationTargetsParams) (res *PaginatedNotificationTargetList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_resource_id" parameter.
+		// Encode "projectResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
+			Param:   "projectResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/notification-routings/reorder/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsNotificationRoutingsReorderUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsNotificationRoutingsReorderUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsNotificationRoutingsRetrieve invokes alerts_projects_notification_routings_retrieve operation.
-//
-// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
-//
-// GET /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-func (c *Client) AlertsProjectsNotificationRoutingsRetrieve(ctx context.Context, params AlertsProjectsNotificationRoutingsRetrieveParams) (*NotificationRouting, error) {
-	res, err := c.sendAlertsProjectsNotificationRoutingsRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsNotificationRoutingsRetrieve(ctx context.Context, params AlertsProjectsNotificationRoutingsRetrieveParams) (res *NotificationRouting, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/notification-routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsNotificationRoutingsRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsNotificationRoutingsUpdate invokes alerts_projects_notification_routings_update operation.
-//
-// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
-//
-// PUT /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-func (c *Client) AlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsUpdateParams) (*NotificationRouting, error) {
-	res, err := c.sendAlertsProjectsNotificationRoutingsUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsUpdateParams) (res *NotificationRouting, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/notification-routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsNotificationRoutingsUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsNotificationRoutingsUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsNotificationTargetsCreate invokes alerts_projects_notification_targets_create operation.
-//
-// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
-//
-// POST /alerts/projects/{project_resource_id}/notification-targets/
-func (c *Client) AlertsProjectsNotificationTargetsCreate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsCreateParams) (*NotificationTarget, error) {
-	res, err := c.sendAlertsProjectsNotificationTargetsCreate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsNotificationTargetsCreate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsCreateParams) (res *NotificationTarget, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/notification-targets/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsNotificationTargetsCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsNotificationTargetsCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsNotificationTargetsDestroy invokes alerts_projects_notification_targets_destroy operation.
-//
-// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
-//
-// DELETE /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-func (c *Client) AlertsProjectsNotificationTargetsDestroy(ctx context.Context, params AlertsProjectsNotificationTargetsDestroyParams) error {
-	_, err := c.sendAlertsProjectsNotificationTargetsDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendAlertsProjectsNotificationTargetsDestroy(ctx context.Context, params AlertsProjectsNotificationTargetsDestroyParams) (res *AlertsProjectsNotificationTargetsDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/notification-targets/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsNotificationTargetsDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsNotificationTargetsList invokes alerts_projects_notification_targets_list operation.
-//
-// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
-//
-// GET /alerts/projects/{project_resource_id}/notification-targets/
-func (c *Client) AlertsProjectsNotificationTargetsList(ctx context.Context, params AlertsProjectsNotificationTargetsListParams) (*PaginatedNotificationTargetList, error) {
-	res, err := c.sendAlertsProjectsNotificationTargetsList(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, params AlertsProjectsNotificationTargetsListParams) (res *PaginatedNotificationTargetList, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -2565,7 +3154,7 @@ func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, 
 		_ = body.Close()
 	}()
 
-	result, err := decodeAlertsProjectsNotificationTargetsListResponse(resp)
+	result, err := decodeListAlertProjectNotificationTargetsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2573,602 +3162,30 @@ func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, 
 	return result, nil
 }
 
-// AlertsProjectsNotificationTargetsPartialUpdate invokes alerts_projects_notification_targets_partial_update operation.
-//
-// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
-//
-// PATCH /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-func (c *Client) AlertsProjectsNotificationTargetsPartialUpdate(ctx context.Context, request OptPatchedNotificationTargetRequest, params AlertsProjectsNotificationTargetsPartialUpdateParams) (*NotificationTarget, error) {
-	res, err := c.sendAlertsProjectsNotificationTargetsPartialUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsNotificationTargetsPartialUpdate(ctx context.Context, request OptPatchedNotificationTargetRequest, params AlertsProjectsNotificationTargetsPartialUpdateParams) (res *NotificationTarget, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/notification-targets/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsNotificationTargetsPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsNotificationTargetsPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsNotificationTargetsRetrieve invokes alerts_projects_notification_targets_retrieve operation.
-//
-// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
-//
-// GET /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-func (c *Client) AlertsProjectsNotificationTargetsRetrieve(ctx context.Context, params AlertsProjectsNotificationTargetsRetrieveParams) (*NotificationTarget, error) {
-	res, err := c.sendAlertsProjectsNotificationTargetsRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsNotificationTargetsRetrieve(ctx context.Context, params AlertsProjectsNotificationTargetsRetrieveParams) (res *NotificationTarget, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/notification-targets/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsNotificationTargetsRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsNotificationTargetsUpdate invokes alerts_projects_notification_targets_update operation.
-//
-// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
-//
-// PUT /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-func (c *Client) AlertsProjectsNotificationTargetsUpdate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsUpdateParams) (*NotificationTarget, error) {
-	res, err := c.sendAlertsProjectsNotificationTargetsUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsNotificationTargetsUpdate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsUpdateParams) (res *NotificationTarget, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/notification-targets/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsNotificationTargetsUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsNotificationTargetsUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsPartialUpdate invokes alerts_projects_partial_update operation.
-//
-// アラートプロジェクトを管理するためのAPIエンドポイントです。.
-//
-// PATCH /alerts/projects/{resource_id}/
-func (c *Client) AlertsProjectsPartialUpdate(ctx context.Context, request OptPatchedAlertProjectRequest, params AlertsProjectsPartialUpdateParams) (*WrappedAlertProject, error) {
-	res, err := c.sendAlertsProjectsPartialUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsPartialUpdate(ctx context.Context, request OptPatchedAlertProjectRequest, params AlertsProjectsPartialUpdateParams) (res *WrappedAlertProject, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsRetrieve invokes alerts_projects_retrieve operation.
-//
-// アラートプロジェクトを管理するためのAPIエンドポイントです。.
-//
-// GET /alerts/projects/{resource_id}/
-func (c *Client) AlertsProjectsRetrieve(ctx context.Context, params AlertsProjectsRetrieveParams) (*WrappedAlertProject, error) {
-	res, err := c.sendAlertsProjectsRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsRetrieve(ctx context.Context, params AlertsProjectsRetrieveParams) (res *WrappedAlertProject, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsRulesCreate invokes alerts_projects_rules_create operation.
-//
-// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
-//
-// POST /alerts/projects/{project_resource_id}/rules/
-func (c *Client) AlertsProjectsRulesCreate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesCreateParams) (*AlertRule, error) {
-	res, err := c.sendAlertsProjectsRulesCreate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsRulesCreate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesCreateParams) (res *AlertRule, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/rules/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsRulesCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsRulesCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsRulesDestroy invokes alerts_projects_rules_destroy operation.
-//
-// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
-//
-// DELETE /alerts/projects/{project_resource_id}/rules/{uid}/
-func (c *Client) AlertsProjectsRulesDestroy(ctx context.Context, params AlertsProjectsRulesDestroyParams) error {
-	_, err := c.sendAlertsProjectsRulesDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendAlertsProjectsRulesDestroy(ctx context.Context, params AlertsProjectsRulesDestroyParams) (res *AlertsProjectsRulesDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/rules/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsRulesDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsRulesHistoriesList invokes alerts_projects_rules_histories_list operation.
+// ListAlertProjectRuleHistories invokes listAlertProjectRuleHistories operation.
 //
 // ルール内のアラート履歴を取得するAPIエンドポイントです。.
 //
-// GET /alerts/projects/{project_resource_id}/rules/{rule_uid}/histories/
-func (c *Client) AlertsProjectsRulesHistoriesList(ctx context.Context, params AlertsProjectsRulesHistoriesListParams) (*PaginatedHistoryList, error) {
-	res, err := c.sendAlertsProjectsRulesHistoriesList(ctx, params)
+// GET /alerts/projects/{projectResourceId}/rules/{ruleUid}/histories/
+func (c *Client) ListAlertProjectRuleHistories(ctx context.Context, params ListAlertProjectRuleHistoriesParams) (*PaginatedHistoryList, error) {
+	res, err := c.sendListAlertProjectRuleHistories(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, params AlertsProjectsRulesHistoriesListParams) (res *PaginatedHistoryList, err error) {
+func (c *Client) sendListAlertProjectRuleHistories(ctx context.Context, params ListAlertProjectRuleHistoriesParams) (res *PaginatedHistoryList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_resource_id" parameter.
+		// Encode "projectResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
+			Param:   "projectResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -3180,14 +3197,14 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 	}
 	pathParts[2] = "/rules/"
 	{
-		// Encode "rule_uid" parameter.
+		// Encode "ruleUid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "rule_uid",
+			Param:   "ruleUid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.RuleUID))
+			return e.EncodeValue(conv.UUIDToString(params.RuleUid))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -3306,7 +3323,7 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 		_ = body.Close()
 	}()
 
-	result, err := decodeAlertsProjectsRulesHistoriesListResponse(resp)
+	result, err := decodeListAlertProjectRuleHistoriesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -3314,130 +3331,30 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 	return result, nil
 }
 
-// AlertsProjectsRulesHistoriesRetrieve invokes alerts_projects_rules_histories_retrieve operation.
-//
-// ルール内のアラート履歴を取得するAPIエンドポイントです。.
-//
-// GET /alerts/projects/{project_resource_id}/rules/{rule_uid}/histories/{uid}/
-func (c *Client) AlertsProjectsRulesHistoriesRetrieve(ctx context.Context, params AlertsProjectsRulesHistoriesRetrieveParams) (*History, error) {
-	res, err := c.sendAlertsProjectsRulesHistoriesRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsRulesHistoriesRetrieve(ctx context.Context, params AlertsProjectsRulesHistoriesRetrieveParams) (res *History, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [7]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/rules/"
-	{
-		// Encode "rule_uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "rule_uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.RuleUID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/histories/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[5] = encoded
-	}
-	pathParts[6] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsRulesHistoriesRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsRulesList invokes alerts_projects_rules_list operation.
+// ListAlertProjectRules invokes listAlertProjectRules operation.
 //
 // アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 //
-// GET /alerts/projects/{project_resource_id}/rules/
-func (c *Client) AlertsProjectsRulesList(ctx context.Context, params AlertsProjectsRulesListParams) (*PaginatedAlertRuleList, error) {
-	res, err := c.sendAlertsProjectsRulesList(ctx, params)
+// GET /alerts/projects/{projectResourceId}/rules/
+func (c *Client) ListAlertProjectRules(ctx context.Context, params ListAlertProjectRulesParams) (*PaginatedAlertRuleList, error) {
+	res, err := c.sendListAlertProjectRules(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsProjectsRulesListParams) (res *PaginatedAlertRuleList, err error) {
+func (c *Client) sendListAlertProjectRules(ctx context.Context, params ListAlertProjectRulesParams) (res *PaginatedAlertRuleList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_resource_id" parameter.
+		// Encode "projectResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
+			Param:   "projectResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -3505,7 +3422,7 @@ func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsP
 		_ = body.Close()
 	}()
 
-	result, err := decodeAlertsProjectsRulesListResponse(resp)
+	result, err := decodeListAlertProjectRulesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -3513,160 +3430,59 @@ func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsP
 	return result, nil
 }
 
-// AlertsProjectsRulesPartialUpdate invokes alerts_projects_rules_partial_update operation.
+// ListAlertProjects invokes listAlertProjects operation.
 //
-// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
+// アラートプロジェクトを管理するためのAPIエンドポイントです。.
 //
-// PATCH /alerts/projects/{project_resource_id}/rules/{uid}/
-func (c *Client) AlertsProjectsRulesPartialUpdate(ctx context.Context, request OptPatchedAlertRuleRequest, params AlertsProjectsRulesPartialUpdateParams) (*AlertRule, error) {
-	res, err := c.sendAlertsProjectsRulesPartialUpdate(ctx, request, params)
+// GET /alerts/projects/
+func (c *Client) ListAlertProjects(ctx context.Context, params ListAlertProjectsParams) (*PaginatedAlertProjectList, error) {
+	res, err := c.sendListAlertProjects(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsRulesPartialUpdate(ctx context.Context, request OptPatchedAlertRuleRequest, params AlertsProjectsRulesPartialUpdateParams) (res *AlertRule, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
+func (c *Client) sendListAlertProjects(ctx context.Context, params ListAlertProjectsParams) (res *PaginatedAlertProjectList, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/alerts/projects/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
 			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
 		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
 	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
+		// Encode "from" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "from",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
 		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/rules/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsRulesPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsRulesPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsRulesRetrieve invokes alerts_projects_rules_retrieve operation.
-//
-// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
-//
-// GET /alerts/projects/{project_resource_id}/rules/{uid}/
-func (c *Client) AlertsProjectsRulesRetrieve(ctx context.Context, params AlertsProjectsRulesRetrieveParams) (*AlertRule, error) {
-	res, err := c.sendAlertsProjectsRulesRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsRulesRetrieve(ctx context.Context, params AlertsProjectsRulesRetrieveParams) (res *AlertRule, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
 		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
 	}
-	pathParts[2] = "/rules/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
+	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
@@ -3686,7 +3502,7 @@ func (c *Client) sendAlertsProjectsRulesRetrieve(ctx context.Context, params Ale
 		_ = body.Close()
 	}()
 
-	result, err := decodeAlertsProjectsRulesRetrieveResponse(resp)
+	result, err := decodeListAlertProjectsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -3694,308 +3510,17 @@ func (c *Client) sendAlertsProjectsRulesRetrieve(ctx context.Context, params Ale
 	return result, nil
 }
 
-// AlertsProjectsRulesUpdate invokes alerts_projects_rules_update operation.
-//
-// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
-//
-// PUT /alerts/projects/{project_resource_id}/rules/{uid}/
-func (c *Client) AlertsProjectsRulesUpdate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesUpdateParams) (*AlertRule, error) {
-	res, err := c.sendAlertsProjectsRulesUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsRulesUpdate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesUpdateParams) (res *AlertRule, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "project_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/rules/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsRulesUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsRulesUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AlertsProjectsUpdate invokes alerts_projects_update operation.
-//
-// アラートプロジェクトを管理するためのAPIエンドポイントです。.
-//
-// PUT /alerts/projects/{resource_id}/
-func (c *Client) AlertsProjectsUpdate(ctx context.Context, request OptAlertProjectRequest, params AlertsProjectsUpdateParams) (*WrappedAlertProject, error) {
-	res, err := c.sendAlertsProjectsUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendAlertsProjectsUpdate(ctx context.Context, request OptAlertProjectRequest, params AlertsProjectsUpdateParams) (res *WrappedAlertProject, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/alerts/projects/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAlertsProjectsUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeAlertsProjectsUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DashboardsProjectsCreate invokes dashboards_projects_create operation.
-//
-// ダッシュボードを管理するためのAPIエンドポイントです。.
-//
-// POST /dashboards/projects/
-func (c *Client) DashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreateRequest) (*DashboardProject, error) {
-	res, err := c.sendDashboardsProjectsCreate(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendDashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreateRequest) (res *DashboardProject, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/dashboards/projects/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeDashboardsProjectsCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDashboardsProjectsCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DashboardsProjectsDestroy invokes dashboards_projects_destroy operation.
-//
-// ダッシュボードを管理するためのAPIエンドポイントです。.
-//
-// DELETE /dashboards/projects/{resource_id}/
-func (c *Client) DashboardsProjectsDestroy(ctx context.Context, params DashboardsProjectsDestroyParams) error {
-	_, err := c.sendDashboardsProjectsDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendDashboardsProjectsDestroy(ctx context.Context, params DashboardsProjectsDestroyParams) (res *DashboardsProjectsDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/dashboards/projects/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDashboardsProjectsDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DashboardsProjectsList invokes dashboards_projects_list operation.
+// ListDashboardProjects invokes listDashboardProjects operation.
 //
 // ダッシュボードを管理するためのAPIエンドポイントです。.
 //
 // GET /dashboards/projects/
-func (c *Client) DashboardsProjectsList(ctx context.Context, params DashboardsProjectsListParams) (*PaginatedDashboardProjectList, error) {
-	res, err := c.sendDashboardsProjectsList(ctx, params)
+func (c *Client) ListDashboardProjects(ctx context.Context, params ListDashboardProjectsParams) (*PaginatedDashboardProjectList, error) {
+	res, err := c.sendListDashboardProjects(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendDashboardsProjectsList(ctx context.Context, params DashboardsProjectsListParams) (res *PaginatedDashboardProjectList, err error) {
+func (c *Client) sendListDashboardProjects(ctx context.Context, params ListDashboardProjectsParams) (res *PaginatedDashboardProjectList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -4057,7 +3582,7 @@ func (c *Client) sendDashboardsProjectsList(ctx context.Context, params Dashboar
 		_ = body.Close()
 	}()
 
-	result, err := decodeDashboardsProjectsListResponse(resp)
+	result, err := decodeListDashboardProjectsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -4065,444 +3590,17 @@ func (c *Client) sendDashboardsProjectsList(ctx context.Context, params Dashboar
 	return result, nil
 }
 
-// DashboardsProjectsPartialUpdate invokes dashboards_projects_partial_update operation.
-//
-// ダッシュボードを管理するためのAPIエンドポイントです。.
-//
-// PATCH /dashboards/projects/{resource_id}/
-func (c *Client) DashboardsProjectsPartialUpdate(ctx context.Context, request OptPatchedDashboardProjectRequest, params DashboardsProjectsPartialUpdateParams) (*WrappedDashboardProject, error) {
-	res, err := c.sendDashboardsProjectsPartialUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendDashboardsProjectsPartialUpdate(ctx context.Context, request OptPatchedDashboardProjectRequest, params DashboardsProjectsPartialUpdateParams) (res *WrappedDashboardProject, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/dashboards/projects/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeDashboardsProjectsPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDashboardsProjectsPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DashboardsProjectsRetrieve invokes dashboards_projects_retrieve operation.
-//
-// ダッシュボードを管理するためのAPIエンドポイントです。.
-//
-// GET /dashboards/projects/{resource_id}/
-func (c *Client) DashboardsProjectsRetrieve(ctx context.Context, params DashboardsProjectsRetrieveParams) (*WrappedDashboardProject, error) {
-	res, err := c.sendDashboardsProjectsRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDashboardsProjectsRetrieve(ctx context.Context, params DashboardsProjectsRetrieveParams) (res *WrappedDashboardProject, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/dashboards/projects/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDashboardsProjectsRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DashboardsProjectsUpdate invokes dashboards_projects_update operation.
-//
-// ダッシュボードを管理するためのAPIエンドポイントです。.
-//
-// PUT /dashboards/projects/{resource_id}/
-func (c *Client) DashboardsProjectsUpdate(ctx context.Context, request OptDashboardProjectRequest, params DashboardsProjectsUpdateParams) (*WrappedDashboardProject, error) {
-	res, err := c.sendDashboardsProjectsUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendDashboardsProjectsUpdate(ctx context.Context, request OptDashboardProjectRequest, params DashboardsProjectsUpdateParams) (res *WrappedDashboardProject, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/dashboards/projects/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeDashboardsProjectsUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDashboardsProjectsUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetProvisioningState invokes get_provisioning_state operation.
-//
-// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング状態を確認するAPIエンドポイントです。.
-//
-// GET /management/provisioning/state/
-func (c *Client) GetProvisioningState(ctx context.Context) (*Provisioning, error) {
-	res, err := c.sendGetProvisioningState(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetProvisioningState(ctx context.Context) (res *Provisioning, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/management/provisioning/state/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetProvisioningStateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetResourcesLimits invokes get_resources_limits operation.
-//
-// アカウントのリソース上限（ログストレージ、メトリクスストレージ、アラートプロジェクト、ダッシュボード）を取得するAPIエンドポイントです。.
-//
-// GET /management/limits/
-func (c *Client) GetResourcesLimits(ctx context.Context) (*ResourcesLimits, error) {
-	res, err := c.sendGetResourcesLimits(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetResourcesLimits(ctx context.Context) (res *ResourcesLimits, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/management/limits/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetResourcesLimitsResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsRoutingsCreate invokes logs_routings_create operation.
-//
-// ログルーティングを管理するためのAPIエンドポイントです。.
-//
-// POST /logs/routings/
-func (c *Client) LogsRoutingsCreate(ctx context.Context, request *LogRoutingRequest) (*WrappedLogRouting, error) {
-	res, err := c.sendLogsRoutingsCreate(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendLogsRoutingsCreate(ctx context.Context, request *LogRoutingRequest) (res *WrappedLogRouting, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/logs/routings/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeLogsRoutingsCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsRoutingsCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsRoutingsDestroy invokes logs_routings_destroy operation.
-//
-// ログルーティングを管理するためのAPIエンドポイントです。.
-//
-// DELETE /logs/routings/{uid}/
-func (c *Client) LogsRoutingsDestroy(ctx context.Context, params LogsRoutingsDestroyParams) error {
-	_, err := c.sendLogsRoutingsDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendLogsRoutingsDestroy(ctx context.Context, params LogsRoutingsDestroyParams) (res *LogsRoutingsDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsRoutingsDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsRoutingsList invokes logs_routings_list operation.
+// ListLogRoutings invokes listLogRoutings operation.
 //
 // ログルーティングを管理するためのAPIエンドポイントです。.
 //
 // GET /logs/routings/
-func (c *Client) LogsRoutingsList(ctx context.Context, params LogsRoutingsListParams) (*PaginatedLogRoutingList, error) {
-	res, err := c.sendLogsRoutingsList(ctx, params)
+func (c *Client) ListLogRoutings(ctx context.Context, params ListLogRoutingsParams) (*PaginatedLogRoutingList, error) {
+	res, err := c.sendListLogRoutings(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsListParams) (res *PaginatedLogRoutingList, err error) {
+func (c *Client) sendListLogRoutings(ctx context.Context, params ListLogRoutingsParams) (res *PaginatedLogRoutingList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -4615,7 +3713,7 @@ func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsLi
 		_ = body.Close()
 	}()
 
-	result, err := decodeLogsRoutingsListResponse(resp)
+	result, err := decodeListLogRoutingsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -4623,526 +3721,30 @@ func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsLi
 	return result, nil
 }
 
-// LogsRoutingsPartialUpdate invokes logs_routings_partial_update operation.
-//
-// ログルーティングを管理するためのAPIエンドポイントです。.
-//
-// PATCH /logs/routings/{uid}/
-func (c *Client) LogsRoutingsPartialUpdate(ctx context.Context, request OptPatchedLogRoutingRequest, params LogsRoutingsPartialUpdateParams) (*WrappedLogRouting, error) {
-	res, err := c.sendLogsRoutingsPartialUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendLogsRoutingsPartialUpdate(ctx context.Context, request OptPatchedLogRoutingRequest, params LogsRoutingsPartialUpdateParams) (res *WrappedLogRouting, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeLogsRoutingsPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsRoutingsPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsRoutingsRetrieve invokes logs_routings_retrieve operation.
-//
-// ログルーティングを管理するためのAPIエンドポイントです。.
-//
-// GET /logs/routings/{uid}/
-func (c *Client) LogsRoutingsRetrieve(ctx context.Context, params LogsRoutingsRetrieveParams) (*WrappedLogRouting, error) {
-	res, err := c.sendLogsRoutingsRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendLogsRoutingsRetrieve(ctx context.Context, params LogsRoutingsRetrieveParams) (res *WrappedLogRouting, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsRoutingsRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsRoutingsUpdate invokes logs_routings_update operation.
-//
-// ログルーティングを管理するためのAPIエンドポイントです。.
-//
-// PUT /logs/routings/{uid}/
-func (c *Client) LogsRoutingsUpdate(ctx context.Context, request *LogRoutingRequest, params LogsRoutingsUpdateParams) (*WrappedLogRouting, error) {
-	res, err := c.sendLogsRoutingsUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendLogsRoutingsUpdate(ctx context.Context, request *LogRoutingRequest, params LogsRoutingsUpdateParams) (res *WrappedLogRouting, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeLogsRoutingsUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsRoutingsUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesCreate invokes logs_storages_create operation.
-//
-// ログストレージを管理するためのAPIエンドポイントです。.
-//
-// POST /logs/storages/
-func (c *Client) LogsStoragesCreate(ctx context.Context, request *LogStorageCreateRequest) (*LogStorage, error) {
-	res, err := c.sendLogsStoragesCreate(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendLogsStoragesCreate(ctx context.Context, request *LogStorageCreateRequest) (res *LogStorage, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/logs/storages/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeLogsStoragesCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesDestroy invokes logs_storages_destroy operation.
-//
-// ログストレージを管理するためのAPIエンドポイントです。.
-//
-// DELETE /logs/storages/{resource_id}/
-func (c *Client) LogsStoragesDestroy(ctx context.Context, params LogsStoragesDestroyParams) error {
-	_, err := c.sendLogsStoragesDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendLogsStoragesDestroy(ctx context.Context, params LogsStoragesDestroyParams) (res *LogsStoragesDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesKeysCreate invokes logs_storages_keys_create operation.
+// ListLogStorageKeys invokes listLogStorageKeys operation.
 //
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// POST /logs/storages/{log_resource_id}/keys/
-func (c *Client) LogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysCreateParams) (*WrappedLogStorageAccessKey, error) {
-	res, err := c.sendLogsStoragesKeysCreate(ctx, request, params)
+// GET /logs/storages/{logResourceId}/keys/
+func (c *Client) ListLogStorageKeys(ctx context.Context, params ListLogStorageKeysParams) (*PaginatedLogStorageAccessKeyList, error) {
+	res, err := c.sendListLogStorageKeys(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysCreateParams) (res *WrappedLogStorageAccessKey, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
+func (c *Client) sendListLogStorageKeys(ctx context.Context, params ListLogStorageKeysParams) (res *PaginatedLogStorageAccessKeyList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
 	pathParts[0] = "/logs/storages/"
 	{
-		// Encode "log_resource_id" parameter.
+		// Encode "logResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "log_resource_id",
+			Param:   "logResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.LogResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeLogsStoragesKeysCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesKeysCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesKeysDestroy invokes logs_storages_keys_destroy operation.
-//
-// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// DELETE /logs/storages/{log_resource_id}/keys/{uid}/
-func (c *Client) LogsStoragesKeysDestroy(ctx context.Context, params LogsStoragesKeysDestroyParams) error {
-	_, err := c.sendLogsStoragesKeysDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendLogsStoragesKeysDestroy(ctx context.Context, params LogsStoragesKeysDestroyParams) (res *LogsStoragesKeysDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "log_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "log_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.LogResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesKeysDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesKeysList invokes logs_storages_keys_list operation.
-//
-// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// GET /logs/storages/{log_resource_id}/keys/
-func (c *Client) LogsStoragesKeysList(ctx context.Context, params LogsStoragesKeysListParams) (*PaginatedLogStorageAccessKeyList, error) {
-	res, err := c.sendLogsStoragesKeysList(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStoragesKeysListParams) (res *PaginatedLogStorageAccessKeyList, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "log_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "log_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.LogResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.LogResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5210,7 +3812,7 @@ func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStorag
 		_ = body.Close()
 	}()
 
-	result, err := decodeLogsStoragesKeysListResponse(resp)
+	result, err := decodeListLogStorageKeysResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -5218,298 +3820,17 @@ func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStorag
 	return result, nil
 }
 
-// LogsStoragesKeysPartialUpdate invokes logs_storages_keys_partial_update operation.
-//
-// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// PATCH /logs/storages/{log_resource_id}/keys/{uid}/
-func (c *Client) LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKeyRequest, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogStorageAccessKey, error) {
-	res, err := c.sendLogsStoragesKeysPartialUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendLogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKeyRequest, params LogsStoragesKeysPartialUpdateParams) (res *WrappedLogStorageAccessKey, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "log_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "log_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.LogResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeLogsStoragesKeysPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesKeysPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesKeysRetrieve invokes logs_storages_keys_retrieve operation.
-//
-// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// GET /logs/storages/{log_resource_id}/keys/{uid}/
-func (c *Client) LogsStoragesKeysRetrieve(ctx context.Context, params LogsStoragesKeysRetrieveParams) (*WrappedLogStorageAccessKey, error) {
-	res, err := c.sendLogsStoragesKeysRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendLogsStoragesKeysRetrieve(ctx context.Context, params LogsStoragesKeysRetrieveParams) (res *WrappedLogStorageAccessKey, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "log_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "log_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.LogResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesKeysRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesKeysUpdate invokes logs_storages_keys_update operation.
-//
-// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// PUT /logs/storages/{log_resource_id}/keys/{uid}/
-func (c *Client) LogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysUpdateParams) (*WrappedLogStorageAccessKey, error) {
-	res, err := c.sendLogsStoragesKeysUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendLogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysUpdateParams) (res *WrappedLogStorageAccessKey, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "log_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "log_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.LogResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeLogsStoragesKeysUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesKeysUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesList invokes logs_storages_list operation.
+// ListLogStorages invokes listLogStorages operation.
 //
 // ログストレージを管理するためのAPIエンドポイントです。.
 //
 // GET /logs/storages/
-func (c *Client) LogsStoragesList(ctx context.Context, params LogsStoragesListParams) (*PaginatedLogStorageList, error) {
-	res, err := c.sendLogsStoragesList(ctx, params)
+func (c *Client) ListLogStorages(ctx context.Context, params ListLogStoragesParams) (*PaginatedLogStorageList, error) {
+	res, err := c.sendListLogStorages(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesListParams) (res *PaginatedLogStorageList, err error) {
+func (c *Client) sendListLogStorages(ctx context.Context, params ListLogStoragesParams) (res *PaginatedLogStorageList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -5656,7 +3977,7 @@ func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesLi
 		_ = body.Close()
 	}()
 
-	result, err := decodeLogsStoragesListResponse(resp)
+	result, err := decodeListLogStoragesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -5664,610 +3985,17 @@ func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesLi
 	return result, nil
 }
 
-// LogsStoragesPartialUpdate invokes logs_storages_partial_update operation.
-//
-// ログストレージを管理するためのAPIエンドポイントです。.
-//
-// PATCH /logs/storages/{resource_id}/
-func (c *Client) LogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorageRequest, params LogsStoragesPartialUpdateParams) (*WrappedLogStorage, error) {
-	res, err := c.sendLogsStoragesPartialUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendLogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorageRequest, params LogsStoragesPartialUpdateParams) (res *WrappedLogStorage, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeLogsStoragesPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesRetrieve invokes logs_storages_retrieve operation.
-//
-// ログストレージを管理するためのAPIエンドポイントです。.
-//
-// GET /logs/storages/{resource_id}/
-func (c *Client) LogsStoragesRetrieve(ctx context.Context, params LogsStoragesRetrieveParams) (*WrappedLogStorage, error) {
-	res, err := c.sendLogsStoragesRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendLogsStoragesRetrieve(ctx context.Context, params LogsStoragesRetrieveParams) (res *WrappedLogStorage, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesSetExpireCreate invokes logs_storages_set_expire_create operation.
-//
-// ログストレージの保存期間を設定します。.
-//
-// POST /logs/storages/{resource_id}/set-expire/
-func (c *Client) LogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDayRequest, params LogsStoragesSetExpireCreateParams) (*LogStorage, error) {
-	res, err := c.sendLogsStoragesSetExpireCreate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendLogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDayRequest, params LogsStoragesSetExpireCreateParams) (res *LogStorage, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/set-expire/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeLogsStoragesSetExpireCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesSetExpireCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesStatsDailyRetrieve invokes logs_storages_stats_daily_retrieve operation.
-//
-// ログストレージの日次利用状況を取得します。.
-//
-// GET /logs/storages/{resource_id}/stats/daily/
-func (c *Client) LogsStoragesStatsDailyRetrieve(ctx context.Context, params LogsStoragesStatsDailyRetrieveParams) (*LogStorageDailyUsageBody, error) {
-	res, err := c.sendLogsStoragesStatsDailyRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendLogsStoragesStatsDailyRetrieve(ctx context.Context, params LogsStoragesStatsDailyRetrieveParams) (res *LogStorageDailyUsageBody, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/stats/daily/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "end_date" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "end_date",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.EndDate.Get(); ok {
-				return e.EncodeValue(conv.DateToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "start_date" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "start_date",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.StartDate.Get(); ok {
-				return e.EncodeValue(conv.DateToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesStatsDailyRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesStatsMonthlyRetrieve invokes logs_storages_stats_monthly_retrieve operation.
-//
-// ログストレージの月次利用状況を取得します。.
-//
-// GET /logs/storages/{resource_id}/stats/monthly/
-func (c *Client) LogsStoragesStatsMonthlyRetrieve(ctx context.Context, params LogsStoragesStatsMonthlyRetrieveParams) (*LogStorageMonthlyUsageBody, error) {
-	res, err := c.sendLogsStoragesStatsMonthlyRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendLogsStoragesStatsMonthlyRetrieve(ctx context.Context, params LogsStoragesStatsMonthlyRetrieveParams) (res *LogStorageMonthlyUsageBody, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/stats/monthly/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "year" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "year",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeValue(conv.IntToString(params.Year))
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesStatsMonthlyRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LogsStoragesUpdate invokes logs_storages_update operation.
-//
-// ログストレージを管理するためのAPIエンドポイントです。.
-//
-// PUT /logs/storages/{resource_id}/
-func (c *Client) LogsStoragesUpdate(ctx context.Context, request OptLogStorageRequest, params LogsStoragesUpdateParams) (*WrappedLogStorage, error) {
-	res, err := c.sendLogsStoragesUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendLogsStoragesUpdate(ctx context.Context, request OptLogStorageRequest, params LogsStoragesUpdateParams) (res *WrappedLogStorage, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/logs/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeLogsStoragesUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeLogsStoragesUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsRoutingsCreate invokes metrics_routings_create operation.
-//
-// メトリクスルーティングを管理するためのAPIエンドポイントです。.
-//
-// POST /metrics/routings/
-func (c *Client) MetricsRoutingsCreate(ctx context.Context, request *MetricsRoutingRequest) (*WrappedMetricsRouting, error) {
-	res, err := c.sendMetricsRoutingsCreate(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendMetricsRoutingsCreate(ctx context.Context, request *MetricsRoutingRequest) (res *WrappedMetricsRouting, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/metrics/routings/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeMetricsRoutingsCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsRoutingsCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsRoutingsDestroy invokes metrics_routings_destroy operation.
-//
-// メトリクスルーティングを管理するためのAPIエンドポイントです。.
-//
-// DELETE /metrics/routings/{uid}/
-func (c *Client) MetricsRoutingsDestroy(ctx context.Context, params MetricsRoutingsDestroyParams) error {
-	_, err := c.sendMetricsRoutingsDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendMetricsRoutingsDestroy(ctx context.Context, params MetricsRoutingsDestroyParams) (res *MetricsRoutingsDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/metrics/routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsRoutingsDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsRoutingsList invokes metrics_routings_list operation.
+// ListMetricRoutings invokes listMetricRoutings operation.
 //
 // メトリクスルーティングを管理するためのAPIエンドポイントです。.
 //
 // GET /metrics/routings/
-func (c *Client) MetricsRoutingsList(ctx context.Context, params MetricsRoutingsListParams) (*PaginatedMetricsRoutingList, error) {
-	res, err := c.sendMetricsRoutingsList(ctx, params)
+func (c *Client) ListMetricRoutings(ctx context.Context, params ListMetricRoutingsParams) (*PaginatedMetricsRoutingList, error) {
+	res, err := c.sendListMetricRoutings(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRoutingsListParams) (res *PaginatedMetricsRoutingList, err error) {
+func (c *Client) sendListMetricRoutings(ctx context.Context, params ListMetricRoutingsParams) (res *PaginatedMetricsRoutingList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -6380,7 +4108,7 @@ func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRout
 		_ = body.Close()
 	}()
 
-	result, err := decodeMetricsRoutingsListResponse(resp)
+	result, err := decodeListMetricRoutingsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -6388,526 +4116,30 @@ func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRout
 	return result, nil
 }
 
-// MetricsRoutingsPartialUpdate invokes metrics_routings_partial_update operation.
-//
-// メトリクスルーティングを管理するためのAPIエンドポイントです。.
-//
-// PATCH /metrics/routings/{uid}/
-func (c *Client) MetricsRoutingsPartialUpdate(ctx context.Context, request OptPatchedMetricsRoutingRequest, params MetricsRoutingsPartialUpdateParams) (*WrappedMetricsRouting, error) {
-	res, err := c.sendMetricsRoutingsPartialUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsRoutingsPartialUpdate(ctx context.Context, request OptPatchedMetricsRoutingRequest, params MetricsRoutingsPartialUpdateParams) (res *WrappedMetricsRouting, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/metrics/routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeMetricsRoutingsPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsRoutingsPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsRoutingsRetrieve invokes metrics_routings_retrieve operation.
-//
-// メトリクスルーティングを管理するためのAPIエンドポイントです。.
-//
-// GET /metrics/routings/{uid}/
-func (c *Client) MetricsRoutingsRetrieve(ctx context.Context, params MetricsRoutingsRetrieveParams) (*WrappedMetricsRouting, error) {
-	res, err := c.sendMetricsRoutingsRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsRoutingsRetrieve(ctx context.Context, params MetricsRoutingsRetrieveParams) (res *WrappedMetricsRouting, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/metrics/routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsRoutingsRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsRoutingsUpdate invokes metrics_routings_update operation.
-//
-// メトリクスルーティングを管理するためのAPIエンドポイントです。.
-//
-// PUT /metrics/routings/{uid}/
-func (c *Client) MetricsRoutingsUpdate(ctx context.Context, request *MetricsRoutingRequest, params MetricsRoutingsUpdateParams) (*WrappedMetricsRouting, error) {
-	res, err := c.sendMetricsRoutingsUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsRoutingsUpdate(ctx context.Context, request *MetricsRoutingRequest, params MetricsRoutingsUpdateParams) (res *WrappedMetricsRouting, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/metrics/routings/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeMetricsRoutingsUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsRoutingsUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesCreate invokes metrics_storages_create operation.
-//
-// メトリクスストレージを管理するためのAPIエンドポイントです。.
-//
-// POST /metrics/storages/
-func (c *Client) MetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreateRequest) (*MetricsStorage, error) {
-	res, err := c.sendMetricsStoragesCreate(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendMetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreateRequest) (res *MetricsStorage, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/metrics/storages/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeMetricsStoragesCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesDestroy invokes metrics_storages_destroy operation.
-//
-// メトリクスストレージを管理するためのAPIエンドポイントです。.
-//
-// DELETE /metrics/storages/{resource_id}/
-func (c *Client) MetricsStoragesDestroy(ctx context.Context, params MetricsStoragesDestroyParams) error {
-	_, err := c.sendMetricsStoragesDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendMetricsStoragesDestroy(ctx context.Context, params MetricsStoragesDestroyParams) (res *MetricsStoragesDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/metrics/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesKeysCreate invokes metrics_storages_keys_create operation.
+// ListMetricStorageKeys invokes listMetricStorageKeys operation.
 //
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// POST /metrics/storages/{metrics_resource_id}/keys/
-func (c *Client) MetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysCreateParams) (*WrappedMetricsStorageAccessKey, error) {
-	res, err := c.sendMetricsStoragesKeysCreate(ctx, request, params)
+// GET /metrics/storages/{metricsResourceId}/keys/
+func (c *Client) ListMetricStorageKeys(ctx context.Context, params ListMetricStorageKeysParams) (*PaginatedMetricsStorageAccessKeyList, error) {
+	res, err := c.sendListMetricStorageKeys(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysCreateParams) (res *WrappedMetricsStorageAccessKey, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
+func (c *Client) sendListMetricStorageKeys(ctx context.Context, params ListMetricStorageKeysParams) (res *PaginatedMetricsStorageAccessKeyList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
 	pathParts[0] = "/metrics/storages/"
 	{
-		// Encode "metrics_resource_id" parameter.
+		// Encode "metricsResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "metrics_resource_id",
+			Param:   "metricsResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeMetricsStoragesKeysCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesKeysCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesKeysDestroy invokes metrics_storages_keys_destroy operation.
-//
-// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// DELETE /metrics/storages/{metrics_resource_id}/keys/{uid}/
-func (c *Client) MetricsStoragesKeysDestroy(ctx context.Context, params MetricsStoragesKeysDestroyParams) error {
-	_, err := c.sendMetricsStoragesKeysDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendMetricsStoragesKeysDestroy(ctx context.Context, params MetricsStoragesKeysDestroyParams) (res *MetricsStoragesKeysDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/metrics/storages/"
-	{
-		// Encode "metrics_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "metrics_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesKeysDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesKeysList invokes metrics_storages_keys_list operation.
-//
-// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// GET /metrics/storages/{metrics_resource_id}/keys/
-func (c *Client) MetricsStoragesKeysList(ctx context.Context, params MetricsStoragesKeysListParams) (*PaginatedMetricsStorageAccessKeyList, error) {
-	res, err := c.sendMetricsStoragesKeysList(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params MetricsStoragesKeysListParams) (res *PaginatedMetricsStorageAccessKeyList, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/metrics/storages/"
-	{
-		// Encode "metrics_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "metrics_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -6975,7 +4207,7 @@ func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params Metrics
 		_ = body.Close()
 	}()
 
-	result, err := decodeMetricsStoragesKeysListResponse(resp)
+	result, err := decodeListMetricStorageKeysResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -6983,298 +4215,17 @@ func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params Metrics
 	return result, nil
 }
 
-// MetricsStoragesKeysPartialUpdate invokes metrics_storages_keys_partial_update operation.
-//
-// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// PATCH /metrics/storages/{metrics_resource_id}/keys/{uid}/
-func (c *Client) MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKeyRequest, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsStorageAccessKey, error) {
-	res, err := c.sendMetricsStoragesKeysPartialUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKeyRequest, params MetricsStoragesKeysPartialUpdateParams) (res *WrappedMetricsStorageAccessKey, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/metrics/storages/"
-	{
-		// Encode "metrics_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "metrics_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeMetricsStoragesKeysPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesKeysPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesKeysRetrieve invokes metrics_storages_keys_retrieve operation.
-//
-// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// GET /metrics/storages/{metrics_resource_id}/keys/{uid}/
-func (c *Client) MetricsStoragesKeysRetrieve(ctx context.Context, params MetricsStoragesKeysRetrieveParams) (*WrappedMetricsStorageAccessKey, error) {
-	res, err := c.sendMetricsStoragesKeysRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsStoragesKeysRetrieve(ctx context.Context, params MetricsStoragesKeysRetrieveParams) (res *WrappedMetricsStorageAccessKey, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/metrics/storages/"
-	{
-		// Encode "metrics_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "metrics_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesKeysRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesKeysUpdate invokes metrics_storages_keys_update operation.
-//
-// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// PUT /metrics/storages/{metrics_resource_id}/keys/{uid}/
-func (c *Client) MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsStorageAccessKey, error) {
-	res, err := c.sendMetricsStoragesKeysUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysUpdateParams) (res *WrappedMetricsStorageAccessKey, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/metrics/storages/"
-	{
-		// Encode "metrics_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "metrics_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeMetricsStoragesKeysUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesKeysUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesList invokes metrics_storages_list operation.
+// ListMetricStorages invokes listMetricStorages operation.
 //
 // メトリクスストレージを管理するためのAPIエンドポイントです。.
 //
 // GET /metrics/storages/
-func (c *Client) MetricsStoragesList(ctx context.Context, params MetricsStoragesListParams) (*PaginatedMetricsStorageList, error) {
-	res, err := c.sendMetricsStoragesList(ctx, params)
+func (c *Client) ListMetricStorages(ctx context.Context, params ListMetricStoragesParams) (*PaginatedMetricsStorageList, error) {
+	res, err := c.sendListMetricStorages(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStoragesListParams) (res *PaginatedMetricsStorageList, err error) {
+func (c *Client) sendListMetricStorages(ctx context.Context, params ListMetricStoragesParams) (res *PaginatedMetricsStorageList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -7387,7 +4338,7 @@ func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStor
 		_ = body.Close()
 	}()
 
-	result, err := decodeMetricsStoragesListResponse(resp)
+	result, err := decodeListMetricStoragesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -7395,465 +4346,17 @@ func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStor
 	return result, nil
 }
 
-// MetricsStoragesPartialUpdate invokes metrics_storages_partial_update operation.
-//
-// メトリクスストレージを管理するためのAPIエンドポイントです。.
-//
-// PATCH /metrics/storages/{resource_id}/
-func (c *Client) MetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageRequest, params MetricsStoragesPartialUpdateParams) (*WrappedMetricsStorage, error) {
-	res, err := c.sendMetricsStoragesPartialUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageRequest, params MetricsStoragesPartialUpdateParams) (res *WrappedMetricsStorage, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/metrics/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeMetricsStoragesPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesRetrieve invokes metrics_storages_retrieve operation.
-//
-// メトリクスストレージを管理するためのAPIエンドポイントです。.
-//
-// GET /metrics/storages/{resource_id}/
-func (c *Client) MetricsStoragesRetrieve(ctx context.Context, params MetricsStoragesRetrieveParams) (*WrappedMetricsStorage, error) {
-	res, err := c.sendMetricsStoragesRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsStoragesRetrieve(ctx context.Context, params MetricsStoragesRetrieveParams) (res *WrappedMetricsStorage, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/metrics/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesStatsDailyRetrieve invokes metrics_storages_stats_daily_retrieve operation.
-//
-// メトリクスストレージの日次利用状況を取得します。.
-//
-// GET /metrics/storages/{resource_id}/stats/daily/
-func (c *Client) MetricsStoragesStatsDailyRetrieve(ctx context.Context, params MetricsStoragesStatsDailyRetrieveParams) (*MetricsStorageDailyUsageBody, error) {
-	res, err := c.sendMetricsStoragesStatsDailyRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsStoragesStatsDailyRetrieve(ctx context.Context, params MetricsStoragesStatsDailyRetrieveParams) (res *MetricsStorageDailyUsageBody, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/metrics/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/stats/daily/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "end_date" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "end_date",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.EndDate.Get(); ok {
-				return e.EncodeValue(conv.DateToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "start_date" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "start_date",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.StartDate.Get(); ok {
-				return e.EncodeValue(conv.DateToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesStatsDailyRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesStatsMonthlyRetrieve invokes metrics_storages_stats_monthly_retrieve operation.
-//
-// メトリクスストレージの月次利用状況を取得します。.
-//
-// GET /metrics/storages/{resource_id}/stats/monthly/
-func (c *Client) MetricsStoragesStatsMonthlyRetrieve(ctx context.Context, params MetricsStoragesStatsMonthlyRetrieveParams) (*MetricsStorageMonthlyUsageBody, error) {
-	res, err := c.sendMetricsStoragesStatsMonthlyRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsStoragesStatsMonthlyRetrieve(ctx context.Context, params MetricsStoragesStatsMonthlyRetrieveParams) (res *MetricsStorageMonthlyUsageBody, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/metrics/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/stats/monthly/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "year" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "year",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeValue(conv.IntToString(params.Year))
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesStatsMonthlyRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// MetricsStoragesUpdate invokes metrics_storages_update operation.
-//
-// メトリクスストレージを管理するためのAPIエンドポイントです。.
-//
-// PUT /metrics/storages/{resource_id}/
-func (c *Client) MetricsStoragesUpdate(ctx context.Context, request OptMetricsStorageRequest, params MetricsStoragesUpdateParams) (*WrappedMetricsStorage, error) {
-	res, err := c.sendMetricsStoragesUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendMetricsStoragesUpdate(ctx context.Context, request OptMetricsStorageRequest, params MetricsStoragesUpdateParams) (res *WrappedMetricsStorage, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/metrics/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeMetricsStoragesUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeMetricsStoragesUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// PostProvisioningInitialize invokes post_provisioning_initialize operation.
-//
-// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング（初期化）を行うAPIエンドポイントです。指定した種別のリソースが存在しない場合のみ作成を行います。既存のリソースは変更されません。.
-//
-// POST /management/provisioning/initialize/
-func (c *Client) PostProvisioningInitialize(ctx context.Context, request OptProvisioningCreateRequest) (PostProvisioningInitializeRes, error) {
-	res, err := c.sendPostProvisioningInitialize(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendPostProvisioningInitialize(ctx context.Context, request OptProvisioningCreateRequest) (res PostProvisioningInitializeRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/management/provisioning/initialize/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodePostProvisioningInitializeRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodePostProvisioningInitializeResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// PublishersList invokes publishers_list operation.
+// ListPublishers invokes listPublishers operation.
 //
 // 連携サービス情報を取得するAPIエンドポイントです。.
 //
 // GET /publishers/
-func (c *Client) PublishersList(ctx context.Context, params PublishersListParams) (*PaginatedPublisherList, error) {
-	res, err := c.sendPublishersList(ctx, params)
+func (c *Client) ListPublishers(ctx context.Context, params ListPublishersParams) (*PaginatedPublisherList, error) {
+	res, err := c.sendListPublishers(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendPublishersList(ctx context.Context, params PublishersListParams) (res *PaginatedPublisherList, err error) {
+func (c *Client) sendListPublishers(ctx context.Context, params ListPublishersParams) (res *PaginatedPublisherList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -7915,7 +4418,7 @@ func (c *Client) sendPublishersList(ctx context.Context, params PublishersListPa
 		_ = body.Close()
 	}()
 
-	result, err := decodePublishersListResponse(resp)
+	result, err := decodeListPublishersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -7923,371 +4426,30 @@ func (c *Client) sendPublishersList(ctx context.Context, params PublishersListPa
 	return result, nil
 }
 
-// PublishersRetrieve invokes publishers_retrieve operation.
-//
-// 連携サービス情報を取得するAPIエンドポイントです。.
-//
-// GET /publishers/{code}/
-func (c *Client) PublishersRetrieve(ctx context.Context, params PublishersRetrieveParams) (*WrappedPublisher, error) {
-	res, err := c.sendPublishersRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendPublishersRetrieve(ctx context.Context, params PublishersRetrieveParams) (res *WrappedPublisher, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/publishers/"
-	{
-		// Encode "code" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "code",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.Code))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodePublishersRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// TracesStoragesCreate invokes traces_storages_create operation.
-//
-// トレースストレージを管理するためのAPIエンドポイントです。.
-//
-// POST /traces/storages/
-func (c *Client) TracesStoragesCreate(ctx context.Context, request *TraceStorageCreateRequest) (*TraceStorage, error) {
-	res, err := c.sendTracesStoragesCreate(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendTracesStoragesCreate(ctx context.Context, request *TraceStorageCreateRequest) (res *TraceStorage, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/traces/storages/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeTracesStoragesCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeTracesStoragesCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// TracesStoragesDestroy invokes traces_storages_destroy operation.
-//
-// トレースストレージを管理するためのAPIエンドポイントです。.
-//
-// DELETE /traces/storages/{resource_id}/
-func (c *Client) TracesStoragesDestroy(ctx context.Context, params TracesStoragesDestroyParams) error {
-	_, err := c.sendTracesStoragesDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendTracesStoragesDestroy(ctx context.Context, params TracesStoragesDestroyParams) (res *TracesStoragesDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/traces/storages/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeTracesStoragesDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// TracesStoragesKeysCreate invokes traces_storages_keys_create operation.
+// ListTraceStorageKeys invokes listTraceStorageKeys operation.
 //
 // トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// POST /traces/storages/{trace_resource_id}/keys/
-func (c *Client) TracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysCreateParams) (*WrappedTraceStorageAccessKey, error) {
-	res, err := c.sendTracesStoragesKeysCreate(ctx, request, params)
+// GET /traces/storages/{traceResourceId}/keys/
+func (c *Client) ListTraceStorageKeys(ctx context.Context, params ListTraceStorageKeysParams) (*PaginatedTraceStorageAccessKeyList, error) {
+	res, err := c.sendListTraceStorageKeys(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysCreateParams) (res *WrappedTraceStorageAccessKey, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
+func (c *Client) sendListTraceStorageKeys(ctx context.Context, params ListTraceStorageKeysParams) (res *PaginatedTraceStorageAccessKeyList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
 	pathParts[0] = "/traces/storages/"
 	{
-		// Encode "trace_resource_id" parameter.
+		// Encode "traceResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "trace_resource_id",
+			Param:   "traceResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeTracesStoragesKeysCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeTracesStoragesKeysCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// TracesStoragesKeysDestroy invokes traces_storages_keys_destroy operation.
-//
-// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// DELETE /traces/storages/{trace_resource_id}/keys/{uid}/
-func (c *Client) TracesStoragesKeysDestroy(ctx context.Context, params TracesStoragesKeysDestroyParams) error {
-	_, err := c.sendTracesStoragesKeysDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendTracesStoragesKeysDestroy(ctx context.Context, params TracesStoragesKeysDestroyParams) (res *TracesStoragesKeysDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/traces/storages/"
-	{
-		// Encode "trace_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "trace_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeTracesStoragesKeysDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// TracesStoragesKeysList invokes traces_storages_keys_list operation.
-//
-// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// GET /traces/storages/{trace_resource_id}/keys/
-func (c *Client) TracesStoragesKeysList(ctx context.Context, params TracesStoragesKeysListParams) (*PaginatedTraceStorageAccessKeyList, error) {
-	res, err := c.sendTracesStoragesKeysList(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendTracesStoragesKeysList(ctx context.Context, params TracesStoragesKeysListParams) (res *PaginatedTraceStorageAccessKeyList, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/traces/storages/"
-	{
-		// Encode "trace_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "trace_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -8355,7 +4517,7 @@ func (c *Client) sendTracesStoragesKeysList(ctx context.Context, params TracesSt
 		_ = body.Close()
 	}()
 
-	result, err := decodeTracesStoragesKeysListResponse(resp)
+	result, err := decodeListTraceStorageKeysResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8363,298 +4525,17 @@ func (c *Client) sendTracesStoragesKeysList(ctx context.Context, params TracesSt
 	return result, nil
 }
 
-// TracesStoragesKeysPartialUpdate invokes traces_storages_keys_partial_update operation.
-//
-// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// PATCH /traces/storages/{trace_resource_id}/keys/{uid}/
-func (c *Client) TracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKeyRequest, params TracesStoragesKeysPartialUpdateParams) (*WrappedTraceStorageAccessKey, error) {
-	res, err := c.sendTracesStoragesKeysPartialUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendTracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKeyRequest, params TracesStoragesKeysPartialUpdateParams) (res *WrappedTraceStorageAccessKey, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/traces/storages/"
-	{
-		// Encode "trace_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "trace_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeTracesStoragesKeysPartialUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeTracesStoragesKeysPartialUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// TracesStoragesKeysRetrieve invokes traces_storages_keys_retrieve operation.
-//
-// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// GET /traces/storages/{trace_resource_id}/keys/{uid}/
-func (c *Client) TracesStoragesKeysRetrieve(ctx context.Context, params TracesStoragesKeysRetrieveParams) (*WrappedTraceStorageAccessKey, error) {
-	res, err := c.sendTracesStoragesKeysRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendTracesStoragesKeysRetrieve(ctx context.Context, params TracesStoragesKeysRetrieveParams) (res *WrappedTraceStorageAccessKey, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/traces/storages/"
-	{
-		// Encode "trace_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "trace_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeTracesStoragesKeysRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// TracesStoragesKeysUpdate invokes traces_storages_keys_update operation.
-//
-// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
-//
-// PUT /traces/storages/{trace_resource_id}/keys/{uid}/
-func (c *Client) TracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysUpdateParams) (*WrappedTraceStorageAccessKey, error) {
-	res, err := c.sendTracesStoragesKeysUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendTracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysUpdateParams) (res *WrappedTraceStorageAccessKey, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/traces/storages/"
-	{
-		// Encode "trace_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "trace_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "uid" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "uid",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.UID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeTracesStoragesKeysUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeTracesStoragesKeysUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// TracesStoragesList invokes traces_storages_list operation.
+// ListTraceStorages invokes listTraceStorages operation.
 //
 // トレースストレージを管理するためのAPIエンドポイントです。.
 //
 // GET /traces/storages/
-func (c *Client) TracesStoragesList(ctx context.Context, params TracesStoragesListParams) (*PaginatedTraceStorageList, error) {
-	res, err := c.sendTracesStoragesList(ctx, params)
+func (c *Client) ListTraceStorages(ctx context.Context, params ListTraceStoragesParams) (*PaginatedTraceStorageList, error) {
+	res, err := c.sendListTraceStorages(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesList(ctx context.Context, params TracesStoragesListParams) (res *PaginatedTraceStorageList, err error) {
+func (c *Client) sendListTraceStorages(ctx context.Context, params ListTraceStoragesParams) (res *PaginatedTraceStorageList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -8767,7 +4648,7 @@ func (c *Client) sendTracesStoragesList(ctx context.Context, params TracesStorag
 		_ = body.Close()
 	}()
 
-	result, err := decodeTracesStoragesListResponse(resp)
+	result, err := decodeListTraceStoragesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8775,17 +4656,1103 @@ func (c *Client) sendTracesStoragesList(ctx context.Context, params TracesStorag
 	return result, nil
 }
 
-// TracesStoragesPartialUpdate invokes traces_storages_partial_update operation.
+// PatchAlertProject invokes patchAlertProject operation.
 //
-// トレースストレージを管理するためのAPIエンドポイントです。.
+// アラートプロジェクトを管理するためのAPIエンドポイントです。.
 //
-// PATCH /traces/storages/{resource_id}/
-func (c *Client) TracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorageRequest, params TracesStoragesPartialUpdateParams) (*WrappedTraceStorage, error) {
-	res, err := c.sendTracesStoragesPartialUpdate(ctx, request, params)
+// PATCH /alerts/projects/{resourceId}/
+func (c *Client) PatchAlertProject(ctx context.Context, request OptPatchedAlertProjectRequest, params PatchAlertProjectParams) (*WrappedAlertProject, error) {
+	res, err := c.sendPatchAlertProject(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorageRequest, params TracesStoragesPartialUpdateParams) (res *WrappedTraceStorage, err error) {
+func (c *Client) sendPatchAlertProject(ctx context.Context, request OptPatchedAlertProjectRequest, params PatchAlertProjectParams) (res *WrappedAlertProject, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchAlertProjectRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchAlertProjectResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchAlertProjectLogMeasureRule invokes patchAlertProjectLogMeasureRule operation.
+//
+// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+//
+// PATCH /alerts/projects/{projectResourceId}/log-measure-rules/{uid}/
+func (c *Client) PatchAlertProjectLogMeasureRule(ctx context.Context, request OptPatchedLogMeasureRuleRequest, params PatchAlertProjectLogMeasureRuleParams) (*LogMeasureRule, error) {
+	res, err := c.sendPatchAlertProjectLogMeasureRule(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchAlertProjectLogMeasureRule(ctx context.Context, request OptPatchedLogMeasureRuleRequest, params PatchAlertProjectLogMeasureRuleParams) (res *LogMeasureRule, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/log-measure-rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchAlertProjectLogMeasureRuleRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchAlertProjectLogMeasureRuleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchAlertProjectNotificationRouting invokes patchAlertProjectNotificationRouting operation.
+//
+// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+//
+// PATCH /alerts/projects/{projectResourceId}/notification-routings/{uid}/
+func (c *Client) PatchAlertProjectNotificationRouting(ctx context.Context, request OptPatchedNotificationRoutingRequest, params PatchAlertProjectNotificationRoutingParams) (*NotificationRouting, error) {
+	res, err := c.sendPatchAlertProjectNotificationRouting(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchAlertProjectNotificationRouting(ctx context.Context, request OptPatchedNotificationRoutingRequest, params PatchAlertProjectNotificationRoutingParams) (res *NotificationRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchAlertProjectNotificationRoutingRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchAlertProjectNotificationRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchAlertProjectNotificationTarget invokes patchAlertProjectNotificationTarget operation.
+//
+// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
+//
+// PATCH /alerts/projects/{projectResourceId}/notification-targets/{uid}/
+func (c *Client) PatchAlertProjectNotificationTarget(ctx context.Context, request OptPatchedNotificationTargetRequest, params PatchAlertProjectNotificationTargetParams) (*NotificationTarget, error) {
+	res, err := c.sendPatchAlertProjectNotificationTarget(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchAlertProjectNotificationTarget(ctx context.Context, request OptPatchedNotificationTargetRequest, params PatchAlertProjectNotificationTargetParams) (res *NotificationTarget, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-targets/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchAlertProjectNotificationTargetRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchAlertProjectNotificationTargetResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchAlertProjectRule invokes patchAlertProjectRule operation.
+//
+// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
+//
+// PATCH /alerts/projects/{projectResourceId}/rules/{uid}/
+func (c *Client) PatchAlertProjectRule(ctx context.Context, request OptPatchedAlertRuleRequest, params PatchAlertProjectRuleParams) (*AlertRule, error) {
+	res, err := c.sendPatchAlertProjectRule(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchAlertProjectRule(ctx context.Context, request OptPatchedAlertRuleRequest, params PatchAlertProjectRuleParams) (res *AlertRule, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchAlertProjectRuleRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchAlertProjectRuleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchDashboardProject invokes patchDashboardProject operation.
+//
+// ダッシュボードを管理するためのAPIエンドポイントです。.
+//
+// PATCH /dashboards/projects/{resourceId}/
+func (c *Client) PatchDashboardProject(ctx context.Context, request OptPatchedDashboardProjectRequest, params PatchDashboardProjectParams) (*WrappedDashboardProject, error) {
+	res, err := c.sendPatchDashboardProject(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchDashboardProject(ctx context.Context, request OptPatchedDashboardProjectRequest, params PatchDashboardProjectParams) (res *WrappedDashboardProject, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/dashboards/projects/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchDashboardProjectRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchDashboardProjectResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchLogRouting invokes patchLogRouting operation.
+//
+// ログルーティングを管理するためのAPIエンドポイントです。.
+//
+// PATCH /logs/routings/{uid}/
+func (c *Client) PatchLogRouting(ctx context.Context, request OptPatchedLogRoutingRequest, params PatchLogRoutingParams) (*WrappedLogRouting, error) {
+	res, err := c.sendPatchLogRouting(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchLogRouting(ctx context.Context, request OptPatchedLogRoutingRequest, params PatchLogRoutingParams) (res *WrappedLogRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchLogRoutingRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchLogRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchLogStorage invokes patchLogStorage operation.
+//
+// ログストレージを管理するためのAPIエンドポイントです。.
+//
+// PATCH /logs/storages/{resourceId}/
+func (c *Client) PatchLogStorage(ctx context.Context, request OptPatchedLogStorageRequest, params PatchLogStorageParams) (*WrappedLogStorage, error) {
+	res, err := c.sendPatchLogStorage(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchLogStorage(ctx context.Context, request OptPatchedLogStorageRequest, params PatchLogStorageParams) (res *WrappedLogStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchLogStorageRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchLogStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchLogStorageKey invokes patchLogStorageKey operation.
+//
+// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// PATCH /logs/storages/{logResourceId}/keys/{uid}/
+func (c *Client) PatchLogStorageKey(ctx context.Context, request OptPatchedLogStorageAccessKeyRequest, params PatchLogStorageKeyParams) (*WrappedLogStorageAccessKey, error) {
+	res, err := c.sendPatchLogStorageKey(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchLogStorageKey(ctx context.Context, request OptPatchedLogStorageAccessKeyRequest, params PatchLogStorageKeyParams) (res *WrappedLogStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "logResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "logResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.LogResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchLogStorageKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchLogStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchMetricRouting invokes patchMetricRouting operation.
+//
+// メトリクスルーティングを管理するためのAPIエンドポイントです。.
+//
+// PATCH /metrics/routings/{uid}/
+func (c *Client) PatchMetricRouting(ctx context.Context, request OptPatchedMetricsRoutingRequest, params PatchMetricRoutingParams) (*WrappedMetricsRouting, error) {
+	res, err := c.sendPatchMetricRouting(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchMetricRouting(ctx context.Context, request OptPatchedMetricsRoutingRequest, params PatchMetricRoutingParams) (res *WrappedMetricsRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchMetricRoutingRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchMetricRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchMetricStorage invokes patchMetricStorage operation.
+//
+// メトリクスストレージを管理するためのAPIエンドポイントです。.
+//
+// PATCH /metrics/storages/{resourceId}/
+func (c *Client) PatchMetricStorage(ctx context.Context, request OptPatchedMetricsStorageRequest, params PatchMetricStorageParams) (*WrappedMetricsStorage, error) {
+	res, err := c.sendPatchMetricStorage(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchMetricStorage(ctx context.Context, request OptPatchedMetricsStorageRequest, params PatchMetricStorageParams) (res *WrappedMetricsStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchMetricStorageRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchMetricStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchMetricStorageKey invokes patchMetricStorageKey operation.
+//
+// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// PATCH /metrics/storages/{metricsResourceId}/keys/{uid}/
+func (c *Client) PatchMetricStorageKey(ctx context.Context, request OptPatchedMetricsStorageAccessKeyRequest, params PatchMetricStorageKeyParams) (*WrappedMetricsStorageAccessKey, error) {
+	res, err := c.sendPatchMetricStorageKey(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchMetricStorageKey(ctx context.Context, request OptPatchedMetricsStorageAccessKeyRequest, params PatchMetricStorageKeyParams) (res *WrappedMetricsStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "metricsResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "metricsResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchMetricStorageKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchMetricStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PatchTraceStorage invokes patchTraceStorage operation.
+//
+// トレースストレージを管理するためのAPIエンドポイントです。.
+//
+// PATCH /traces/storages/{resourceId}/
+func (c *Client) PatchTraceStorage(ctx context.Context, request OptPatchedTraceStorageRequest, params PatchTraceStorageParams) (*WrappedTraceStorage, error) {
+	res, err := c.sendPatchTraceStorage(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPatchTraceStorage(ctx context.Context, request OptPatchedTraceStorageRequest, params PatchTraceStorageParams) (res *WrappedTraceStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -8807,14 +5774,14 @@ func (c *Client) sendTracesStoragesPartialUpdate(ctx context.Context, request Op
 	var pathParts [3]string
 	pathParts[0] = "/traces/storages/"
 	{
-		// Encode "resource_id" parameter.
+		// Encode "resourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
+			Param:   "resourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -8831,7 +5798,7 @@ func (c *Client) sendTracesStoragesPartialUpdate(ctx context.Context, request Op
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeTracesStoragesPartialUpdateRequest(request, r); err != nil {
+	if err := encodePatchTraceStorageRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -8848,7 +5815,7 @@ func (c *Client) sendTracesStoragesPartialUpdate(ctx context.Context, request Op
 		_ = body.Close()
 	}()
 
-	result, err := decodeTracesStoragesPartialUpdateResponse(resp)
+	result, err := decodePatchTraceStorageResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8856,30 +5823,130 @@ func (c *Client) sendTracesStoragesPartialUpdate(ctx context.Context, request Op
 	return result, nil
 }
 
-// TracesStoragesRetrieve invokes traces_storages_retrieve operation.
+// PatchTraceStorageKey invokes patchTraceStorageKey operation.
 //
-// トレースストレージを管理するためのAPIエンドポイントです。.
+// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// GET /traces/storages/{resource_id}/
-func (c *Client) TracesStoragesRetrieve(ctx context.Context, params TracesStoragesRetrieveParams) (*WrappedTraceStorage, error) {
-	res, err := c.sendTracesStoragesRetrieve(ctx, params)
+// PATCH /traces/storages/{traceResourceId}/keys/{uid}/
+func (c *Client) PatchTraceStorageKey(ctx context.Context, request OptPatchedTraceStorageAccessKeyRequest, params PatchTraceStorageKeyParams) (*WrappedTraceStorageAccessKey, error) {
+	res, err := c.sendPatchTraceStorageKey(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesRetrieve(ctx context.Context, params TracesStoragesRetrieveParams) (res *WrappedTraceStorage, err error) {
+func (c *Client) sendPatchTraceStorageKey(ctx context.Context, request OptPatchedTraceStorageAccessKeyRequest, params PatchTraceStorageKeyParams) (res *WrappedTraceStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
+	var pathParts [5]string
 	pathParts[0] = "/traces/storages/"
 	{
-		// Encode "resource_id" parameter.
+		// Encode "traceResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
+			Param:   "traceResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchTraceStorageKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchTraceStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadAlertProject invokes readAlertProject operation.
+//
+// アラートプロジェクトを管理するためのAPIエンドポイントです。.
+//
+// GET /alerts/projects/{resourceId}/
+func (c *Client) ReadAlertProject(ctx context.Context, params ReadAlertProjectParams) (*WrappedAlertProject, error) {
+	res, err := c.sendReadAlertProject(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadAlertProject(ctx context.Context, params ReadAlertProjectParams) (res *WrappedAlertProject, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -8910,7 +5977,7 @@ func (c *Client) sendTracesStoragesRetrieve(ctx context.Context, params TracesSt
 		_ = body.Close()
 	}()
 
-	result, err := decodeTracesStoragesRetrieveResponse(resp)
+	result, err := decodeReadAlertProjectResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8918,39 +5985,30 @@ func (c *Client) sendTracesStoragesRetrieve(ctx context.Context, params TracesSt
 	return result, nil
 }
 
-// TracesStoragesSetExpireCreate invokes traces_storages_set_expire_create operation.
+// ReadAlertProjectHistory invokes readAlertProjectHistory operation.
 //
-// トレースストレージの保存期間を設定します。.
+// アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
 //
-// POST /traces/storages/{resource_id}/set-expire/
-func (c *Client) TracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDayRequest, params TracesStoragesSetExpireCreateParams) (*TraceStorage, error) {
-	res, err := c.sendTracesStoragesSetExpireCreate(ctx, request, params)
+// GET /alerts/projects/{projectResourceId}/histories/{uid}/
+func (c *Client) ReadAlertProjectHistory(ctx context.Context, params ReadAlertProjectHistoryParams) (*History, error) {
+	res, err := c.sendReadAlertProjectHistory(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDayRequest, params TracesStoragesSetExpireCreateParams) (res *TraceStorage, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
+func (c *Client) sendReadAlertProjectHistory(ctx context.Context, params ReadAlertProjectHistoryParams) (res *History, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/traces/storages/"
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "resource_id" parameter.
+		// Encode "projectResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
+			Param:   "projectResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -8960,15 +6018,31 @@ func (c *Client) sendTracesStoragesSetExpireCreate(ctx context.Context, request 
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/set-expire/"
+	pathParts[2] = "/histories/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "POST", u)
+	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeTracesStoragesSetExpireCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
 	}
 
 	resp, err := c.cfg.Client.Do(r)
@@ -8984,7 +6058,7 @@ func (c *Client) sendTracesStoragesSetExpireCreate(ctx context.Context, request 
 		_ = body.Close()
 	}()
 
-	result, err := decodeTracesStoragesSetExpireCreateResponse(resp)
+	result, err := decodeReadAlertProjectHistoryResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8992,30 +6066,721 @@ func (c *Client) sendTracesStoragesSetExpireCreate(ctx context.Context, request 
 	return result, nil
 }
 
-// TracesStoragesStatsDailyRetrieve invokes traces_storages_stats_daily_retrieve operation.
+// ReadAlertProjectLogMeasureRule invokes readAlertProjectLogMeasureRule operation.
 //
-// トレースストレージの日次利用状況を取得します。.
+// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
 //
-// GET /traces/storages/{resource_id}/stats/daily/
-func (c *Client) TracesStoragesStatsDailyRetrieve(ctx context.Context, params TracesStoragesStatsDailyRetrieveParams) (*TraceStorageDailyUsageBody, error) {
-	res, err := c.sendTracesStoragesStatsDailyRetrieve(ctx, params)
+// GET /alerts/projects/{projectResourceId}/log-measure-rules/{uid}/
+func (c *Client) ReadAlertProjectLogMeasureRule(ctx context.Context, params ReadAlertProjectLogMeasureRuleParams) (*LogMeasureRule, error) {
+	res, err := c.sendReadAlertProjectLogMeasureRule(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesStatsDailyRetrieve(ctx context.Context, params TracesStoragesStatsDailyRetrieveParams) (res *TraceStorageDailyUsageBody, err error) {
+func (c *Client) sendReadAlertProjectLogMeasureRule(ctx context.Context, params ReadAlertProjectLogMeasureRuleParams) (res *LogMeasureRule, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/traces/storages/"
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "resource_id" parameter.
+		// Encode "projectResourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
+			Param:   "projectResourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/log-measure-rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadAlertProjectLogMeasureRuleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadAlertProjectNotificationRouting invokes readAlertProjectNotificationRouting operation.
+//
+// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+//
+// GET /alerts/projects/{projectResourceId}/notification-routings/{uid}/
+func (c *Client) ReadAlertProjectNotificationRouting(ctx context.Context, params ReadAlertProjectNotificationRoutingParams) (*NotificationRouting, error) {
+	res, err := c.sendReadAlertProjectNotificationRouting(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadAlertProjectNotificationRouting(ctx context.Context, params ReadAlertProjectNotificationRoutingParams) (res *NotificationRouting, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadAlertProjectNotificationRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadAlertProjectNotificationTarget invokes readAlertProjectNotificationTarget operation.
+//
+// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
+//
+// GET /alerts/projects/{projectResourceId}/notification-targets/{uid}/
+func (c *Client) ReadAlertProjectNotificationTarget(ctx context.Context, params ReadAlertProjectNotificationTargetParams) (*NotificationTarget, error) {
+	res, err := c.sendReadAlertProjectNotificationTarget(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadAlertProjectNotificationTarget(ctx context.Context, params ReadAlertProjectNotificationTargetParams) (res *NotificationTarget, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-targets/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadAlertProjectNotificationTargetResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadAlertProjectRule invokes readAlertProjectRule operation.
+//
+// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
+//
+// GET /alerts/projects/{projectResourceId}/rules/{uid}/
+func (c *Client) ReadAlertProjectRule(ctx context.Context, params ReadAlertProjectRuleParams) (*AlertRule, error) {
+	res, err := c.sendReadAlertProjectRule(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadAlertProjectRule(ctx context.Context, params ReadAlertProjectRuleParams) (res *AlertRule, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadAlertProjectRuleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadAlertProjectRuleHistory invokes readAlertProjectRuleHistory operation.
+//
+// ルール内のアラート履歴を取得するAPIエンドポイントです。.
+//
+// GET /alerts/projects/{projectResourceId}/rules/{ruleUid}/histories/{uid}/
+func (c *Client) ReadAlertProjectRuleHistory(ctx context.Context, params ReadAlertProjectRuleHistoryParams) (*History, error) {
+	res, err := c.sendReadAlertProjectRuleHistory(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadAlertProjectRuleHistory(ctx context.Context, params ReadAlertProjectRuleHistoryParams) (res *History, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [7]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/rules/"
+	{
+		// Encode "ruleUid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "ruleUid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.RuleUid))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/histories/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[5] = encoded
+	}
+	pathParts[6] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadAlertProjectRuleHistoryResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadDashboardProject invokes readDashboardProject operation.
+//
+// ダッシュボードを管理するためのAPIエンドポイントです。.
+//
+// GET /dashboards/projects/{resourceId}/
+func (c *Client) ReadDashboardProject(ctx context.Context, params ReadDashboardProjectParams) (*WrappedDashboardProject, error) {
+	res, err := c.sendReadDashboardProject(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadDashboardProject(ctx context.Context, params ReadDashboardProjectParams) (res *WrappedDashboardProject, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/dashboards/projects/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadDashboardProjectResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadLogRouting invokes readLogRouting operation.
+//
+// ログルーティングを管理するためのAPIエンドポイントです。.
+//
+// GET /logs/routings/{uid}/
+func (c *Client) ReadLogRouting(ctx context.Context, params ReadLogRoutingParams) (*WrappedLogRouting, error) {
+	res, err := c.sendReadLogRouting(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadLogRouting(ctx context.Context, params ReadLogRoutingParams) (res *WrappedLogRouting, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadLogRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadLogStorage invokes readLogStorage operation.
+//
+// ログストレージを管理するためのAPIエンドポイントです。.
+//
+// GET /logs/storages/{resourceId}/
+func (c *Client) ReadLogStorage(ctx context.Context, params ReadLogStorageParams) (*WrappedLogStorage, error) {
+	res, err := c.sendReadLogStorage(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadLogStorage(ctx context.Context, params ReadLogStorageParams) (res *WrappedLogStorage, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadLogStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadLogStorageKey invokes readLogStorageKey operation.
+//
+// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// GET /logs/storages/{logResourceId}/keys/{uid}/
+func (c *Client) ReadLogStorageKey(ctx context.Context, params ReadLogStorageKeyParams) (*WrappedLogStorageAccessKey, error) {
+	res, err := c.sendReadLogStorageKey(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadLogStorageKey(ctx context.Context, params ReadLogStorageKeyParams) (res *WrappedLogStorageAccessKey, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "logResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "logResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.LogResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadLogStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadLogStorageStatsDaily invokes readLogStorageStatsDaily operation.
+//
+// ログストレージの日次利用状況を取得します。.
+//
+// GET /logs/storages/{resourceId}/stats/daily/
+func (c *Client) ReadLogStorageStatsDaily(ctx context.Context, params ReadLogStorageStatsDailyParams) (*LogStorageDailyUsageBody, error) {
+	res, err := c.sendReadLogStorageStatsDaily(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadLogStorageStatsDaily(ctx context.Context, params ReadLogStorageStatsDailyParams) (res *LogStorageDailyUsageBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -9083,7 +6848,7 @@ func (c *Client) sendTracesStoragesStatsDailyRetrieve(ctx context.Context, param
 		_ = body.Close()
 	}()
 
-	result, err := decodeTracesStoragesStatsDailyRetrieveResponse(resp)
+	result, err := decodeReadLogStorageStatsDailyResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -9091,30 +6856,30 @@ func (c *Client) sendTracesStoragesStatsDailyRetrieve(ctx context.Context, param
 	return result, nil
 }
 
-// TracesStoragesStatsMonthlyRetrieve invokes traces_storages_stats_monthly_retrieve operation.
+// ReadLogStorageStatsMonthly invokes readLogStorageStatsMonthly operation.
 //
-// トレースストレージの月次利用状況を取得します。.
+// ログストレージの月次利用状況を取得します。.
 //
-// GET /traces/storages/{resource_id}/stats/monthly/
-func (c *Client) TracesStoragesStatsMonthlyRetrieve(ctx context.Context, params TracesStoragesStatsMonthlyRetrieveParams) (*TraceStorageMonthlyUsageBody, error) {
-	res, err := c.sendTracesStoragesStatsMonthlyRetrieve(ctx, params)
+// GET /logs/storages/{resourceId}/stats/monthly/
+func (c *Client) ReadLogStorageStatsMonthly(ctx context.Context, params ReadLogStorageStatsMonthlyParams) (*LogStorageMonthlyUsageBody, error) {
+	res, err := c.sendReadLogStorageStatsMonthly(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesStatsMonthlyRetrieve(ctx context.Context, params TracesStoragesStatsMonthlyRetrieveParams) (res *TraceStorageMonthlyUsageBody, err error) {
+func (c *Client) sendReadLogStorageStatsMonthly(ctx context.Context, params ReadLogStorageStatsMonthlyParams) (res *LogStorageMonthlyUsageBody, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
-	pathParts[0] = "/traces/storages/"
+	pathParts[0] = "/logs/storages/"
 	{
-		// Encode "resource_id" parameter.
+		// Encode "resourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
+			Param:   "resourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -9162,7 +6927,7 @@ func (c *Client) sendTracesStoragesStatsMonthlyRetrieve(ctx context.Context, par
 		_ = body.Close()
 	}()
 
-	result, err := decodeTracesStoragesStatsMonthlyRetrieveResponse(resp)
+	result, err := decodeReadLogStorageStatsMonthlyResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -9170,17 +6935,2152 @@ func (c *Client) sendTracesStoragesStatsMonthlyRetrieve(ctx context.Context, par
 	return result, nil
 }
 
-// TracesStoragesUpdate invokes traces_storages_update operation.
+// ReadMetricRouting invokes readMetricRouting operation.
 //
-// トレースストレージを管理するためのAPIエンドポイントです。.
+// メトリクスルーティングを管理するためのAPIエンドポイントです。.
 //
-// PUT /traces/storages/{resource_id}/
-func (c *Client) TracesStoragesUpdate(ctx context.Context, request OptTraceStorageRequest, params TracesStoragesUpdateParams) (*WrappedTraceStorage, error) {
-	res, err := c.sendTracesStoragesUpdate(ctx, request, params)
+// GET /metrics/routings/{uid}/
+func (c *Client) ReadMetricRouting(ctx context.Context, params ReadMetricRoutingParams) (*WrappedMetricsRouting, error) {
+	res, err := c.sendReadMetricRouting(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesUpdate(ctx context.Context, request OptTraceStorageRequest, params TracesStoragesUpdateParams) (res *WrappedTraceStorage, err error) {
+func (c *Client) sendReadMetricRouting(ctx context.Context, params ReadMetricRoutingParams) (res *WrappedMetricsRouting, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadMetricRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadMetricStorage invokes readMetricStorage operation.
+//
+// メトリクスストレージを管理するためのAPIエンドポイントです。.
+//
+// GET /metrics/storages/{resourceId}/
+func (c *Client) ReadMetricStorage(ctx context.Context, params ReadMetricStorageParams) (*WrappedMetricsStorage, error) {
+	res, err := c.sendReadMetricStorage(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadMetricStorage(ctx context.Context, params ReadMetricStorageParams) (res *WrappedMetricsStorage, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadMetricStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadMetricStorageKey invokes readMetricStorageKey operation.
+//
+// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// GET /metrics/storages/{metricsResourceId}/keys/{uid}/
+func (c *Client) ReadMetricStorageKey(ctx context.Context, params ReadMetricStorageKeyParams) (*WrappedMetricsStorageAccessKey, error) {
+	res, err := c.sendReadMetricStorageKey(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadMetricStorageKey(ctx context.Context, params ReadMetricStorageKeyParams) (res *WrappedMetricsStorageAccessKey, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "metricsResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "metricsResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadMetricStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadMetricStorageStatsDaily invokes readMetricStorageStatsDaily operation.
+//
+// メトリクスストレージの日次利用状況を取得します。.
+//
+// GET /metrics/storages/{resourceId}/stats/daily/
+func (c *Client) ReadMetricStorageStatsDaily(ctx context.Context, params ReadMetricStorageStatsDailyParams) (*MetricsStorageDailyUsageBody, error) {
+	res, err := c.sendReadMetricStorageStatsDaily(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadMetricStorageStatsDaily(ctx context.Context, params ReadMetricStorageStatsDailyParams) (res *MetricsStorageDailyUsageBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/stats/daily/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "end_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "end_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.EndDate.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "start_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "start_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.StartDate.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadMetricStorageStatsDailyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadMetricStorageStatsMonthly invokes readMetricStorageStatsMonthly operation.
+//
+// メトリクスストレージの月次利用状況を取得します。.
+//
+// GET /metrics/storages/{resourceId}/stats/monthly/
+func (c *Client) ReadMetricStorageStatsMonthly(ctx context.Context, params ReadMetricStorageStatsMonthlyParams) (*MetricsStorageMonthlyUsageBody, error) {
+	res, err := c.sendReadMetricStorageStatsMonthly(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadMetricStorageStatsMonthly(ctx context.Context, params ReadMetricStorageStatsMonthlyParams) (res *MetricsStorageMonthlyUsageBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/stats/monthly/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "year" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "year",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.IntToString(params.Year))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadMetricStorageStatsMonthlyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadProvisioningState invokes readProvisioningState operation.
+//
+// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング状態を確認するAPIエンドポイントです。.
+//
+// GET /management/provisioning/state/
+func (c *Client) ReadProvisioningState(ctx context.Context) (*Provisioning, error) {
+	res, err := c.sendReadProvisioningState(ctx)
+	return res, err
+}
+
+func (c *Client) sendReadProvisioningState(ctx context.Context) (res *Provisioning, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/management/provisioning/state/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadProvisioningStateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadPublisher invokes readPublisher operation.
+//
+// 連携サービス情報を取得するAPIエンドポイントです。.
+//
+// GET /publishers/{code}/
+func (c *Client) ReadPublisher(ctx context.Context, params ReadPublisherParams) (*WrappedPublisher, error) {
+	res, err := c.sendReadPublisher(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadPublisher(ctx context.Context, params ReadPublisherParams) (res *WrappedPublisher, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/publishers/"
+	{
+		// Encode "code" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "code",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.Code))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadPublisherResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadResourceLimits invokes readResourceLimits operation.
+//
+// アカウントのリソース上限（ログストレージ、メトリクスストレージ、アラートプロジェクト、ダッシュボード）を取得するAPIエンドポイントです。.
+//
+// GET /management/limits/
+func (c *Client) ReadResourceLimits(ctx context.Context) (*ResourcesLimits, error) {
+	res, err := c.sendReadResourceLimits(ctx)
+	return res, err
+}
+
+func (c *Client) sendReadResourceLimits(ctx context.Context) (res *ResourcesLimits, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/management/limits/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadResourceLimitsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadTraceStorage invokes readTraceStorage operation.
+//
+// トレースストレージを管理するためのAPIエンドポイントです。.
+//
+// GET /traces/storages/{resourceId}/
+func (c *Client) ReadTraceStorage(ctx context.Context, params ReadTraceStorageParams) (*WrappedTraceStorage, error) {
+	res, err := c.sendReadTraceStorage(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadTraceStorage(ctx context.Context, params ReadTraceStorageParams) (res *WrappedTraceStorage, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadTraceStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadTraceStorageKey invokes readTraceStorageKey operation.
+//
+// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// GET /traces/storages/{traceResourceId}/keys/{uid}/
+func (c *Client) ReadTraceStorageKey(ctx context.Context, params ReadTraceStorageKeyParams) (*WrappedTraceStorageAccessKey, error) {
+	res, err := c.sendReadTraceStorageKey(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadTraceStorageKey(ctx context.Context, params ReadTraceStorageKeyParams) (res *WrappedTraceStorageAccessKey, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "traceResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "traceResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadTraceStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadTraceStorageStatsDaily invokes readTraceStorageStatsDaily operation.
+//
+// トレースストレージの日次利用状況を取得します。.
+//
+// GET /traces/storages/{resourceId}/stats/daily/
+func (c *Client) ReadTraceStorageStatsDaily(ctx context.Context, params ReadTraceStorageStatsDailyParams) (*TraceStorageDailyUsageBody, error) {
+	res, err := c.sendReadTraceStorageStatsDaily(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadTraceStorageStatsDaily(ctx context.Context, params ReadTraceStorageStatsDailyParams) (res *TraceStorageDailyUsageBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/stats/daily/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "end_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "end_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.EndDate.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "start_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "start_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.StartDate.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadTraceStorageStatsDailyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadTraceStorageStatsMonthly invokes readTraceStorageStatsMonthly operation.
+//
+// トレースストレージの月次利用状況を取得します。.
+//
+// GET /traces/storages/{resourceId}/stats/monthly/
+func (c *Client) ReadTraceStorageStatsMonthly(ctx context.Context, params ReadTraceStorageStatsMonthlyParams) (*TraceStorageMonthlyUsageBody, error) {
+	res, err := c.sendReadTraceStorageStatsMonthly(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadTraceStorageStatsMonthly(ctx context.Context, params ReadTraceStorageStatsMonthlyParams) (res *TraceStorageMonthlyUsageBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/stats/monthly/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "year" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "year",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.IntToString(params.Year))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadTraceStorageStatsMonthlyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReorderAlertProjectNotificationRoutings invokes reorderAlertProjectNotificationRoutings operation.
+//
+// アラートプロジェクト内の通知ルーティングの並び順を一括変更するAPIエンドポイントです。.
+//
+// PUT /alerts/projects/{projectResourceId}/notification-routings/reorder/
+func (c *Client) ReorderAlertProjectNotificationRoutings(ctx context.Context, request []NotificationRoutingOrderRequest, params ReorderAlertProjectNotificationRoutingsParams) error {
+	_, err := c.sendReorderAlertProjectNotificationRoutings(ctx, request, params)
+	return err
+}
+
+func (c *Client) sendReorderAlertProjectNotificationRoutings(ctx context.Context, request []NotificationRoutingOrderRequest, params ReorderAlertProjectNotificationRoutingsParams) (res *ReorderAlertProjectNotificationRoutingsNoContent, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if request == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range request {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/reorder/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeReorderAlertProjectNotificationRoutingsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReorderAlertProjectNotificationRoutingsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// SetLogStorageExpire invokes setLogStorageExpire operation.
+//
+// ログストレージの保存期間を設定します。.
+//
+// POST /logs/storages/{resourceId}/set-expire/
+func (c *Client) SetLogStorageExpire(ctx context.Context, request *SetLogStorageExpireDayRequest, params SetLogStorageExpireParams) (*LogStorage, error) {
+	res, err := c.sendSetLogStorageExpire(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendSetLogStorageExpire(ctx context.Context, request *SetLogStorageExpireDayRequest, params SetLogStorageExpireParams) (res *LogStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/set-expire/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeSetLogStorageExpireRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeSetLogStorageExpireResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// SetTraceStorageExpire invokes setTraceStorageExpire operation.
+//
+// トレースストレージの保存期間を設定します。.
+//
+// POST /traces/storages/{resourceId}/set-expire/
+func (c *Client) SetTraceStorageExpire(ctx context.Context, request *SetTraceStorageExpireDayRequest, params SetTraceStorageExpireParams) (*TraceStorage, error) {
+	res, err := c.sendSetTraceStorageExpire(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendSetTraceStorageExpire(ctx context.Context, request *SetTraceStorageExpireDayRequest, params SetTraceStorageExpireParams) (res *TraceStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/set-expire/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeSetTraceStorageExpireRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeSetTraceStorageExpireResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateAlertProject invokes updateAlertProject operation.
+//
+// アラートプロジェクトを管理するためのAPIエンドポイントです。.
+//
+// PUT /alerts/projects/{resourceId}/
+func (c *Client) UpdateAlertProject(ctx context.Context, request OptAlertProjectRequest, params UpdateAlertProjectParams) (*WrappedAlertProject, error) {
+	res, err := c.sendUpdateAlertProject(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateAlertProject(ctx context.Context, request OptAlertProjectRequest, params UpdateAlertProjectParams) (res *WrappedAlertProject, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateAlertProjectRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateAlertProjectResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateAlertProjectLogMeasureRule invokes updateAlertProjectLogMeasureRule operation.
+//
+// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+//
+// PUT /alerts/projects/{projectResourceId}/log-measure-rules/{uid}/
+func (c *Client) UpdateAlertProjectLogMeasureRule(ctx context.Context, request *LogMeasureRuleRequest, params UpdateAlertProjectLogMeasureRuleParams) (*LogMeasureRule, error) {
+	res, err := c.sendUpdateAlertProjectLogMeasureRule(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateAlertProjectLogMeasureRule(ctx context.Context, request *LogMeasureRuleRequest, params UpdateAlertProjectLogMeasureRuleParams) (res *LogMeasureRule, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/log-measure-rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateAlertProjectLogMeasureRuleRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateAlertProjectLogMeasureRuleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateAlertProjectNotificationRouting invokes updateAlertProjectNotificationRouting operation.
+//
+// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+//
+// PUT /alerts/projects/{projectResourceId}/notification-routings/{uid}/
+func (c *Client) UpdateAlertProjectNotificationRouting(ctx context.Context, request *NotificationRoutingRequest, params UpdateAlertProjectNotificationRoutingParams) (*NotificationRouting, error) {
+	res, err := c.sendUpdateAlertProjectNotificationRouting(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateAlertProjectNotificationRouting(ctx context.Context, request *NotificationRoutingRequest, params UpdateAlertProjectNotificationRoutingParams) (res *NotificationRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateAlertProjectNotificationRoutingRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateAlertProjectNotificationRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateAlertProjectNotificationTarget invokes updateAlertProjectNotificationTarget operation.
+//
+// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
+//
+// PUT /alerts/projects/{projectResourceId}/notification-targets/{uid}/
+func (c *Client) UpdateAlertProjectNotificationTarget(ctx context.Context, request *NotificationTargetRequest, params UpdateAlertProjectNotificationTargetParams) (*NotificationTarget, error) {
+	res, err := c.sendUpdateAlertProjectNotificationTarget(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateAlertProjectNotificationTarget(ctx context.Context, request *NotificationTargetRequest, params UpdateAlertProjectNotificationTargetParams) (res *NotificationTarget, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-targets/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateAlertProjectNotificationTargetRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateAlertProjectNotificationTargetResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateAlertProjectRule invokes updateAlertProjectRule operation.
+//
+// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
+//
+// PUT /alerts/projects/{projectResourceId}/rules/{uid}/
+func (c *Client) UpdateAlertProjectRule(ctx context.Context, request *AlertRuleRequest, params UpdateAlertProjectRuleParams) (*AlertRule, error) {
+	res, err := c.sendUpdateAlertProjectRule(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateAlertProjectRule(ctx context.Context, request *AlertRuleRequest, params UpdateAlertProjectRuleParams) (res *AlertRule, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "projectResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "projectResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateAlertProjectRuleRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateAlertProjectRuleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateDashboardProject invokes updateDashboardProject operation.
+//
+// ダッシュボードを管理するためのAPIエンドポイントです。.
+//
+// PUT /dashboards/projects/{resourceId}/
+func (c *Client) UpdateDashboardProject(ctx context.Context, request OptDashboardProjectRequest, params UpdateDashboardProjectParams) (*WrappedDashboardProject, error) {
+	res, err := c.sendUpdateDashboardProject(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateDashboardProject(ctx context.Context, request OptDashboardProjectRequest, params UpdateDashboardProjectParams) (res *WrappedDashboardProject, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/dashboards/projects/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateDashboardProjectRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateDashboardProjectResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateLogRouting invokes updateLogRouting operation.
+//
+// ログルーティングを管理するためのAPIエンドポイントです。.
+//
+// PUT /logs/routings/{uid}/
+func (c *Client) UpdateLogRouting(ctx context.Context, request *LogRoutingRequest, params UpdateLogRoutingParams) (*WrappedLogRouting, error) {
+	res, err := c.sendUpdateLogRouting(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateLogRouting(ctx context.Context, request *LogRoutingRequest, params UpdateLogRoutingParams) (res *WrappedLogRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateLogRoutingRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateLogRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateLogStorage invokes updateLogStorage operation.
+//
+// ログストレージを管理するためのAPIエンドポイントです。.
+//
+// PUT /logs/storages/{resourceId}/
+func (c *Client) UpdateLogStorage(ctx context.Context, request OptLogStorageRequest, params UpdateLogStorageParams) (*WrappedLogStorage, error) {
+	res, err := c.sendUpdateLogStorage(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateLogStorage(ctx context.Context, request OptLogStorageRequest, params UpdateLogStorageParams) (res *WrappedLogStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateLogStorageRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateLogStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateLogStorageKey invokes updateLogStorageKey operation.
+//
+// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// PUT /logs/storages/{logResourceId}/keys/{uid}/
+func (c *Client) UpdateLogStorageKey(ctx context.Context, request OptLogStorageAccessKeyRequest, params UpdateLogStorageKeyParams) (*WrappedLogStorageAccessKey, error) {
+	res, err := c.sendUpdateLogStorageKey(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateLogStorageKey(ctx context.Context, request OptLogStorageAccessKeyRequest, params UpdateLogStorageKeyParams) (res *WrappedLogStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "logResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "logResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.LogResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateLogStorageKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateLogStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateMetricRouting invokes updateMetricRouting operation.
+//
+// メトリクスルーティングを管理するためのAPIエンドポイントです。.
+//
+// PUT /metrics/routings/{uid}/
+func (c *Client) UpdateMetricRouting(ctx context.Context, request *MetricsRoutingRequest, params UpdateMetricRoutingParams) (*WrappedMetricsRouting, error) {
+	res, err := c.sendUpdateMetricRouting(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateMetricRouting(ctx context.Context, request *MetricsRoutingRequest, params UpdateMetricRoutingParams) (res *WrappedMetricsRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateMetricRoutingRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateMetricRoutingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateMetricStorage invokes updateMetricStorage operation.
+//
+// メトリクスストレージを管理するためのAPIエンドポイントです。.
+//
+// PUT /metrics/storages/{resourceId}/
+func (c *Client) UpdateMetricStorage(ctx context.Context, request OptMetricsStorageRequest, params UpdateMetricStorageParams) (*WrappedMetricsStorage, error) {
+	res, err := c.sendUpdateMetricStorage(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateMetricStorage(ctx context.Context, request OptMetricsStorageRequest, params UpdateMetricStorageParams) (res *WrappedMetricsStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "resourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateMetricStorageRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateMetricStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateMetricStorageKey invokes updateMetricStorageKey operation.
+//
+// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// PUT /metrics/storages/{metricsResourceId}/keys/{uid}/
+func (c *Client) UpdateMetricStorageKey(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params UpdateMetricStorageKeyParams) (*WrappedMetricsStorageAccessKey, error) {
+	res, err := c.sendUpdateMetricStorageKey(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateMetricStorageKey(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params UpdateMetricStorageKeyParams) (res *WrappedMetricsStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "metricsResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "metricsResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.MetricsResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateMetricStorageKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateMetricStorageKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateTraceStorage invokes updateTraceStorage operation.
+//
+// トレースストレージを管理するためのAPIエンドポイントです。.
+//
+// PUT /traces/storages/{resourceId}/
+func (c *Client) UpdateTraceStorage(ctx context.Context, request OptTraceStorageRequest, params UpdateTraceStorageParams) (*WrappedTraceStorage, error) {
+	res, err := c.sendUpdateTraceStorage(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateTraceStorage(ctx context.Context, request OptTraceStorageRequest, params UpdateTraceStorageParams) (res *WrappedTraceStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -9202,14 +9102,14 @@ func (c *Client) sendTracesStoragesUpdate(ctx context.Context, request OptTraceS
 	var pathParts [3]string
 	pathParts[0] = "/traces/storages/"
 	{
-		// Encode "resource_id" parameter.
+		// Encode "resourceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
+			Param:   "resourceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ResourceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -9226,7 +9126,7 @@ func (c *Client) sendTracesStoragesUpdate(ctx context.Context, request OptTraceS
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeTracesStoragesUpdateRequest(request, r); err != nil {
+	if err := encodeUpdateTraceStorageRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -9243,7 +9143,107 @@ func (c *Client) sendTracesStoragesUpdate(ctx context.Context, request OptTraceS
 		_ = body.Close()
 	}()
 
-	result, err := decodeTracesStoragesUpdateResponse(resp)
+	result, err := decodeUpdateTraceStorageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateTraceStorageKey invokes updateTraceStorageKey operation.
+//
+// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// PUT /traces/storages/{traceResourceId}/keys/{uid}/
+func (c *Client) UpdateTraceStorageKey(ctx context.Context, request OptTraceStorageAccessKeyRequest, params UpdateTraceStorageKeyParams) (*WrappedTraceStorageAccessKey, error) {
+	res, err := c.sendUpdateTraceStorageKey(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateTraceStorageKey(ctx context.Context, request OptTraceStorageAccessKeyRequest, params UpdateTraceStorageKeyParams) (res *WrappedTraceStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "traceResourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "traceResourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateTraceStorageKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateTraceStorageKeyResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

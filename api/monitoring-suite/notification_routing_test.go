@@ -37,7 +37,7 @@ func TestNotificationRoutingService_List(t *testing.T) {
 	api := NewNotificationRoutingOp(client)
 	ctx := t.Context()
 
-	routings, err := api.List(ctx, "12345", new(20), new(0))
+	routings, err := api.List(ctx, "12345", NotificationRoutingsListParams{Count: new(20), From: new(0)})
 	require.NoError(t, err)
 	require.NotNil(t, routings)
 	require.Equal(t, 1, len(routings))
@@ -56,7 +56,7 @@ func TestNotificationRoutingService_List_403(t *testing.T) {
 	api := NewNotificationRoutingOp(client)
 	ctx := t.Context()
 
-	_, err := api.List(ctx, "12345", new(20), new(0))
+	_, err := api.List(ctx, "12345", NotificationRoutingsListParams{Count: new(20), From: new(0)})
 	require.Error(t, err)
 	require.ErrorContains(t, err, "request not authorized")
 }
@@ -244,7 +244,7 @@ func TestNotificationRoutingIntegrated(t *testing.T) {
 	require.Equal(t, created.GetResendIntervalMinutes(), read.GetResendIntervalMinutes())
 
 	// List
-	list, err := api.List(ctx, id, nil, nil)
+	list, err := api.List(ctx, id, NotificationRoutingsListParams{})
 	require.NoError(t, err)
 	require.NotNil(t, list)
 	require.NotEmpty(t, list)

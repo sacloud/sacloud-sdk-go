@@ -26,7 +26,7 @@ import (
 )
 
 type LogMeasureRuleAPI interface {
-	List(ctx context.Context, projectId string, count *int, from *int) ([]v1.LogMeasureRule, error)
+	List(ctx context.Context, projectId string, params LogMeasureRulesListParams) ([]v1.LogMeasureRule, error)
 	Create(ctx context.Context, projectId string, params LogMeasureRuleCreateParams) (*v1.LogMeasureRule, error)
 	Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.LogMeasureRule, error)
 	Update(ctx context.Context, projectId string, ruleId uuid.UUID, params LogMeasureRuleUpdateParams) (*v1.LogMeasureRule, error)
@@ -46,16 +46,33 @@ func NewLogMeasureRuleOp(client *v1.Client) LogMeasureRuleAPI {
 	return &logMeasureRuleOp{client: client}
 }
 
-func (op *logMeasureRuleOp) List(ctx context.Context, projectId string, count *int, from *int) (ret []v1.LogMeasureRule, err error) {
+type LogMeasureRulesListParams struct {
+	Count            *int
+	From             *int
+	LogStorageID     *string
+	MetricsStorageID *string
+}
+
+func (op *logMeasureRuleOp) List(ctx context.Context, projectId string, params LogMeasureRulesListParams) (ret []v1.LogMeasureRule, err error) {
 	res, err := errorFromDecodedResponse("LogMeasureRule.List", func() (*v1.PaginatedLogMeasureRuleList, error) {
 		id, err := strconv.ParseInt(projectId, 10, 64)
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsLogMeasureRulesList(ctx, v1.AlertsProjectsLogMeasureRulesListParams{
-			ProjectResourceID: id,
-			Count:             into.Opt[v1.OptInt](count),
-			From:              into.Opt[v1.OptInt](from),
+		lid, err := into.FromStringPtr[v1.OptInt64, int64](params.LogStorageID)
+		if err != nil {
+			return nil, fmt.Errorf("LogMeasureRulesListParams.LogStorageID: %w", err)
+		}
+		mid, err := into.FromStringPtr[v1.OptInt64, int64](params.MetricsStorageID)
+		if err != nil {
+			return nil, fmt.Errorf("LogMeasureRulesListParams.MetricsStorageID: %w", err)
+		}
+		return op.client.ListAlertProjectLogMeasureRules(ctx, v1.ListAlertProjectLogMeasureRulesParams{
+			ProjectResourceId: id,
+			Count:             into.Opt[v1.OptInt](params.Count),
+			From:              into.Opt[v1.OptInt](params.From),
+			LogStorageID:      lid,
+			MetricsStorageID:  mid,
 		})
 	})
 	if err == nil {
@@ -93,8 +110,8 @@ func (op *logMeasureRuleOp) Create(ctx context.Context, projectId string, p LogM
 			Description:      into.Opt[v1.OptString](p.Description),
 			Rule:             v1.LogMeasureRuleModelRequest(p.Rule),
 		}
-		return op.client.AlertsProjectsLogMeasureRulesCreate(ctx, params, v1.AlertsProjectsLogMeasureRulesCreateParams{
-			ProjectResourceID: pid,
+		return op.client.CreateAlertProjectLogMeasureRule(ctx, params, v1.CreateAlertProjectLogMeasureRuleParams{
+			ProjectResourceId: pid,
 		})
 	})
 }
@@ -105,8 +122,8 @@ func (op *logMeasureRuleOp) Read(ctx context.Context, projectId string, ruleId u
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsLogMeasureRulesRetrieve(ctx, v1.AlertsProjectsLogMeasureRulesRetrieveParams{
-			ProjectResourceID: pid,
+		return op.client.ReadAlertProjectLogMeasureRule(ctx, v1.ReadAlertProjectLogMeasureRuleParams{
+			ProjectResourceId: pid,
 			UID:               ruleId,
 		})
 	})
@@ -134,7 +151,7 @@ func (op *logMeasureRuleOp) Update(ctx context.Context, projectId string, ruleId
 		if err != nil {
 			return nil, fmt.Errorf("LogMeasureRuleUpdateParams.MetricsStorageID: %w", err)
 		}
-		return op.client.AlertsProjectsLogMeasureRulesPartialUpdate(ctx, v1.NewOptPatchedLogMeasureRuleRequest(v1.PatchedLogMeasureRuleRequest{
+		return op.client.PatchAlertProjectLogMeasureRule(ctx, v1.NewOptPatchedLogMeasureRuleRequest(v1.PatchedLogMeasureRuleRequest{
 			LogStorageID:     lid,
 			MetricsStorageID: mid,
 			Name:             into.Opt[v1.OptString](p.Name),
@@ -146,8 +163,8 @@ func (op *logMeasureRuleOp) Update(ctx context.Context, projectId string, ruleId
 				r := v1.LogMeasureRuleModelRequest(*p.Rule)
 				return &r
 			}()),
-		}), v1.AlertsProjectsLogMeasureRulesPartialUpdateParams{
-			ProjectResourceID: pid,
+		}), v1.PatchAlertProjectLogMeasureRuleParams{
+			ProjectResourceId: pid,
 			UID:               ruleId,
 		})
 	})
@@ -159,8 +176,8 @@ func (op *logMeasureRuleOp) Delete(ctx context.Context, projectId string, ruleId
 		if err != nil {
 			return err
 		}
-		return op.client.AlertsProjectsLogMeasureRulesDestroy(ctx, v1.AlertsProjectsLogMeasureRulesDestroyParams{
-			ProjectResourceID: pid,
+		return op.client.DeleteAlertProjectLogMeasureRule(ctx, v1.DeleteAlertProjectLogMeasureRuleParams{
+			ProjectResourceId: pid,
 			UID:               ruleId,
 		})
 	})
@@ -170,7 +187,7 @@ type LogMeasureRuleListHistoriesParams struct {
 	Count    *int
 	From     *int
 	Open     *bool
-	Severity *v1.AlertsProjectsHistoriesListSeverity
+	Severity *v1.ListAlertProjectHistoriesSeverity
 	StartsAt *time.Time
 }
 
@@ -180,12 +197,12 @@ func (op *logMeasureRuleOp) ListHistories(ctx context.Context, projectId string,
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsHistoriesList(ctx, v1.AlertsProjectsHistoriesListParams{
-			ProjectResourceID: pid,
+		return op.client.ListAlertProjectHistories(ctx, v1.ListAlertProjectHistoriesParams{
+			ProjectResourceId: pid,
 			Count:             into.Opt[v1.OptInt](params.Count),
 			From:              into.Opt[v1.OptInt](params.From),
 			Open:              into.Opt[v1.OptBool](params.Open),
-			Severity:          into.Opt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
+			Severity:          into.Opt[v1.OptListAlertProjectHistoriesSeverity](params.Severity),
 			StartsAt:          into.Opt[v1.OptDateTime](params.StartsAt),
 		})
 	})
@@ -201,8 +218,8 @@ func (op *logMeasureRuleOp) ReadHistory(ctx context.Context, projectId string, h
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsHistoriesRetrieve(ctx, v1.AlertsProjectsHistoriesRetrieveParams{
-			ProjectResourceID: pid,
+		return op.client.ReadAlertProjectHistory(ctx, v1.ReadAlertProjectHistoryParams{
+			ProjectResourceId: pid,
 			UID:               historyId,
 		})
 	})

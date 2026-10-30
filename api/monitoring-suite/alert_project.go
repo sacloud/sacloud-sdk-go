@@ -47,7 +47,7 @@ func NewAlertProjectOp(client *v1.Client) AlertProjectAPI {
 
 func (op *alertProjectOp) List(ctx context.Context, count *int, from *int) (ret []v1.AlertProject, err error) {
 	res, err := errorFromDecodedResponse("AlertProject.List", func() (*v1.PaginatedAlertProjectList, error) {
-		return op.client.AlertsProjectsList(ctx, v1.AlertsProjectsListParams{
+		return op.client.ListAlertProjects(ctx, v1.ListAlertProjectsParams{
 			Count: into.Opt[v1.OptInt](count),
 			From:  into.Opt[v1.OptInt](from),
 		})
@@ -64,7 +64,7 @@ func (op *alertProjectOp) Read(ctx context.Context, id string) (*v1.AlertProject
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsRetrieve(ctx, v1.AlertsProjectsRetrieveParams{ResourceID: intId})
+		return op.client.ReadAlertProject(ctx, v1.ReadAlertProjectParams{ResourceId: intId})
 	})
 
 	return unwrapE[*v1.AlertProject](res, err)
@@ -77,7 +77,7 @@ type AlertProjectCreateParams struct {
 
 func (op *alertProjectOp) Create(ctx context.Context, params AlertProjectCreateParams) (*v1.AlertProject, error) {
 	return errorFromDecodedResponse("AlertProject.Create", func() (*v1.AlertProject, error) {
-		return op.client.AlertsProjectsCreate(ctx, &v1.AlertProjectCreateRequest{
+		return op.client.CreateAlertProject(ctx, &v1.AlertProjectCreateRequest{
 			Name:        params.Name,
 			Description: into.Opt[v1.OptString](params.Description),
 		})
@@ -95,13 +95,13 @@ func (op *alertProjectOp) Update(ctx context.Context, id string, params AlertPro
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsPartialUpdate(
+		return op.client.PatchAlertProject(
 			ctx,
 			v1.NewOptPatchedAlertProjectRequest(v1.PatchedAlertProjectRequest{
 				Name:        into.Opt[v1.OptString](params.Name),
 				Description: into.Opt[v1.OptString](params.Description),
 			}),
-			v1.AlertsProjectsPartialUpdateParams{ResourceID: intId},
+			v1.PatchAlertProjectParams{ResourceId: intId},
 		)
 	})
 
@@ -114,7 +114,7 @@ func (op *alertProjectOp) Delete(ctx context.Context, id string) error {
 		if err != nil {
 			return err
 		}
-		return op.client.AlertsProjectsDestroy(ctx, v1.AlertsProjectsDestroyParams{ResourceID: intId})
+		return op.client.DeleteAlertProject(ctx, v1.DeleteAlertProjectParams{ResourceId: intId})
 	})
 }
 
@@ -123,7 +123,7 @@ type AlertsProjectsHistoriesListParams struct {
 	Count     *int
 	From      *int
 	Open      *bool
-	Severity  *v1.AlertsProjectsHistoriesListSeverity
+	Severity  *v1.ListAlertProjectHistoriesSeverity
 	StartsAt  *time.Time
 }
 
@@ -133,12 +133,12 @@ func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjec
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsHistoriesList(ctx, v1.AlertsProjectsHistoriesListParams{
-			ProjectResourceID: intProjectId,
+		return op.client.ListAlertProjectHistories(ctx, v1.ListAlertProjectHistoriesParams{
+			ProjectResourceId: intProjectId,
 			Count:             into.Opt[v1.OptInt](params.Count),
 			From:              into.Opt[v1.OptInt](params.From),
 			Open:              into.Opt[v1.OptBool](params.Open),
-			Severity:          into.Opt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
+			Severity:          into.Opt[v1.OptListAlertProjectHistoriesSeverity](params.Severity),
 			StartsAt:          into.Opt[v1.OptDateTime](params.StartsAt),
 		})
 	})
@@ -154,9 +154,9 @@ func (op *alertProjectOp) ReadHistory(ctx context.Context, projectId string, his
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsHistoriesRetrieve(ctx, v1.AlertsProjectsHistoriesRetrieveParams{
+		return op.client.ReadAlertProjectHistory(ctx, v1.ReadAlertProjectHistoryParams{
 			UID:               historyId,
-			ProjectResourceID: intProjectId,
+			ProjectResourceId: intProjectId,
 		})
 	})
 }

@@ -251,6 +251,11 @@ func (s *AndMatcher) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *AndMatcherType) SetFake() {
+	*s = AndMatcherTypeAnd
+}
+
+// SetFake set fake values.
 func (s *BoolMatcher) SetFake() {
 	{
 		{
@@ -272,6 +277,11 @@ func (s *BoolMatcher) SetFake() {
 			s.Value = true
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *BoolMatcherType) SetFake() {
+	*s = BoolMatcherTypeBoolean
 }
 
 // SetFake set fake values.
@@ -394,6 +404,11 @@ func (s *EnumMatcher) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *EnumMatcherType) SetFake() {
+	*s = EnumMatcherTypeEnum
+}
+
+// SetFake set fake values.
 func (s *FieldMatcher) SetFake() {
 	var variant AndMatcher
 
@@ -470,6 +485,24 @@ func (s *History) SetFake() {
 // SetFake set fake values.
 func (s *HistorySeverity) SetFake() {
 	*s = HistorySeverityWarning
+}
+
+// SetFake set fake values.
+func (s *InitializeProvisioningCreated) SetFake() {
+	var unwrapped Provisioning
+	{
+		unwrapped.SetFake()
+	}
+	*s = InitializeProvisioningCreated(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *InitializeProvisioningOK) SetFake() {
+	var unwrapped Provisioning
+	{
+		unwrapped.SetFake()
+	}
+	*s = InitializeProvisioningOK(unwrapped)
 }
 
 // SetFake set fake values.
@@ -1025,6 +1058,11 @@ func (s *MapKeyExistsMatcher) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *MapKeyExistsMatcherType) SetFake() {
+	*s = MapKeyExistsMatcherTypeMapKeyExists
+}
+
+// SetFake set fake values.
 func (s *MapKeyValueMatcher) SetFake() {
 	{
 		{
@@ -1046,6 +1084,11 @@ func (s *MapKeyValueMatcher) SetFake() {
 			s.Value = "string"
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *MapKeyValueMatcherType) SetFake() {
+	*s = MapKeyValueMatcherTypeMapKeyValueMatcher
 }
 
 // SetFake set fake values.
@@ -1090,6 +1133,11 @@ func (s *MapValueNumMatcher) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *MapValueNumMatcherType) SetFake() {
+	*s = MapValueNumMatcherTypeMapValueNumber
+}
+
+// SetFake set fake values.
 func (s *MapValueStrMatcher) SetFake() {
 	{
 		{
@@ -1128,6 +1176,11 @@ func (s *MapValueStrMatcher) SetFake() {
 			}
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *MapValueStrMatcherType) SetFake() {
+	*s = MapValueStrMatcherTypeMapValueString
 }
 
 // SetFake set fake values.
@@ -1725,6 +1778,11 @@ func (s *NumMatcher) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *NumMatcherType) SetFake() {
+	*s = NumMatcherTypeNumber
+}
+
+// SetFake set fake values.
 func (s *NumberFieldName) SetFake() {
 	*s = NumberFieldNameHTTPRequestSize
 }
@@ -2097,6 +2155,11 @@ func (s *OrMatcher) SetFake() {
 			}
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *OrMatcherType) SetFake() {
+	*s = OrMatcherTypeOr
 }
 
 // SetFake set fake values.
@@ -2969,24 +3032,6 @@ func (s *PatchedTraceStorageRequest) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PostProvisioningInitializeCreated) SetFake() {
-	var unwrapped Provisioning
-	{
-		unwrapped.SetFake()
-	}
-	*s = PostProvisioningInitializeCreated(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *PostProvisioningInitializeOK) SetFake() {
-	var unwrapped Provisioning
-	{
-		unwrapped.SetFake()
-	}
-	*s = PostProvisioningInitializeOK(unwrapped)
-}
-
-// SetFake set fake values.
 func (s *Provisioning) SetFake() {
 	{
 		{
@@ -3202,6 +3247,11 @@ func (s *StrMatcher) SetFake() {
 			}
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *StrMatcherType) SetFake() {
+	*s = StrMatcherTypeString
 }
 
 // SetFake set fake values.
@@ -3438,56 +3488,6 @@ func (s *TraceStorageRequest) SetFake() {
 			s.ServicePrincipalID.SetFake()
 		}
 	}
-}
-
-// SetFake set fake values.
-func (s *Type) SetFake() {
-	*s = TypeOr
-}
-
-// SetFake set fake values.
-func (s *Type1) SetFake() {
-	*s = Type1And
-}
-
-// SetFake set fake values.
-func (s *Type2) SetFake() {
-	*s = Type2String
-}
-
-// SetFake set fake values.
-func (s *Type3) SetFake() {
-	*s = Type3Number
-}
-
-// SetFake set fake values.
-func (s *Type4) SetFake() {
-	*s = Type4Enum
-}
-
-// SetFake set fake values.
-func (s *Type5) SetFake() {
-	*s = Type5Boolean
-}
-
-// SetFake set fake values.
-func (s *Type6) SetFake() {
-	*s = Type6MapKeyExists
-}
-
-// SetFake set fake values.
-func (s *Type7) SetFake() {
-	*s = Type7MapKeyValueMatcher
-}
-
-// SetFake set fake values.
-func (s *Type8) SetFake() {
-	*s = Type8MapValueString
-}
-
-// SetFake set fake values.
-func (s *Type9) SetFake() {
-	*s = Type9MapValueNumber
 }
 
 // SetFake set fake values.
