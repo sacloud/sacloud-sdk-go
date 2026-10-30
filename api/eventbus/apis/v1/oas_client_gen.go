@@ -34,13 +34,7 @@ type Invoker interface {
 	//
 	// DELETE /commonserviceitem/{id}
 	DeleteCommonServiceItem(ctx context.Context, params DeleteCommonServiceItemParams) (DeleteCommonServiceItemRes, error)
-	// GetCommonServiceItem invokes getCommonServiceItem operation.
-	//
-	// 実行設定・スケジュール・トリガーの取得.
-	//
-	// GET /commonserviceitem/{id}
-	GetCommonServiceItem(ctx context.Context, params GetCommonServiceItemParams) (GetCommonServiceItemRes, error)
-	// GetCommonServiceItems invokes getCommonServiceItems operation.
+	// ListCommonServiceItems invokes listCommonServiceItems operation.
 	//
 	// Provider.Classでeventbusschedule、eventbustriggerまたはeventbusprocessconfigurationを指定してフィルタ可能。
 	// クエリパラメータに下記のようにフィルタを設定することでスケジュール、トリガーまたは実行設定のリソースのみを取得できます
@@ -49,7 +43,13 @@ type Invoker interface {
 	// `/commonserviceitem?{"Filter":{"Provider.Class":"eventbusprocessconfiguration"}}`.
 	//
 	// GET /commonserviceitem
-	GetCommonServiceItems(ctx context.Context) (GetCommonServiceItemsRes, error)
+	ListCommonServiceItems(ctx context.Context) (ListCommonServiceItemsRes, error)
+	// ReadCommonServiceItem invokes readCommonServiceItem operation.
+	//
+	// 実行設定・スケジュール・トリガーの取得.
+	//
+	// GET /commonserviceitem/{id}
+	ReadCommonServiceItem(ctx context.Context, params ReadCommonServiceItemParams) (ReadCommonServiceItemRes, error)
 	// SetProcessConfigurationSecret invokes setProcessConfigurationSecret operation.
 	//
 	// 実行設定のSecret設定.
@@ -287,17 +287,97 @@ func (c *Client) sendDeleteCommonServiceItem(ctx context.Context, params DeleteC
 	return result, nil
 }
 
-// GetCommonServiceItem invokes getCommonServiceItem operation.
+// ListCommonServiceItems invokes listCommonServiceItems operation.
+//
+// Provider.Classでeventbusschedule、eventbustriggerまたはeventbusprocessconfigurationを指定してフィルタ可能。
+// クエリパラメータに下記のようにフィルタを設定することでスケジュール、トリガーまたは実行設定のリソースのみを取得できます
+// `/commonserviceitem?{"Filter":{"Provider.Class":"eventbusschedule"}}`
+// `/commonserviceitem?{"Filter":{"Provider.Class":"eventbustrigger"}}`
+// `/commonserviceitem?{"Filter":{"Provider.Class":"eventbusprocessconfiguration"}}`.
+//
+// GET /commonserviceitem
+func (c *Client) ListCommonServiceItems(ctx context.Context) (ListCommonServiceItemsRes, error) {
+	res, err := c.sendListCommonServiceItems(ctx)
+	return res, err
+}
+
+func (c *Client) sendListCommonServiceItems(ctx context.Context) (res ListCommonServiceItemsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/commonserviceitem"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, ListCommonServiceItemsOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListCommonServiceItemsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadCommonServiceItem invokes readCommonServiceItem operation.
 //
 // 実行設定・スケジュール・トリガーの取得.
 //
 // GET /commonserviceitem/{id}
-func (c *Client) GetCommonServiceItem(ctx context.Context, params GetCommonServiceItemParams) (GetCommonServiceItemRes, error) {
-	res, err := c.sendGetCommonServiceItem(ctx, params)
+func (c *Client) ReadCommonServiceItem(ctx context.Context, params ReadCommonServiceItemParams) (ReadCommonServiceItemRes, error) {
+	res, err := c.sendReadCommonServiceItem(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetCommonServiceItem(ctx context.Context, params GetCommonServiceItemParams) (res GetCommonServiceItemRes, err error) {
+func (c *Client) sendReadCommonServiceItem(ctx context.Context, params ReadCommonServiceItemParams) (res ReadCommonServiceItemRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -332,7 +412,7 @@ func (c *Client) sendGetCommonServiceItem(ctx context.Context, params GetCommonS
 		var satisfied bitset
 		{
 
-			switch err := c.securityApiKeyAuth(ctx, GetCommonServiceItemOperation, r); {
+			switch err := c.securityApiKeyAuth(ctx, ReadCommonServiceItemOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -373,87 +453,7 @@ func (c *Client) sendGetCommonServiceItem(ctx context.Context, params GetCommonS
 		_ = body.Close()
 	}()
 
-	result, err := decodeGetCommonServiceItemResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetCommonServiceItems invokes getCommonServiceItems operation.
-//
-// Provider.Classでeventbusschedule、eventbustriggerまたはeventbusprocessconfigurationを指定してフィルタ可能。
-// クエリパラメータに下記のようにフィルタを設定することでスケジュール、トリガーまたは実行設定のリソースのみを取得できます
-// `/commonserviceitem?{"Filter":{"Provider.Class":"eventbusschedule"}}`
-// `/commonserviceitem?{"Filter":{"Provider.Class":"eventbustrigger"}}`
-// `/commonserviceitem?{"Filter":{"Provider.Class":"eventbusprocessconfiguration"}}`.
-//
-// GET /commonserviceitem
-func (c *Client) GetCommonServiceItems(ctx context.Context) (GetCommonServiceItemsRes, error) {
-	res, err := c.sendGetCommonServiceItems(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetCommonServiceItems(ctx context.Context) (res GetCommonServiceItemsRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/commonserviceitem"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, GetCommonServiceItemsOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetCommonServiceItemsResponse(resp)
+	result, err := decodeReadCommonServiceItemResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

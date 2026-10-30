@@ -272,75 +272,61 @@ func (s *Error) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *GetCommonServiceItemBadRequest) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetCommonServiceItemBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetCommonServiceItemInternalServerError) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetCommonServiceItemInternalServerError(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetCommonServiceItemNotFound) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetCommonServiceItemNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetCommonServiceItemOK) SetFake() {
+func (s *Icon) SetFake() {
 	{
 		{
-			s.CommonServiceItem.SetFake()
+			s.ID.SetFake()
 		}
 	}
 	{
 		{
-			s.IsOk.SetFake()
+			s.URL.SetFake()
+		}
+	}
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.Scope.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags = nil
+			for i := 0; i < 0; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.Tags = append(s.Tags, elem)
+			}
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *GetCommonServiceItemUnauthorized) SetFake() {
+func (s *ListCommonServiceItemsBadRequest) SetFake() {
 	var unwrapped Error
 	{
 		unwrapped.SetFake()
 	}
-	*s = GetCommonServiceItemUnauthorized(unwrapped)
+	*s = ListCommonServiceItemsBadRequest(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *GetCommonServiceItemsBadRequest) SetFake() {
+func (s *ListCommonServiceItemsInternalServerError) SetFake() {
 	var unwrapped Error
 	{
 		unwrapped.SetFake()
 	}
-	*s = GetCommonServiceItemsBadRequest(unwrapped)
+	*s = ListCommonServiceItemsInternalServerError(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *GetCommonServiceItemsInternalServerError) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetCommonServiceItemsInternalServerError(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetCommonServiceItemsOK) SetFake() {
+func (s *ListCommonServiceItemsOK) SetFake() {
 	{
 		{
 			s.From.SetFake()
@@ -376,48 +362,12 @@ func (s *GetCommonServiceItemsOK) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *GetCommonServiceItemsUnauthorized) SetFake() {
+func (s *ListCommonServiceItemsUnauthorized) SetFake() {
 	var unwrapped Error
 	{
 		unwrapped.SetFake()
 	}
-	*s = GetCommonServiceItemsUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *Icon) SetFake() {
-	{
-		{
-			s.ID.SetFake()
-		}
-	}
-	{
-		{
-			s.URL.SetFake()
-		}
-	}
-	{
-		{
-			s.Name.SetFake()
-		}
-	}
-	{
-		{
-			s.Scope.SetFake()
-		}
-	}
-	{
-		{
-			s.Tags = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.Tags = append(s.Tags, elem)
-			}
-		}
-	}
+	*s = ListCommonServiceItemsUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.
@@ -559,6 +509,56 @@ func (s *Provider) SetFake() {
 // SetFake set fake values.
 func (s *ProviderClass) SetFake() {
 	*s = ProviderClassEventbusprocessconfiguration
+}
+
+// SetFake set fake values.
+func (s *ReadCommonServiceItemBadRequest) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadCommonServiceItemBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadCommonServiceItemInternalServerError) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadCommonServiceItemInternalServerError(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadCommonServiceItemNotFound) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadCommonServiceItemNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadCommonServiceItemOK) SetFake() {
+	{
+		{
+			s.CommonServiceItem.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadCommonServiceItemUnauthorized) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadCommonServiceItemUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.

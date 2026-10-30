@@ -9,12 +9,12 @@ type DeleteCommonServiceItemRes interface {
 	deleteCommonServiceItemRes()
 }
 
-type GetCommonServiceItemRes interface {
-	getCommonServiceItemRes()
+type ListCommonServiceItemsRes interface {
+	listCommonServiceItemsRes()
 }
 
-type GetCommonServiceItemsRes interface {
-	getCommonServiceItemsRes()
+type ReadCommonServiceItemRes interface {
+	readCommonServiceItemRes()
 }
 
 type SetProcessConfigurationSecretRes interface {

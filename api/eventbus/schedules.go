@@ -41,19 +41,19 @@ func NewScheduleOp(client *v1.Client) ScheduleAPI {
 
 func (op *scheduleOp) List(ctx context.Context) ([]v1.CommonServiceItem, error) {
 	ctx = setFilterProviderClass(ctx, v1.ProviderClassEventbusschedule)
-	res, err := op.client.GetCommonServiceItems(ctx)
+	res, err := op.client.ListCommonServiceItems(ctx)
 	if err != nil {
 		return nil, NewAPIError("Schedule.List", 0, err)
 	}
 
 	switch p := res.(type) {
-	case *v1.GetCommonServiceItemsOK:
+	case *v1.ListCommonServiceItemsOK:
 		return p.CommonServiceItems, nil
-	case *v1.GetCommonServiceItemsUnauthorized:
+	case *v1.ListCommonServiceItemsUnauthorized:
 		return nil, NewAPIError("Schedule.List", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.GetCommonServiceItemsBadRequest:
+	case *v1.ListCommonServiceItemsBadRequest:
 		return nil, NewAPIError("Schedule.List", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.GetCommonServiceItemsInternalServerError:
+	case *v1.ListCommonServiceItemsInternalServerError:
 		return nil, NewAPIError("Schedule.List", 500, errors.New(p.ErrorMsg.Value))
 	default:
 		return nil, NewAPIError("Schedule.List", 0, nil)
@@ -61,21 +61,21 @@ func (op *scheduleOp) List(ctx context.Context) ([]v1.CommonServiceItem, error) 
 }
 
 func (op *scheduleOp) Read(ctx context.Context, id string) (*v1.CommonServiceItem, error) {
-	res, err := op.client.GetCommonServiceItem(ctx, v1.GetCommonServiceItemParams{ID: id})
+	res, err := op.client.ReadCommonServiceItem(ctx, v1.ReadCommonServiceItemParams{ID: id})
 	if err != nil {
 		return nil, NewAPIError("Schedule.Read", 0, err)
 	}
 
 	switch p := res.(type) {
-	case *v1.GetCommonServiceItemOK:
+	case *v1.ReadCommonServiceItemOK:
 		return &p.CommonServiceItem, nil
-	case *v1.GetCommonServiceItemUnauthorized:
+	case *v1.ReadCommonServiceItemUnauthorized:
 		return nil, NewAPIError("Schedule.Read", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.GetCommonServiceItemBadRequest:
+	case *v1.ReadCommonServiceItemBadRequest:
 		return nil, NewAPIError("Schedule.Read", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.GetCommonServiceItemNotFound:
+	case *v1.ReadCommonServiceItemNotFound:
 		return nil, NewAPIError("Schedule.Read", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.GetCommonServiceItemInternalServerError:
+	case *v1.ReadCommonServiceItemInternalServerError:
 		return nil, NewAPIError("Schedule.Read", 500, errors.New(p.ErrorMsg.Value))
 	default:
 		return nil, NewAPIError("Schedule.Read", 0, nil)
