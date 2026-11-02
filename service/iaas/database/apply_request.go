@@ -41,7 +41,7 @@ type ApplyRequest struct {
 	DatabaseType          string   `validate:"required,oneof=mariadb postgres"`
 	DatabaseVersion       string
 	Username              string `validate:"required"`
-	Password              string `validate:"required"`
+	Password              string
 	EnableReplication     bool
 	ReplicaUserPassword   string `validate:"required_with=EnableReplication"`
 	EnableWebUI           bool
@@ -66,6 +66,9 @@ type ApplyRequest struct {
 }
 
 func (req *ApplyRequest) Validate() error {
+	if req.ID.IsEmpty() && req.Password == "" {
+		return fmt.Errorf("Password: required")
+	}
 	return validate.New().Struct(req)
 }
 

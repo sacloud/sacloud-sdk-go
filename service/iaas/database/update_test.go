@@ -16,10 +16,13 @@ package database
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"testing"
 	"time"
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/power"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/wait"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
@@ -27,6 +30,122 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/setup"
 	"github.com/stretchr/testify/require"
 )
+
+func TestDatabaseService_UpdateWithContext(t *testing.T) {
+	if !testutil.IsAccTest() {
+		t.Skip("This test runs only with TESTACC=1")
+	}
+
+	passwordBytes := make([]byte, 15)
+	if _, err := rand.Read(passwordBytes); err != nil {
+		t.Fatal(err)
+	}
+	newPassword := hex.EncodeToString(passwordBytes)
+
+	zone := testutil.TestZone()
+	name := testutil.ResourceName("database-update-password")
+	updateName := name + "-upd"
+	var switchID types.ID
+	svc := New(testutil.SingletonAPICaller())
+	weekdays := make([]types.EDayOfTheWeek, 0)
+
+	testutil.RunCRUD(t, &testutil.CRUDTestCase{
+		SetupAPICallerFunc: testutil.SingletonAPICaller,
+		Setup: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) error {
+			if err := testutil.ComposeCleanupResourceFunc(
+				name,
+				testutil.CleanupTargets.Database,
+				testutil.CleanupTargets.Switch,
+			)(ctx, caller); err != nil {
+				return err
+			}
+			sw, err := iaas.NewSwitchOp(caller).Create(ctx, zone, &iaas.SwitchCreateRequest{Name: name})
+			if err != nil {
+				return err
+			}
+			switchID = sw.ID
+			return nil
+		},
+		Create: &testutil.CRUDTestFunc{
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
+				return (&builder2.Builder{
+					Zone:           zone,
+					PlanID:         types.DatabasePlans.DB10GB,
+					SwitchID:       switchID,
+					IPAddresses:    []string{"192.168.0.101"},
+					NetworkMaskLen: 24,
+					DefaultRoute:   "192.168.0.1",
+					Conf: &iaas.DatabaseRemarkDBConfCommon{
+						DatabaseName: types.RDBMSTypesPostgreSQL.String(),
+						DefaultUser:  "default",
+						UserPassword: "initial-password",
+					},
+					CommonSetting: &iaas.DatabaseSettingCommon{
+						ServicePort:  5432,
+						DefaultUser:  "default",
+						UserPassword: "initial-password",
+					},
+					Name:   name,
+					Client: builder2.NewAPIClient(caller),
+				}).Build(ctx)
+			},
+		},
+		Read: &testutil.CRUDTestFunc{
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
+				return iaas.NewDatabaseOp(caller).Read(ctx, zone, ctx.ID)
+			},
+		},
+		Updates: []*testutil.CRUDTestFunc{
+			{
+				Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (any, error) {
+					t.Log("updating database without setting Password")
+					return svc.UpdateWithContext(ctx, &UpdateRequest{
+						Zone:             zone,
+						ID:               ctx.ID,
+						Name:             new(updateName),
+						Backupv2Weekdays: &weekdays,
+						NoWait:           true,
+					})
+				},
+				CheckFunc: func(t testutil.TestT, _ *testutil.CRUDTestContext, value any) error {
+					db := value.(*iaas.Database)
+					return testutil.AssertEqual(t, updateName, db.Name, "Database.Name")
+				},
+			},
+			{
+				Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (any, error) {
+					t.Log("updating database with a new Password")
+					return svc.UpdateWithContext(ctx, &UpdateRequest{
+						Zone:             zone,
+						ID:               ctx.ID,
+						Password:         &newPassword,
+						Backupv2Weekdays: &weekdays,
+						NoWait:           true,
+					})
+				},
+				CheckFunc: func(t testutil.TestT, _ *testutil.CRUDTestContext, value any) error {
+					db := value.(*iaas.Database)
+					return testutil.AssertEqual(t, updateName, db.Name, "Database.Name")
+				},
+			},
+		},
+		Shutdown: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) error {
+			return power.ShutdownDatabase(ctx, iaas.NewDatabaseOp(caller), zone, ctx.ID, true)
+		},
+		Delete: &testutil.CRUDTestDeleteFunc{
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) error {
+				return iaas.NewDatabaseOp(caller).Delete(ctx, zone, ctx.ID)
+			},
+		},
+		Cleanup: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) error {
+			return testutil.ComposeCleanupResourceFunc(
+				name,
+				testutil.CleanupTargets.Database,
+				testutil.CleanupTargets.Switch,
+			)(ctx, caller)
+		},
+	})
+}
 
 func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 	if testutil.IsAccTest() {
@@ -145,7 +264,7 @@ func testDatabaseServiceConvertUpdateRequest(t *testing.T, databaseName, databas
 				SourceNetwork:         []string{"192.168.0.0/24"},
 				DatabaseType:          databaseType,
 				Username:              "default",
-				Password:              "password1",
+				Password:              "",
 				EnableReplication:     true,
 				ReplicaUserPassword:   "password2",
 				EnableWebUI:           true,
@@ -163,6 +282,7 @@ func testDatabaseServiceConvertUpdateRequest(t *testing.T, databaseName, databas
 			in: &UpdateRequest{
 				Zone:              zone,
 				ID:                db.ID,
+				Password:          new("new-password"),
 				EnableReplication: new(false),
 				EnableBackup:      new(false),
 				Parameters: &map[string]any{
@@ -185,7 +305,7 @@ func testDatabaseServiceConvertUpdateRequest(t *testing.T, databaseName, databas
 				SourceNetwork:         []string{"192.168.0.0/24"},
 				DatabaseType:          databaseType,
 				Username:              "default",
-				Password:              "password1",
+				Password:              "new-password",
 				EnableReplication:     false,
 				ReplicaUserPassword:   "password2",
 				EnableWebUI:           true,
