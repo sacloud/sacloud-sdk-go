@@ -22,29 +22,39 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestDatabaseUpdateRequestOmitEmptyUserPassword(t *testing.T) {
+func TestDatabaseUpdateRequestOmitEmptyPasswords(t *testing.T) {
 	tests := []struct {
-		name        string
-		password    string
-		wantPresent bool
+		name                string
+		password            string
+		replicaPassword     string
+		wantPasswordPresent bool
+		wantReplicaPresent  bool
 	}{
 		{name: "omitted"},
-		{name: "explicit", password: "new-password", wantPresent: true},
+		{
+			name:                "explicit passwords",
+			password:            "new-password",
+			replicaPassword:     "new-replica-password",
+			wantPasswordPresent: true,
+			wantReplicaPresent:  true,
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			request, err := (&DatabaseOp{}).transformUpdateArgs(1, &DatabaseUpdateRequest{
 				CommonSetting: &DatabaseSettingCommon{
-					DefaultUser:  "default",
-					UserPassword: tt.password,
+					DefaultUser:     "default",
+					UserPassword:    tt.password,
+					ReplicaPassword: tt.replicaPassword,
 				},
 			})
 			require.NoError(t, err)
 
 			payload, err := json.Marshal(request)
 			require.NoError(t, err)
-			require.Equal(t, tt.wantPresent, bytes.Contains(payload, []byte(`"UserPassword"`)))
+			require.Equal(t, tt.wantPasswordPresent, bytes.Contains(payload, []byte(`"UserPassword"`)))
+			require.Equal(t, tt.wantReplicaPresent, bytes.Contains(payload, []byte(`"ReplicaPassword"`)))
 		})
 	}
 }

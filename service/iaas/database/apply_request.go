@@ -43,7 +43,7 @@ type ApplyRequest struct {
 	Username              string `validate:"required"`
 	Password              string
 	EnableReplication     bool
-	ReplicaUserPassword   string `validate:"required_with=EnableReplication"`
+	ReplicaUserPassword   string
 	EnableWebUI           bool
 	EnableBackup          bool
 	BackupWeekdays        []types.EDayOfTheWeek `validate:"required_with=EnableBackup,max=7"`
@@ -66,8 +66,13 @@ type ApplyRequest struct {
 }
 
 func (req *ApplyRequest) Validate() error {
-	if req.ID.IsEmpty() && req.Password == "" {
-		return fmt.Errorf("Password: required")
+	if req.ID.IsEmpty() {
+		if req.Password == "" {
+			return fmt.Errorf("Password: required")
+		}
+		if req.EnableReplication && req.ReplicaUserPassword == "" {
+			return fmt.Errorf("ReplicaUserPassword: required")
+		}
 	}
 	return validate.New().Struct(req)
 }

@@ -146,7 +146,6 @@ func (req *UpdateRequest) ApplyRequest(ctx context.Context, caller iaas.APICalle
 		DatabaseVersion:       current.Conf.DatabaseVersion,
 		Username:              current.CommonSetting.DefaultUser,
 		EnableReplication:     current.ReplicationSetting != nil,
-		ReplicaUserPassword:   current.CommonSetting.ReplicaPassword,
 		EnableWebUI:           current.CommonSetting.WebUI.Bool(),
 		EnableBackup:          current.BackupSetting != nil,
 		BackupWeekdays:        bkWeekdays,
