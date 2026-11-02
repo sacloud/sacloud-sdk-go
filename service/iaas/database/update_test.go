@@ -580,7 +580,7 @@ func (c *databasePasswordTestClient) runReplicationCommand(host, password string
 	if net.ParseIP(host) == nil {
 		return "", fmt.Errorf("invalid database IP address: %q", host)
 	}
-	conninfo := fmt.Sprintf("host=%s port=5432 user=replica replication=database", host)
+	conninfo := fmt.Sprintf("host=%s port=5432 user=replica replication=true", host)
 	command := fmt.Sprintf(
 		`PGPASSWORD="$(cat)" PGCONNECT_TIMEOUT=5 psql -w -d %s -tAc %s`,
 		shellQuote(conninfo),
