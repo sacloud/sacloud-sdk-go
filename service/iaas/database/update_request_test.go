@@ -30,6 +30,25 @@ func TestUpdateRequestValidateBackupv2Weekdays(t *testing.T) {
 			wantErr: "Backupv2Weekdays: required when EnableBackupv2 is set",
 		},
 		{
+			name: "nil slice when backupv2 is enabled",
+			request: &UpdateRequest{
+				Zone:             "is1b",
+				ID:               123,
+				EnableBackupv2:   new(true),
+				Backupv2Connect:  new("nfs://192.0.2.1/export"),
+				Backupv2Weekdays: new([]types.EDayOfTheWeek),
+			},
+			wantErr: "Backupv2Weekdays: required when EnableBackupv2 is set",
+		},
+		{
+			name: "nil slice when backupv2 is unspecified",
+			request: &UpdateRequest{
+				Zone:             "is1b",
+				ID:               123,
+				Backupv2Weekdays: new([]types.EDayOfTheWeek),
+			},
+		},
+		{
 			name: "seven weekdays",
 			request: &UpdateRequest{
 				Zone: "is1b",

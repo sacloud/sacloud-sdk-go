@@ -61,7 +61,7 @@ func (req *UpdateRequest) Validate() error {
 	if err := validate.New().Struct(req); err != nil {
 		return err
 	}
-	if req.EnableBackupv2 != nil && req.Backupv2Weekdays == nil {
+	if req.EnableBackupv2 != nil && (req.Backupv2Weekdays == nil || *req.Backupv2Weekdays == nil) {
 		return fmt.Errorf("Backupv2Weekdays: required when EnableBackupv2 is set")
 	}
 	if req.Backupv2Weekdays != nil && len(*req.Backupv2Weekdays) > 7 {
