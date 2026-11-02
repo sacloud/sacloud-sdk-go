@@ -46,10 +46,10 @@ type UpdateRequest struct {
 	Parameters            *map[string]any        `service:",omitempty"`
 
 	EnableBackupv2          *bool
-	Backupv2Weekdays        *[]types.EDayOfTheWeek `validate:"required_with=EnableBackupv2,max=7"`
-	Backupv2StartTimeHour   *int                   `validate:"omitempty,min=0,max=23"`
-	Backupv2StartTimeMinute *int                   `validate:"omitempty,oneof=0 15 30 45"`
-	Backupv2Connect         *string                `validate:"required_with=EnableBackupv2"`
+	Backupv2Weekdays        *[]types.EDayOfTheWeek
+	Backupv2StartTimeHour   *int    `validate:"omitempty,min=0,max=23"`
+	Backupv2StartTimeMinute *int    `validate:"omitempty,oneof=0 15 30 45"`
+	Backupv2Connect         *string `validate:"required_with=EnableBackupv2"`
 
 	EnableMonitoringSuite *bool
 
@@ -58,7 +58,16 @@ type UpdateRequest struct {
 }
 
 func (req *UpdateRequest) Validate() error {
-	return validate.New().Struct(req)
+	if err := validate.New().Struct(req); err != nil {
+		return err
+	}
+	if req.EnableBackupv2 != nil && req.Backupv2Weekdays == nil {
+		return fmt.Errorf("Backupv2Weekdays: required when EnableBackupv2 is set")
+	}
+	if req.Backupv2Weekdays != nil && len(*req.Backupv2Weekdays) > 7 {
+		return fmt.Errorf("Backupv2Weekdays: must contain at most 7 weekdays")
+	}
+	return nil
 }
 
 func (req *UpdateRequest) ApplyRequest(ctx context.Context, caller iaas.APICaller) (*ApplyRequest, error) {
