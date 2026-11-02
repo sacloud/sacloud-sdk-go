@@ -32,6 +32,22 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 	if testutil.IsAccTest() {
 		t.Skip("This test runs only without TESTACC=1")
 	}
+	for _, tc := range []struct {
+		databaseName string
+		databaseType string
+	}{
+		{databaseName: "MariaDB", databaseType: "mariadb"},
+		{databaseName: "PostgreSQL", databaseType: "postgres"},
+		{databaseName: "postgres", databaseType: "postgres"},
+	} {
+		t.Run(tc.databaseName, func(t *testing.T) {
+			testDatabaseServiceConvertUpdateRequest(t, tc.databaseName, tc.databaseType)
+		})
+	}
+}
+
+func testDatabaseServiceConvertUpdateRequest(t *testing.T, databaseName, databaseType string) {
+	t.Helper()
 	ctx := context.Background()
 	zone := testutil.TestZone()
 	name := testutil.ResourceName("database-service-update")
@@ -49,7 +65,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 		NetworkMaskLen: 24,
 		DefaultRoute:   "192.168.0.1",
 		Conf: &iaas.DatabaseRemarkDBConfCommon{
-			DatabaseName: types.RDBMSTypesPostgreSQL.String(),
+			DatabaseName: databaseName,
 		},
 		SourceID: 0,
 		CommonSetting: &iaas.DatabaseSettingCommon{
@@ -127,7 +143,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 				DefaultRoute:          "192.168.0.1",
 				Port:                  5432,
 				SourceNetwork:         []string{"192.168.0.0/24"},
-				DatabaseType:          types.RDBMSTypesPostgreSQL.String(),
+				DatabaseType:          databaseType,
 				Username:              "default",
 				Password:              "password1",
 				EnableReplication:     true,
@@ -167,7 +183,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 				DefaultRoute:          "192.168.0.1",
 				Port:                  5432,
 				SourceNetwork:         []string{"192.168.0.0/24"},
-				DatabaseType:          types.RDBMSTypesPostgreSQL.String(),
+				DatabaseType:          databaseType,
 				Username:              "default",
 				Password:              "password1",
 				EnableReplication:     false,
@@ -189,6 +205,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 	for _, tc := range cases {
 		got, err := tc.in.ApplyRequest(ctx, caller)
 		require.NoError(t, err)
+		require.NoError(t, got.Validate())
 
 		// データベースバージョンは比較対象としない
 		got.DatabaseVersion = ""
