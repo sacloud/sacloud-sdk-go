@@ -37,6 +37,41 @@ func getSetupOption() *setup.Options {
 	}
 }
 
+func TestDatabaseBuilder_collectUpdateInfo(t *testing.T) {
+	tests := []struct {
+		name             string
+		replicaPassword  string
+		wantNeedShutdown bool
+	}{
+		{name: "omitted password"},
+		{name: "changed password", replicaPassword: "new-password", wantNeedShutdown: true},
+		{name: "unchanged password", replicaPassword: "masked-password"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			builder := &Builder{
+				CommonSetting: &iaas.DatabaseSettingCommon{
+					ReplicaPassword: tt.replicaPassword,
+				},
+			}
+			db := &iaas.Database{
+				CommonSetting: &iaas.DatabaseSettingCommon{
+					ReplicaPassword: "masked-password",
+				},
+			}
+
+			needShutdown, err := builder.collectUpdateInfo(db)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if needShutdown != tt.wantNeedShutdown {
+				t.Fatalf("needShutdown = %t, want %t", needShutdown, tt.wantNeedShutdown)
+			}
+		})
+	}
+}
+
 func TestDatabaseBuilder_Build(t *testing.T) {
 	var switchID types.ID
 	var testZone = testutil.TestZone()
