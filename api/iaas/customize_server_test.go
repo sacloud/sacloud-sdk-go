@@ -15,8 +15,11 @@
 package iaas
 
 import (
+	"encoding/json"
 	"testing"
 
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/mapconv"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/naked"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/size"
 	"github.com/stretchr/testify/require"
@@ -157,5 +160,35 @@ func TestServer_BandWidthAt(t *testing.T) {
 	for _, tc := range cases {
 		actual := tc.in.BandWidthAt(tc.index)
 		require.Equal(t, tc.expect, actual, tc.msg)
+	}
+}
+
+func TestServer_NetworkingSuiteInterfaceConnectionID(t *testing.T) {
+	tests := []struct {
+		name     string
+		response string
+		want     types.ID
+	}{
+		{
+			name:     "connected",
+			response: `{"Interfaces":[{"NetworkingSuiteInterfaceConnection":{"ID":123456789}}]}`,
+			want:     types.ID(123456789),
+		},
+		{
+			name:     "not connected",
+			response: `{"Interfaces":[{}]}`,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var source naked.Server
+			require.NoError(t, json.Unmarshal([]byte(tt.response), &source))
+
+			var server Server
+			require.NoError(t, mapconv.ConvertFrom(&source, &server))
+			require.Len(t, server.Interfaces, 1)
+			require.Equal(t, tt.want, server.Interfaces[0].NetworkingSuiteInterfaceConnectionID)
+		})
 	}
 }

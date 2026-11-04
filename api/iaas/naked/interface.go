@@ -20,16 +20,22 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
+// NetworkingSuiteInterfaceConnection ネットワーキングスイートとのインターフェース接続情報
+type NetworkingSuiteInterfaceConnection struct {
+	ID types.ID `json:",omitempty" yaml:"id,omitempty" structs:",omitempty"`
+}
+
 // Interface サーバなどに接続されているNICの情報
 type Interface struct {
-	ID            types.ID          `json:",omitempty" yaml:"id,omitempty" structs:",omitempty"`
-	MACAddress    string            `json:",omitempty" yaml:"mac_address,omitempty" structs:",omitempty"`
-	IPAddress     string            `json:",omitempty" yaml:"ip_address,omitempty" structs:",omitempty"`
-	UserIPAddress string            `json:",omitempty" yaml:"user_ip_address,omitempty" structs:",omitempty"`
-	HostName      string            `json:",omitempty" yaml:"host_name,omitempty" structs:",omitempty"`
-	Switch        *Switch           `json:",omitempty" yaml:"switch,omitempty" structs:",omitempty"`
-	PacketFilter  *PacketFilterInfo `json:",omitempty" yaml:"packet_filter,omitempty" structs:",omitempty"`
-	Server        *Server           `json:",omitempty" yaml:"server,omitempty" structs:",omitempty"`
+	ID                                 types.ID                            `json:",omitempty" yaml:"id,omitempty" structs:",omitempty"`
+	MACAddress                         string                              `json:",omitempty" yaml:"mac_address,omitempty" structs:",omitempty"`
+	IPAddress                          string                              `json:",omitempty" yaml:"ip_address,omitempty" structs:",omitempty"`
+	UserIPAddress                      string                              `json:",omitempty" yaml:"user_ip_address,omitempty" structs:",omitempty"`
+	HostName                           string                              `json:",omitempty" yaml:"host_name,omitempty" structs:",omitempty"`
+	Switch                             *Switch                             `json:",omitempty" yaml:"switch,omitempty" structs:",omitempty"`
+	PacketFilter                       *PacketFilterInfo                   `json:",omitempty" yaml:"packet_filter,omitempty" structs:",omitempty"`
+	Server                             *Server                             `json:",omitempty" yaml:"server,omitempty" structs:",omitempty"`
+	NetworkingSuiteInterfaceConnection *NetworkingSuiteInterfaceConnection `json:",omitempty" yaml:"networking_suite_interface_connection,omitempty" structs:",omitempty"`
 
 	// Index 仮想フィールド、VPCルータなどでInterfaces(実体は[]*Interface)を扱う場合にUnmarshalJSONの中で設定される
 	//
@@ -87,25 +93,27 @@ func (i Interfaces) MarshalJSON() ([]byte, error) {
 // MarshalJSON Indexフィールドを出力しないための実装
 func (i *Interface) MarshalJSON() ([]byte, error) {
 	type alias struct {
-		ID            types.ID          `json:",omitempty" yaml:"id,omitempty" structs:",omitempty"`
-		MACAddress    string            `json:",omitempty" yaml:"mac_address,omitempty" structs:",omitempty"`
-		IPAddress     string            `json:",omitempty" yaml:"ip_address,omitempty" structs:",omitempty"`
-		UserIPAddress string            `json:",omitempty" yaml:"user_ip_address,omitempty" structs:",omitempty"`
-		HostName      string            `json:",omitempty" yaml:"host_name,omitempty" structs:",omitempty"`
-		Switch        *Switch           `json:",omitempty" yaml:"switch,omitempty" structs:",omitempty"`
-		PacketFilter  *PacketFilterInfo `json:",omitempty" yaml:"packet_filter,omitempty" structs:",omitempty"`
-		Server        *Server           `json:",omitempty" yaml:"server,omitempty" structs:",omitempty"`
+		ID                                 types.ID                            `json:",omitempty" yaml:"id,omitempty" structs:",omitempty"`
+		MACAddress                         string                              `json:",omitempty" yaml:"mac_address,omitempty" structs:",omitempty"`
+		IPAddress                          string                              `json:",omitempty" yaml:"ip_address,omitempty" structs:",omitempty"`
+		UserIPAddress                      string                              `json:",omitempty" yaml:"user_ip_address,omitempty" structs:",omitempty"`
+		HostName                           string                              `json:",omitempty" yaml:"host_name,omitempty" structs:",omitempty"`
+		Switch                             *Switch                             `json:",omitempty" yaml:"switch,omitempty" structs:",omitempty"`
+		PacketFilter                       *PacketFilterInfo                   `json:",omitempty" yaml:"packet_filter,omitempty" structs:",omitempty"`
+		Server                             *Server                             `json:",omitempty" yaml:"server,omitempty" structs:",omitempty"`
+		NetworkingSuiteInterfaceConnection *NetworkingSuiteInterfaceConnection `json:",omitempty" yaml:"networking_suite_interface_connection,omitempty" structs:",omitempty"`
 	}
 
 	tmp := alias{
-		ID:            i.ID,
-		MACAddress:    i.MACAddress,
-		IPAddress:     i.IPAddress,
-		UserIPAddress: i.UserIPAddress,
-		HostName:      i.HostName,
-		Switch:        i.Switch,
-		PacketFilter:  i.PacketFilter,
-		Server:        i.Server,
+		ID:                                 i.ID,
+		MACAddress:                         i.MACAddress,
+		IPAddress:                          i.IPAddress,
+		UserIPAddress:                      i.UserIPAddress,
+		HostName:                           i.HostName,
+		Switch:                             i.Switch,
+		PacketFilter:                       i.PacketFilter,
+		Server:                             i.Server,
+		NetworkingSuiteInterfaceConnection: i.NetworkingSuiteInterfaceConnection,
 	}
 	return json.Marshal(tmp)
 }

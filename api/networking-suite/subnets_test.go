@@ -10,6 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 	networkingsuite "github.com/sacloud/sacloud-sdk-go/api/networking-suite"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/networking-suite/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
@@ -93,15 +95,65 @@ func TestSubnetAPI(t *testing.T) {
 }
 
 func TestInterfaceConnectionAPI(t *testing.T) {
-	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET", "SAKURA_NETWORKING_SUITE_INTERFACE_SRN")(t)
+	if !testutil.IsAccTest() {
+		t.Skip("set TESTACC=1 to run the acceptance test")
+	}
 
 	var theClient saclient.Client
 	client, err := networkingsuite.NewClient(&theClient)
 	require.NoError(t, err)
+	endpointConfig, err := theClient.EndpointConfig()
+	require.NoError(t, err)
 
 	ctx := t.Context()
+	networkingSuiteEndpoint := os.Getenv("SAKURA_ENDPOINTS_NETWORKING_SUITE")
+	if networkingSuiteEndpoint == "" {
+		networkingSuiteEndpoint = endpointConfig.Endpoints["networking_suite"]
+	}
+	zone := endpointConfig.Zone
+	if networkingSuiteEndpoint != "" {
+		zone = getZone(t, networkingSuiteEndpoint)
+	}
+	if zone == "" {
+		zone = getZone(t, "")
+	}
+
+	iaasClient := iaas.NewClientFromSaclient(&theClient)
+	serverOp := iaas.NewServerOp(iaasClient)
+	server, err := serverOp.Create(ctx, zone, &iaas.ServerCreateRequest{
+		CPU:        1,
+		MemoryMB:   1024,
+		Generation: types.PlanGenerations.G100,
+		ConnectedSwitches: []*iaas.ConnectedSwitch{
+			nil,
+		},
+		Name: testutil.RandomName("networking-suite-", 8, testutil.CharSetAlphaNum),
+	})
+	require.NoError(t, err)
+	serverID := server.ID
+	defer func() {
+		if err := serverOp.Delete(ctx, zone, serverID); err != nil {
+			t.Errorf("failed to delete test server: %v", err)
+		}
+	}()
+
+	server, err = serverOp.Read(ctx, zone, serverID)
+	require.NoError(t, err)
+	require.NotEmpty(t, server.Interfaces)
+	interfaceID := server.Interfaces[0].ID
+	require.False(t, interfaceID.IsEmpty())
+	_, err = iaas.NewInterfaceOp(iaasClient).Read(ctx, zone, interfaceID)
+	require.NoError(t, err)
+
+	interfaceSRN := srn.SRN{
+		Version:  1,
+		Location: "sakura-" + zone,
+		Resource: "sakura.iaas.interface",
+		ID:       interfaceID.String(),
+	}
+	require.NoError(t, interfaceSRN.Validate())
+
 	subnetGroupsOp := networkingsuite.NewSubnetGroupsOp(client)
-	zone := getZone(t, os.Getenv("SAKURA_ENDPOINTS_NETWORKING_SUITE"))
 	sg, err := subnetGroupsOp.Create(ctx, v1.CreateSubnetGroup{
 		Name:                 "for InterfaceConnection",
 		Description:          "for InterfaceConnection test",
@@ -135,7 +187,7 @@ func TestInterfaceConnectionAPI(t *testing.T) {
 	ip := "192.168.0.10"
 	icOp := networkingsuite.NewInterfaceConnectionOp(client)
 	ic, err := icOp.Create(ctx, networkingsuite.CreateInterfaceConnectionParams{
-		InterfaceSRN: srn.MustParse(os.Getenv("SAKURA_NETWORKING_SUITE_INTERFACE_SRN")),
+		InterfaceSRN: interfaceSRN,
 		SubnetSRN:    srn.MustParse(subnet.SRN),
 		IPAddress:    &ip,
 	})
@@ -146,6 +198,21 @@ func TestInterfaceConnectionAPI(t *testing.T) {
 			t.Fatalf("unexpected error on interface connection delete: %v", err)
 		}
 	}()
+
+	connectionSRN, err := srn.Parse(ic.SRN)
+	require.NoError(t, err)
+
+	server, err = serverOp.Read(ctx, zone, serverID)
+	require.NoError(t, err)
+	var connectedInterface *iaas.InterfaceView
+	for _, iface := range server.Interfaces {
+		if iface.ID == interfaceID {
+			connectedInterface = iface
+			break
+		}
+	}
+	require.NotNil(t, connectedInterface, "created NIC should be present in the server response")
+	require.Equal(t, types.StringID(connectionSRN.ID), connectedInterface.NetworkingSuiteInterfaceConnectionID)
 
 	aOp := networkingsuite.NewAddressesOp(client)
 	listRes, err := aOp.List(ctx, networkingsuite.ListAddressesParams{
