@@ -62,9 +62,24 @@ func TestNames(t *testing.T) {
 			out: "dns",
 		},
 		{
+			f:   ToSnakeCase,
+			in:  "HTTPServer",
+			out: "http_server",
+		},
+		{
+			f:   ToKebabCase,
+			in:  "IPv6Enable",
+			out: "ipv6-enable",
+		},
+		{
 			f:   ToUpperCamelCase,
 			in:  "ipv6-enable",
 			out: "IPv6Enable",
+		},
+		{
+			f:   ToCamelCase,
+			in:  "option_A",
+			out: "optionA",
 		},
 		{
 			f:   ToUpperCamelCase,
@@ -75,6 +90,11 @@ func TestNames(t *testing.T) {
 			f:   ToUpperCamelCase,
 			in:  "simple-monitor",
 			out: "SimpleMonitor",
+		},
+		{
+			f:   ToFlagName,
+			in:  "tag[0]",
+			out: "--tag[0]",
 		},
 	}
 
