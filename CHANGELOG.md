@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.5.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.5.0...v0.5.1) - 2026-11-04
+
+### ✨ Ordinary Updates
+- Fix database Backupv2 weekday validation by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/321
+- fix: database 更新時の DatabaseType を正規化する by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/322
+
 ## [v0.5.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.4.0...v0.5.0) - 2026-10-30
 
 ### 🚀 New Features
