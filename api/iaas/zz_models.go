@@ -7223,66 +7223,69 @@ func (o *DatabaseRemarkDBConfCommon) SetUserPassword(v string) {
 
 // InterfaceView represents API parameter/response structure
 type InterfaceView struct {
-	ID                              types.ID
-	MACAddress                      string
-	IPAddress                       string
-	UserIPAddress                   string
-	HostName                        string
-	SwitchID                        types.ID           `mapconv:"Switch.ID"`
-	SwitchName                      string             `mapconv:"Switch.Name"`
-	SwitchScope                     types.EScope       `mapconv:"Switch.Scope"`
-	UserSubnetDefaultRoute          string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
-	UserSubnetNetworkMaskLen        int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
-	SubnetDefaultRoute              string             `mapconv:"Switch.Subnet.DefaultRoute"`
-	SubnetNetworkMaskLen            int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
-	SubnetNetworkAddress            string             `mapconv:"Switch.Subnet.NetworkAddress"`
-	SubnetBandWidthMbps             int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
-	PacketFilterID                  types.ID           `mapconv:"PacketFilter.ID"`
-	PacketFilterName                string             `mapconv:"PacketFilter.Name"`
-	PacketFilterRequiredHostVersion types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
-	UpstreamType                    types.EUpstreamNetworkType
+	ID                                   types.ID
+	MACAddress                           string
+	IPAddress                            string
+	UserIPAddress                        string
+	HostName                             string
+	SwitchID                             types.ID           `mapconv:"Switch.ID"`
+	SwitchName                           string             `mapconv:"Switch.Name"`
+	SwitchScope                          types.EScope       `mapconv:"Switch.Scope"`
+	UserSubnetDefaultRoute               string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
+	UserSubnetNetworkMaskLen             int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
+	SubnetDefaultRoute                   string             `mapconv:"Switch.Subnet.DefaultRoute"`
+	SubnetNetworkMaskLen                 int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
+	SubnetNetworkAddress                 string             `mapconv:"Switch.Subnet.NetworkAddress"`
+	SubnetBandWidthMbps                  int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
+	PacketFilterID                       types.ID           `mapconv:"PacketFilter.ID"`
+	PacketFilterName                     string             `mapconv:"PacketFilter.Name"`
+	PacketFilterRequiredHostVersion      types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
+	NetworkingSuiteInterfaceConnectionID types.ID           `mapconv:"NetworkingSuiteInterfaceConnection.ID"`
+	UpstreamType                         types.EUpstreamNetworkType
 }
 
 // setDefaults implements iaas.argumentDefaulter
 func (o *InterfaceView) setDefaults() any {
 	return &struct {
-		ID                              types.ID
-		MACAddress                      string
-		IPAddress                       string
-		UserIPAddress                   string
-		HostName                        string
-		SwitchID                        types.ID           `mapconv:"Switch.ID"`
-		SwitchName                      string             `mapconv:"Switch.Name"`
-		SwitchScope                     types.EScope       `mapconv:"Switch.Scope"`
-		UserSubnetDefaultRoute          string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
-		UserSubnetNetworkMaskLen        int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
-		SubnetDefaultRoute              string             `mapconv:"Switch.Subnet.DefaultRoute"`
-		SubnetNetworkMaskLen            int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
-		SubnetNetworkAddress            string             `mapconv:"Switch.Subnet.NetworkAddress"`
-		SubnetBandWidthMbps             int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
-		PacketFilterID                  types.ID           `mapconv:"PacketFilter.ID"`
-		PacketFilterName                string             `mapconv:"PacketFilter.Name"`
-		PacketFilterRequiredHostVersion types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
-		UpstreamType                    types.EUpstreamNetworkType
+		ID                                   types.ID
+		MACAddress                           string
+		IPAddress                            string
+		UserIPAddress                        string
+		HostName                             string
+		SwitchID                             types.ID           `mapconv:"Switch.ID"`
+		SwitchName                           string             `mapconv:"Switch.Name"`
+		SwitchScope                          types.EScope       `mapconv:"Switch.Scope"`
+		UserSubnetDefaultRoute               string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
+		UserSubnetNetworkMaskLen             int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
+		SubnetDefaultRoute                   string             `mapconv:"Switch.Subnet.DefaultRoute"`
+		SubnetNetworkMaskLen                 int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
+		SubnetNetworkAddress                 string             `mapconv:"Switch.Subnet.NetworkAddress"`
+		SubnetBandWidthMbps                  int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
+		PacketFilterID                       types.ID           `mapconv:"PacketFilter.ID"`
+		PacketFilterName                     string             `mapconv:"PacketFilter.Name"`
+		PacketFilterRequiredHostVersion      types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
+		NetworkingSuiteInterfaceConnectionID types.ID           `mapconv:"NetworkingSuiteInterfaceConnection.ID"`
+		UpstreamType                         types.EUpstreamNetworkType
 	}{
-		ID:                              o.GetID(),
-		MACAddress:                      o.GetMACAddress(),
-		IPAddress:                       o.GetIPAddress(),
-		UserIPAddress:                   o.GetUserIPAddress(),
-		HostName:                        o.GetHostName(),
-		SwitchID:                        o.GetSwitchID(),
-		SwitchName:                      o.GetSwitchName(),
-		SwitchScope:                     o.GetSwitchScope(),
-		UserSubnetDefaultRoute:          o.GetUserSubnetDefaultRoute(),
-		UserSubnetNetworkMaskLen:        o.GetUserSubnetNetworkMaskLen(),
-		SubnetDefaultRoute:              o.GetSubnetDefaultRoute(),
-		SubnetNetworkMaskLen:            o.GetSubnetNetworkMaskLen(),
-		SubnetNetworkAddress:            o.GetSubnetNetworkAddress(),
-		SubnetBandWidthMbps:             o.GetSubnetBandWidthMbps(),
-		PacketFilterID:                  o.GetPacketFilterID(),
-		PacketFilterName:                o.GetPacketFilterName(),
-		PacketFilterRequiredHostVersion: o.GetPacketFilterRequiredHostVersion(),
-		UpstreamType:                    o.GetUpstreamType(),
+		ID:                                   o.GetID(),
+		MACAddress:                           o.GetMACAddress(),
+		IPAddress:                            o.GetIPAddress(),
+		UserIPAddress:                        o.GetUserIPAddress(),
+		HostName:                             o.GetHostName(),
+		SwitchID:                             o.GetSwitchID(),
+		SwitchName:                           o.GetSwitchName(),
+		SwitchScope:                          o.GetSwitchScope(),
+		UserSubnetDefaultRoute:               o.GetUserSubnetDefaultRoute(),
+		UserSubnetNetworkMaskLen:             o.GetUserSubnetNetworkMaskLen(),
+		SubnetDefaultRoute:                   o.GetSubnetDefaultRoute(),
+		SubnetNetworkMaskLen:                 o.GetSubnetNetworkMaskLen(),
+		SubnetNetworkAddress:                 o.GetSubnetNetworkAddress(),
+		SubnetBandWidthMbps:                  o.GetSubnetBandWidthMbps(),
+		PacketFilterID:                       o.GetPacketFilterID(),
+		PacketFilterName:                     o.GetPacketFilterName(),
+		PacketFilterRequiredHostVersion:      o.GetPacketFilterRequiredHostVersion(),
+		NetworkingSuiteInterfaceConnectionID: o.GetNetworkingSuiteInterfaceConnectionID(),
+		UpstreamType:                         o.GetUpstreamType(),
 	}
 }
 
@@ -7474,6 +7477,16 @@ func (o *InterfaceView) GetPacketFilterRequiredHostVersion() types.StringNumber 
 // SetPacketFilterRequiredHostVersion sets value to PacketFilterRequiredHostVersion
 func (o *InterfaceView) SetPacketFilterRequiredHostVersion(v types.StringNumber) {
 	o.PacketFilterRequiredHostVersion = v
+}
+
+// GetNetworkingSuiteInterfaceConnectionID returns value of NetworkingSuiteInterfaceConnectionID
+func (o *InterfaceView) GetNetworkingSuiteInterfaceConnectionID() types.ID {
+	return o.NetworkingSuiteInterfaceConnectionID
+}
+
+// SetNetworkingSuiteInterfaceConnectionID sets value to NetworkingSuiteInterfaceConnectionID
+func (o *InterfaceView) SetNetworkingSuiteInterfaceConnectionID(v types.ID) {
+	o.NetworkingSuiteInterfaceConnectionID = v
 }
 
 // GetUpstreamType returns value of UpstreamType
@@ -17674,69 +17687,72 @@ func (o *MobileGateway) SetSettingsHash(v string) {
 
 // MobileGatewayInterface represents API parameter/response structure
 type MobileGatewayInterface struct {
-	ID                              types.ID
-	MACAddress                      string
-	IPAddress                       string
-	UserIPAddress                   string
-	HostName                        string
-	SwitchID                        types.ID           `mapconv:"Switch.ID"`
-	SwitchName                      string             `mapconv:"Switch.Name"`
-	SwitchScope                     types.EScope       `mapconv:"Switch.Scope"`
-	UserSubnetDefaultRoute          string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
-	UserSubnetNetworkMaskLen        int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
-	SubnetDefaultRoute              string             `mapconv:"Switch.Subnet.DefaultRoute"`
-	SubnetNetworkMaskLen            int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
-	SubnetNetworkAddress            string             `mapconv:"Switch.Subnet.NetworkAddress"`
-	SubnetBandWidthMbps             int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
-	PacketFilterID                  types.ID           `mapconv:"PacketFilter.ID"`
-	PacketFilterName                string             `mapconv:"PacketFilter.Name"`
-	PacketFilterRequiredHostVersion types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
-	UpstreamType                    types.EUpstreamNetworkType
-	Index                           int `mapconv:",omitempty"`
+	ID                                   types.ID
+	MACAddress                           string
+	IPAddress                            string
+	UserIPAddress                        string
+	HostName                             string
+	SwitchID                             types.ID           `mapconv:"Switch.ID"`
+	SwitchName                           string             `mapconv:"Switch.Name"`
+	SwitchScope                          types.EScope       `mapconv:"Switch.Scope"`
+	UserSubnetDefaultRoute               string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
+	UserSubnetNetworkMaskLen             int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
+	SubnetDefaultRoute                   string             `mapconv:"Switch.Subnet.DefaultRoute"`
+	SubnetNetworkMaskLen                 int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
+	SubnetNetworkAddress                 string             `mapconv:"Switch.Subnet.NetworkAddress"`
+	SubnetBandWidthMbps                  int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
+	PacketFilterID                       types.ID           `mapconv:"PacketFilter.ID"`
+	PacketFilterName                     string             `mapconv:"PacketFilter.Name"`
+	PacketFilterRequiredHostVersion      types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
+	NetworkingSuiteInterfaceConnectionID types.ID           `mapconv:"NetworkingSuiteInterfaceConnection.ID"`
+	UpstreamType                         types.EUpstreamNetworkType
+	Index                                int `mapconv:",omitempty"`
 }
 
 // setDefaults implements iaas.argumentDefaulter
 func (o *MobileGatewayInterface) setDefaults() any {
 	return &struct {
-		ID                              types.ID
-		MACAddress                      string
-		IPAddress                       string
-		UserIPAddress                   string
-		HostName                        string
-		SwitchID                        types.ID           `mapconv:"Switch.ID"`
-		SwitchName                      string             `mapconv:"Switch.Name"`
-		SwitchScope                     types.EScope       `mapconv:"Switch.Scope"`
-		UserSubnetDefaultRoute          string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
-		UserSubnetNetworkMaskLen        int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
-		SubnetDefaultRoute              string             `mapconv:"Switch.Subnet.DefaultRoute"`
-		SubnetNetworkMaskLen            int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
-		SubnetNetworkAddress            string             `mapconv:"Switch.Subnet.NetworkAddress"`
-		SubnetBandWidthMbps             int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
-		PacketFilterID                  types.ID           `mapconv:"PacketFilter.ID"`
-		PacketFilterName                string             `mapconv:"PacketFilter.Name"`
-		PacketFilterRequiredHostVersion types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
-		UpstreamType                    types.EUpstreamNetworkType
-		Index                           int `mapconv:",omitempty"`
+		ID                                   types.ID
+		MACAddress                           string
+		IPAddress                            string
+		UserIPAddress                        string
+		HostName                             string
+		SwitchID                             types.ID           `mapconv:"Switch.ID"`
+		SwitchName                           string             `mapconv:"Switch.Name"`
+		SwitchScope                          types.EScope       `mapconv:"Switch.Scope"`
+		UserSubnetDefaultRoute               string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
+		UserSubnetNetworkMaskLen             int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
+		SubnetDefaultRoute                   string             `mapconv:"Switch.Subnet.DefaultRoute"`
+		SubnetNetworkMaskLen                 int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
+		SubnetNetworkAddress                 string             `mapconv:"Switch.Subnet.NetworkAddress"`
+		SubnetBandWidthMbps                  int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
+		PacketFilterID                       types.ID           `mapconv:"PacketFilter.ID"`
+		PacketFilterName                     string             `mapconv:"PacketFilter.Name"`
+		PacketFilterRequiredHostVersion      types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
+		NetworkingSuiteInterfaceConnectionID types.ID           `mapconv:"NetworkingSuiteInterfaceConnection.ID"`
+		UpstreamType                         types.EUpstreamNetworkType
+		Index                                int `mapconv:",omitempty"`
 	}{
-		ID:                              o.GetID(),
-		MACAddress:                      o.GetMACAddress(),
-		IPAddress:                       o.GetIPAddress(),
-		UserIPAddress:                   o.GetUserIPAddress(),
-		HostName:                        o.GetHostName(),
-		SwitchID:                        o.GetSwitchID(),
-		SwitchName:                      o.GetSwitchName(),
-		SwitchScope:                     o.GetSwitchScope(),
-		UserSubnetDefaultRoute:          o.GetUserSubnetDefaultRoute(),
-		UserSubnetNetworkMaskLen:        o.GetUserSubnetNetworkMaskLen(),
-		SubnetDefaultRoute:              o.GetSubnetDefaultRoute(),
-		SubnetNetworkMaskLen:            o.GetSubnetNetworkMaskLen(),
-		SubnetNetworkAddress:            o.GetSubnetNetworkAddress(),
-		SubnetBandWidthMbps:             o.GetSubnetBandWidthMbps(),
-		PacketFilterID:                  o.GetPacketFilterID(),
-		PacketFilterName:                o.GetPacketFilterName(),
-		PacketFilterRequiredHostVersion: o.GetPacketFilterRequiredHostVersion(),
-		UpstreamType:                    o.GetUpstreamType(),
-		Index:                           o.GetIndex(),
+		ID:                                   o.GetID(),
+		MACAddress:                           o.GetMACAddress(),
+		IPAddress:                            o.GetIPAddress(),
+		UserIPAddress:                        o.GetUserIPAddress(),
+		HostName:                             o.GetHostName(),
+		SwitchID:                             o.GetSwitchID(),
+		SwitchName:                           o.GetSwitchName(),
+		SwitchScope:                          o.GetSwitchScope(),
+		UserSubnetDefaultRoute:               o.GetUserSubnetDefaultRoute(),
+		UserSubnetNetworkMaskLen:             o.GetUserSubnetNetworkMaskLen(),
+		SubnetDefaultRoute:                   o.GetSubnetDefaultRoute(),
+		SubnetNetworkMaskLen:                 o.GetSubnetNetworkMaskLen(),
+		SubnetNetworkAddress:                 o.GetSubnetNetworkAddress(),
+		SubnetBandWidthMbps:                  o.GetSubnetBandWidthMbps(),
+		PacketFilterID:                       o.GetPacketFilterID(),
+		PacketFilterName:                     o.GetPacketFilterName(),
+		PacketFilterRequiredHostVersion:      o.GetPacketFilterRequiredHostVersion(),
+		NetworkingSuiteInterfaceConnectionID: o.GetNetworkingSuiteInterfaceConnectionID(),
+		UpstreamType:                         o.GetUpstreamType(),
+		Index:                                o.GetIndex(),
 	}
 }
 
@@ -17928,6 +17944,16 @@ func (o *MobileGatewayInterface) GetPacketFilterRequiredHostVersion() types.Stri
 // SetPacketFilterRequiredHostVersion sets value to PacketFilterRequiredHostVersion
 func (o *MobileGatewayInterface) SetPacketFilterRequiredHostVersion(v types.StringNumber) {
 	o.PacketFilterRequiredHostVersion = v
+}
+
+// GetNetworkingSuiteInterfaceConnectionID returns value of NetworkingSuiteInterfaceConnectionID
+func (o *MobileGatewayInterface) GetNetworkingSuiteInterfaceConnectionID() types.ID {
+	return o.NetworkingSuiteInterfaceConnectionID
+}
+
+// SetNetworkingSuiteInterfaceConnectionID sets value to NetworkingSuiteInterfaceConnectionID
+func (o *MobileGatewayInterface) SetNetworkingSuiteInterfaceConnectionID(v types.ID) {
+	o.NetworkingSuiteInterfaceConnectionID = v
 }
 
 // GetUpstreamType returns value of UpstreamType
@@ -32236,69 +32262,72 @@ func (o *VPCRouterScheduledMaintenance) SetHour(v int) {
 
 // VPCRouterInterface represents API parameter/response structure
 type VPCRouterInterface struct {
-	ID                              types.ID
-	MACAddress                      string
-	IPAddress                       string
-	UserIPAddress                   string
-	HostName                        string
-	SwitchID                        types.ID           `mapconv:"Switch.ID"`
-	SwitchName                      string             `mapconv:"Switch.Name"`
-	SwitchScope                     types.EScope       `mapconv:"Switch.Scope"`
-	UserSubnetDefaultRoute          string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
-	UserSubnetNetworkMaskLen        int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
-	SubnetDefaultRoute              string             `mapconv:"Switch.Subnet.DefaultRoute"`
-	SubnetNetworkMaskLen            int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
-	SubnetNetworkAddress            string             `mapconv:"Switch.Subnet.NetworkAddress"`
-	SubnetBandWidthMbps             int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
-	PacketFilterID                  types.ID           `mapconv:"PacketFilter.ID"`
-	PacketFilterName                string             `mapconv:"PacketFilter.Name"`
-	PacketFilterRequiredHostVersion types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
-	UpstreamType                    types.EUpstreamNetworkType
-	Index                           int `mapconv:",omitempty"`
+	ID                                   types.ID
+	MACAddress                           string
+	IPAddress                            string
+	UserIPAddress                        string
+	HostName                             string
+	SwitchID                             types.ID           `mapconv:"Switch.ID"`
+	SwitchName                           string             `mapconv:"Switch.Name"`
+	SwitchScope                          types.EScope       `mapconv:"Switch.Scope"`
+	UserSubnetDefaultRoute               string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
+	UserSubnetNetworkMaskLen             int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
+	SubnetDefaultRoute                   string             `mapconv:"Switch.Subnet.DefaultRoute"`
+	SubnetNetworkMaskLen                 int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
+	SubnetNetworkAddress                 string             `mapconv:"Switch.Subnet.NetworkAddress"`
+	SubnetBandWidthMbps                  int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
+	PacketFilterID                       types.ID           `mapconv:"PacketFilter.ID"`
+	PacketFilterName                     string             `mapconv:"PacketFilter.Name"`
+	PacketFilterRequiredHostVersion      types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
+	NetworkingSuiteInterfaceConnectionID types.ID           `mapconv:"NetworkingSuiteInterfaceConnection.ID"`
+	UpstreamType                         types.EUpstreamNetworkType
+	Index                                int `mapconv:",omitempty"`
 }
 
 // setDefaults implements iaas.argumentDefaulter
 func (o *VPCRouterInterface) setDefaults() any {
 	return &struct {
-		ID                              types.ID
-		MACAddress                      string
-		IPAddress                       string
-		UserIPAddress                   string
-		HostName                        string
-		SwitchID                        types.ID           `mapconv:"Switch.ID"`
-		SwitchName                      string             `mapconv:"Switch.Name"`
-		SwitchScope                     types.EScope       `mapconv:"Switch.Scope"`
-		UserSubnetDefaultRoute          string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
-		UserSubnetNetworkMaskLen        int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
-		SubnetDefaultRoute              string             `mapconv:"Switch.Subnet.DefaultRoute"`
-		SubnetNetworkMaskLen            int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
-		SubnetNetworkAddress            string             `mapconv:"Switch.Subnet.NetworkAddress"`
-		SubnetBandWidthMbps             int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
-		PacketFilterID                  types.ID           `mapconv:"PacketFilter.ID"`
-		PacketFilterName                string             `mapconv:"PacketFilter.Name"`
-		PacketFilterRequiredHostVersion types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
-		UpstreamType                    types.EUpstreamNetworkType
-		Index                           int `mapconv:",omitempty"`
+		ID                                   types.ID
+		MACAddress                           string
+		IPAddress                            string
+		UserIPAddress                        string
+		HostName                             string
+		SwitchID                             types.ID           `mapconv:"Switch.ID"`
+		SwitchName                           string             `mapconv:"Switch.Name"`
+		SwitchScope                          types.EScope       `mapconv:"Switch.Scope"`
+		UserSubnetDefaultRoute               string             `mapconv:"Switch.UserSubnet.DefaultRoute"`
+		UserSubnetNetworkMaskLen             int                `mapconv:"Switch.UserSubnet.NetworkMaskLen"`
+		SubnetDefaultRoute                   string             `mapconv:"Switch.Subnet.DefaultRoute"`
+		SubnetNetworkMaskLen                 int                `mapconv:"Switch.Subnet.NetworkMaskLen"`
+		SubnetNetworkAddress                 string             `mapconv:"Switch.Subnet.NetworkAddress"`
+		SubnetBandWidthMbps                  int                `mapconv:"Switch.Subnet.Internet.BandWidthMbps"`
+		PacketFilterID                       types.ID           `mapconv:"PacketFilter.ID"`
+		PacketFilterName                     string             `mapconv:"PacketFilter.Name"`
+		PacketFilterRequiredHostVersion      types.StringNumber `mapconv:"PacketFilter.RequiredHostVersionn"`
+		NetworkingSuiteInterfaceConnectionID types.ID           `mapconv:"NetworkingSuiteInterfaceConnection.ID"`
+		UpstreamType                         types.EUpstreamNetworkType
+		Index                                int `mapconv:",omitempty"`
 	}{
-		ID:                              o.GetID(),
-		MACAddress:                      o.GetMACAddress(),
-		IPAddress:                       o.GetIPAddress(),
-		UserIPAddress:                   o.GetUserIPAddress(),
-		HostName:                        o.GetHostName(),
-		SwitchID:                        o.GetSwitchID(),
-		SwitchName:                      o.GetSwitchName(),
-		SwitchScope:                     o.GetSwitchScope(),
-		UserSubnetDefaultRoute:          o.GetUserSubnetDefaultRoute(),
-		UserSubnetNetworkMaskLen:        o.GetUserSubnetNetworkMaskLen(),
-		SubnetDefaultRoute:              o.GetSubnetDefaultRoute(),
-		SubnetNetworkMaskLen:            o.GetSubnetNetworkMaskLen(),
-		SubnetNetworkAddress:            o.GetSubnetNetworkAddress(),
-		SubnetBandWidthMbps:             o.GetSubnetBandWidthMbps(),
-		PacketFilterID:                  o.GetPacketFilterID(),
-		PacketFilterName:                o.GetPacketFilterName(),
-		PacketFilterRequiredHostVersion: o.GetPacketFilterRequiredHostVersion(),
-		UpstreamType:                    o.GetUpstreamType(),
-		Index:                           o.GetIndex(),
+		ID:                                   o.GetID(),
+		MACAddress:                           o.GetMACAddress(),
+		IPAddress:                            o.GetIPAddress(),
+		UserIPAddress:                        o.GetUserIPAddress(),
+		HostName:                             o.GetHostName(),
+		SwitchID:                             o.GetSwitchID(),
+		SwitchName:                           o.GetSwitchName(),
+		SwitchScope:                          o.GetSwitchScope(),
+		UserSubnetDefaultRoute:               o.GetUserSubnetDefaultRoute(),
+		UserSubnetNetworkMaskLen:             o.GetUserSubnetNetworkMaskLen(),
+		SubnetDefaultRoute:                   o.GetSubnetDefaultRoute(),
+		SubnetNetworkMaskLen:                 o.GetSubnetNetworkMaskLen(),
+		SubnetNetworkAddress:                 o.GetSubnetNetworkAddress(),
+		SubnetBandWidthMbps:                  o.GetSubnetBandWidthMbps(),
+		PacketFilterID:                       o.GetPacketFilterID(),
+		PacketFilterName:                     o.GetPacketFilterName(),
+		PacketFilterRequiredHostVersion:      o.GetPacketFilterRequiredHostVersion(),
+		NetworkingSuiteInterfaceConnectionID: o.GetNetworkingSuiteInterfaceConnectionID(),
+		UpstreamType:                         o.GetUpstreamType(),
+		Index:                                o.GetIndex(),
 	}
 }
 
@@ -32490,6 +32519,16 @@ func (o *VPCRouterInterface) GetPacketFilterRequiredHostVersion() types.StringNu
 // SetPacketFilterRequiredHostVersion sets value to PacketFilterRequiredHostVersion
 func (o *VPCRouterInterface) SetPacketFilterRequiredHostVersion(v types.StringNumber) {
 	o.PacketFilterRequiredHostVersion = v
+}
+
+// GetNetworkingSuiteInterfaceConnectionID returns value of NetworkingSuiteInterfaceConnectionID
+func (o *VPCRouterInterface) GetNetworkingSuiteInterfaceConnectionID() types.ID {
+	return o.NetworkingSuiteInterfaceConnectionID
+}
+
+// SetNetworkingSuiteInterfaceConnectionID sets value to NetworkingSuiteInterfaceConnectionID
+func (o *VPCRouterInterface) SetNetworkingSuiteInterfaceConnectionID(v types.ID) {
+	o.NetworkingSuiteInterfaceConnectionID = v
 }
 
 // GetUpstreamType returns value of UpstreamType

@@ -332,6 +332,14 @@ func (m *modelsDef) interfaceModel() *dsl.Model {
 					MapConv: "PacketFilter.RequiredHostVersionn",
 				},
 			},
+			// network-suite
+			{
+				Name: "NetworkingSuiteInterfaceConnectionID",
+				Type: meta.TypeID,
+				Tags: &dsl.FieldTags{
+					MapConv: "NetworkingSuiteInterfaceConnection.ID",
+				},
+			},
 			{
 				Name: "UpstreamType",
 				Type: meta.Static(types.EUpstreamNetworkType("")),
