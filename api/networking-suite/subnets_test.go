@@ -130,13 +130,14 @@ func TestInterfaceConnectionAPI(t *testing.T) {
 		Name: testutil.RandomName("networking-suite-", 8, testutil.CharSetAlphaNum),
 	})
 	require.NoError(t, err)
+	serverID := server.ID
 	defer func() {
-		if err := serverOp.Delete(ctx, zone, server.ID); err != nil {
+		if err := serverOp.Delete(ctx, zone, serverID); err != nil {
 			t.Errorf("failed to delete test server: %v", err)
 		}
 	}()
 
-	server, err = serverOp.Read(ctx, zone, server.ID)
+	server, err = serverOp.Read(ctx, zone, serverID)
 	require.NoError(t, err)
 	require.NotEmpty(t, server.Interfaces)
 	interfaceID := server.Interfaces[0].ID
@@ -201,7 +202,7 @@ func TestInterfaceConnectionAPI(t *testing.T) {
 	connectionSRN, err := srn.Parse(ic.SRN)
 	require.NoError(t, err)
 
-	server, err = serverOp.Read(ctx, zone, server.ID)
+	server, err = serverOp.Read(ctx, zone, serverID)
 	require.NoError(t, err)
 	var connectedInterface *iaas.InterfaceView
 	for _, iface := range server.Interfaces {
