@@ -34,10 +34,6 @@ type Invoker interface {
 	//
 	// POST /kms/keys/{resource_id}/decrypt
 	DecryptDataWithKey(ctx context.Context, request *WrappedDecryptionRequest, params DecryptDataWithKeyParams) (*WrappedKeyPlain, error)
-	// DeleteKey invokes deleteKey operation.
-	//
-	// DELETE /kms/keys/{resource_id}
-	DeleteKey(ctx context.Context, params DeleteKeyParams) error
 	// EncryptDataWithKey invokes encryptDataWithKey operation.
 	//
 	// POST /kms/keys/{resource_id}/encrypt
@@ -394,98 +390,6 @@ func (c *Client) sendDecryptDataWithKey(ctx context.Context, request *WrappedDec
 	}()
 
 	result, err := decodeDecryptDataWithKeyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteKey invokes deleteKey operation.
-//
-// DELETE /kms/keys/{resource_id}
-func (c *Client) DeleteKey(ctx context.Context, params DeleteKeyParams) error {
-	_, err := c.sendDeleteKey(ctx, params)
-	return err
-}
-
-func (c *Client) sendDeleteKey(ctx context.Context, params DeleteKeyParams) (res *DeleteKeyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/kms/keys/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, DeleteKeyOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteKeyResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
