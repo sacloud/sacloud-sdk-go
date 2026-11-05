@@ -154,15 +154,6 @@ func decodeDecryptDataWithKeyResponse(resp *http.Response) (res *WrappedKeyPlain
 	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeDeleteKeyResponse(resp *http.Response) (res *DeleteKeyNoContent, _ error) {
-	switch resp.StatusCode {
-	case 204:
-		// Code 204.
-		return &DeleteKeyNoContent{}, nil
-	}
-	return res, validate.UnexpectedStatusCodeWithResponse(resp)
-}
-
 func decodeEncryptDataWithKeyResponse(resp *http.Response) (res *WrappedKeyCipher, _ error) {
 	switch resp.StatusCode {
 	case 200:

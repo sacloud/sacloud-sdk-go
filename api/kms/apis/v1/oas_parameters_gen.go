@@ -12,11 +12,6 @@ type DecryptDataWithKeyParams struct {
 	ResourceID string
 }
 
-// DeleteKeyParams is parameters of deleteKey operation.
-type DeleteKeyParams struct {
-	ResourceID string
-}
-
 // EncryptDataWithKeyParams is parameters of encryptDataWithKey operation.
 type EncryptDataWithKeyParams struct {
 	ResourceID string
