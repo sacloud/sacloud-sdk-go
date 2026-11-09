@@ -21,7 +21,6 @@ var operationRolesBasicAuth = map[string][]string{
 	ChangeKeyStatusOperation:        []string{},
 	CreateKeyOperation:              []string{},
 	DecryptDataWithKeyOperation:     []string{},
-	DeleteKeyOperation:              []string{},
 	EncryptDataWithKeyOperation:     []string{},
 	ListKeysOperation:               []string{},
 	ReadKeyOperation:                []string{},

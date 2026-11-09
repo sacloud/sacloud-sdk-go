@@ -31,7 +31,7 @@ func TestKeyAPI(t *testing.T) {
 	assert.Equal(t, "key gen from go", resCreate.Name)
 
 	defer func() {
-		err = keyOp.Delete(ctx, resCreate.ID)
+		_, err = keyOp.ScheduleDestruction(ctx, resCreate.ID, 7)
 		require.NoError(t, err, "failed to delete key")
 	}()
 
@@ -109,7 +109,7 @@ func TestKeyNeedsWithEmptyTags(t *testing.T) {
 	assert.Equal(t, "key gen from go", resCreate.Name)
 
 	defer func() {
-		err = keyOp.Delete(ctx, resCreate.ID)
+		_, err = keyOp.ScheduleDestruction(ctx, resCreate.ID, 7)
 		require.NoError(t, err, "failed to delete key")
 	}()
 

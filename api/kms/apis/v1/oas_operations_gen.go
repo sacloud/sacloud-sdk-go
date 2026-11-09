@@ -9,7 +9,6 @@ const (
 	ChangeKeyStatusOperation        OperationName = "ChangeKeyStatus"
 	CreateKeyOperation              OperationName = "CreateKey"
 	DecryptDataWithKeyOperation     OperationName = "DecryptDataWithKey"
-	DeleteKeyOperation              OperationName = "DeleteKey"
 	EncryptDataWithKeyOperation     OperationName = "EncryptDataWithKey"
 	ListKeysOperation               OperationName = "ListKeys"
 	ReadKeyOperation                OperationName = "ReadKey"

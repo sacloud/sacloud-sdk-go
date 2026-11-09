@@ -539,9 +539,6 @@ func (s *DecryptionRequest) SetCipher(val string) {
 	s.Cipher = val
 }
 
-// DeleteKeyNoContent is response for DeleteKey operation.
-type DeleteKeyNoContent struct{}
-
 // Ref: #/components/schemas/EncryptionRequest
 type EncryptionRequest struct {
 	// Base64 エンコードされた平文.

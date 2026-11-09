@@ -28,7 +28,6 @@ type KeyAPI interface {
 	Read(ctx context.Context, id string) (*v1.Key, error)
 	Create(ctx context.Context, request CreateParams) (*v1.CreateKeyResponse, error)
 	Update(ctx context.Context, id string, request UpdateParams) (*v1.Key, error)
-	Delete(ctx context.Context, id string) error
 
 	Rotate(ctx context.Context, id string) (*v1.Key, error)
 	ChangeStatus(ctx context.Context, id string, status v1.ChangeKeyStateRequestStatus) (v1.ChangeKeyStateStatus, error)
@@ -103,14 +102,6 @@ func (op *keyOp) Update(ctx context.Context, id string, request UpdateParams) (*
 		return nil, createAPIError("Key.Update", err)
 	}
 	return &res.Key, nil
-}
-
-func (op *keyOp) Delete(ctx context.Context, id string) error {
-	err := op.client.DeleteKey(ctx, v1.DeleteKeyParams{ResourceID: id})
-	if err != nil {
-		return createAPIError("Key.Delete", err)
-	}
-	return nil
 }
 
 func (op *keyOp) Rotate(ctx context.Context, id string) (*v1.Key, error) {
