@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.6.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.5.0...v0.6.0) - 2026-11-09
+
+### 🚀 New Features
+- kms/secretmanager/cloudhsm openapi.json 1.3.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/329
+### ✨ Ordinary Updates
+- Fix database Backupv2 weekday validation by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/321
+- fix: database 更新時の DatabaseType を正規化する by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/322
+### 📦 Dependency Updates
+- go: bump github.com/sacloud/sacloud-sdk-go from 0.4.0 to 0.5.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/332
+
 ## [v0.5.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.4.0...v0.5.0) - 2026-10-30
 
 ### 🚀 New Features
