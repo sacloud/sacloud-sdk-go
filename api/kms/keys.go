@@ -29,11 +29,6 @@ type KeyAPI interface {
 	Create(ctx context.Context, request CreateParams) (*v1.CreateKeyResponse, error)
 	Update(ctx context.Context, id string, request UpdateParams) (*v1.Key, error)
 
-	// Deprecated:  This feature was removed from the server.
-	// Use `ScheduleDestruction` instead.
-	// Client side will be deleted in forthcoming release(s).
-	Delete(ctx context.Context, id string) error
-
 	Rotate(ctx context.Context, id string) (*v1.Key, error)
 	ChangeStatus(ctx context.Context, id string, status v1.ChangeKeyStateRequestStatus) (v1.ChangeKeyStateStatus, error)
 	ScheduleDestruction(ctx context.Context, id string, pendingDays int) (v1.KeyScheduledDestruction, error)
@@ -107,14 +102,6 @@ func (op *keyOp) Update(ctx context.Context, id string, request UpdateParams) (*
 		return nil, createAPIError("Key.Update", err)
 	}
 	return &res.Key, nil
-}
-
-// Deprecated:  This feature was removed from the server.
-// Use `ScheduleDestruction` instead.
-// Client side will be deleted in forthcoming release(s).
-func (op *keyOp) Delete(ctx context.Context, id string) error {
-	_, err := op.ScheduleDestruction(ctx, id, 7) // or ...?
-	return err
 }
 
 func (op *keyOp) Rotate(ctx context.Context, id string) (*v1.Key, error) {
