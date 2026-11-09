@@ -370,7 +370,7 @@ func (c *inMemoryCache) Transaction(yield func() (*tokenResponse, error)) (res *
 		return
 	}
 
-	if res == nil {
+	if res == nil || res.isFake {
 		return
 	}
 
