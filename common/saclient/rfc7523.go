@@ -16,6 +16,9 @@ package saclient
 
 import (
 	"context"
+	"crypto/sha256"
+	"crypto/x509"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -24,6 +27,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/gofrs/flock"
@@ -50,6 +54,13 @@ type cachedTokenResponse struct {
 	Token    tokenResponse `json:"token"`
 	CachedAt time.Time     `json:"cached_at"`
 }
+
+type inMemoryCache struct {
+	sync.Mutex
+	response option[cachedTokenResponse]
+}
+
+var caches sync.Map
 
 func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenResponse, error) {
 	var err error
@@ -141,6 +152,16 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 }
 
 func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenResponse, error) {
+	if k, err := cacheKey(cfg); err != nil {
+		return nil, err
+	} else {
+		return cacheFor(k).Transaction(func() (*tokenResponse, error) {
+			return d.newTokenResponseInternal(ctx, cfg)
+		})
+	}
+}
+
+func (d *doer) newTokenResponseInternal(ctx context.Context, cfg *config) (*tokenResponse, error) {
 	var profile *Profile
 	var key, path *string
 	var exists bool
@@ -154,7 +175,7 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 
 	if !exists {
 		// It is possible that Profile is absent.
-		// Token request is still tried then, but no way to cache its response.
+		// Token request is still tried then, kept in memory only.
 		return d.inquireAccessToken(ctx, cfg)
 	}
 
@@ -176,14 +197,16 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 		// (unlikely)
 		return nil, err
 	} else {
-		return openFileAt(profile.dir, rel, os.O_RDWR|os.O_CREATE, func(fp *os.File) (*tokenResponse, error) {
+		yielded := false
+		res, err := openFileAt(profile.dir, rel, os.O_RDWR|os.O_CREATE, func(fp *os.File) (*tokenResponse, error) {
 			var lock *flock.Flock
 			var cache cachedTokenResponse
+			yielded = true
 
 			// At this point, because we open a file without O_EXCL, another process could be touching it.
 			// We need to make sure that we don't read something incomplete.
 			if lock = flock.New(path + ".lock"); lock == nil {
-				// no lock; no caching
+				// no file lock; use the in-process cache
 				return d.inquireAccessToken(ctx, cfg)
 			} else if locked, err := lock.TryRLockContext(ctx, retryDelay); err != nil {
 				// context deadline exceeded etc.; worth propagating the error
@@ -220,17 +243,27 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 				// ditto
 				return res, nil
 			} else if err := fp.Truncate(0); err != nil {
-				return nil, err
+				// write failed; keep the response in memory
+				return res, nil
 			} else if _, err := fp.Seek(0, 0); err != nil {
-				return nil, err
+				// ditto
+				return res, nil
 			} else if err := enc.Encode(cachedTokenResponse{*res, time.Now()}); err != nil {
 				// write failed; purge garbages
 				_ = fp.Truncate(0)
-				return nil, err
+				return res, nil
 			} else {
 				return res, nil
 			}
 		})
+
+		if yielded {
+			return res, err
+		} else {
+			// premature failure of openFileAt for some reason;
+			// go on without filesystem caches
+			return d.inquireAccessToken(ctx, cfg)
+		}
 	}
 }
 
@@ -242,4 +275,108 @@ func (c *cachedTokenResponse) isExpired() bool {
 	expiresIn := time.Duration(c.Token.ExpiresIn) * time.Second
 	expiresAt := c.CachedAt.Add(expiresIn)
 	return time.Now().Add(skew).After(expiresAt)
+}
+
+func cacheKey(cfg *config) (string, error) {
+	var keyPEM []byte
+
+	if cfg == nil {
+		return "", NewErrorf("nil config passed to tokenResponseCacheKey")
+	}
+
+	aud, ok, err := obtainFromConfig[string](cfg, "TokenEndpoint").decompose()
+
+	if err != nil {
+		return "", err
+	}
+
+	if !ok {
+		return "", NewErrorf("TokenEndpoint not found in config")
+	}
+
+	sub, ok, err := obtainFromConfig[string](cfg, "ServicePrincipalID").decompose()
+
+	if err != nil {
+		return "", err
+	}
+
+	if !ok {
+		return "", NewErrorf("ServicePrincipalID not found in config")
+	}
+
+	kid, ok, err := obtainFromConfig[string](cfg, "ServicePrincipalKeyKID").decompose()
+
+	if err != nil {
+		return "", err
+	}
+
+	if !ok {
+		return "", NewErrorf("ServicePrincipalKeyKID not found in config")
+	}
+
+	if key := obtainFromConfig[string](cfg, "PrivateKey").asPtr(); key != nil {
+		keyPEM = []byte(*key)
+	} else if path := obtainFromConfig[string](cfg, "PrivateKeyPEMPath").asPtr(); path != nil {
+		var err error
+		keyPEM, err = os.ReadFile(*path)
+		if err != nil {
+			return "", err
+		}
+	} else {
+		return "", NewErrorf("neither PrivateKeyPEMPath nor PrivateKey is present")
+	}
+
+	key, err := jwt.ParseRSAPrivateKeyFromPEM(keyPEM)
+	if err != nil {
+		return "", err
+	}
+
+	publicKey, err := x509.MarshalPKIXPublicKey(&key.PublicKey)
+	if err != nil {
+		return "", err
+	}
+
+	identity, err := json.Marshal([]string{aud, sub, kid, string(publicKey)})
+	if err != nil {
+		return "", err
+	}
+
+	sum := sha256.Sum256(identity)
+	return hex.EncodeToString(sum[:]), nil
+}
+
+func cacheFor(key string) *inMemoryCache {
+	allocated := new(inMemoryCache)
+	cache, _ := caches.LoadOrStore(key, allocated)
+	return cache.(*inMemoryCache)
+}
+
+func (c *inMemoryCache) Transaction(yield func() (*tokenResponse, error)) (res *tokenResponse, err error) {
+	if c == nil {
+		err = NewErrorf("in-memory cache is nil")
+		return
+	}
+
+	c.Lock()
+	defer c.Unlock()
+
+	if cached, ok := c.response.Get(); ok && !cached.isExpired() {
+		return &cached.Token, nil
+	}
+
+	res, err = yield()
+
+	if err != nil {
+		return
+	}
+
+	if res == nil {
+		return
+	}
+
+	c.response = optionSome(cachedTokenResponse{
+		Token:    *res,
+		CachedAt: time.Now(),
+	})
+	return
 }
