@@ -62,7 +62,17 @@ type inMemoryCache struct {
 
 var caches sync.Map
 
-func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenResponse, error) {
+func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*cachedTokenResponse, error) {
+	if tok, err := d.inquireAccessTokenInternal(ctx, cfg); err != nil {
+		return nil, err
+	} else {
+		// This return value can include fake tokens if using a test server.
+		// Should be checked at caller site.
+		return &cachedTokenResponse{*tok, time.Now()}, nil
+	}
+}
+
+func (d *doer) inquireAccessTokenInternal(ctx context.Context, cfg *config) (*tokenResponse, error) {
 	var err error
 	var buf []byte
 	var ret tokenResponse
@@ -155,13 +165,13 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 	if k, err := cacheKey(cfg); err != nil {
 		return nil, err
 	} else {
-		return cacheFor(k).Transaction(func() (*tokenResponse, error) {
+		return cacheFor(k).Transaction(func() (*cachedTokenResponse, error) {
 			return d.newTokenResponseInternal(ctx, cfg)
 		})
 	}
 }
 
-func (d *doer) newTokenResponseInternal(ctx context.Context, cfg *config) (*tokenResponse, error) {
+func (d *doer) newTokenResponseInternal(ctx context.Context, cfg *config) (*cachedTokenResponse, error) {
 	var profile *Profile
 	var key, path *string
 	var exists bool
@@ -198,7 +208,7 @@ func (d *doer) newTokenResponseInternal(ctx context.Context, cfg *config) (*toke
 		return nil, err
 	} else {
 		yielded := false
-		res, err := openFileAt(profile.dir, rel, os.O_RDWR|os.O_CREATE, func(fp *os.File) (*tokenResponse, error) {
+		res, err := openFileAt(profile.dir, rel, os.O_RDWR|os.O_CREATE, func(fp *os.File) (*cachedTokenResponse, error) {
 			var lock *flock.Flock
 			var cache cachedTokenResponse
 			yielded = true
@@ -225,7 +235,7 @@ func (d *doer) newTokenResponseInternal(ctx context.Context, cfg *config) (*toke
 
 			} else if !cache.isExpired() {
 				// got it! return cached token
-				return &cache.Token, nil
+				return &cache, nil
 			}
 
 			enc := json.NewEncoder(fp)
@@ -233,7 +243,7 @@ func (d *doer) newTokenResponseInternal(ctx context.Context, cfg *config) (*toke
 			locked, eerr := lock.TryLockContext(ctx, retryDelay)
 			if res, err := d.inquireAccessToken(ctx, cfg); err != nil {
 				return nil, err
-			} else if res.isFake {
+			} else if res.Token.isFake {
 				// This response is not for caching.
 				return res, nil
 			} else if eerr != nil {
@@ -248,7 +258,7 @@ func (d *doer) newTokenResponseInternal(ctx context.Context, cfg *config) (*toke
 			} else if _, err := fp.Seek(0, 0); err != nil {
 				// ditto
 				return res, nil
-			} else if err := enc.Encode(cachedTokenResponse{*res, time.Now()}); err != nil {
+			} else if err := enc.Encode(res); err != nil {
 				// write failed; purge garbages
 				_ = fp.Truncate(0)
 				return res, nil
@@ -351,7 +361,7 @@ func cacheFor(key string) *inMemoryCache {
 	return cache.(*inMemoryCache)
 }
 
-func (c *inMemoryCache) Transaction(yield func() (*tokenResponse, error)) (res *tokenResponse, err error) {
+func (c *inMemoryCache) Transaction(yield func() (*cachedTokenResponse, error)) (res *tokenResponse, err error) {
 	if c == nil {
 		err = NewErrorf("in-memory cache is nil")
 		return
@@ -364,19 +374,23 @@ func (c *inMemoryCache) Transaction(yield func() (*tokenResponse, error)) (res *
 		return &cached.Token, nil
 	}
 
-	res, err = yield()
+	obtained, err := yield()
 
 	if err != nil {
 		return
 	}
 
-	if res == nil || res.isFake {
+	if obtained == nil {
 		return
 	}
 
-	c.response = optionSome(cachedTokenResponse{
-		Token:    *res,
-		CachedAt: time.Now(),
-	})
+	res = &obtained.Token
+
+	if res.isFake {
+		return
+	}
+
+	c.response = optionSome(*obtained)
+
 	return
 }
