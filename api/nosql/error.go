@@ -53,20 +53,20 @@ func (e *apiErrorResponse) Error() string {
 
 func unknownError(res any) error {
 	switch v := res.(type) {
-	case v1.BadRequestResponse:
-		return new(apiErrorResponse{&v})
+	case *v1.BadRequestResponse:
+		return new(apiErrorResponse{v})
 
-	case v1.ConflictErrorResponse:
-		return new(apiErrorResponse{&v})
+	case *v1.ConflictErrorResponse:
+		return new(apiErrorResponse{v})
 
-	case v1.NotFoundResponse:
-		return new(apiErrorResponse{&v})
+	case *v1.NotFoundResponse:
+		return new(apiErrorResponse{v})
 
-	case v1.ServerErrorResponse:
-		return new(apiErrorResponse{&v})
+	case *v1.ServerErrorResponse:
+		return new(apiErrorResponse{v})
 
-	case v1.UnauthorizedResponse:
-		return new(apiErrorResponse{&v})
+	case *v1.UnauthorizedResponse:
+		return new(apiErrorResponse{v})
 
 	default:
 		return fmt.Errorf("unknown error response: %#+v", v)
