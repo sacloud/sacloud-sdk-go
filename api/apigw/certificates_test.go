@@ -24,6 +24,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestCertificateAPI(t *testing.T) {
@@ -31,7 +32,7 @@ func TestCertificateAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	ctx := context.Background()
 	certOp := apigw.NewCertificateOp(client)
@@ -60,7 +61,7 @@ func TestCertificateAPI(t *testing.T) {
 	}
 
 	cert, err := certOp.Create(ctx, &certArg)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	err = certOp.Update(ctx, &certArg, cert.ID.Value)
 	assert.NoError(t, err)

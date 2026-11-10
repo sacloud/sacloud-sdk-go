@@ -24,6 +24,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestDomainAPI(t *testing.T) {
@@ -32,13 +33,13 @@ func TestDomainAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	ctx := context.Background()
 	domainOp := apigw.NewDomainOp(client)
 
 	domain, err := domainOp.Create(ctx, &v1.Domain{DomainName: os.Getenv("SAKURA_TEST_DOMAIN")})
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	// TODO: 証明書を作ってのテストも行うようにする
 	// err = domainOp.Update(ctx, &v1.DomainPUT{CertificateId: v1.NewOptUUID(cert.ID.Value)}, domain.ID.Value)

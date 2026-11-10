@@ -52,7 +52,7 @@ func TestSubscriptionAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	ctx := context.Background()
 	subscriptionOp := apigw.NewSubscriptionOp(client)
@@ -61,7 +61,7 @@ func TestSubscriptionAPI(t *testing.T) {
 	if err != nil {
 		t.Error(err.Error())
 	}
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	require.Greater(t, len(plans), 0)
 
 	if os.Getenv("ENABLE_SAKURA_APIGW_SUBSCRIPTION_TEST") != "1" {
@@ -69,10 +69,10 @@ func TestSubscriptionAPI(t *testing.T) {
 	}
 
 	err = subscriptionOp.Create(ctx, plans[0].ID.Value, "sdk-test")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	subs, err := subscriptionOp.List(ctx)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	status, err := subscriptionOp.Read(ctx, subs[0].ID.Value)
 	assert.NoError(t, err)

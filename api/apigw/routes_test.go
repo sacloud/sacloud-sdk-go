@@ -11,6 +11,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestRouteAPI(t *testing.T) {
@@ -19,10 +20,10 @@ func TestRouteAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	subReq, err := getSvcSubRequest()
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	ctx := context.Background()
 	serviceOp := apigw.NewServiceOp(client)
@@ -34,7 +35,7 @@ func TestRouteAPI(t *testing.T) {
 		Protocol:     "http",
 		Subscription: subReq,
 	})
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	defer func() { _ = serviceOp.Delete(ctx, service.ID.Value) }()
 
 	routeOp := apigw.NewRouteOp(client, service.ID.Value)
@@ -47,7 +48,7 @@ func TestRouteAPI(t *testing.T) {
 		Tags:      []string{"Test"},
 	}
 	createdRoute, err := routeOp.Create(ctx, &routeReq)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	routes, err := routeOp.List(ctx)
 	assert.NoError(t, err)
@@ -71,10 +72,10 @@ func TestRouteExtraAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	subReq, err := getSvcSubRequest()
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	ctx := context.Background()
 	serviceOp := apigw.NewServiceOp(client)
@@ -85,7 +86,7 @@ func TestRouteExtraAPI(t *testing.T) {
 		Protocol:     "http",
 		Subscription: subReq,
 	})
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	defer func() { _ = serviceOp.Delete(ctx, service.ID.Value) }()
 
 	routeOp := apigw.NewRouteOp(client, service.ID.Value)
@@ -96,12 +97,12 @@ func TestRouteExtraAPI(t *testing.T) {
 		Protocols: v1.NewOptRouteDetailProtocols(v1.RouteDetailProtocolsHTTPHTTPS),
 		Tags:      []string{"Test"},
 	})
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	defer func() { _ = routeOp.Delete(ctx, route.ID.Value) }()
 
 	groupOp := apigw.NewGroupOp(client)
 	group, err := groupOp.Create(ctx, &v1.Group{Name: v1.NewOptName("test-group"), Tags: []string{"Test"}})
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	defer func() { _ = groupOp.Delete(ctx, group.ID.Value) }()
 
 	routeExtraOp := apigw.NewRouteExtraOp(client, service.ID.Value, route.ID.Value)

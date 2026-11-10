@@ -23,6 +23,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestGroupAPI(t *testing.T) {
@@ -30,13 +31,13 @@ func TestGroupAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	ctx := context.Background()
 	groupOp := apigw.NewGroupOp(client)
 
 	orig, err := groupOp.Create(ctx, &v1.Group{Name: v1.NewOptName("test-group"), Tags: []string{"Test"}})
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	err = groupOp.Update(ctx, &v1.Group{Name: v1.NewOptName("test-group-updated"), Tags: []string{"SDK"}}, orig.ID.Value)
 	assert.NoError(t, err)

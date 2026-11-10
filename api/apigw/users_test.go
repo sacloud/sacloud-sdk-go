@@ -10,6 +10,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestUserAPI(t *testing.T) {
@@ -17,7 +18,7 @@ func TestUserAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	ctx := context.Background()
 	userOp := apigw.NewUserOp(client)
@@ -29,7 +30,7 @@ func TestUserAPI(t *testing.T) {
 		Tags:     v1.Tags{"Test"},
 	}
 	createdUser, err := userOp.Create(ctx, userReq)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	gotUser, err := userOp.Read(ctx, createdUser.ID.Value)
 	assert.NoError(t, err)
@@ -53,7 +54,7 @@ func TestUserExtraAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	ctx := context.Background()
 
@@ -63,13 +64,13 @@ func TestUserExtraAPI(t *testing.T) {
 		CustomID: v1.NewOptString("extrauser-custom-id"),
 		Tags:     v1.Tags{"Test"},
 	})
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	defer func() { _ = userOp.Delete(ctx, createdUser.ID.Value) }()
 
 	groupOp := apigw.NewGroupOp(client)
 	createdGroup, err := groupOp.Create(ctx, &v1.Group{
 		Name: v1.NewOptName("test-group"), Tags: []string{"Test"}})
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	defer func() { _ = groupOp.Delete(ctx, createdGroup.ID.Value) }()
 
 	userExtraOp := apigw.NewUserExtraOp(client, createdUser.ID.Value)
