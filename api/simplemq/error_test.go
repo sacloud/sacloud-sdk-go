@@ -16,10 +16,83 @@ package simplemq
 
 import (
 	"errors"
+	"strings"
 	"testing"
 
+	"github.com/sacloud/sacloud-sdk-go/api/simplemq/apis/v1/message"
+	"github.com/sacloud/sacloud-sdk-go/api/simplemq/apis/v1/queue"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
+
+func TestUnknownQueueError(t *testing.T) {
+	tests := []struct {
+		name string
+		res  any
+		want string
+	}{
+		{
+			name: "queue error response",
+			res: &queue.CreateQueueBadRequest{
+				ErrorMsg: queue.NewOptString("bad request"),
+			},
+			want: `"error_msg":"bad request"`,
+		},
+		{
+			name: "nil queue error response",
+			res:  (*queue.CreateQueueBadRequest)(nil),
+			want: "nil API error response",
+		},
+		{
+			name: "unknown response",
+			res:  123,
+			want: "unknown API response type 123",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := unknownQueueError(tt.res)
+			if err == nil || !strings.Contains(err.Error(), tt.want) {
+				t.Errorf("unknownQueueError() error = %v, want it to contain %q", err, tt.want)
+			}
+		})
+	}
+}
+
+func TestUnknownMessageError(t *testing.T) {
+	tests := []struct {
+		name string
+		res  any
+		want string
+	}{
+		{
+			name: "message error response",
+			res: &message.SendMessageBadRequest{
+				Message: message.NewOptString("bad request"),
+			},
+			want: `"message":"bad request"`,
+		},
+		{
+			name: "nil message error response",
+			res:  (*message.SendMessageBadRequest)(nil),
+			want: "nil API error response",
+		},
+		{
+			name: "unknown response",
+			res:  123,
+			want: "unknown API response type 123",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := unknownMessageError(tt.res)
+			if err == nil || !strings.Contains(err.Error(), tt.want) {
+				t.Errorf("unknownMessageError() error = %v, want it to contain %q", err, tt.want)
+			}
+		})
+	}
+}
 
 func TestError_Error(t *testing.T) {
 	baseErr := errors.New("base error")

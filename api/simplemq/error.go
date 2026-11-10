@@ -14,7 +14,14 @@
 
 package simplemq
 
-import "github.com/sacloud/sacloud-sdk-go/common/saclient"
+//go:generate go run ./gen/list_of_errors.go
+
+import (
+	"fmt"
+
+	"github.com/go-faster/jx"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+)
 
 type Error struct {
 	msg string
@@ -43,4 +50,28 @@ func NewError(msg string, err error) *Error {
 
 func NewAPIError(method string, code int, err error) *Error {
 	return &Error{msg: method, err: saclient.NewError(code, "", err)}
+}
+
+func unknownQueueError(p any) error {
+	if err, ok := asQueueError(p); !ok {
+		return fmt.Errorf("unknown API response type %#+v", p)
+	} else if err == nil {
+		return fmt.Errorf("nil API error response %T", p)
+	} else {
+		var e jx.Encoder
+		err.Encode(&e)
+		return fmt.Errorf("unknown API error response: %s", e.Bytes())
+	}
+}
+
+func unknownMessageError(p any) error {
+	if err, ok := asMessageError(p); !ok {
+		return fmt.Errorf("unknown API response type %#+v", p)
+	} else if err == nil {
+		return fmt.Errorf("nil API error response %T", p)
+	} else {
+		var e jx.Encoder
+		err.Encode(&e)
+		return fmt.Errorf("unknown API error response: %s", e.Bytes())
+	}
 }
