@@ -58,7 +58,7 @@ func (op *processConfigurationOp) List(ctx context.Context) ([]v1.CommonServiceI
 	case *v1.ListCommonServiceItemsInternalServerError:
 		return nil, NewAPIError("ProcessConfiguration.List", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("ProcessConfiguration.List", 0, nil)
+		return nil, NewAPIError("ProcessConfiguration.List", 0, unknownError(p))
 	}
 }
 
@@ -80,7 +80,7 @@ func (op *processConfigurationOp) Read(ctx context.Context, id string) (*v1.Comm
 	case *v1.ReadCommonServiceItemInternalServerError:
 		return nil, NewAPIError("ProcessConfiguration.Read", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("CommonServiceItem.Read", 0, nil)
+		return nil, NewAPIError("ProcessConfiguration.Read", 0, unknownError(p))
 	}
 }
 
@@ -106,7 +106,7 @@ func (op *processConfigurationOp) Create(ctx context.Context, request v1.CreateC
 	case *v1.CreateCommonServiceItemInternalServerError:
 		return nil, NewAPIError("ProcessConfiguration.Create", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("ProcessConfiguration.Create", 0, nil)
+		return nil, NewAPIError("ProcessConfiguration.Create", 0, unknownError(p))
 	}
 }
 
@@ -132,7 +132,7 @@ func (op *processConfigurationOp) Update(ctx context.Context, id string, request
 	case *v1.UpdateCommonServiceItemInternalServerError:
 		return nil, NewAPIError("ProcessConfiguration.Update", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("ProcessConfiguration.Update", 0, nil)
+		return nil, NewAPIError("ProcessConfiguration.Update", 0, unknownError(p))
 	}
 }
 
@@ -154,7 +154,7 @@ func (op *processConfigurationOp) UpdateSecret(ctx context.Context, id string, s
 	case *v1.SetProcessConfigurationSecretInternalServerError:
 		return NewAPIError("ProcessConfiguration.UpdateSecret", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("ProcessConfiguration.UpdateSecret", 0, nil)
+		return NewAPIError("ProcessConfiguration.UpdateSecret", 0, unknownError(p))
 	}
 }
 
@@ -176,7 +176,7 @@ func (op *processConfigurationOp) Delete(ctx context.Context, id string) error {
 	case *v1.DeleteCommonServiceItemInternalServerError:
 		return NewAPIError("ProcessConfiguration.Delete", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("ProcessConfiguration.Delete", 0, nil)
+		return NewAPIError("ProcessConfiguration.Delete", 0, unknownError(p))
 	}
 }
 

@@ -56,7 +56,7 @@ func (op *triggerOp) List(ctx context.Context) ([]v1.CommonServiceItem, error) {
 	case *v1.ListCommonServiceItemsInternalServerError:
 		return nil, NewAPIError("Trigger.List", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Trigger.List", 0, nil)
+		return nil, NewAPIError("Trigger.List", 0, unknownError(p))
 	}
 }
 
@@ -78,7 +78,7 @@ func (op *triggerOp) Read(ctx context.Context, id string) (*v1.CommonServiceItem
 	case *v1.ReadCommonServiceItemInternalServerError:
 		return nil, NewAPIError("Trigger.Read", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Trigger.Read", 0, nil)
+		return nil, NewAPIError("Trigger.Read", 0, unknownError(p))
 	}
 }
 
@@ -104,7 +104,7 @@ func (op *triggerOp) Create(ctx context.Context, request v1.CreateCommonServiceI
 	case *v1.CreateCommonServiceItemInternalServerError:
 		return nil, NewAPIError("Trigger.Create", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Trigger.Create", 0, nil)
+		return nil, NewAPIError("Trigger.Create", 0, unknownError(p))
 	}
 }
 
@@ -130,7 +130,7 @@ func (op *triggerOp) Update(ctx context.Context, id string, request v1.UpdateCom
 	case *v1.UpdateCommonServiceItemInternalServerError:
 		return nil, NewAPIError("Trigger.Update", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Trigger.Update", 0, nil)
+		return nil, NewAPIError("Trigger.Update", 0, unknownError(p))
 	}
 }
 
@@ -152,6 +152,6 @@ func (op *triggerOp) Delete(ctx context.Context, id string) error {
 	case *v1.DeleteCommonServiceItemInternalServerError:
 		return NewAPIError("Trigger.Delete", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Trigger.Delete", 0, nil)
+		return NewAPIError("Trigger.Delete", 0, unknownError(p))
 	}
 }

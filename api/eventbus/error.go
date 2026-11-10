@@ -14,7 +14,12 @@
 
 package eventbus
 
+//go:generate go run ./gen/list_of_errors.go
+
 import (
+	"fmt"
+
+	"github.com/go-faster/jx"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -45,4 +50,17 @@ func NewError(msg string, err error) *Error {
 
 func NewAPIError(method string, code int, err error) *Error {
 	return &Error{msg: method, err: saclient.NewError(code, "", err)}
+}
+
+func unknownError(p any) error {
+	if err, ok := asError(p); !ok {
+		return fmt.Errorf("unknown API response type %#+v", p)
+	} else if err == nil {
+		return fmt.Errorf("nil API error response %T", p)
+	} else {
+		var e jx.Encoder
+		err.Encode(&e)
+		str := string(e.Bytes())
+		return fmt.Errorf("unknown API error response: %s", str)
+	}
 }
