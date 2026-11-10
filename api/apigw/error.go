@@ -14,7 +14,14 @@
 
 package apigw
 
-import "github.com/sacloud/sacloud-sdk-go/common/saclient"
+//go:generate go run ./gen/list_of_errors.go
+
+import (
+	"errors"
+	"fmt"
+
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+)
 
 type Error struct {
 	msg string
@@ -43,4 +50,18 @@ func NewError(msg string, err error) *Error {
 
 func NewAPIError(method string, code int, err error) *Error {
 	return &Error{msg: method, err: saclient.NewError(code, "", err)}
+}
+
+func unknownError(p any) error {
+	if schema, ok := asErrorSchema(p); !ok {
+		return fmt.Errorf("unknown API response type %#+v", p)
+	} else if schema == nil {
+		return fmt.Errorf("nil API error response %T", p)
+	} else if msg, ok := schema.GetMessage().Get(); !ok {
+		return fmt.Errorf("API error response missing message: %#+v", p)
+	} else if msg == "" {
+		return fmt.Errorf("API error response has empty message: %#+v", p)
+	} else {
+		return errors.New(msg)
+	}
 }
