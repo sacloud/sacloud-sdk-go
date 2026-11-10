@@ -23,7 +23,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func TestGroupAPI(t *testing.T) {
@@ -31,26 +30,26 @@ func TestGroupAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	require.Nil(t, err)
+	assert.NoError(t, err)
 
 	ctx := context.Background()
 	groupOp := apigw.NewGroupOp(client)
 
 	orig, err := groupOp.Create(ctx, &v1.Group{Name: v1.NewOptName("test-group"), Tags: []string{"Test"}})
-	require.Nil(t, err)
+	assert.NoError(t, err)
 
 	err = groupOp.Update(ctx, &v1.Group{Name: v1.NewOptName("test-group-updated"), Tags: []string{"SDK"}}, orig.ID.Value)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	got, err := groupOp.Read(ctx, orig.ID.Value)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.Equal(t, orig.ID.Value, got.ID.Value)
 	assert.Equal(t, v1.Name("test-group-updated"), got.Name.Value)
 
 	groups, err := groupOp.List(ctx)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.Greater(t, len(groups), 0)
 
 	err = groupOp.Delete(ctx, orig.ID.Value)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }

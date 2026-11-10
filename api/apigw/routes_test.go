@@ -11,7 +11,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func TestRouteAPI(t *testing.T) {
@@ -20,10 +19,10 @@ func TestRouteAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	require.Nil(t, err)
+	assert.NoError(t, err)
 
 	subReq, err := getSvcSubRequest()
-	require.Nil(t, err)
+	assert.NoError(t, err)
 
 	ctx := context.Background()
 	serviceOp := apigw.NewServiceOp(client)
@@ -35,7 +34,7 @@ func TestRouteAPI(t *testing.T) {
 		Protocol:     "http",
 		Subscription: subReq,
 	})
-	require.Nil(t, err)
+	assert.NoError(t, err)
 	defer func() { _ = serviceOp.Delete(ctx, service.ID.Value) }()
 
 	routeOp := apigw.NewRouteOp(client, service.ID.Value)
@@ -48,22 +47,22 @@ func TestRouteAPI(t *testing.T) {
 		Tags:      []string{"Test"},
 	}
 	createdRoute, err := routeOp.Create(ctx, &routeReq)
-	require.Nil(t, err)
+	assert.NoError(t, err)
 
 	routes, err := routeOp.List(ctx)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.Greater(t, len(routes), 0)
 
 	readRoute, err := routeOp.Read(ctx, createdRoute.ID.Value)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.Equal(t, createdRoute.ID.Value, readRoute.ID.Value)
 
 	routeReq.Path = v1.NewOptString("/test-updated")
 	err = routeOp.Update(ctx, &routeReq, createdRoute.ID.Value)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	err = routeOp.Delete(ctx, createdRoute.ID.Value)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRouteExtraAPI(t *testing.T) {
@@ -72,10 +71,10 @@ func TestRouteExtraAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	require.Nil(t, err)
+	assert.NoError(t, err)
 
 	subReq, err := getSvcSubRequest()
-	require.Nil(t, err)
+	assert.NoError(t, err)
 
 	ctx := context.Background()
 	serviceOp := apigw.NewServiceOp(client)
@@ -86,7 +85,7 @@ func TestRouteExtraAPI(t *testing.T) {
 		Protocol:     "http",
 		Subscription: subReq,
 	})
-	require.Nil(t, err)
+	assert.NoError(t, err)
 	defer func() { _ = serviceOp.Delete(ctx, service.ID.Value) }()
 
 	routeOp := apigw.NewRouteOp(client, service.ID.Value)
@@ -97,12 +96,12 @@ func TestRouteExtraAPI(t *testing.T) {
 		Protocols: v1.NewOptRouteDetailProtocols(v1.RouteDetailProtocolsHTTPHTTPS),
 		Tags:      []string{"Test"},
 	})
-	require.Nil(t, err)
+	assert.NoError(t, err)
 	defer func() { _ = routeOp.Delete(ctx, route.ID.Value) }()
 
 	groupOp := apigw.NewGroupOp(client)
 	group, err := groupOp.Create(ctx, &v1.Group{Name: v1.NewOptName("test-group"), Tags: []string{"Test"}})
-	require.Nil(t, err)
+	assert.NoError(t, err)
 	defer func() { _ = groupOp.Delete(ctx, group.ID.Value) }()
 
 	routeExtraOp := apigw.NewRouteExtraOp(client, service.ID.Value, route.ID.Value)
@@ -112,21 +111,21 @@ func TestRouteExtraAPI(t *testing.T) {
 		Name:    group.Name,
 		Enabled: v1.NewOptBool(true),
 	}})
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	auth, err := routeExtraOp.ReadAuthorization(ctx)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.True(t, auth.IsACLEnabled)
 	assert.Greater(t, len(auth.Groups), 0)
 
 	err = routeExtraOp.DisableAuthorization(ctx)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	auth2, err := routeExtraOp.ReadAuthorization(ctx)
 	if err != nil {
 		t.Error(err.Error())
 	}
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.False(t, auth2.IsACLEnabled)
 	assert.Greater(t, len(auth2.Groups), 0)
 
@@ -140,10 +139,10 @@ func TestRouteExtraAPI(t *testing.T) {
 		}),
 	}
 	err = routeExtraOp.UpdateRequestTransformation(ctx, &reqTrans)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	resReqTrans, err := routeExtraOp.ReadRequestTransformation(ctx)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.Equal(t, reqTrans.Add.Value.Headers, resReqTrans.Add.Value.Headers)
 
 	resTrans := v1.ResponseTransformation{
@@ -164,10 +163,10 @@ func TestRouteExtraAPI(t *testing.T) {
 		}),
 	}
 	err = routeExtraOp.UpdateResponseTransformation(ctx, &resTrans)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	resResTrans, err := routeExtraOp.ReadResponseTransformation(ctx)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.Equal(t, resTrans.Allow, resResTrans.Allow)
 	assert.Equal(t, resTrans.Rename.Value.Headers, resResTrans.Rename.Value.Headers)
 	assert.Equal(t, resTrans.Add.Value.JSON, resResTrans.Add.Value.JSON)

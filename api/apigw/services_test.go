@@ -36,7 +36,7 @@ func TestServiceAPI(t *testing.T) {
 	require.NoError(t, err)
 
 	subReq, err := getSvcSubRequest()
-	require.Nil(t, err)
+	assert.NoError(t, err)
 
 	ctx := context.Background()
 	serviceOp := apigw.NewServiceOp(client)
