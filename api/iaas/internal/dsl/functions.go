@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/huandu/xstrings"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/naming"
 )
 
 func uniqStrings(ss []string) []string {
@@ -44,11 +44,11 @@ func wrapByDoubleQuote(targets ...string) []string {
 }
 
 func toSnakeCaseName(name string) string {
-	return strings.ReplaceAll(normalizeResourceName(xstrings.ToSnakeCase(name)), "-", "_")
+	return strings.ReplaceAll(normalizeResourceName(naming.SnakeCase(name)), "-", "_")
 }
 
 func toLower(name string) string {
-	return strings.ReplaceAll(normalizeResourceName(xstrings.ToSnakeCase(name)), "_", "")
+	return strings.ReplaceAll(normalizeResourceName(naming.SnakeCase(name)), "_", "")
 }
 
 var normalizationWords = map[string]string{
@@ -73,5 +73,5 @@ func normalizeResourceName(name string) string {
 }
 
 func firstRuneToLower(name string) string {
-	return xstrings.FirstRuneToLower(name)
+	return naming.FirstRuneToLower(name)
 }
