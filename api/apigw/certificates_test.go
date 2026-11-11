@@ -32,7 +32,7 @@ func TestCertificateAPI(t *testing.T) {
 
 	var theClient saclient.Client
 	client, err := apigw.NewClient(&theClient)
-	require.Nil(t, err)
+	require.NoError(t, err)
 
 	ctx := context.Background()
 	certOp := apigw.NewCertificateOp(client)
@@ -61,15 +61,15 @@ func TestCertificateAPI(t *testing.T) {
 	}
 
 	cert, err := certOp.Create(ctx, &certArg)
-	require.Nil(t, err)
+	require.NoError(t, err)
 
 	err = certOp.Update(ctx, &certArg, cert.ID.Value)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	certs, err := certOp.List(ctx)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.Greater(t, len(certs), 0)
 
 	err = certOp.Delete(ctx, cert.ID.Value)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
