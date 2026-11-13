@@ -16,8 +16,12 @@ package workflows
 
 import (
 	"errors"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 
+	v1 "github.com/sacloud/sacloud-sdk-go/api/workflows/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/require"
 )
@@ -78,4 +82,75 @@ func TestNewAPIError(t *testing.T) {
 	err2 := NewAPIError("msg", 503, nil)
 	assert.Equal("msg", err2.msg)
 	assert.False(saclient.IsNotFoundError(err2))
+}
+
+func TestUnknownError(t *testing.T) {
+	tests := []struct {
+		name string
+		res  any
+		want string
+	}{
+		{
+			name: "unhandled response",
+			res:  &v1.CreateExecutionPaymentRequired{Message: "payment required"},
+			want: "payment required",
+		},
+		{
+			name: "another response type",
+			res:  &v1.DeleteExecutionConflict{Message: "conflict"},
+			want: "conflict",
+		},
+		{
+			name: "empty message",
+			res:  &v1.CreateExecutionPaymentRequired{},
+			want: "API error response has empty message: *v1.CreateExecutionPaymentRequired",
+		},
+		{
+			name: "typed nil",
+			res:  (*v1.CreateExecutionPaymentRequired)(nil),
+			want: "nil API error response *v1.CreateExecutionPaymentRequired",
+		},
+		{
+			name: "nil",
+			want: "unknown API response type <nil>",
+		},
+		{
+			name: "unknown type",
+			res:  struct{}{},
+			want: "unknown API response type struct {}",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			require.EqualError(t, unknownError(tt.res), tt.want)
+		})
+	}
+}
+
+func TestExecutionUnhandledResponse(t *testing.T) {
+	for _, tt := range []struct {
+		name   string
+		status int
+	}{
+		{name: "unhandled", status: http.StatusPaymentRequired},
+		{name: "handled", status: http.StatusNotFound},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(tt.status)
+				fmt.Fprint(w, `{"is_ok":false,"Message":"server message"}`)
+			}))
+			defer server.Close()
+
+			client, err := v1.NewClient(server.URL, voidSecuritySource{})
+			require.NoError(t, err)
+			_, err = NewExecutionOp(client).Create(t.Context(), "workflow", v1.OptCreateExecutionReq{})
+			require.ErrorContains(t, err, "server message")
+			if tt.status == http.StatusNotFound {
+				require.True(t, saclient.IsNotFoundError(err))
+			}
+		})
+	}
 }

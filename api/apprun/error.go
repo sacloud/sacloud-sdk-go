@@ -16,6 +16,8 @@ package apprun
 
 import (
 	stderrs "errors"
+	"fmt"
+	"reflect"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
@@ -53,16 +55,43 @@ type modelErrorGetter interface {
 	GetModelCloudctrlError() (v1.ModelCloudctrlError, bool)
 }
 
+func unknownAPIError(method string, response any) *Error {
+	if model, ok := response.(modelErrorGetter); ok {
+		return apiErrorFromModel(method, 0, model)
+	}
+	if response == nil {
+		return NewAPIError(method, 0, stderrs.New("nil API response"))
+	}
+	value := reflect.ValueOf(response)
+	if value.Kind() == reflect.Pointer && value.IsNil() {
+		// modelErrorGetterはinterfaceなのでtyped nilの場合上記の==nilの判定をすり抜けてここに到達
+		return NewAPIError(method, 0, fmt.Errorf("nil API response %T", response))
+	}
+	return NewAPIError(method, 0, fmt.Errorf("unknown API response type %T", response))
+}
+
 func apiErrorFromModel(method string, code int, response modelErrorGetter) *Error {
+	if response == nil {
+		return NewAPIError(method, code, stderrs.New("nil API response"))
+	}
+
+	value := reflect.ValueOf(response)
+	if value.Kind() == reflect.Pointer && value.IsNil() {
+		// modelErrorGetterはinterfaceなのでtyped nilの場合上記の==nilの判定をすり抜けてここに到達
+		return NewAPIError(method, code, fmt.Errorf("nil API response %T", response))
+	}
+
 	if v, ok := response.GetModelDefaultError(); ok {
 		if v.Error.Message != "" {
 			return NewAPIError(method, code, stderrs.New(v.Error.Message))
 		}
+		return NewAPIError(method, code, fmt.Errorf("API error response has empty message: %#+v", response))
 	}
 	if v, ok := response.GetModelCloudctrlError(); ok {
 		if v.ErrorMsg != "" {
 			return NewAPIError(method, code, stderrs.New(v.ErrorMsg))
 		}
+		return NewAPIError(method, code, fmt.Errorf("API error response has empty message: %#+v", response))
 	}
-	return NewAPIError(method, code, stderrs.New("unknown error"))
+	return NewAPIError(method, code, fmt.Errorf("unknown API error model: %#+v", response))
 }

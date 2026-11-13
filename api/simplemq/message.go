@@ -66,7 +66,7 @@ func (op *messageOp) Send(ctx context.Context, content string) (*message.NewMess
 	case *message.SendMessageInternalServerError:
 		return nil, NewAPIError("Message.Send", 500, errors.New(r.Message.Value))
 	default:
-		return nil, NewAPIError("Message.Send", 0, nil)
+		return nil, NewAPIError("Message.Send", 0, unknownMessageError(r))
 	}
 }
 
@@ -91,7 +91,7 @@ func (op *messageOp) Receive(ctx context.Context) ([]message.Message, error) {
 	case *message.ReceiveMessageInternalServerError:
 		return nil, NewAPIError("Message.Receive", 500, errors.New(r.Message.Value))
 	default:
-		return nil, NewAPIError("Message.Receive", 0, nil)
+		return nil, NewAPIError("Message.Receive", 0, unknownMessageError(r))
 	}
 }
 
@@ -119,7 +119,7 @@ func (op *messageOp) ExtendTimeout(ctx context.Context, messageID string) (*mess
 	case *message.ExtendMessageTimeoutInternalServerError:
 		return nil, NewAPIError("Message.ExtendTimeout", 500, errors.New(r.Message.Value))
 	default:
-		return nil, NewAPIError("Message.ExtendTimeout", 0, nil)
+		return nil, NewAPIError("Message.ExtendTimeout", 0, unknownMessageError(r))
 	}
 }
 
@@ -147,6 +147,6 @@ func (op *messageOp) Delete(ctx context.Context, messageID string) error {
 	case *message.DeleteMessageInternalServerError:
 		return NewAPIError("Message.Delete", 500, errors.New(r.Message.Value))
 	default:
-		return NewAPIError("Message.Delete", 0, nil)
+		return NewAPIError("Message.Delete", 0, unknownMessageError(r))
 	}
 }

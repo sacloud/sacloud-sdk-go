@@ -56,7 +56,7 @@ func (op *domainOp) List(ctx context.Context) ([]v1.Domain, error) {
 		return nil, NewAPIError("Domain.List", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Domain.List", 0, nil)
+	return nil, NewAPIError("Domain.List", 0, unknownError(res))
 }
 
 func (op *domainOp) Create(ctx context.Context, request *v1.Domain) (*v1.Domain, error) {
@@ -78,7 +78,7 @@ func (op *domainOp) Create(ctx context.Context, request *v1.Domain) (*v1.Domain,
 		return nil, NewAPIError("Domain.Create", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Domain.Create", 0, nil)
+	return nil, NewAPIError("Domain.Create", 0, unknownError(res))
 }
 
 func (op *domainOp) Update(ctx context.Context, request *v1.DomainPUT, id uuid.UUID) error {
@@ -102,7 +102,7 @@ func (op *domainOp) Update(ctx context.Context, request *v1.DomainPUT, id uuid.U
 		return NewAPIError("Domain.Update", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Domain.Update", 0, nil)
+	return NewAPIError("Domain.Update", 0, unknownError(res))
 }
 
 func (op *domainOp) Delete(ctx context.Context, id uuid.UUID) error {
@@ -124,5 +124,5 @@ func (op *domainOp) Delete(ctx context.Context, id uuid.UUID) error {
 		return NewAPIError("Domain.Delete", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Domain.Delete", 0, nil)
+	return NewAPIError("Domain.Delete", 0, unknownError(res))
 }

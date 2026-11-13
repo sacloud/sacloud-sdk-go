@@ -55,7 +55,7 @@ func (op *groupOp) List(ctx context.Context) ([]v1.Group, error) {
 		return nil, NewAPIError("Group.List", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Group.List", 0, nil)
+	return nil, NewAPIError("Group.List", 0, unknownError(res))
 }
 
 func (op *groupOp) Create(ctx context.Context, request *v1.Group) (*v1.Group, error) {
@@ -75,7 +75,7 @@ func (op *groupOp) Create(ctx context.Context, request *v1.Group) (*v1.Group, er
 		return nil, NewAPIError("Group.Create", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Group.Create", 0, nil)
+	return nil, NewAPIError("Group.Create", 0, unknownError(res))
 }
 
 func (op *groupOp) Read(ctx context.Context, id uuid.UUID) (*v1.Group, error) {
@@ -95,7 +95,7 @@ func (op *groupOp) Read(ctx context.Context, id uuid.UUID) (*v1.Group, error) {
 		return nil, NewAPIError("Group.Read", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Group.Read", 0, nil)
+	return nil, NewAPIError("Group.Read", 0, unknownError(res))
 }
 
 func (op *groupOp) Update(ctx context.Context, request *v1.Group, id uuid.UUID) error {
@@ -115,7 +115,7 @@ func (op *groupOp) Update(ctx context.Context, request *v1.Group, id uuid.UUID) 
 		return NewAPIError("Group.Update", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Group.Update", 0, nil)
+	return NewAPIError("Group.Update", 0, unknownError(res))
 }
 
 func (op *groupOp) Delete(ctx context.Context, id uuid.UUID) error {
@@ -137,5 +137,5 @@ func (op *groupOp) Delete(ctx context.Context, id uuid.UUID) error {
 		return NewAPIError("Group.Delete", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Group.Delete", 0, nil)
+	return NewAPIError("Group.Delete", 0, unknownError(res))
 }

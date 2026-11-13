@@ -58,7 +58,7 @@ func (op *routeOp) List(ctx context.Context) ([]v1.Route, error) {
 		return nil, NewAPIError("Route.List", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Route.List", 0, nil)
+	return nil, NewAPIError("Route.List", 0, unknownError(res))
 }
 
 func (op *routeOp) Create(ctx context.Context, request *v1.RouteDetail) (*v1.RouteDetail, error) {
@@ -85,7 +85,7 @@ func (op *routeOp) Create(ctx context.Context, request *v1.RouteDetail) (*v1.Rou
 		return nil, NewAPIError("Route.Create", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Route.Create", 0, nil)
+	return nil, NewAPIError("Route.Create", 0, unknownError(res))
 }
 
 func (op *routeOp) Read(ctx context.Context, id uuid.UUID) (*v1.RouteDetail, error) {
@@ -105,7 +105,7 @@ func (op *routeOp) Read(ctx context.Context, id uuid.UUID) (*v1.RouteDetail, err
 		return nil, NewAPIError("Route.Read", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Route.Read", 0, nil)
+	return nil, NewAPIError("Route.Read", 0, unknownError(res))
 }
 
 func (op *routeOp) Update(ctx context.Context, request *v1.RouteDetail, id uuid.UUID) error {
@@ -127,7 +127,7 @@ func (op *routeOp) Update(ctx context.Context, request *v1.RouteDetail, id uuid.
 		return NewAPIError("Route.Update", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Route.Update", 0, nil)
+	return NewAPIError("Route.Update", 0, unknownError(res))
 }
 
 func (op *routeOp) Delete(ctx context.Context, id uuid.UUID) error {
@@ -149,7 +149,7 @@ func (op *routeOp) Delete(ctx context.Context, id uuid.UUID) error {
 		return NewAPIError("Route.Delete", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Route.Delete", 0, nil)
+	return NewAPIError("Route.Delete", 0, unknownError(res))
 }
 
 type RouteExtraAPI interface {
@@ -192,7 +192,7 @@ func (op *routeExtraOp) ReadAuthorization(ctx context.Context) (*v1.RouteAuthori
 		return nil, NewAPIError("RouteExtra.ReadAuthorization", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("RouteExtra.ReadAuthorization", 0, nil)
+	return nil, NewAPIError("RouteExtra.ReadAuthorization", 0, unknownError(res))
 }
 
 func (op *routeExtraOp) DisableAuthorization(ctx context.Context) error {
@@ -215,7 +215,7 @@ func (op *routeExtraOp) DisableAuthorization(ctx context.Context) error {
 		return NewAPIError("RouteExtra.DisableAuthorization", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("RouteExtra.DisableAuthorization", 0, nil)
+	return NewAPIError("RouteExtra.DisableAuthorization", 0, unknownError(res))
 }
 
 func (op *routeExtraOp) EnableAuthorization(ctx context.Context, groups []v1.RouteAuthorization) error {
@@ -241,7 +241,7 @@ func (op *routeExtraOp) EnableAuthorization(ctx context.Context, groups []v1.Rou
 		return NewAPIError("RouteExtra.EnableAuthorization", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("RouteExtra.EnableAuthorization", 0, nil)
+	return NewAPIError("RouteExtra.EnableAuthorization", 0, unknownError(res))
 }
 
 func (op *routeExtraOp) ReadRequestTransformation(ctx context.Context) (*v1.RequestTransformation, error) {
@@ -262,7 +262,7 @@ func (op *routeExtraOp) ReadRequestTransformation(ctx context.Context) (*v1.Requ
 		return nil, NewAPIError("RouteExtra.ReadRequestTransformation", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("RouteExtra.ReadRequestTransformation", 0, nil)
+	return nil, NewAPIError("RouteExtra.ReadRequestTransformation", 0, unknownError(res))
 }
 
 func (op *routeExtraOp) UpdateRequestTransformation(ctx context.Context, request *v1.RequestTransformation) error {
@@ -283,7 +283,7 @@ func (op *routeExtraOp) UpdateRequestTransformation(ctx context.Context, request
 		return NewAPIError("RouteExtra.UpdateRequestTransformation", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("RouteExtra.UpdateRequestTransformation", 0, nil)
+	return NewAPIError("RouteExtra.UpdateRequestTransformation", 0, unknownError(res))
 }
 
 func (op *routeExtraOp) ReadResponseTransformation(ctx context.Context) (*v1.ResponseTransformation, error) {
@@ -304,7 +304,7 @@ func (op *routeExtraOp) ReadResponseTransformation(ctx context.Context) (*v1.Res
 		return nil, NewAPIError("RouteExtra.ReadResponseTransformation", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("RouteExtra.ReadResponseTransformation", 0, nil)
+	return nil, NewAPIError("RouteExtra.ReadResponseTransformation", 0, unknownError(res))
 }
 
 func (op *routeExtraOp) UpdateResponseTransformation(ctx context.Context, request *v1.ResponseTransformation) error {
@@ -325,5 +325,5 @@ func (op *routeExtraOp) UpdateResponseTransformation(ctx context.Context, reques
 		return NewAPIError("RouteExtra.UpdateResponseTransformation", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("RouteExtra.UpdateResponseTransformation", 0, nil)
+	return NewAPIError("RouteExtra.UpdateResponseTransformation", 0, unknownError(res))
 }

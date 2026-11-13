@@ -16,7 +16,6 @@ package apprun
 
 import (
 	"context"
-	"errors"
 	"net/http"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
@@ -82,7 +81,7 @@ func (op *versionOp) List(ctx context.Context, appId string, params *v1.ListAppl
 	case *v1.ListApplicationVersionsInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }
 
@@ -106,7 +105,7 @@ func (op *versionOp) Read(ctx context.Context, appId, versionId string) (*v1.Han
 	case *v1.ReadApplicationVersionInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }
 
@@ -130,7 +129,7 @@ func (op *versionOp) Delete(ctx context.Context, appId, versionId string) error 
 	case *v1.DeleteApplicationVersionInternalServerError:
 		return apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return NewAPIError(methodName, 0, errors.New("unknown error"))
+		return unknownAPIError(methodName, result)
 	}
 }
 
@@ -154,6 +153,6 @@ func (op *versionOp) ReadStatus(ctx context.Context, appId, versionId string) (*
 	case *v1.ReadApplicationVersionStatusInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }

@@ -40,7 +40,7 @@ func (op *bucketOp) List(ctx context.Context) ([]v2.BucketListDataItem, error) {
 	case *v2.Error401:
 		return nil, NewAPIError("Buckets.List", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Buckets.List", 0, errors.New("unknown error"))
+		return nil, unknownError("Buckets.List", r)
 	}
 }
 
@@ -87,7 +87,7 @@ func (op *bucketOp) Create(ctx context.Context, params *BucketCreateParams) (*v2
 	case *v2.Error409:
 		return nil, NewAPIError("Buckets.Create", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Buckets.Create", 0, errors.New("unknown error"))
+		return nil, unknownError("Buckets.Create", r)
 	}
 }
 
@@ -105,7 +105,7 @@ func (op *bucketOp) Delete(ctx context.Context, bucketName string) error {
 	case *v2.Error409:
 		return NewAPIError("Buckets.Delete", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return NewAPIError("Buckets.Delete", 0, errors.New("unknown error"))
+		return unknownError("Buckets.Delete", r)
 	}
 }
 
@@ -147,7 +147,7 @@ func (op *bucketExtraOp) ReadEncryption(ctx context.Context) (*v2.HandlerEncrypt
 	case *v2.Error404:
 		return nil, NewAPIError("BucketExtra.ReadEncryption", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("BucketExtra.ReadEncryption", 0, errors.New("unknown error"))
+		return nil, unknownError("BucketExtra.ReadEncryption", r)
 	}
 }
 
@@ -167,7 +167,7 @@ func (op *bucketExtraOp) EnableEncryption(ctx context.Context, keyId string) err
 	case *v2.Error404:
 		return NewAPIError("BucketExtra.EnableEncryption", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return NewAPIError("BucketExtra.EnableEncryption", 0, errors.New("unknown error"))
+		return unknownError("BucketExtra.EnableEncryption", r)
 	}
 }
 
@@ -183,7 +183,7 @@ func (op *bucketExtraOp) DisableEncryption(ctx context.Context) error {
 	case *v2.Error404:
 		return NewAPIError("BucketExtra.DisableEncryption", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return NewAPIError("BucketExtra.DisableEncryption", 0, errors.New("unknown error"))
+		return unknownError("BucketExtra.DisableEncryption", r)
 	}
 }
 
@@ -201,7 +201,7 @@ func (op *bucketExtraOp) ReadReplication(ctx context.Context) (*v2.ModelReplicat
 	case *v2.Error404:
 		return nil, NewAPIError("BucketExtra.ReadReplication", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("BucketExtra.ReadReplication", 0, errors.New("unknown error"))
+		return nil, unknownError("BucketExtra.ReadReplication", r)
 	}
 }
 
@@ -223,7 +223,7 @@ func (op *bucketExtraOp) EnableReplication(ctx context.Context, targetBucket str
 	case *v2.Error404:
 		return nil, NewAPIError("BucketExtra.EnableReplication", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("BucketExtra.EnableReplication", 0, errors.New("unknown error"))
+		return nil, unknownError("BucketExtra.EnableReplication", r)
 	}
 }
 
@@ -241,7 +241,7 @@ func (op *bucketExtraOp) DisableReplication(ctx context.Context) error {
 	case *v2.Error404:
 		return NewAPIError("BucketExtra.DisableReplication", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return NewAPIError("BucketExtra.DisableReplication", 0, errors.New("unknown error"))
+		return unknownError("BucketExtra.DisableReplication", r)
 	}
 }
 
@@ -259,7 +259,7 @@ func (op *bucketExtraOp) ReadPenalty(ctx context.Context) (*v2.BucketPenaltyData
 	case *v2.Error404:
 		return nil, NewAPIError("BucketExtra.ReadPenalty", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("BucketExtra.ReadPenalty", 0, errors.New("unknown error"))
+		return nil, unknownError("BucketExtra.ReadPenalty", r)
 	}
 }
 
@@ -277,7 +277,7 @@ func (op *bucketExtraOp) ReadUsage(ctx context.Context) (*v2.BucketUsageData, er
 	case *v2.Error404:
 		return nil, NewAPIError("BucketExtra.ReadUsage", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("BucketExtra.ReadUsage", 0, errors.New("unknown error"))
+		return nil, unknownError("BucketExtra.ReadUsage", r)
 	}
 }
 
@@ -295,6 +295,6 @@ func (op *bucketExtraOp) ReadQuota(ctx context.Context) (*v2.BucketQuotaData, er
 	case *v2.Error404:
 		return nil, NewAPIError("BucketExtra.ReadQuota", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("BucketExtra.ReadQuota", 0, errors.New("unknown error"))
+		return nil, unknownError("BucketExtra.ReadQuota", r)
 	}
 }
