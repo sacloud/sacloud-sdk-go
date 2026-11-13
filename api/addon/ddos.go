@@ -35,8 +35,8 @@ type DDoSOp struct{ *v1.Client }
 func NewDDoSOp(client *v1.Client) DDoSAPI { return &DDoSOp{Client: client} }
 
 func (d *DDoSOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListAZ0401NotFound]("DDoS.List", func() (any, error) {
-		return d.Client.ListAZ0401(ctx)
+	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListDdosResourcesNotFound]("DDoS.List", func() (any, error) {
+		return d.Client.ListDdosResources(ctx)
 	}); e != nil {
 		err = e
 	} else if resources, ok := res.GetResources().Get(); ok {
@@ -59,8 +59,8 @@ func (d *DDoSOp) Create(ctx context.Context, params DDoSCreateParams) (*v1.PostD
 			// avoid encode error
 			return nil, NewError("DDoS.Create", fmt.Errorf("empty Patterns makes no sense"))
 		} else {
-			return d.Client.CreateAZ0401(ctx, &v1.DdosRequestBody{
-				Location: params.Location,
+			return d.Client.CreateDdosResource(ctx, &v1.DdosRequestBody{
+				Location: v1.DdosRequestBodyLocation(params.Location),
 				Profile: v1.FrontDoorProfile{
 					Level: params.PricingLevel,
 				},
@@ -78,16 +78,16 @@ func (d *DDoSOp) Create(ctx context.Context, params DDoSCreateParams) (*v1.PostD
 }
 
 func (d *DDoSOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, error) {
-	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.GetAZ0401NotFound]("DDoS.Read", func() (any, error) {
-		return d.Client.GetAZ0401(ctx, v1.GetAZ0401Params{
+	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.ReadDdosResourceNotFound]("DDoS.Read", func() (any, error) {
+		return d.Client.ReadDdosResource(ctx, v1.ReadDdosResourceParams{
 			ResourceGroupName: id,
 		})
 	})
 }
 
 func (d *DDoSOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteAZ0401NoContent, v1.DeleteAZ0401NotFound]("DDoS.Delete", func() (any, error) {
-		return d.Client.DeleteAZ0401(ctx, v1.DeleteAZ0401Params{
+	_, err = ErrorFromDecodedResponse[v1.DeleteDdosResourceNoContent, v1.DeleteDdosResourceNotFound]("DDoS.Delete", func() (any, error) {
+		return d.Client.DeleteDdosResource(ctx, v1.DeleteDdosResourceParams{
 			ResourceGroupName: id,
 		})
 	})
@@ -97,7 +97,7 @@ func (d *DDoSOp) Delete(ctx context.Context, id string) (err error) {
 
 func (d *DDoSOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {
 	return ErrorFromDecodedResponse[v1.DeploymentStatus, void]("DDoS.Status", func() (any, error) {
-		return d.Client.StatusAZ0401(ctx, v1.StatusAZ0401Params{
+		return d.Client.ReadDdosResourceStatus(ctx, v1.ReadDdosResourceStatusParams{
 			ResourceGroupName: resourceGroupName,
 			DeploymentName:    deploymentName,
 		})

@@ -34,8 +34,8 @@ type QueryOp struct{ *v1.Client }
 func NewQueryOp(client *v1.Client) QueryAPI { return &QueryOp{Client: client} }
 
 func (q *QueryOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListAZ0104NotFound]("Query.List", func() (any, error) {
-		return q.Client.ListAZ0104(ctx)
+	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListQueryResourcesNotFound]("Query.List", func() (any, error) {
+		return q.Client.ListQueryResources(ctx)
 	}); e != nil {
 		err = e
 	} else if resources, ok := res.GetResources().Get(); ok {
@@ -47,23 +47,23 @@ func (q *QueryOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err
 
 func (q *QueryOp) Create(ctx context.Context, location string) (*v1.PostDeploymentResponse, error) {
 	return ErrorFromDecodedResponse[v1.PostDeploymentResponse, void]("Query.Create", func() (any, error) {
-		return q.Client.CreateAZ0104(ctx, &v1.QueryPostRequestBody{
-			Location: location,
+		return q.Client.CreateQueryResource(ctx, &v1.QueryPostRequestBody{
+			Location: v1.QueryPostRequestBodyLocation(location),
 		})
 	})
 }
 
 func (q *QueryOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, error) {
-	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.GetAZ0104NotFound]("Query.Read", func() (any, error) {
-		return q.Client.GetAZ0104(ctx, v1.GetAZ0104Params{
+	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.ReadQueryResourceNotFound]("Query.Read", func() (any, error) {
+		return q.Client.ReadQueryResource(ctx, v1.ReadQueryResourceParams{
 			ResourceGroupName: id,
 		})
 	})
 }
 
 func (q *QueryOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteAZ0104NoContent, v1.DeleteAZ0104NotFound]("Query.Delete", func() (any, error) {
-		return q.Client.DeleteAZ0104(ctx, v1.DeleteAZ0104Params{
+	_, err = ErrorFromDecodedResponse[v1.DeleteQueryResourceNoContent, v1.DeleteQueryResourceNotFound]("Query.Delete", func() (any, error) {
+		return q.Client.DeleteQueryResource(ctx, v1.DeleteQueryResourceParams{
 			ResourceGroupName: id,
 		})
 	})
@@ -73,7 +73,7 @@ func (q *QueryOp) Delete(ctx context.Context, id string) (err error) {
 
 func (q *QueryOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {
 	return ErrorFromDecodedResponse[v1.DeploymentStatus, void]("Query.Status", func() (any, error) {
-		return q.Client.StatusAZ0104(ctx, v1.StatusAZ0104Params{
+		return q.Client.ReadQueryResourceStatus(ctx, v1.ReadQueryResourceStatusParams{
 			ResourceGroupName: resourceGroupName,
 			DeploymentName:    deploymentName,
 		})

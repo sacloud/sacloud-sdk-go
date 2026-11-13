@@ -75,8 +75,9 @@ func TestStreamingOp_Create_202(t *testing.T) {
 func TestStreamingOp_Create_400(t *testing.T) {
 	assert, api := setupStreaming(t, &MockErrorResponse, http.StatusBadRequest)
 
-	result, err := api.Create(t.Context(), "invalid-location", "invalid-unit")
+	result, err := api.Create(t.Context(), "japaneast", "3")
 	assert.Error(err)
+	assert.Contains(err.Error(), `"errors"`)
 	assert.Nil(result)
 	assert.False(saclient.IsNotFoundError(err))
 }

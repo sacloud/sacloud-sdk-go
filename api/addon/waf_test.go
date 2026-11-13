@@ -82,12 +82,13 @@ func TestWAFOp_Create_400(t *testing.T) {
 	assert, api := setupWAF(t, &MockErrorResponse, http.StatusBadRequest)
 
 	result, err := api.Create(t.Context(), WAFCreateParams{
-		Location:     "invalid-location",
+		Location:     "japaneast",
 		PricingLevel: v1.PricingLevel1,
 		Patterns:     []string{"/*"},
 		Origin:       MockFrontDoorOrigin,
 	})
 	assert.Error(err)
+	assert.Contains(err.Error(), `"errors"`)
 	assert.Nil(result)
 	assert.False(saclient.IsNotFoundError(err))
 }

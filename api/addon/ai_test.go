@@ -75,8 +75,9 @@ func TestAIOp_Create_202(t *testing.T) {
 
 func TestAIOp_Create_400(t *testing.T) {
 	assert, api := setup(t, &MockErrorResponse, http.StatusBadRequest)
-	result, err := api.Create(t.Context(), "invalid-location", v1.AiServiceSku1)
+	result, err := api.Create(t.Context(), "japaneast", v1.AiServiceSku1)
 	assert.Error(err)
+	assert.Contains(err.Error(), `"errors"`)
 	assert.Nil(result)
 	assert.False(saclient.IsNotFoundError(err))
 }
