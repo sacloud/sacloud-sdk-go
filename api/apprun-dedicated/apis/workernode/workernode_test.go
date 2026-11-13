@@ -34,6 +34,7 @@ func TestList(t *testing.T) {
 	for i := 0; i < len(expected.GetWorkerNodes()); i++ {
 		var node v1.WorkerNodeSummary
 		node.SetFake()
+		node.SetNetworkInterfaces([]v1.WorkerNodeNetworkInterface{})
 		expected.WorkerNodes[i] = node
 	}
 	assert, api := setup(t, &expected)
@@ -44,7 +45,7 @@ func TestList(t *testing.T) {
 	assert.NotNil(actual)
 	assert.NotNil(cursor)
 	assert.Len(actual, 3)
-	assert.Equal(expected.GetWorkerNodes()[0].GetWorkerNodeID(), actual[0].WorkerNodeID)
+	assert.Equal(expected.GetWorkerNodes(), actual)
 }
 
 func TestList_failed(t *testing.T) {
