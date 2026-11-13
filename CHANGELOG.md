@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.7.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.6.0...v0.7.0) - 2026-11-13
+
+### 🚀 New Features
+- api/addon: openapi.json 1.2.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/342
+- apprun-dedicated: return summary types from List by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/344
+### ✨ Ordinary Updates
+- internal/services: get rid of xstrings by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/316
+- Add Networking Suite interface connection ID by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/328
+- api/apigw: better failure message by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/336
+- api/apprun-dedicated: fix type mismatch by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/335
+
 ## [v0.6.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.5.0...v0.6.0) - 2026-11-09
 
 ### 🚀 New Features
