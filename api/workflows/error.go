@@ -15,6 +15,9 @@
 package workflows
 
 import (
+	"errors"
+	"fmt"
+	"reflect"
 	"strings"
 
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
@@ -47,4 +50,23 @@ func (e *Error) Error() string {
 func NewError(msg string, err error) *Error { return &Error{msg: msg, err: err} }
 func NewAPIError(method string, code int, err error) *Error {
 	return NewError(method, saclient.NewError(code, "", err))
+}
+
+func unknownError(p any) error {
+	response, ok := p.(interface{ GetMessage() string })
+	if !ok {
+		return fmt.Errorf("unknown API response type %T", p)
+	}
+	// p is a pointer in practice,
+	// and could be a typed nil.
+	if response == nil {
+		return fmt.Errorf("nil API error response %T", p)
+	}
+	if value := reflect.ValueOf(response); value.Kind() == reflect.Pointer && value.IsNil() {
+		return fmt.Errorf("nil API error response %T", response)
+	}
+	if msg := response.GetMessage(); msg != "" {
+		return errors.New(msg)
+	}
+	return fmt.Errorf("API error response has empty message: %T", p)
 }

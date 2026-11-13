@@ -61,7 +61,7 @@ func (op *subscriptionOp) ListPlans(ctx context.Context) (*v1.ListPlansOK, error
 	case *v1.ListPlansInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -87,7 +87,7 @@ func (op *subscriptionOp) Read(ctx context.Context) (*v1.ReadSubscriptionOK, err
 	case *v1.ReadSubscriptionInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -113,7 +113,7 @@ func (op *subscriptionOp) Create(ctx context.Context, req v1.CreateSubscriptionR
 	case *v1.CreateSubscriptionInternalServerError:
 		return NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return NewAPIError(methodName, 0, errors.New("unknown error"))
+		return NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -139,6 +139,6 @@ func (op *subscriptionOp) Delete(ctx context.Context) error {
 	case *v1.DeleteSubscriptionInternalServerError:
 		return NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return NewAPIError(methodName, 0, errors.New("unknown error"))
+		return NewAPIError(methodName, 0, unknownError(res))
 	}
 }
