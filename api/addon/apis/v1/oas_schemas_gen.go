@@ -3,20 +3,22 @@
 package v1
 
 import (
-	"net/url"
 	"time"
 
+	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
 )
 
+// 機械学習関連機能の作成APIで受信するリクエストボディを表します。.
 // Ref: #/components/schemas/AiRequestBody
 type AiRequestBody struct {
-	Location string       `json:"location"`
-	Sku      AiServiceSku `json:"sku"`
+	// デプロイ先のリージョン.
+	Location AiRequestBodyLocation `json:"location"`
+	Sku      AiServiceSku          `json:"sku"`
 }
 
 // GetLocation returns the value of Location.
-func (s *AiRequestBody) GetLocation() string {
+func (s *AiRequestBody) GetLocation() AiRequestBodyLocation {
 	return s.Location
 }
 
@@ -26,7 +28,7 @@ func (s *AiRequestBody) GetSku() AiServiceSku {
 }
 
 // SetLocation sets the value of Location.
-func (s *AiRequestBody) SetLocation(val string) {
+func (s *AiRequestBody) SetLocation(val AiRequestBodyLocation) {
 	s.Location = val
 }
 
@@ -35,6 +37,46 @@ func (s *AiRequestBody) SetSku(val AiServiceSku) {
 	s.Sku = val
 }
 
+// デプロイ先のリージョン.
+type AiRequestBodyLocation string
+
+const (
+	AiRequestBodyLocationJapaneast AiRequestBodyLocation = "japaneast"
+)
+
+// AllValues returns all AiRequestBodyLocation values.
+func (AiRequestBodyLocation) AllValues() []AiRequestBodyLocation {
+	return []AiRequestBodyLocation{
+		AiRequestBodyLocationJapaneast,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s AiRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case AiRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *AiRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch AiRequestBodyLocation(data) {
+	case AiRequestBodyLocationJapaneast:
+		*s = AiRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// AI
+// Servicesリソースで使用するSKUを指定します。指定値とSKUの対応は次の通りです。
+//
+//   - 1: S0
+//
 // Ref: #/components/schemas/AiServiceSku
 type AiServiceSku int32
 
@@ -75,9 +117,109 @@ func (s *AzureLocation) SetDisplayName(val OptNilString) {
 	s.DisplayName = val
 }
 
+// リソースグループの情報を表します。.
+// Ref: #/components/schemas/AzureResourceGroupData
+type AzureResourceGroupData struct {
+	// リソースグループ名.
+	Name OptNilString `json:"name"`
+	// リソースグループのリージョン.
+	Location OptNilString `json:"location"`
+}
+
+// GetName returns the value of Name.
+func (s *AzureResourceGroupData) GetName() OptNilString {
+	return s.Name
+}
+
+// GetLocation returns the value of Location.
+func (s *AzureResourceGroupData) GetLocation() OptNilString {
+	return s.Location
+}
+
+// SetName sets the value of Name.
+func (s *AzureResourceGroupData) SetName(val OptNilString) {
+	s.Name = val
+}
+
+// SetLocation sets the value of Location.
+func (s *AzureResourceGroupData) SetLocation(val OptNilString) {
+	s.Location = val
+}
+
+// キャッシュパージAPIで受信するリクエストボディを表します。.
+// Ref: #/components/schemas/CachePurgeRequestBody
+type CachePurgeRequestBody struct {
+	// デプロイ先のリージョン.
+	Location CachePurgeRequestBodyLocation `json:"location"`
+	// パージ対象のコンテンツパス配列。パスの先頭はスラッシュ (/)
+	// にする必要があります。全コンテンツをパージする場合は "/*"
+	// を指定します。.
+	ContentPaths []string `json:"contentPaths"`
+}
+
+// GetLocation returns the value of Location.
+func (s *CachePurgeRequestBody) GetLocation() CachePurgeRequestBodyLocation {
+	return s.Location
+}
+
+// GetContentPaths returns the value of ContentPaths.
+func (s *CachePurgeRequestBody) GetContentPaths() []string {
+	return s.ContentPaths
+}
+
+// SetLocation sets the value of Location.
+func (s *CachePurgeRequestBody) SetLocation(val CachePurgeRequestBodyLocation) {
+	s.Location = val
+}
+
+// SetContentPaths sets the value of ContentPaths.
+func (s *CachePurgeRequestBody) SetContentPaths(val []string) {
+	s.ContentPaths = val
+}
+
+// デプロイ先のリージョン.
+type CachePurgeRequestBodyLocation string
+
+const (
+	CachePurgeRequestBodyLocationJapaneast CachePurgeRequestBodyLocation = "japaneast"
+)
+
+// AllValues returns all CachePurgeRequestBodyLocation values.
+func (CachePurgeRequestBodyLocation) AllValues() []CachePurgeRequestBodyLocation {
+	return []CachePurgeRequestBodyLocation{
+		CachePurgeRequestBodyLocationJapaneast,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CachePurgeRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case CachePurgeRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CachePurgeRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch CachePurgeRequestBodyLocation(data) {
+	case CachePurgeRequestBodyLocationJapaneast:
+		*s = CachePurgeRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/CreatedByType
 type CreatedByType struct{}
 
+// パフォーマンスを指定します。指定値とパフォーマンスの対応は次の通りです。
+//
+//   - 1: Standard
+//   - 2: Premium
+//
 // Ref: #/components/schemas/DataLakePerformance
 type DataLakePerformance int32
 
@@ -94,6 +236,13 @@ func (DataLakePerformance) AllValues() []DataLakePerformance {
 	}
 }
 
+// 冗長性を指定します。指定値と冗長性の対応は次の通りです。
+//
+//   - 1: LRS（ローカル冗長ストレージ）
+//   - 2: GRS（geo冗長ストレージ）
+//   - 3: ZRS（ゾーン冗長ストレージ）
+//   - 4: GZRS（geoゾーン冗長ストレージ）
+//
 // Ref: #/components/schemas/DataLakeRedundancy
 type DataLakeRedundancy int32
 
@@ -114,16 +263,19 @@ func (DataLakeRedundancy) AllValues() []DataLakeRedundancy {
 	}
 }
 
+// データレイク機能の作成APIで受信するリクエストボディ.
 // Ref: #/components/schemas/DatalakePostRequestBody
 type DatalakePostRequestBody struct {
-	Location    string              `json:"location"`
-	Performance DataLakePerformance `json:"performance"`
-	Redundancy  DataLakeRedundancy  `json:"redundancy"`
-	AccountType OptNilString        `json:"accountType"`
+	// デプロイ先のリージョン.
+	Location    DatalakePostRequestBodyLocation `json:"location"`
+	Performance DataLakePerformance             `json:"performance"`
+	Redundancy  DataLakeRedundancy              `json:"redundancy"`
+	// アカウントタイプ（パフォーマンスと冗長性の組み合わせ）.
+	AccountType OptNilString `json:"accountType"`
 }
 
 // GetLocation returns the value of Location.
-func (s *DatalakePostRequestBody) GetLocation() string {
+func (s *DatalakePostRequestBody) GetLocation() DatalakePostRequestBodyLocation {
 	return s.Location
 }
 
@@ -143,7 +295,7 @@ func (s *DatalakePostRequestBody) GetAccountType() OptNilString {
 }
 
 // SetLocation sets the value of Location.
-func (s *DatalakePostRequestBody) SetLocation(val string) {
+func (s *DatalakePostRequestBody) SetLocation(val DatalakePostRequestBodyLocation) {
 	s.Location = val
 }
 
@@ -162,30 +314,104 @@ func (s *DatalakePostRequestBody) SetAccountType(val OptNilString) {
 	s.AccountType = val
 }
 
+// デプロイ先のリージョン.
+type DatalakePostRequestBodyLocation string
+
+const (
+	DatalakePostRequestBodyLocationJapaneast DatalakePostRequestBodyLocation = "japaneast"
+)
+
+// AllValues returns all DatalakePostRequestBodyLocation values.
+func (DatalakePostRequestBodyLocation) AllValues() []DatalakePostRequestBodyLocation {
+	return []DatalakePostRequestBodyLocation{
+		DatalakePostRequestBodyLocationJapaneast,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DatalakePostRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case DatalakePostRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DatalakePostRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch DatalakePostRequestBodyLocation(data) {
+	case DatalakePostRequestBodyLocationJapaneast:
+		*s = DatalakePostRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/DatawarehousePostRequestBody
 type DatawarehousePostRequestBody struct {
-	Location string `json:"location"`
+	// デプロイ先のリージョン.
+	Location DatawarehousePostRequestBodyLocation `json:"location"`
 }
 
 // GetLocation returns the value of Location.
-func (s *DatawarehousePostRequestBody) GetLocation() string {
+func (s *DatawarehousePostRequestBody) GetLocation() DatawarehousePostRequestBodyLocation {
 	return s.Location
 }
 
 // SetLocation sets the value of Location.
-func (s *DatawarehousePostRequestBody) SetLocation(val string) {
+func (s *DatawarehousePostRequestBody) SetLocation(val DatawarehousePostRequestBodyLocation) {
 	s.Location = val
 }
 
+// デプロイ先のリージョン.
+type DatawarehousePostRequestBodyLocation string
+
+const (
+	DatawarehousePostRequestBodyLocationJapaneast DatawarehousePostRequestBodyLocation = "japaneast"
+)
+
+// AllValues returns all DatawarehousePostRequestBodyLocation values.
+func (DatawarehousePostRequestBodyLocation) AllValues() []DatawarehousePostRequestBodyLocation {
+	return []DatawarehousePostRequestBodyLocation{
+		DatawarehousePostRequestBodyLocationJapaneast,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DatawarehousePostRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case DatawarehousePostRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DatawarehousePostRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch DatawarehousePostRequestBodyLocation(data) {
+	case DatawarehousePostRequestBodyLocationJapaneast:
+		*s = DatawarehousePostRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// セキュリティ機能
+// DDoSサービスの作成APIで受信するリクエストボディを表します。.
 // Ref: #/components/schemas/DdosRequestBody
 type DdosRequestBody struct {
-	Location string            `json:"location"`
-	Profile  FrontDoorProfile  `json:"profile"`
-	Endpoint FrontDoorEndpoint `json:"endpoint"`
+	// デプロイ先のリージョン.
+	Location DdosRequestBodyLocation `json:"location"`
+	Profile  FrontDoorProfile        `json:"profile"`
+	Endpoint FrontDoorEndpoint       `json:"endpoint"`
 }
 
 // GetLocation returns the value of Location.
-func (s *DdosRequestBody) GetLocation() string {
+func (s *DdosRequestBody) GetLocation() DdosRequestBodyLocation {
 	return s.Location
 }
 
@@ -200,7 +426,7 @@ func (s *DdosRequestBody) GetEndpoint() FrontDoorEndpoint {
 }
 
 // SetLocation sets the value of Location.
-func (s *DdosRequestBody) SetLocation(val string) {
+func (s *DdosRequestBody) SetLocation(val DdosRequestBodyLocation) {
 	s.Location = val
 }
 
@@ -214,120 +440,159 @@ func (s *DdosRequestBody) SetEndpoint(val FrontDoorEndpoint) {
 	s.Endpoint = val
 }
 
-// DeleteAZ0101NoContent is response for DeleteAZ0101 operation.
-type DeleteAZ0101NoContent struct{}
+// デプロイ先のリージョン.
+type DdosRequestBodyLocation string
 
-func (*DeleteAZ0101NoContent) deleteAZ0101Res() {}
+const (
+	DdosRequestBodyLocationJapaneast DdosRequestBodyLocation = "japaneast"
+)
 
-// DeleteAZ0101NotFound is response for DeleteAZ0101 operation.
-type DeleteAZ0101NotFound struct{}
+// AllValues returns all DdosRequestBodyLocation values.
+func (DdosRequestBodyLocation) AllValues() []DdosRequestBodyLocation {
+	return []DdosRequestBodyLocation{
+		DdosRequestBodyLocationJapaneast,
+	}
+}
 
-func (*DeleteAZ0101NotFound) deleteAZ0101Res() {}
+// MarshalText implements encoding.TextMarshaler.
+func (s DdosRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case DdosRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
 
-// DeleteAZ0102NoContent is response for DeleteAZ0102 operation.
-type DeleteAZ0102NoContent struct{}
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DdosRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch DdosRequestBodyLocation(data) {
+	case DdosRequestBodyLocationJapaneast:
+		*s = DdosRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
-func (*DeleteAZ0102NoContent) deleteAZ0102Res() {}
+// DeleteAiResourceNoContent is response for DeleteAiResource operation.
+type DeleteAiResourceNoContent struct{}
 
-// DeleteAZ0102NotFound is response for DeleteAZ0102 operation.
-type DeleteAZ0102NotFound struct{}
+func (*DeleteAiResourceNoContent) deleteAiResourceRes() {}
 
-func (*DeleteAZ0102NotFound) deleteAZ0102Res() {}
+// DeleteAiResourceNotFound is response for DeleteAiResource operation.
+type DeleteAiResourceNotFound struct{}
 
-// DeleteAZ0103NoContent is response for DeleteAZ0103 operation.
-type DeleteAZ0103NoContent struct{}
+func (*DeleteAiResourceNotFound) deleteAiResourceRes() {}
 
-func (*DeleteAZ0103NoContent) deleteAZ0103Res() {}
+// DeleteCdnResourceNoContent is response for DeleteCdnResource operation.
+type DeleteCdnResourceNoContent struct{}
 
-// DeleteAZ0103NotFound is response for DeleteAZ0103 operation.
-type DeleteAZ0103NotFound struct{}
+func (*DeleteCdnResourceNoContent) deleteCdnResourceRes() {}
 
-func (*DeleteAZ0103NotFound) deleteAZ0103Res() {}
+// DeleteCdnResourceNotFound is response for DeleteCdnResource operation.
+type DeleteCdnResourceNotFound struct{}
 
-// DeleteAZ0104NoContent is response for DeleteAZ0104 operation.
-type DeleteAZ0104NoContent struct{}
+func (*DeleteCdnResourceNotFound) deleteCdnResourceRes() {}
 
-func (*DeleteAZ0104NoContent) deleteAZ0104Res() {}
+// DeleteDatalakeResourceNoContent is response for DeleteDatalakeResource operation.
+type DeleteDatalakeResourceNoContent struct{}
 
-// DeleteAZ0104NotFound is response for DeleteAZ0104 operation.
-type DeleteAZ0104NotFound struct{}
+func (*DeleteDatalakeResourceNoContent) deleteDatalakeResourceRes() {}
 
-func (*DeleteAZ0104NotFound) deleteAZ0104Res() {}
+// DeleteDatalakeResourceNotFound is response for DeleteDatalakeResource operation.
+type DeleteDatalakeResourceNotFound struct{}
 
-// DeleteAZ0105NoContent is response for DeleteAZ0105 operation.
-type DeleteAZ0105NoContent struct{}
+func (*DeleteDatalakeResourceNotFound) deleteDatalakeResourceRes() {}
 
-func (*DeleteAZ0105NoContent) deleteAZ0105Res() {}
+// DeleteDdosResourceNoContent is response for DeleteDdosResource operation.
+type DeleteDdosResourceNoContent struct{}
 
-// DeleteAZ0105NotFound is response for DeleteAZ0105 operation.
-type DeleteAZ0105NotFound struct{}
+func (*DeleteDdosResourceNoContent) deleteDdosResourceRes() {}
 
-func (*DeleteAZ0105NotFound) deleteAZ0105Res() {}
+// DeleteDdosResourceNotFound is response for DeleteDdosResource operation.
+type DeleteDdosResourceNotFound struct{}
 
-// DeleteAZ0107NoContent is response for DeleteAZ0107 operation.
-type DeleteAZ0107NoContent struct{}
+func (*DeleteDdosResourceNotFound) deleteDdosResourceRes() {}
 
-func (*DeleteAZ0107NoContent) deleteAZ0107Res() {}
+// DeleteDwhResourceNoContent is response for DeleteDwhResource operation.
+type DeleteDwhResourceNoContent struct{}
 
-// DeleteAZ0107NotFound is response for DeleteAZ0107 operation.
-type DeleteAZ0107NotFound struct{}
+func (*DeleteDwhResourceNoContent) deleteDwhResourceRes() {}
 
-func (*DeleteAZ0107NotFound) deleteAZ0107Res() {}
+// DeleteDwhResourceNotFound is response for DeleteDwhResource operation.
+type DeleteDwhResourceNotFound struct{}
 
-// DeleteAZ0301NoContent is response for DeleteAZ0301 operation.
-type DeleteAZ0301NoContent struct{}
+func (*DeleteDwhResourceNotFound) deleteDwhResourceRes() {}
 
-func (*DeleteAZ0301NoContent) deleteAZ0301Res() {}
+// DeleteEtlResourceNoContent is response for DeleteEtlResource operation.
+type DeleteEtlResourceNoContent struct{}
 
-// DeleteAZ0301NotFound is response for DeleteAZ0301 operation.
-type DeleteAZ0301NotFound struct{}
+func (*DeleteEtlResourceNoContent) deleteEtlResourceRes() {}
 
-func (*DeleteAZ0301NotFound) deleteAZ0301Res() {}
+// DeleteEtlResourceNotFound is response for DeleteEtlResource operation.
+type DeleteEtlResourceNotFound struct{}
 
-// DeleteAZ0401NoContent is response for DeleteAZ0401 operation.
-type DeleteAZ0401NoContent struct{}
+func (*DeleteEtlResourceNotFound) deleteEtlResourceRes() {}
 
-func (*DeleteAZ0401NoContent) deleteAZ0401Res() {}
+// DeleteQueryResourceNoContent is response for DeleteQueryResource operation.
+type DeleteQueryResourceNoContent struct{}
 
-// DeleteAZ0401NotFound is response for DeleteAZ0401 operation.
-type DeleteAZ0401NotFound struct{}
+func (*DeleteQueryResourceNoContent) deleteQueryResourceRes() {}
 
-func (*DeleteAZ0401NotFound) deleteAZ0401Res() {}
+// DeleteQueryResourceNotFound is response for DeleteQueryResource operation.
+type DeleteQueryResourceNotFound struct{}
 
-// DeleteAZ0402NoContent is response for DeleteAZ0402 operation.
-type DeleteAZ0402NoContent struct{}
+func (*DeleteQueryResourceNotFound) deleteQueryResourceRes() {}
 
-func (*DeleteAZ0402NoContent) deleteAZ0402Res() {}
+// DeleteSearchResourceNoContent is response for DeleteSearchResource operation.
+type DeleteSearchResourceNoContent struct{}
 
-// DeleteAZ0402NotFound is response for DeleteAZ0402 operation.
-type DeleteAZ0402NotFound struct{}
+func (*DeleteSearchResourceNoContent) deleteSearchResourceRes() {}
 
-func (*DeleteAZ0402NotFound) deleteAZ0402Res() {}
+// DeleteSearchResourceNotFound is response for DeleteSearchResource operation.
+type DeleteSearchResourceNotFound struct{}
 
-// DeleteAZ0403NoContent is response for DeleteAZ0403 operation.
-type DeleteAZ0403NoContent struct{}
+func (*DeleteSearchResourceNotFound) deleteSearchResourceRes() {}
 
-func (*DeleteAZ0403NoContent) deleteAZ0403Res() {}
+// DeleteStreamingResourceNoContent is response for DeleteStreamingResource operation.
+type DeleteStreamingResourceNoContent struct{}
 
-// DeleteAZ0403NotFound is response for DeleteAZ0403 operation.
-type DeleteAZ0403NotFound struct{}
+func (*DeleteStreamingResourceNoContent) deleteStreamingResourceRes() {}
 
-func (*DeleteAZ0403NotFound) deleteAZ0403Res() {}
+// DeleteStreamingResourceNotFound is response for DeleteStreamingResource operation.
+type DeleteStreamingResourceNotFound struct{}
 
-// DeleteAZ0501NoContent is response for DeleteAZ0501 operation.
-type DeleteAZ0501NoContent struct{}
+func (*DeleteStreamingResourceNotFound) deleteStreamingResourceRes() {}
 
-func (*DeleteAZ0501NoContent) deleteAZ0501Res() {}
+// DeleteVulnerabilityResourceNoContent is response for DeleteVulnerabilityResource operation.
+type DeleteVulnerabilityResourceNoContent struct{}
 
-// DeleteAZ0501NotFound is response for DeleteAZ0501 operation.
-type DeleteAZ0501NotFound struct{}
+func (*DeleteVulnerabilityResourceNoContent) deleteVulnerabilityResourceRes() {}
 
-func (*DeleteAZ0501NotFound) deleteAZ0501Res() {}
+// DeleteVulnerabilityResourceNotFound is response for DeleteVulnerabilityResource operation.
+type DeleteVulnerabilityResourceNotFound struct{}
 
+func (*DeleteVulnerabilityResourceNotFound) deleteVulnerabilityResourceRes() {}
+
+// DeleteWafResourceNoContent is response for DeleteWafResource operation.
+type DeleteWafResourceNoContent struct{}
+
+func (*DeleteWafResourceNoContent) deleteWafResourceRes() {}
+
+// DeleteWafResourceNotFound is response for DeleteWafResource operation.
+type DeleteWafResourceNotFound struct{}
+
+func (*DeleteWafResourceNotFound) deleteWafResourceRes() {}
+
+// デプロイメントステータスのレスポンスを表します。.
 // Ref: #/components/schemas/DeploymentStatus
 type DeploymentStatus struct {
-	ID         OptNilString                  `json:"id"`
-	Name       OptNilString                  `json:"name"`
+	// デプロイメントの一意の識別子。.
+	ID OptNilString `json:"id"`
+	// デプロイメントの名前。.
+	Name OptNilString `json:"name"`
+	// デプロイメントのタイプ。.
 	Type       OptNilString                  `json:"type"`
 	Properties OptDeploymentStatusProperties `json:"properties"`
 }
@@ -372,21 +637,24 @@ func (s *DeploymentStatus) SetProperties(val OptDeploymentStatusProperties) {
 	s.Properties = val
 }
 
-func (*DeploymentStatus) statusAZ0101Res() {}
-func (*DeploymentStatus) statusAZ0102Res() {}
-func (*DeploymentStatus) statusAZ0103Res() {}
-func (*DeploymentStatus) statusAZ0104Res() {}
-func (*DeploymentStatus) statusAZ0105Res() {}
-func (*DeploymentStatus) statusAZ0107Res() {}
-func (*DeploymentStatus) statusAZ0301Res() {}
-func (*DeploymentStatus) statusAZ0401Res() {}
-func (*DeploymentStatus) statusAZ0402Res() {}
-func (*DeploymentStatus) statusAZ0501Res() {}
+func (*DeploymentStatus) readAiResourceStatusRes()        {}
+func (*DeploymentStatus) readCdnResourceStatusRes()       {}
+func (*DeploymentStatus) readDatalakeResourceStatusRes()  {}
+func (*DeploymentStatus) readDdosResourceStatusRes()      {}
+func (*DeploymentStatus) readDwhResourceStatusRes()       {}
+func (*DeploymentStatus) readEtlResourceStatusRes()       {}
+func (*DeploymentStatus) readQueryResourceStatusRes()     {}
+func (*DeploymentStatus) readSearchResourceStatusRes()    {}
+func (*DeploymentStatus) readStreamingResourceStatusRes() {}
+func (*DeploymentStatus) readWafResourceStatusRes()       {}
 
+// デプロイメントステータスのプロパティを表します。.
 // Ref: #/components/schemas/DeploymentStatusProperties
 type DeploymentStatusProperties struct {
+	// リソースのプロビジョニング状態。.
 	ProvisioningState OptNilString `json:"provisioningState"`
-	Timestamp         OptDateTime  `json:"timestamp"`
+	// デプロイメントステータスのタイムスタンプ。.
+	Timestamp OptDateTime `json:"timestamp"`
 }
 
 // GetProvisioningState returns the value of ProvisioningState.
@@ -409,9 +677,12 @@ func (s *DeploymentStatusProperties) SetTimestamp(val OptDateTime) {
 	s.Timestamp = val
 }
 
+// エラー情報.
 // Ref: #/components/schemas/ErrorInfo
 type ErrorInfo struct {
-	Code    OptNilString `json:"code"`
+	// エラーコード.
+	Code OptNilString `json:"code"`
+	// エラーメッセージ.
 	Message OptNilString `json:"message"`
 }
 
@@ -435,8 +706,10 @@ func (s *ErrorInfo) SetMessage(val OptNilString) {
 	s.Message = val
 }
 
+// エラーレスポンス.
 // Ref: #/components/schemas/ErrorResponse
 type ErrorResponse struct {
+	// エラーリスト.
 	Errors OptNilErrorInfoArray `json:"errors"`
 }
 
@@ -450,76 +723,114 @@ func (s *ErrorResponse) SetErrors(val OptNilErrorInfoArray) {
 	s.Errors = val
 }
 
-func (*ErrorResponse) createAZ0101Res() {}
-func (*ErrorResponse) createAZ0102Res() {}
-func (*ErrorResponse) createAZ0103Res() {}
-func (*ErrorResponse) createAZ0104Res() {}
-func (*ErrorResponse) createAZ0105Res() {}
-func (*ErrorResponse) createAZ0107Res() {}
-func (*ErrorResponse) createAZ0301Res() {}
-func (*ErrorResponse) createAZ0401Res() {}
-func (*ErrorResponse) createAZ0402Res() {}
-func (*ErrorResponse) createAZ0403Res() {}
-func (*ErrorResponse) createAZ0501Res() {}
-func (*ErrorResponse) deleteAZ0101Res() {}
-func (*ErrorResponse) deleteAZ0102Res() {}
-func (*ErrorResponse) deleteAZ0103Res() {}
-func (*ErrorResponse) deleteAZ0104Res() {}
-func (*ErrorResponse) deleteAZ0105Res() {}
-func (*ErrorResponse) deleteAZ0107Res() {}
-func (*ErrorResponse) deleteAZ0301Res() {}
-func (*ErrorResponse) deleteAZ0401Res() {}
-func (*ErrorResponse) deleteAZ0402Res() {}
-func (*ErrorResponse) deleteAZ0403Res() {}
-func (*ErrorResponse) deleteAZ0501Res() {}
-func (*ErrorResponse) getAZ0101Res()    {}
-func (*ErrorResponse) getAZ0102Res()    {}
-func (*ErrorResponse) getAZ0103Res()    {}
-func (*ErrorResponse) getAZ0104Res()    {}
-func (*ErrorResponse) getAZ0105Res()    {}
-func (*ErrorResponse) getAZ0107Res()    {}
-func (*ErrorResponse) getAZ0301Res()    {}
-func (*ErrorResponse) getAZ0401Res()    {}
-func (*ErrorResponse) getAZ0402Res()    {}
-func (*ErrorResponse) getAZ0403Res()    {}
-func (*ErrorResponse) getAZ0501Res()    {}
-func (*ErrorResponse) listAZ0101Res()   {}
-func (*ErrorResponse) listAZ0102Res()   {}
-func (*ErrorResponse) listAZ0103Res()   {}
-func (*ErrorResponse) listAZ0104Res()   {}
-func (*ErrorResponse) listAZ0105Res()   {}
-func (*ErrorResponse) listAZ0107Res()   {}
-func (*ErrorResponse) listAZ0301Res()   {}
-func (*ErrorResponse) listAZ0401Res()   {}
-func (*ErrorResponse) listAZ0402Res()   {}
-func (*ErrorResponse) listAZ0403Res()   {}
-func (*ErrorResponse) listAZ0501Res()   {}
-func (*ErrorResponse) statusAZ0101Res() {}
-func (*ErrorResponse) statusAZ0102Res() {}
-func (*ErrorResponse) statusAZ0103Res() {}
-func (*ErrorResponse) statusAZ0104Res() {}
-func (*ErrorResponse) statusAZ0105Res() {}
-func (*ErrorResponse) statusAZ0107Res() {}
-func (*ErrorResponse) statusAZ0301Res() {}
-func (*ErrorResponse) statusAZ0401Res() {}
-func (*ErrorResponse) statusAZ0402Res() {}
-func (*ErrorResponse) statusAZ0501Res() {}
+func (*ErrorResponse) createAiResourceRes()            {}
+func (*ErrorResponse) createCdnResourceRes()           {}
+func (*ErrorResponse) createDatalakeResourceRes()      {}
+func (*ErrorResponse) createDdosResourceRes()          {}
+func (*ErrorResponse) createDwhResourceRes()           {}
+func (*ErrorResponse) createEtlResourceRes()           {}
+func (*ErrorResponse) createQueryResourceRes()         {}
+func (*ErrorResponse) createSearchResourceRes()        {}
+func (*ErrorResponse) createStreamingResourceRes()     {}
+func (*ErrorResponse) createVulnerabilityResourceRes() {}
+func (*ErrorResponse) createWafResourceRes()           {}
+func (*ErrorResponse) deleteAiResourceRes()            {}
+func (*ErrorResponse) deleteCdnResourceRes()           {}
+func (*ErrorResponse) deleteDatalakeResourceRes()      {}
+func (*ErrorResponse) deleteDdosResourceRes()          {}
+func (*ErrorResponse) deleteDwhResourceRes()           {}
+func (*ErrorResponse) deleteEtlResourceRes()           {}
+func (*ErrorResponse) deleteQueryResourceRes()         {}
+func (*ErrorResponse) deleteSearchResourceRes()        {}
+func (*ErrorResponse) deleteStreamingResourceRes()     {}
+func (*ErrorResponse) deleteVulnerabilityResourceRes() {}
+func (*ErrorResponse) deleteWafResourceRes()           {}
+func (*ErrorResponse) listAiResourcesRes()             {}
+func (*ErrorResponse) listCdnResourcesRes()            {}
+func (*ErrorResponse) listDatalakeResourcesRes()       {}
+func (*ErrorResponse) listDdosResourcesRes()           {}
+func (*ErrorResponse) listDwhResourcesRes()            {}
+func (*ErrorResponse) listEtlResourcesRes()            {}
+func (*ErrorResponse) listQueryResourcesRes()          {}
+func (*ErrorResponse) listSearchResourcesRes()         {}
+func (*ErrorResponse) listStreamingResourcesRes()      {}
+func (*ErrorResponse) listVulnerabilityResourcesRes()  {}
+func (*ErrorResponse) listWafResourcesRes()            {}
+func (*ErrorResponse) purgeCdnCacheRes()               {}
+func (*ErrorResponse) readAiResourceRes()              {}
+func (*ErrorResponse) readAiResourceStatusRes()        {}
+func (*ErrorResponse) readCdnResourceRes()             {}
+func (*ErrorResponse) readCdnResourceStatusRes()       {}
+func (*ErrorResponse) readDatalakeResourceRes()        {}
+func (*ErrorResponse) readDatalakeResourceStatusRes()  {}
+func (*ErrorResponse) readDdosResourceRes()            {}
+func (*ErrorResponse) readDdosResourceStatusRes()      {}
+func (*ErrorResponse) readDwhResourceRes()             {}
+func (*ErrorResponse) readDwhResourceStatusRes()       {}
+func (*ErrorResponse) readEtlResourceRes()             {}
+func (*ErrorResponse) readEtlResourceStatusRes()       {}
+func (*ErrorResponse) readQueryResourceRes()           {}
+func (*ErrorResponse) readQueryResourceStatusRes()     {}
+func (*ErrorResponse) readSearchResourceRes()          {}
+func (*ErrorResponse) readSearchResourceStatusRes()    {}
+func (*ErrorResponse) readStreamingResourceRes()       {}
+func (*ErrorResponse) readStreamingResourceStatusRes() {}
+func (*ErrorResponse) readVulnerabilityResourceRes()   {}
+func (*ErrorResponse) readWafResourceRes()             {}
+func (*ErrorResponse) readWafResourceStatusRes()       {}
 
 // Ref: #/components/schemas/EtlPostRequestBody
 type EtlPostRequestBody struct {
-	Location string `json:"location"`
+	// デプロイ先のリージョン.
+	Location EtlPostRequestBodyLocation `json:"location"`
 }
 
 // GetLocation returns the value of Location.
-func (s *EtlPostRequestBody) GetLocation() string {
+func (s *EtlPostRequestBody) GetLocation() EtlPostRequestBodyLocation {
 	return s.Location
 }
 
 // SetLocation sets the value of Location.
-func (s *EtlPostRequestBody) SetLocation(val string) {
+func (s *EtlPostRequestBody) SetLocation(val EtlPostRequestBodyLocation) {
 	s.Location = val
 }
 
+// デプロイ先のリージョン.
+type EtlPostRequestBodyLocation string
+
+const (
+	EtlPostRequestBodyLocationJapaneast EtlPostRequestBodyLocation = "japaneast"
+)
+
+// AllValues returns all EtlPostRequestBodyLocation values.
+func (EtlPostRequestBodyLocation) AllValues() []EtlPostRequestBodyLocation {
+	return []EtlPostRequestBodyLocation{
+		EtlPostRequestBodyLocationJapaneast,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EtlPostRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case EtlPostRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EtlPostRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch EtlPostRequestBodyLocation(data) {
+	case EtlPostRequestBodyLocationJapaneast:
+		*s = EtlPostRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Front Doorのエンドポイント.
 // Ref: #/components/schemas/FrontDoorEndpoint
 type FrontDoorEndpoint struct {
 	Route FrontDoorRoute `json:"route"`
@@ -535,9 +846,15 @@ func (s *FrontDoorEndpoint) SetRoute(val FrontDoorRoute) {
 	s.Route = val
 }
 
+// 配信元.
 // Ref: #/components/schemas/FrontDoorOrigin
 type FrontDoorOrigin struct {
-	HostName   string `json:"hostName"`
+	// 配信元のホスト名を指定します。
+	// ホスト名は、有効なドメイン名、IPv4、または IPv6 である必要があります。.
+	HostName string `json:"hostName"`
+	// 配信元のホストヘッダーを指定します。
+	// ホストヘッダーは、有効なドメイン名、IPv4、または IPv6
+	// である必要があります。.
 	HostHeader string `json:"hostHeader"`
 }
 
@@ -561,6 +878,7 @@ func (s *FrontDoorOrigin) SetHostHeader(val string) {
 	s.HostHeader = val
 }
 
+// 配信元グループ.
 // Ref: #/components/schemas/FrontDoorOriginGroup
 type FrontDoorOriginGroup struct {
 	Origin FrontDoorOrigin `json:"origin"`
@@ -576,9 +894,12 @@ func (s *FrontDoorOriginGroup) SetOrigin(val FrontDoorOrigin) {
 	s.Origin = val
 }
 
+// Front Doorのプロファイル.
 // Ref: #/components/schemas/FrontDoorProfile
 type FrontDoorProfile struct {
-	Level                     PricingLevel `json:"level"`
+	Level PricingLevel `json:"level"`
+	// Azure Front
+	// Doorの価格レベルのBicepテンプレートパラメーター名を取得します。.
 	LevelNameOfBicepParameter OptNilString `json:"levelNameOfBicepParameter"`
 }
 
@@ -602,8 +923,13 @@ func (s *FrontDoorProfile) SetLevelNameOfBicepParameter(val OptNilString) {
 	s.LevelNameOfBicepParameter = val
 }
 
+// Front Doorルート.
 // Ref: #/components/schemas/FrontDoorRoute
 type FrontDoorRoute struct {
+	// Front Doorルートのパスパターンを指定します。
+	// パターンの先頭はスラッシュ (/)
+	// にする必要があります。アスタリスクは末尾のみで使用でき、アスタリスクの前はスラッシュ
+	// (/*) にする必要があります 。.
 	Patterns    []string             `json:"patterns"`
 	OriginGroup FrontDoorOriginGroup `json:"originGroup"`
 }
@@ -628,65 +954,14 @@ func (s *FrontDoorRoute) SetOriginGroup(val FrontDoorOriginGroup) {
 	s.OriginGroup = val
 }
 
-// GetAZ0101NotFound is response for GetAZ0101 operation.
-type GetAZ0101NotFound struct{}
-
-func (*GetAZ0101NotFound) getAZ0101Res() {}
-
-// GetAZ0102NotFound is response for GetAZ0102 operation.
-type GetAZ0102NotFound struct{}
-
-func (*GetAZ0102NotFound) getAZ0102Res() {}
-
-// GetAZ0103NotFound is response for GetAZ0103 operation.
-type GetAZ0103NotFound struct{}
-
-func (*GetAZ0103NotFound) getAZ0103Res() {}
-
-// GetAZ0104NotFound is response for GetAZ0104 operation.
-type GetAZ0104NotFound struct{}
-
-func (*GetAZ0104NotFound) getAZ0104Res() {}
-
-// GetAZ0105NotFound is response for GetAZ0105 operation.
-type GetAZ0105NotFound struct{}
-
-func (*GetAZ0105NotFound) getAZ0105Res() {}
-
-// GetAZ0107NotFound is response for GetAZ0107 operation.
-type GetAZ0107NotFound struct{}
-
-func (*GetAZ0107NotFound) getAZ0107Res() {}
-
-// GetAZ0301NotFound is response for GetAZ0301 operation.
-type GetAZ0301NotFound struct{}
-
-func (*GetAZ0301NotFound) getAZ0301Res() {}
-
-// GetAZ0401NotFound is response for GetAZ0401 operation.
-type GetAZ0401NotFound struct{}
-
-func (*GetAZ0401NotFound) getAZ0401Res() {}
-
-// GetAZ0402NotFound is response for GetAZ0402 operation.
-type GetAZ0402NotFound struct{}
-
-func (*GetAZ0402NotFound) getAZ0402Res() {}
-
-// GetAZ0403NotFound is response for GetAZ0403 operation.
-type GetAZ0403NotFound struct{}
-
-func (*GetAZ0403NotFound) getAZ0403Res() {}
-
-// GetAZ0501NotFound is response for GetAZ0501 operation.
-type GetAZ0501NotFound struct{}
-
-func (*GetAZ0501NotFound) getAZ0501Res() {}
-
+// リソース個別取得APIのレスポンス.
 // Ref: #/components/schemas/GetResourceResponse
 type GetResourceResponse struct {
-	Data jx.Raw       `json:"data"`
-	URL  OptNilString `json:"url"`
+	// データ.
+	Data jx.Raw `json:"data"`
+	// 管理ポータルのURL.
+	URL           OptNilString              `json:"url"`
+	ResourceGroup OptAzureResourceGroupData `json:"resourceGroup"`
 }
 
 // GetData returns the value of Data.
@@ -699,6 +974,11 @@ func (s *GetResourceResponse) GetURL() OptNilString {
 	return s.URL
 }
 
+// GetResourceGroup returns the value of ResourceGroup.
+func (s *GetResourceResponse) GetResourceGroup() OptAzureResourceGroupData {
+	return s.ResourceGroup
+}
+
 // SetData sets the value of Data.
 func (s *GetResourceResponse) SetData(val jx.Raw) {
 	s.Data = val
@@ -709,75 +989,61 @@ func (s *GetResourceResponse) SetURL(val OptNilString) {
 	s.URL = val
 }
 
-func (*GetResourceResponse) getAZ0101Res() {}
-func (*GetResourceResponse) getAZ0102Res() {}
-func (*GetResourceResponse) getAZ0103Res() {}
-func (*GetResourceResponse) getAZ0104Res() {}
-func (*GetResourceResponse) getAZ0105Res() {}
-func (*GetResourceResponse) getAZ0107Res() {}
-func (*GetResourceResponse) getAZ0301Res() {}
-func (*GetResourceResponse) getAZ0401Res() {}
-func (*GetResourceResponse) getAZ0402Res() {}
-func (*GetResourceResponse) getAZ0403Res() {}
-func (*GetResourceResponse) getAZ0501Res() {}
+// SetResourceGroup sets the value of ResourceGroup.
+func (s *GetResourceResponse) SetResourceGroup(val OptAzureResourceGroupData) {
+	s.ResourceGroup = val
+}
 
-// ListAZ0101NotFound is response for ListAZ0101 operation.
-type ListAZ0101NotFound struct{}
+func (*GetResourceResponse) readAiResourceRes()            {}
+func (*GetResourceResponse) readCdnResourceRes()           {}
+func (*GetResourceResponse) readDatalakeResourceRes()      {}
+func (*GetResourceResponse) readDdosResourceRes()          {}
+func (*GetResourceResponse) readDwhResourceRes()           {}
+func (*GetResourceResponse) readEtlResourceRes()           {}
+func (*GetResourceResponse) readQueryResourceRes()         {}
+func (*GetResourceResponse) readSearchResourceRes()        {}
+func (*GetResourceResponse) readStreamingResourceRes()     {}
+func (*GetResourceResponse) readVulnerabilityResourceRes() {}
+func (*GetResourceResponse) readWafResourceRes()           {}
 
-func (*ListAZ0101NotFound) listAZ0101Res() {}
+// ListAiResourcesNotFound is response for ListAiResources operation.
+type ListAiResourcesNotFound struct{}
 
-// ListAZ0102NotFound is response for ListAZ0102 operation.
-type ListAZ0102NotFound struct{}
+func (*ListAiResourcesNotFound) listAiResourcesRes() {}
 
-func (*ListAZ0102NotFound) listAZ0102Res() {}
+// ListCdnResourcesNotFound is response for ListCdnResources operation.
+type ListCdnResourcesNotFound struct{}
 
-// ListAZ0103NotFound is response for ListAZ0103 operation.
-type ListAZ0103NotFound struct{}
+func (*ListCdnResourcesNotFound) listCdnResourcesRes() {}
 
-func (*ListAZ0103NotFound) listAZ0103Res() {}
+// ListDatalakeResourcesNotFound is response for ListDatalakeResources operation.
+type ListDatalakeResourcesNotFound struct{}
 
-// ListAZ0104NotFound is response for ListAZ0104 operation.
-type ListAZ0104NotFound struct{}
+func (*ListDatalakeResourcesNotFound) listDatalakeResourcesRes() {}
 
-func (*ListAZ0104NotFound) listAZ0104Res() {}
+// ListDdosResourcesNotFound is response for ListDdosResources operation.
+type ListDdosResourcesNotFound struct{}
 
-// ListAZ0105NotFound is response for ListAZ0105 operation.
-type ListAZ0105NotFound struct{}
+func (*ListDdosResourcesNotFound) listDdosResourcesRes() {}
 
-func (*ListAZ0105NotFound) listAZ0105Res() {}
+// ListDwhResourcesNotFound is response for ListDwhResources operation.
+type ListDwhResourcesNotFound struct{}
 
-// ListAZ0107NotFound is response for ListAZ0107 operation.
-type ListAZ0107NotFound struct{}
+func (*ListDwhResourcesNotFound) listDwhResourcesRes() {}
 
-func (*ListAZ0107NotFound) listAZ0107Res() {}
+// ListEtlResourcesNotFound is response for ListEtlResources operation.
+type ListEtlResourcesNotFound struct{}
 
-// ListAZ0301NotFound is response for ListAZ0301 operation.
-type ListAZ0301NotFound struct{}
+func (*ListEtlResourcesNotFound) listEtlResourcesRes() {}
 
-func (*ListAZ0301NotFound) listAZ0301Res() {}
+// ListQueryResourcesNotFound is response for ListQueryResources operation.
+type ListQueryResourcesNotFound struct{}
 
-// ListAZ0401NotFound is response for ListAZ0401 operation.
-type ListAZ0401NotFound struct{}
-
-func (*ListAZ0401NotFound) listAZ0401Res() {}
-
-// ListAZ0402NotFound is response for ListAZ0402 operation.
-type ListAZ0402NotFound struct{}
-
-func (*ListAZ0402NotFound) listAZ0402Res() {}
-
-// ListAZ0403NotFound is response for ListAZ0403 operation.
-type ListAZ0403NotFound struct{}
-
-func (*ListAZ0403NotFound) listAZ0403Res() {}
-
-// ListAZ0501NotFound is response for ListAZ0501 operation.
-type ListAZ0501NotFound struct{}
-
-func (*ListAZ0501NotFound) listAZ0501Res() {}
+func (*ListQueryResourcesNotFound) listQueryResourcesRes() {}
 
 // Ref: #/components/schemas/ListResourcesResponse
 type ListResourcesResponse struct {
+	// リソースグループ一覧.
 	Resources OptNilResourceGroupResourceArray `json:"resources"`
 }
 
@@ -791,27 +1057,49 @@ func (s *ListResourcesResponse) SetResources(val OptNilResourceGroupResourceArra
 	s.Resources = val
 }
 
-func (*ListResourcesResponse) listAZ0101Res() {}
-func (*ListResourcesResponse) listAZ0102Res() {}
-func (*ListResourcesResponse) listAZ0103Res() {}
-func (*ListResourcesResponse) listAZ0104Res() {}
-func (*ListResourcesResponse) listAZ0105Res() {}
-func (*ListResourcesResponse) listAZ0107Res() {}
-func (*ListResourcesResponse) listAZ0301Res() {}
-func (*ListResourcesResponse) listAZ0401Res() {}
-func (*ListResourcesResponse) listAZ0402Res() {}
-func (*ListResourcesResponse) listAZ0403Res() {}
-func (*ListResourcesResponse) listAZ0501Res() {}
+func (*ListResourcesResponse) listAiResourcesRes()            {}
+func (*ListResourcesResponse) listCdnResourcesRes()           {}
+func (*ListResourcesResponse) listDatalakeResourcesRes()      {}
+func (*ListResourcesResponse) listDdosResourcesRes()          {}
+func (*ListResourcesResponse) listDwhResourcesRes()           {}
+func (*ListResourcesResponse) listEtlResourcesRes()           {}
+func (*ListResourcesResponse) listQueryResourcesRes()         {}
+func (*ListResourcesResponse) listSearchResourcesRes()        {}
+func (*ListResourcesResponse) listStreamingResourcesRes()     {}
+func (*ListResourcesResponse) listVulnerabilityResourcesRes() {}
+func (*ListResourcesResponse) listWafResourcesRes()           {}
 
+// ListSearchResourcesNotFound is response for ListSearchResources operation.
+type ListSearchResourcesNotFound struct{}
+
+func (*ListSearchResourcesNotFound) listSearchResourcesRes() {}
+
+// ListStreamingResourcesNotFound is response for ListStreamingResources operation.
+type ListStreamingResourcesNotFound struct{}
+
+func (*ListStreamingResourcesNotFound) listStreamingResourcesRes() {}
+
+// ListVulnerabilityResourcesNotFound is response for ListVulnerabilityResources operation.
+type ListVulnerabilityResourcesNotFound struct{}
+
+func (*ListVulnerabilityResourcesNotFound) listVulnerabilityResourcesRes() {}
+
+// ListWafResourcesNotFound is response for ListWafResources operation.
+type ListWafResourcesNotFound struct{}
+
+func (*ListWafResourcesNotFound) listWafResourcesRes() {}
+
+// ネットワークとCDNの作成APIで受信するリクエストボディを表します。.
 // Ref: #/components/schemas/NetworkRequestBody
 type NetworkRequestBody struct {
-	Location string            `json:"location"`
-	Profile  FrontDoorProfile  `json:"profile"`
-	Endpoint FrontDoorEndpoint `json:"endpoint"`
+	// デプロイ先のリージョン.
+	Location NetworkRequestBodyLocation `json:"location"`
+	Profile  FrontDoorProfile           `json:"profile"`
+	Endpoint FrontDoorEndpoint          `json:"endpoint"`
 }
 
 // GetLocation returns the value of Location.
-func (s *NetworkRequestBody) GetLocation() string {
+func (s *NetworkRequestBody) GetLocation() NetworkRequestBodyLocation {
 	return s.Location
 }
 
@@ -826,7 +1114,7 @@ func (s *NetworkRequestBody) GetEndpoint() FrontDoorEndpoint {
 }
 
 // SetLocation sets the value of Location.
-func (s *NetworkRequestBody) SetLocation(val string) {
+func (s *NetworkRequestBody) SetLocation(val NetworkRequestBodyLocation) {
 	s.Location = val
 }
 
@@ -838,6 +1126,41 @@ func (s *NetworkRequestBody) SetProfile(val FrontDoorProfile) {
 // SetEndpoint sets the value of Endpoint.
 func (s *NetworkRequestBody) SetEndpoint(val FrontDoorEndpoint) {
 	s.Endpoint = val
+}
+
+// デプロイ先のリージョン.
+type NetworkRequestBodyLocation string
+
+const (
+	NetworkRequestBodyLocationJapaneast NetworkRequestBodyLocation = "japaneast"
+)
+
+// AllValues returns all NetworkRequestBodyLocation values.
+func (NetworkRequestBodyLocation) AllValues() []NetworkRequestBodyLocation {
+	return []NetworkRequestBodyLocation{
+		NetworkRequestBodyLocationJapaneast,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s NetworkRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case NetworkRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *NetworkRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch NetworkRequestBodyLocation(data) {
+	case NetworkRequestBodyLocationJapaneast:
+		*s = NetworkRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // NewNilString returns new NilString with value set to v.
@@ -925,6 +1248,52 @@ func (o OptAzureLocation) Get() (v AzureLocation, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptAzureLocation) Or(d AzureLocation) AzureLocation {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptAzureResourceGroupData returns new OptAzureResourceGroupData with value set to v.
+func NewOptAzureResourceGroupData(v AzureResourceGroupData) OptAzureResourceGroupData {
+	return OptAzureResourceGroupData{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAzureResourceGroupData is optional AzureResourceGroupData.
+type OptAzureResourceGroupData struct {
+	Value AzureResourceGroupData
+	Set   bool
+}
+
+// IsSet returns true if OptAzureResourceGroupData was set.
+func (o OptAzureResourceGroupData) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAzureResourceGroupData) Reset() {
+	var v AzureResourceGroupData
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAzureResourceGroupData) SetTo(v AzureResourceGroupData) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAzureResourceGroupData) Get() (v AzureResourceGroupData, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAzureResourceGroupData) Or(d AzureResourceGroupData) AzureResourceGroupData {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -1593,56 +1962,13 @@ func (o OptSystemData) Or(d SystemData) SystemData {
 	return d
 }
 
-// NewOptURI returns new OptURI with value set to v.
-func NewOptURI(v url.URL) OptURI {
-	return OptURI{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptURI is optional url.URL.
-type OptURI struct {
-	Value url.URL
-	Set   bool
-}
-
-// IsSet returns true if OptURI was set.
-func (o OptURI) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptURI) Reset() {
-	var v url.URL
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptURI) SetTo(v url.URL) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptURI) Get() (v url.URL, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptURI) Or(d url.URL) url.URL {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
+// デプロイメントが投稿された後に受け取るレスポンスを表します。.
 // Ref: #/components/schemas/PostDeploymentResponse
 type PostDeploymentResponse struct {
+	// リソースグループ名を取得します。.
 	ResourceGroupName OptNilString `json:"resourceGroupName"`
-	DeploymentName    OptNilString `json:"deploymentName"`
+	// デプロイメント名を取得します。.
+	DeploymentName OptNilString `json:"deploymentName"`
 }
 
 // GetResourceGroupName returns the value of ResourceGroupName.
@@ -1665,17 +1991,42 @@ func (s *PostDeploymentResponse) SetDeploymentName(val OptNilString) {
 	s.DeploymentName = val
 }
 
-func (*PostDeploymentResponse) createAZ0101Res() {}
-func (*PostDeploymentResponse) createAZ0102Res() {}
-func (*PostDeploymentResponse) createAZ0103Res() {}
-func (*PostDeploymentResponse) createAZ0104Res() {}
-func (*PostDeploymentResponse) createAZ0105Res() {}
-func (*PostDeploymentResponse) createAZ0107Res() {}
-func (*PostDeploymentResponse) createAZ0301Res() {}
-func (*PostDeploymentResponse) createAZ0401Res() {}
-func (*PostDeploymentResponse) createAZ0402Res() {}
-func (*PostDeploymentResponse) createAZ0501Res() {}
+func (*PostDeploymentResponse) createAiResourceRes()        {}
+func (*PostDeploymentResponse) createCdnResourceRes()       {}
+func (*PostDeploymentResponse) createDatalakeResourceRes()  {}
+func (*PostDeploymentResponse) createDdosResourceRes()      {}
+func (*PostDeploymentResponse) createDwhResourceRes()       {}
+func (*PostDeploymentResponse) createEtlResourceRes()       {}
+func (*PostDeploymentResponse) createQueryResourceRes()     {}
+func (*PostDeploymentResponse) createSearchResourceRes()    {}
+func (*PostDeploymentResponse) createStreamingResourceRes() {}
+func (*PostDeploymentResponse) createWafResourceRes()       {}
 
+// キャッシュパージ後に受け取るレスポンスを表します。.
+// Ref: #/components/schemas/PostPurgeResponse
+type PostPurgeResponse struct {
+	// リソースグループ名を取得します。.
+	ResourceGroupName OptNilString `json:"resourceGroupName"`
+}
+
+// GetResourceGroupName returns the value of ResourceGroupName.
+func (s *PostPurgeResponse) GetResourceGroupName() OptNilString {
+	return s.ResourceGroupName
+}
+
+// SetResourceGroupName sets the value of ResourceGroupName.
+func (s *PostPurgeResponse) SetResourceGroupName(val OptNilString) {
+	s.ResourceGroupName = val
+}
+
+func (*PostPurgeResponse) purgeCdnCacheRes() {}
+
+// Front
+// Doorリソースの価格レベルを指定します。指定値と価格レベルの対応は次の通りです。
+//
+//   - 1: Standard
+//   - 2: Premium
+//
 // Ref: #/components/schemas/PricingLevel
 type PricingLevel int32
 
@@ -1692,20 +2043,116 @@ func (PricingLevel) AllValues() []PricingLevel {
 	}
 }
 
+// PurgeCdnCacheNotFound is response for PurgeCdnCache operation.
+type PurgeCdnCacheNotFound struct{}
+
+func (*PurgeCdnCacheNotFound) purgeCdnCacheRes() {}
+
 // Ref: #/components/schemas/QueryPostRequestBody
 type QueryPostRequestBody struct {
-	Location string `json:"location"`
+	// デプロイ先のリージョン.
+	Location QueryPostRequestBodyLocation `json:"location"`
 }
 
 // GetLocation returns the value of Location.
-func (s *QueryPostRequestBody) GetLocation() string {
+func (s *QueryPostRequestBody) GetLocation() QueryPostRequestBodyLocation {
 	return s.Location
 }
 
 // SetLocation sets the value of Location.
-func (s *QueryPostRequestBody) SetLocation(val string) {
+func (s *QueryPostRequestBody) SetLocation(val QueryPostRequestBodyLocation) {
 	s.Location = val
 }
+
+// デプロイ先のリージョン.
+type QueryPostRequestBodyLocation string
+
+const (
+	QueryPostRequestBodyLocationJapaneast QueryPostRequestBodyLocation = "japaneast"
+)
+
+// AllValues returns all QueryPostRequestBodyLocation values.
+func (QueryPostRequestBodyLocation) AllValues() []QueryPostRequestBodyLocation {
+	return []QueryPostRequestBodyLocation{
+		QueryPostRequestBodyLocationJapaneast,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s QueryPostRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case QueryPostRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *QueryPostRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch QueryPostRequestBodyLocation(data) {
+	case QueryPostRequestBodyLocationJapaneast:
+		*s = QueryPostRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ReadAiResourceNotFound is response for ReadAiResource operation.
+type ReadAiResourceNotFound struct{}
+
+func (*ReadAiResourceNotFound) readAiResourceRes() {}
+
+// ReadCdnResourceNotFound is response for ReadCdnResource operation.
+type ReadCdnResourceNotFound struct{}
+
+func (*ReadCdnResourceNotFound) readCdnResourceRes() {}
+
+// ReadDatalakeResourceNotFound is response for ReadDatalakeResource operation.
+type ReadDatalakeResourceNotFound struct{}
+
+func (*ReadDatalakeResourceNotFound) readDatalakeResourceRes() {}
+
+// ReadDdosResourceNotFound is response for ReadDdosResource operation.
+type ReadDdosResourceNotFound struct{}
+
+func (*ReadDdosResourceNotFound) readDdosResourceRes() {}
+
+// ReadDwhResourceNotFound is response for ReadDwhResource operation.
+type ReadDwhResourceNotFound struct{}
+
+func (*ReadDwhResourceNotFound) readDwhResourceRes() {}
+
+// ReadEtlResourceNotFound is response for ReadEtlResource operation.
+type ReadEtlResourceNotFound struct{}
+
+func (*ReadEtlResourceNotFound) readEtlResourceRes() {}
+
+// ReadQueryResourceNotFound is response for ReadQueryResource operation.
+type ReadQueryResourceNotFound struct{}
+
+func (*ReadQueryResourceNotFound) readQueryResourceRes() {}
+
+// ReadSearchResourceNotFound is response for ReadSearchResource operation.
+type ReadSearchResourceNotFound struct{}
+
+func (*ReadSearchResourceNotFound) readSearchResourceRes() {}
+
+// ReadStreamingResourceNotFound is response for ReadStreamingResource operation.
+type ReadStreamingResourceNotFound struct{}
+
+func (*ReadStreamingResourceNotFound) readStreamingResourceRes() {}
+
+// ReadVulnerabilityResourceNotFound is response for ReadVulnerabilityResource operation.
+type ReadVulnerabilityResourceNotFound struct{}
+
+func (*ReadVulnerabilityResourceNotFound) readVulnerabilityResourceRes() {}
+
+// ReadWafResourceNotFound is response for ReadWafResource operation.
+type ReadWafResourceNotFound struct{}
+
+func (*ReadWafResourceNotFound) readWafResourceRes() {}
 
 // Ref: #/components/schemas/ResourceGroupData
 type ResourceGroupData struct {
@@ -1815,7 +2262,6 @@ type ResourceGroupResource struct {
 	ID      *ResourceIdentifier  `json:"id"`
 	HasData OptBool              `json:"hasData"`
 	Data    OptResourceGroupData `json:"data"`
-	URL     OptURI               `json:"url"`
 }
 
 // GetID returns the value of ID.
@@ -1833,11 +2279,6 @@ func (s *ResourceGroupResource) GetData() OptResourceGroupData {
 	return s.Data
 }
 
-// GetURL returns the value of URL.
-func (s *ResourceGroupResource) GetURL() OptURI {
-	return s.URL
-}
-
 // SetID sets the value of ID.
 func (s *ResourceGroupResource) SetID(val *ResourceIdentifier) {
 	s.ID = val
@@ -1851,11 +2292,6 @@ func (s *ResourceGroupResource) SetHasData(val OptBool) {
 // SetData sets the value of Data.
 func (s *ResourceGroupResource) SetData(val OptResourceGroupData) {
 	s.Data = val
-}
-
-// SetURL sets the value of URL.
-func (s *ResourceGroupResource) SetURL(val OptURI) {
-	s.URL = val
 }
 
 // Ref: #/components/schemas/ResourceIdentifier
@@ -1965,17 +2401,38 @@ func (s *ResourceType) SetType(val OptNilString) {
 	s.Type = val
 }
 
+// 検索機能の作成APIで受信するリクエストボディ.
 // Ref: #/components/schemas/SearchPostRequestBody
 type SearchPostRequestBody struct {
-	Location       string       `json:"location"`
-	Sku            SearchSku    `json:"sku"`
-	SkuString      OptNilString `json:"skuString"`
-	ReplicaCount   int32        `json:"replicaCount"`
-	PartitionCount int32        `json:"partitionCount"`
+	// デプロイ先のリージョン.
+	Location SearchPostRequestBodyLocation `json:"location"`
+	Sku      SearchSku                     `json:"sku"`
+	// Azure AI SearchのSKUのBicepパラメータ用文字列.
+	SkuString OptNilString `json:"skuString"`
+	// AI Searchのレプリカ数を指定します。
+	// 選択したSKUに応じて、指定可能な値は次の通りです。
+	//
+	//  - 1: 全SKUで指定可能
+	//  - 2, 3: Free 以外のSKUで指定可能
+	//  - 4 ～ 12: Free、Basic 以外のSKUで指定可能
+	ReplicaCount int32 `json:"replicaCount"`
+	// AI Searchのパーティション数を指定します。 指定できる値は 1, 2, 3, 4, 6, 12
+	// のいずれかです。 選択したSKUに応じて、指定可能な値は次の通りです。
+	//
+	//  - 1: 全SKUで指定可能
+	//  - 2, 3: Free 以外のSKUで指定可能
+	//  - 4, 6, 12: Free、Basic、Standard3HD 以外のSKUで指定可能
+	//
+	// また、レプリカ数 × パーティション数は次の範囲にしてください。
+	//
+	//  - 1: SKUにFreeを指定する場合
+	//  - 1 ～ 9: SKUにBasicを指定する場合
+	//  - 1 ～ 36: Free、Basic 以外のSKUを指定する場合
+	PartitionCount SearchPostRequestBodyPartitionCount `json:"partitionCount"`
 }
 
 // GetLocation returns the value of Location.
-func (s *SearchPostRequestBody) GetLocation() string {
+func (s *SearchPostRequestBody) GetLocation() SearchPostRequestBodyLocation {
 	return s.Location
 }
 
@@ -1995,12 +2452,12 @@ func (s *SearchPostRequestBody) GetReplicaCount() int32 {
 }
 
 // GetPartitionCount returns the value of PartitionCount.
-func (s *SearchPostRequestBody) GetPartitionCount() int32 {
+func (s *SearchPostRequestBody) GetPartitionCount() SearchPostRequestBodyPartitionCount {
 	return s.PartitionCount
 }
 
 // SetLocation sets the value of Location.
-func (s *SearchPostRequestBody) SetLocation(val string) {
+func (s *SearchPostRequestBody) SetLocation(val SearchPostRequestBodyLocation) {
 	s.Location = val
 }
 
@@ -2020,10 +2477,91 @@ func (s *SearchPostRequestBody) SetReplicaCount(val int32) {
 }
 
 // SetPartitionCount sets the value of PartitionCount.
-func (s *SearchPostRequestBody) SetPartitionCount(val int32) {
+func (s *SearchPostRequestBody) SetPartitionCount(val SearchPostRequestBodyPartitionCount) {
 	s.PartitionCount = val
 }
 
+// デプロイ先のリージョン.
+type SearchPostRequestBodyLocation string
+
+const (
+	SearchPostRequestBodyLocationJapaneast SearchPostRequestBodyLocation = "japaneast"
+)
+
+// AllValues returns all SearchPostRequestBodyLocation values.
+func (SearchPostRequestBodyLocation) AllValues() []SearchPostRequestBodyLocation {
+	return []SearchPostRequestBodyLocation{
+		SearchPostRequestBodyLocationJapaneast,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s SearchPostRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case SearchPostRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *SearchPostRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch SearchPostRequestBodyLocation(data) {
+	case SearchPostRequestBodyLocationJapaneast:
+		*s = SearchPostRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// AI Searchのパーティション数を指定します。 指定できる値は 1, 2, 3, 4, 6, 12
+// のいずれかです。 選択したSKUに応じて、指定可能な値は次の通りです。
+//
+//   - 1: 全SKUで指定可能
+//   - 2, 3: Free 以外のSKUで指定可能
+//   - 4, 6, 12: Free、Basic、Standard3HD 以外のSKUで指定可能
+//
+// また、レプリカ数 × パーティション数は次の範囲にしてください。
+//
+//   - 1: SKUにFreeを指定する場合
+//   - 1 ～ 9: SKUにBasicを指定する場合
+//   - 1 ～ 36: Free、Basic 以外のSKUを指定する場合
+type SearchPostRequestBodyPartitionCount int32
+
+const (
+	SearchPostRequestBodyPartitionCount1  SearchPostRequestBodyPartitionCount = 1
+	SearchPostRequestBodyPartitionCount2  SearchPostRequestBodyPartitionCount = 2
+	SearchPostRequestBodyPartitionCount3  SearchPostRequestBodyPartitionCount = 3
+	SearchPostRequestBodyPartitionCount4  SearchPostRequestBodyPartitionCount = 4
+	SearchPostRequestBodyPartitionCount6  SearchPostRequestBodyPartitionCount = 6
+	SearchPostRequestBodyPartitionCount12 SearchPostRequestBodyPartitionCount = 12
+)
+
+// AllValues returns all SearchPostRequestBodyPartitionCount values.
+func (SearchPostRequestBodyPartitionCount) AllValues() []SearchPostRequestBodyPartitionCount {
+	return []SearchPostRequestBodyPartitionCount{
+		SearchPostRequestBodyPartitionCount1,
+		SearchPostRequestBodyPartitionCount2,
+		SearchPostRequestBodyPartitionCount3,
+		SearchPostRequestBodyPartitionCount4,
+		SearchPostRequestBodyPartitionCount6,
+		SearchPostRequestBodyPartitionCount12,
+	}
+}
+
+// AI SearchのSKUを指定します。 指定値とSKUの対応は次の通りです。
+//
+//   - 1: Free
+//   - 2: Basic
+//   - 3: Standard
+//   - 4: Standard2
+//   - 5: Standard3
+//   - 6: Standard3HD
+//   - 7: StorageOptimizedL1
+//   - 8: StorageOptimizedL2
+//
 // Ref: #/components/schemas/SearchSku
 type SearchSku int32
 
@@ -2052,6 +2590,11 @@ func (SearchSku) AllValues() []SearchSku {
 	}
 }
 
+// サーバーのOSの種類を指定します。指定値とOSの種類の対応は次の通りです。
+//
+//   - 1: Windows
+//   - 2: Linux
+//
 // Ref: #/components/schemas/ServerOsType
 type ServerOsType int32
 
@@ -2070,12 +2613,23 @@ func (ServerOsType) AllValues() []ServerOsType {
 
 // Ref: #/components/schemas/StreamingRequestBody
 type StreamingRequestBody struct {
-	Location  string `json:"location"`
+	// デプロイ先のリージョン.
+	Location StreamingRequestBodyLocation `json:"location"`
+	// Stream Analyticsのストリーミングユニット数を指定します。
+	// 指定値と実際のユニット数の対応は次の通りです。
+	//
+	//  - 3: 1/3ユニット
+	//  - 7: 2/3ユニット
+	//  - 10 ～ 660: 1 ～ 66ユニット（※）
+	//
+	// ※ 10 以上を指定する場合は、作成したいユニット数 × 10
+	// の値を指定してください。指定できるのは 10 の倍数のみです。11 など 10
+	// の倍数でない値を指定した場合はエラーとなります。.
 	UnitCount string `json:"unitCount"`
 }
 
 // GetLocation returns the value of Location.
-func (s *StreamingRequestBody) GetLocation() string {
+func (s *StreamingRequestBody) GetLocation() StreamingRequestBodyLocation {
 	return s.Location
 }
 
@@ -2085,13 +2639,48 @@ func (s *StreamingRequestBody) GetUnitCount() string {
 }
 
 // SetLocation sets the value of Location.
-func (s *StreamingRequestBody) SetLocation(val string) {
+func (s *StreamingRequestBody) SetLocation(val StreamingRequestBodyLocation) {
 	s.Location = val
 }
 
 // SetUnitCount sets the value of UnitCount.
 func (s *StreamingRequestBody) SetUnitCount(val string) {
 	s.UnitCount = val
+}
+
+// デプロイ先のリージョン.
+type StreamingRequestBodyLocation string
+
+const (
+	StreamingRequestBodyLocationJapaneast StreamingRequestBodyLocation = "japaneast"
+)
+
+// AllValues returns all StreamingRequestBodyLocation values.
+func (StreamingRequestBodyLocation) AllValues() []StreamingRequestBodyLocation {
+	return []StreamingRequestBodyLocation{
+		StreamingRequestBodyLocationJapaneast,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StreamingRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case StreamingRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StreamingRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch StreamingRequestBodyLocation(data) {
+	case StreamingRequestBodyLocationJapaneast:
+		*s = StreamingRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/SystemData
@@ -2164,14 +2753,17 @@ func (s *SystemData) SetLastModifiedOn(val OptNilDateTime) {
 	s.LastModifiedOn = val
 }
 
+// セキュリティ機能
+// 脆弱性診断サービスの作成APIで受信するリクエストボディを表します。.
 // Ref: #/components/schemas/VulnerabilityRequestBody
 type VulnerabilityRequestBody struct {
-	Location string       `json:"location"`
-	Os       ServerOsType `json:"os"`
+	// デプロイ先のリージョン.
+	Location VulnerabilityRequestBodyLocation `json:"location"`
+	Os       ServerOsType                     `json:"os"`
 }
 
 // GetLocation returns the value of Location.
-func (s *VulnerabilityRequestBody) GetLocation() string {
+func (s *VulnerabilityRequestBody) GetLocation() VulnerabilityRequestBodyLocation {
 	return s.Location
 }
 
@@ -2181,7 +2773,7 @@ func (s *VulnerabilityRequestBody) GetOs() ServerOsType {
 }
 
 // SetLocation sets the value of Location.
-func (s *VulnerabilityRequestBody) SetLocation(val string) {
+func (s *VulnerabilityRequestBody) SetLocation(val VulnerabilityRequestBodyLocation) {
 	s.Location = val
 }
 
@@ -2190,10 +2782,48 @@ func (s *VulnerabilityRequestBody) SetOs(val ServerOsType) {
 	s.Os = val
 }
 
+// デプロイ先のリージョン.
+type VulnerabilityRequestBodyLocation string
+
+const (
+	VulnerabilityRequestBodyLocationJapaneast VulnerabilityRequestBodyLocation = "japaneast"
+)
+
+// AllValues returns all VulnerabilityRequestBodyLocation values.
+func (VulnerabilityRequestBodyLocation) AllValues() []VulnerabilityRequestBodyLocation {
+	return []VulnerabilityRequestBodyLocation{
+		VulnerabilityRequestBodyLocationJapaneast,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VulnerabilityRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case VulnerabilityRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VulnerabilityRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch VulnerabilityRequestBodyLocation(data) {
+	case VulnerabilityRequestBodyLocationJapaneast:
+		*s = VulnerabilityRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// 脆弱性検出サービスリソース作成APIのレスポンス.
 // Ref: #/components/schemas/VulnerabilityResponseBody
 type VulnerabilityResponseBody struct {
+	// リソースグループ名.
 	ResourceGroupName OptNilString `json:"resourceGroupName"`
-	InstallScript     OptNilString `json:"installScript"`
+	// インストールスクリプト.
+	InstallScript OptNilString `json:"installScript"`
 }
 
 // GetResourceGroupName returns the value of ResourceGroupName.
@@ -2216,17 +2846,20 @@ func (s *VulnerabilityResponseBody) SetInstallScript(val OptNilString) {
 	s.InstallScript = val
 }
 
-func (*VulnerabilityResponseBody) createAZ0403Res() {}
+func (*VulnerabilityResponseBody) createVulnerabilityResourceRes() {}
 
+// セキュリティ機能
+// WAFサービスの作成APIで受信するリクエストボディを表します。.
 // Ref: #/components/schemas/WafRequestBody
 type WafRequestBody struct {
-	Location string            `json:"location"`
-	Profile  FrontDoorProfile  `json:"profile"`
-	Endpoint FrontDoorEndpoint `json:"endpoint"`
+	// デプロイ先のリージョン.
+	Location WafRequestBodyLocation `json:"location"`
+	Profile  FrontDoorProfile       `json:"profile"`
+	Endpoint FrontDoorEndpoint      `json:"endpoint"`
 }
 
 // GetLocation returns the value of Location.
-func (s *WafRequestBody) GetLocation() string {
+func (s *WafRequestBody) GetLocation() WafRequestBodyLocation {
 	return s.Location
 }
 
@@ -2241,7 +2874,7 @@ func (s *WafRequestBody) GetEndpoint() FrontDoorEndpoint {
 }
 
 // SetLocation sets the value of Location.
-func (s *WafRequestBody) SetLocation(val string) {
+func (s *WafRequestBody) SetLocation(val WafRequestBodyLocation) {
 	s.Location = val
 }
 
@@ -2253,4 +2886,39 @@ func (s *WafRequestBody) SetProfile(val FrontDoorProfile) {
 // SetEndpoint sets the value of Endpoint.
 func (s *WafRequestBody) SetEndpoint(val FrontDoorEndpoint) {
 	s.Endpoint = val
+}
+
+// デプロイ先のリージョン.
+type WafRequestBodyLocation string
+
+const (
+	WafRequestBodyLocationJapaneast WafRequestBodyLocation = "japaneast"
+)
+
+// AllValues returns all WafRequestBodyLocation values.
+func (WafRequestBodyLocation) AllValues() []WafRequestBodyLocation {
+	return []WafRequestBodyLocation{
+		WafRequestBodyLocationJapaneast,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s WafRequestBodyLocation) MarshalText() ([]byte, error) {
+	switch s {
+	case WafRequestBodyLocationJapaneast:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *WafRequestBodyLocation) UnmarshalText(data []byte) error {
+	switch WafRequestBodyLocation(data) {
+	case WafRequestBodyLocationJapaneast:
+		*s = WafRequestBodyLocationJapaneast
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }

@@ -4,7 +4,6 @@ package v1
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -12,7 +11,7 @@ import (
 func (s *AiRequestBody) SetFake() {
 	{
 		{
-			s.Location = "string"
+			s.Location.SetFake()
 		}
 	}
 	{
@@ -20,6 +19,11 @@ func (s *AiRequestBody) SetFake() {
 			s.Sku.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *AiRequestBodyLocation) SetFake() {
+	*s = AiRequestBodyLocationJapaneast
 }
 
 // SetFake set fake values.
@@ -42,6 +46,46 @@ func (s *AzureLocation) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *AzureResourceGroupData) SetFake() {
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.Location.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CachePurgeRequestBody) SetFake() {
+	{
+		{
+			s.Location.SetFake()
+		}
+	}
+	{
+		{
+			s.ContentPaths = nil
+			for i := 0; i < 0; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.ContentPaths = append(s.ContentPaths, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CachePurgeRequestBodyLocation) SetFake() {
+	*s = CachePurgeRequestBodyLocationJapaneast
+}
+
+// SetFake set fake values.
 func (s *CreatedByType) SetFake() {
 }
 
@@ -59,7 +103,7 @@ func (s *DataLakeRedundancy) SetFake() {
 func (s *DatalakePostRequestBody) SetFake() {
 	{
 		{
-			s.Location = "string"
+			s.Location.SetFake()
 		}
 	}
 	{
@@ -80,19 +124,29 @@ func (s *DatalakePostRequestBody) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *DatalakePostRequestBodyLocation) SetFake() {
+	*s = DatalakePostRequestBodyLocationJapaneast
+}
+
+// SetFake set fake values.
 func (s *DatawarehousePostRequestBody) SetFake() {
 	{
 		{
-			s.Location = "string"
+			s.Location.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *DatawarehousePostRequestBodyLocation) SetFake() {
+	*s = DatawarehousePostRequestBodyLocationJapaneast
 }
 
 // SetFake set fake values.
 func (s *DdosRequestBody) SetFake() {
 	{
 		{
-			s.Location = "string"
+			s.Location.SetFake()
 		}
 	}
 	{
@@ -105,6 +159,11 @@ func (s *DdosRequestBody) SetFake() {
 			s.Endpoint.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *DdosRequestBodyLocation) SetFake() {
+	*s = DdosRequestBodyLocationJapaneast
 }
 
 // SetFake set fake values.
@@ -172,9 +231,14 @@ func (s *ErrorResponse) SetFake() {
 func (s *EtlPostRequestBody) SetFake() {
 	{
 		{
-			s.Location = "string"
+			s.Location.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *EtlPostRequestBodyLocation) SetFake() {
+	*s = EtlPostRequestBodyLocationJapaneast
 }
 
 // SetFake set fake values.
@@ -256,6 +320,11 @@ func (s *GetResourceResponse) SetFake() {
 			s.URL.SetFake()
 		}
 	}
+	{
+		{
+			s.ResourceGroup.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -271,7 +340,7 @@ func (s *ListResourcesResponse) SetFake() {
 func (s *NetworkRequestBody) SetFake() {
 	{
 		{
-			s.Location = "string"
+			s.Location.SetFake()
 		}
 	}
 	{
@@ -287,6 +356,11 @@ func (s *NetworkRequestBody) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *NetworkRequestBodyLocation) SetFake() {
+	*s = NetworkRequestBodyLocationJapaneast
+}
+
+// SetFake set fake values.
 func (s *NilString) SetFake() {
 	s.Null = true
 }
@@ -294,6 +368,15 @@ func (s *NilString) SetFake() {
 // SetFake set fake values.
 func (s *OptAzureLocation) SetFake() {
 	var elem AzureLocation
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptAzureResourceGroupData) SetFake() {
+	var elem AzureResourceGroupData
 	{
 		elem.SetFake()
 	}
@@ -394,15 +477,6 @@ func (s *OptSystemData) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptURI) SetFake() {
-	var elem url.URL
-	{
-		elem = url.URL{Scheme: "https", Host: "github.com", Path: "/ogen-go/ogen"}
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
 func (s *PostDeploymentResponse) SetFake() {
 	{
 		{
@@ -417,6 +491,15 @@ func (s *PostDeploymentResponse) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *PostPurgeResponse) SetFake() {
+	{
+		{
+			s.ResourceGroupName.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *PricingLevel) SetFake() {
 	*s = PricingLevel1
 }
@@ -425,9 +508,14 @@ func (s *PricingLevel) SetFake() {
 func (s *QueryPostRequestBody) SetFake() {
 	{
 		{
-			s.Location = "string"
+			s.Location.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *QueryPostRequestBodyLocation) SetFake() {
+	*s = QueryPostRequestBodyLocationJapaneast
 }
 
 // SetFake set fake values.
@@ -502,11 +590,6 @@ func (s *ResourceGroupResource) SetFake() {
 			s.Data.SetFake()
 		}
 	}
-	{
-		{
-			s.URL.SetFake()
-		}
-	}
 }
 
 // SetFake set fake values.
@@ -566,7 +649,7 @@ func (s *ResourceType) SetFake() {
 func (s *SearchPostRequestBody) SetFake() {
 	{
 		{
-			s.Location = "string"
+			s.Location.SetFake()
 		}
 	}
 	{
@@ -586,9 +669,19 @@ func (s *SearchPostRequestBody) SetFake() {
 	}
 	{
 		{
-			s.PartitionCount = int32(0)
+			s.PartitionCount.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *SearchPostRequestBodyLocation) SetFake() {
+	*s = SearchPostRequestBodyLocationJapaneast
+}
+
+// SetFake set fake values.
+func (s *SearchPostRequestBodyPartitionCount) SetFake() {
+	*s = SearchPostRequestBodyPartitionCount1
 }
 
 // SetFake set fake values.
@@ -605,7 +698,7 @@ func (s *ServerOsType) SetFake() {
 func (s *StreamingRequestBody) SetFake() {
 	{
 		{
-			s.Location = "string"
+			s.Location.SetFake()
 		}
 	}
 	{
@@ -613,6 +706,11 @@ func (s *StreamingRequestBody) SetFake() {
 			s.UnitCount = "string"
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *StreamingRequestBodyLocation) SetFake() {
+	*s = StreamingRequestBodyLocationJapaneast
 }
 
 // SetFake set fake values.
@@ -653,7 +751,7 @@ func (s *SystemData) SetFake() {
 func (s *VulnerabilityRequestBody) SetFake() {
 	{
 		{
-			s.Location = "string"
+			s.Location.SetFake()
 		}
 	}
 	{
@@ -661,6 +759,11 @@ func (s *VulnerabilityRequestBody) SetFake() {
 			s.Os.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *VulnerabilityRequestBodyLocation) SetFake() {
+	*s = VulnerabilityRequestBodyLocationJapaneast
 }
 
 // SetFake set fake values.
@@ -681,7 +784,7 @@ func (s *VulnerabilityResponseBody) SetFake() {
 func (s *WafRequestBody) SetFake() {
 	{
 		{
-			s.Location = "string"
+			s.Location.SetFake()
 		}
 	}
 	{
@@ -694,4 +797,9 @@ func (s *WafRequestBody) SetFake() {
 			s.Endpoint.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *WafRequestBodyLocation) SetFake() {
+	*s = WafRequestBodyLocationJapaneast
 }
