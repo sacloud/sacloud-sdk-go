@@ -50,9 +50,9 @@ func (op *evaluationRuleOp) List(ctx context.Context, params v1.EvaluationRulesL
 		// TODO: Handle RetryAfter field
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	case *v1.UnexpectedErrorStatusCode:
-		return nil, NewAPIError(methodName, r.StatusCode, errors.New(r.Response.Detail.Value))
+		return nil, responseError(methodName, r)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, responseError(methodName, res)
 	}
 }
 
@@ -74,7 +74,7 @@ func (op *evaluationRuleOp) Read(ctx context.Context, id string) (*v1.Evaluation
 	case *v1.EvaluationRulesReadApplicationJSONTooManyRequests:
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, responseError(methodName, res)
 	}
 }
 
@@ -100,7 +100,7 @@ func (op *evaluationRuleOp) Update(ctx context.Context, id string, req *v1.Evalu
 	case *v1.EvaluationRulesUpdateApplicationJSONTooManyRequests:
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, responseError(methodName, res)
 	}
 }
 

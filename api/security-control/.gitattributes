@@ -1,6 +1,7 @@
 AUTHORS             linguist-generated merge=union
 go.sum              linguist-generated merge=ours
 go.mod              linguist-generated
+error_types_gen.go  linguist-generated text eol=lf diff=golang
 docs/*              linguist-documentation
 *.md                merge=union
 
