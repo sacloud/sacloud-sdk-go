@@ -16,7 +16,6 @@ package apprun
 
 import (
 	"context"
-	"errors"
 	"net/http"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
@@ -58,7 +57,7 @@ func (op *userOp) Read(ctx context.Context) (*v1.HandlerReadUser, error) {
 	case *v1.ReadUserInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }
 
@@ -80,6 +79,6 @@ func (op *userOp) Create(ctx context.Context) (*v1.HandlerCreateUser, error) {
 	case *v1.CreateUserInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }

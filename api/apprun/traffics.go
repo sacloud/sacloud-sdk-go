@@ -60,7 +60,7 @@ func (op *trafficOp) List(ctx context.Context, appId string) (*v1.HandlerListTra
 	case *v1.ListApplicationTrafficInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }
 
@@ -88,6 +88,6 @@ func (op *trafficOp) Update(ctx context.Context, appId string, params *v1.Update
 	case *v1.UpdateApplicationTrafficInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }
