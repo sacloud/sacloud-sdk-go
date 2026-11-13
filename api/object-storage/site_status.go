@@ -41,7 +41,7 @@ func (op *siteStatusOp) Read(ctx context.Context) (*v2.StatusData, error) {
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("SiteStatus.Read", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("SiteStatus.Read", 0, errors.New("unknown error"))
+		return nil, unknownError("SiteStatus.Read", r)
 	}
 }
 
@@ -59,7 +59,7 @@ func (op *siteStatusOp) ReadQuota(ctx context.Context) (*v2.QuotaData, error) {
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("SiteStatus.ReadQuota", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("SiteStatus.ReadQuota", 0, errors.New("unknown error"))
+		return nil, unknownError("SiteStatus.ReadQuota", r)
 	}
 }
 
@@ -79,6 +79,6 @@ func (op *siteStatusOp) ReadBucketMetering(ctx context.Context, bucketName strin
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("SiteStatus.ReadBucketMetering", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("SiteStatus.ReadBucketMetering", 0, errors.New("unknown error"))
+		return nil, unknownError("SiteStatus.ReadBucketMetering", r)
 	}
 }

@@ -51,7 +51,7 @@ func (op *accountOp) Create(ctx context.Context) (*v2.AccountData, error) {
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Accounts.Create", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Accounts.Create", 0, errors.New("unknown error"))
+		return nil, unknownError("Accounts.Create", r)
 	}
 }
 
@@ -71,7 +71,7 @@ func (op *accountOp) Read(ctx context.Context) (*v2.AccountData, error) {
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Accounts.Read", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Accounts.Read", 0, errors.New("unknown error"))
+		return nil, unknownError("Accounts.Read", r)
 	}
 }
 
@@ -91,7 +91,7 @@ func (op *accountOp) Delete(ctx context.Context) error {
 	case *v2.ErrorDefaultStatusCode:
 		return NewAPIError("Accounts.Delete", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return NewAPIError("Accounts.Delete", 0, errors.New("unknown error"))
+		return unknownError("Accounts.Delete", r)
 	}
 }
 
@@ -111,7 +111,7 @@ func (op *accountOp) ListAccessKeys(ctx context.Context) ([]v2.AccountKeysDataIt
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Accounts.ListAccessKeys", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Accounts.ListAccessKeys", 0, errors.New("unknown error"))
+		return nil, unknownError("Accounts.ListAccessKeys", r)
 	}
 }
 
@@ -133,7 +133,7 @@ func (op *accountOp) CreateAccessKey(ctx context.Context) (*v2.AccountKeyData, e
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Accounts.CreateAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Accounts.CreateAccessKey", 0, errors.New("unknown error"))
+		return nil, unknownError("Accounts.CreateAccessKey", r)
 	}
 }
 
@@ -153,7 +153,7 @@ func (op *accountOp) ReadAccessKey(ctx context.Context, keyId string) (*v2.Accou
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Accounts.ReadAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Accounts.ReadAccessKey", 0, errors.New("unknown error"))
+		return nil, unknownError("Accounts.ReadAccessKey", r)
 	}
 }
 
@@ -171,6 +171,6 @@ func (op *accountOp) DeleteAccessKey(ctx context.Context, keyId string) error {
 	case *v2.ErrorDefaultStatusCode:
 		return NewAPIError("Accounts.DeleteAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return NewAPIError("Accounts.DeleteAccessKey", 0, errors.New("unknown error"))
+		return unknownError("Accounts.DeleteAccessKey", r)
 	}
 }

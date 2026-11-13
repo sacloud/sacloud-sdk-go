@@ -50,7 +50,7 @@ func (op *permissionOp) List(ctx context.Context) ([]v2.PermissionsDataItem, err
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Permissions.List", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Permissions.List", 0, errors.New("unknown error"))
+		return nil, unknownError("Permissions.List", r)
 	}
 }
 
@@ -75,7 +75,7 @@ func (op *permissionOp) Create(ctx context.Context, displayName string, controls
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Permissions.Create", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Permissions.Create", 0, errors.New("unknown error"))
+		return nil, unknownError("Permissions.Create", r)
 	}
 }
 
@@ -95,7 +95,7 @@ func (op *permissionOp) Read(ctx context.Context, permissionId string) (*v2.Perm
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Permissions.Read", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Permissions.Read", 0, errors.New("unknown error"))
+		return nil, unknownError("Permissions.Read", r)
 	}
 }
 
@@ -118,7 +118,7 @@ func (op *permissionOp) Update(ctx context.Context, permissionId, name string, c
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Permissions.Update", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Permissions.Update", 0, errors.New("unknown error"))
+		return nil, unknownError("Permissions.Update", r)
 	}
 }
 
@@ -136,7 +136,7 @@ func (op *permissionOp) Delete(ctx context.Context, permissionId string) error {
 	case *v2.ErrorDefaultStatusCode:
 		return NewAPIError("Permissions.Delete", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return NewAPIError("Permissions.Delete", 0, errors.New("unknown error"))
+		return unknownError("Permissions.Delete", r)
 	}
 }
 
@@ -154,7 +154,7 @@ func (op *permissionOp) ListAccessKeys(ctx context.Context, permissionId string)
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Permissions.ListAccessKeys", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Permissions.ListAccessKeys", 0, errors.New("unknown error"))
+		return nil, unknownError("Permissions.ListAccessKeys", r)
 	}
 }
 
@@ -172,7 +172,7 @@ func (op *permissionOp) CreateAccessKey(ctx context.Context, permissionId string
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Permissions.CreateAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Permissions.CreateAccessKey", 0, errors.New("unknown error"))
+		return nil, unknownError("Permissions.CreateAccessKey", r)
 	}
 }
 
@@ -190,7 +190,7 @@ func (op *permissionOp) ReadAccessKey(ctx context.Context, permissionId, accessK
 	case *v2.ErrorDefaultStatusCode:
 		return nil, NewAPIError("Permissions.ReadAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return nil, NewAPIError("Permissions.ReadAccessKey", 0, errors.New("unknown error"))
+		return nil, unknownError("Permissions.ReadAccessKey", r)
 	}
 }
 
@@ -208,6 +208,6 @@ func (op *permissionOp) DeleteAccessKey(ctx context.Context, permissionId, acces
 	case *v2.ErrorDefaultStatusCode:
 		return NewAPIError("Permissions.DeleteAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
 	default:
-		return NewAPIError("Permissions.DeleteAccessKey", 0, errors.New("unknown error"))
+		return unknownError("Permissions.DeleteAccessKey", r)
 	}
 }
