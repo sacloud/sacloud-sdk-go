@@ -46,7 +46,7 @@ func TestList(t *testing.T) {
 	assert.NotNil(actual)
 	assert.NotNil(cursor)
 	assert.Len(actual, 3)
-	assert.Equal(expected.GetClusters()[0].GetClusterID(), actual[0].ClusterID)
+	assert.Equal(expected.GetClusters(), actual)
 }
 
 func TestList_failed(t *testing.T) {
@@ -329,7 +329,7 @@ func TestIntegrated(t *testing.T) {
 		})
 
 		t.Run("List", func(t *testing.T) {
-			listed := apprun_test.RepeatedList(func(cursor *v1.ClusterID) (clusters []ClusterDetail, next *v1.ClusterID) {
+			listed := apprun_test.RepeatedList(func(cursor *v1.ClusterID) (clusters []v1.ReadClusterSummary, next *v1.ClusterID) {
 				clusters, next, err := api.List(t.Context(), 10, cursor)
 				assert.NoError(err)
 				return
