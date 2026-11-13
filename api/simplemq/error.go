@@ -60,7 +60,7 @@ func unknownQueueError(p any) error {
 	} else {
 		var e jx.Encoder
 		err.Encode(&e)
-		return fmt.Errorf("unknown API error response: %s", e.Bytes())
+		return fmt.Errorf("unknown API error response: %s", e.String())
 	}
 }
 
@@ -72,6 +72,6 @@ func unknownMessageError(p any) error {
 	} else {
 		var e jx.Encoder
 		err.Encode(&e)
-		return fmt.Errorf("unknown API error response: %s", e.Bytes())
+		return fmt.Errorf("unknown API error response: %s", e.String())
 	}
 }
