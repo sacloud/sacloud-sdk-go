@@ -15,7 +15,9 @@
 package addon_test
 
 import (
+	"io"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	. "github.com/sacloud/sacloud-sdk-go/api/addon"
@@ -82,12 +84,13 @@ func TestCDNOp_Create_400(t *testing.T) {
 	assert, api := setupCDN(t, &MockErrorResponse, http.StatusBadRequest)
 
 	result, err := api.Create(t.Context(), CDNCreateParams{
-		Location:     "invalid-location",
+		Location:     "japaneast",
 		PricingLevel: v1.PricingLevel1,
 		Patterns:     []string{"/*"},
 		Origin:       MockFrontDoorOrigin,
 	})
 	assert.Error(err)
+	assert.Contains(err.Error(), `"errors"`)
 	assert.Nil(result)
 	assert.False(saclient.IsNotFoundError(err))
 }
@@ -139,6 +142,83 @@ func TestCDNOp_Delete_404(t *testing.T) {
 	err := api.Delete(t.Context(), "nonexistent-rg")
 	assert.Error(err)
 	assert.True(saclient.IsNotFoundError(err))
+}
+
+func TestCDNOp_Purge(t *testing.T) {
+	tests := []struct {
+		name       string
+		status     int
+		body       string
+		notFound   bool
+		errMessage string
+	}{
+		{name: "accepted", status: http.StatusAccepted, body: `{"resourceGroupName":"test-rg"}`},
+		{name: "bad request", status: http.StatusBadRequest, body: `{"errors":[{"code":"Invalid","message":"Bad request"}]}`, errMessage: "Bad request"},
+		{name: "not found", status: http.StatusNotFound, notFound: true},
+		{name: "unexpected status", status: http.StatusInternalServerError, errMessage: "500"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			type request struct {
+				method, path, body string
+				err                error
+			}
+			requests := make(chan request, 1)
+			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				body, err := io.ReadAll(r.Body)
+				requests <- request{r.Method, r.URL.Path, string(body), err}
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(tt.status)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer server.Close()
+			client, err := v1.NewClient(server.URL)
+			require.NoError(t, err)
+
+			result, err := NewCDNOp(client).Purge(t.Context(), "test-rg", CDNPurgeParams{
+				Location:     "japaneast",
+				ContentPaths: []string{"/images/*", "/index.html"},
+			})
+			if tt.status == http.StatusAccepted {
+				require.NoError(t, err)
+				require.NotNil(t, result)
+				name, ok := result.ResourceGroupName.Get()
+				require.True(t, ok)
+				require.Equal(t, "test-rg", name)
+			} else {
+				require.Error(t, err)
+				require.Nil(t, result)
+				require.Equal(t, tt.notFound, saclient.IsNotFoundError(err))
+				if tt.errMessage != "" {
+					require.ErrorContains(t, err, tt.errMessage)
+				}
+			}
+			req := <-requests
+			require.NoError(t, req.err)
+			require.Equal(t, http.MethodPost, req.method)
+			require.Equal(t, "/cdn/test-rg/purge", req.path)
+			require.JSONEq(t, `{"location":"japaneast","contentPaths":["/images/*","/index.html"]}`, req.body)
+		})
+	}
+}
+
+func TestCDNOp_PurgeInvalidRequest(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		t.Error("invalid request was sent")
+	}))
+	defer server.Close()
+	client, err := v1.NewClient(server.URL)
+	require.NoError(t, err)
+	api := NewCDNOp(client)
+
+	for _, params := range []CDNPurgeParams{
+		{Location: "invalid", ContentPaths: []string{"/*"}},
+		{Location: "japaneast", ContentPaths: nil},
+	} {
+		result, err := api.Purge(t.Context(), "test-rg", params)
+		require.ErrorContains(t, err, "CDN.Purge")
+		require.Nil(t, result)
+	}
 }
 
 func TestCDNOp_Status_200(t *testing.T) {

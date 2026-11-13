@@ -34,8 +34,8 @@ type AIOp struct{ *v1.Client }
 func NewAIOp(client *v1.Client) AIAPI { return &AIOp{Client: client} }
 
 func (a *AIOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListAZ0501NotFound]("AI.List", func() (any, error) {
-		return a.Client.ListAZ0501(ctx)
+	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListAiResourcesNotFound]("AI.List", func() (any, error) {
+		return a.Client.ListAiResources(ctx)
 	}); e != nil {
 		err = e
 	} else if resources, ok := res.GetResources().Get(); ok {
@@ -47,24 +47,24 @@ func (a *AIOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err er
 
 func (a *AIOp) Create(ctx context.Context, location string, sku v1.AiServiceSku) (*v1.PostDeploymentResponse, error) {
 	return ErrorFromDecodedResponse[v1.PostDeploymentResponse, void]("AI.Create", func() (any, error) {
-		return a.Client.CreateAZ0501(ctx, &v1.AiRequestBody{
-			Location: location,
+		return a.Client.CreateAiResource(ctx, &v1.AiRequestBody{
+			Location: v1.AiRequestBodyLocation(location),
 			Sku:      sku,
 		})
 	})
 }
 
 func (a *AIOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, error) {
-	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.GetAZ0501NotFound]("AI.Read", func() (any, error) {
-		return a.Client.GetAZ0501(ctx, v1.GetAZ0501Params{
+	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.ReadAiResourceNotFound]("AI.Read", func() (any, error) {
+		return a.Client.ReadAiResource(ctx, v1.ReadAiResourceParams{
 			ResourceGroupName: id,
 		})
 	})
 }
 
 func (a *AIOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteAZ0501NoContent, v1.DeleteAZ0501NotFound]("AI.Delete", func() (any, error) {
-		return a.Client.DeleteAZ0501(ctx, v1.DeleteAZ0501Params{
+	_, err = ErrorFromDecodedResponse[v1.DeleteAiResourceNoContent, v1.DeleteAiResourceNotFound]("AI.Delete", func() (any, error) {
+		return a.Client.DeleteAiResource(ctx, v1.DeleteAiResourceParams{
 			ResourceGroupName: id,
 		})
 	})
@@ -74,7 +74,7 @@ func (a *AIOp) Delete(ctx context.Context, id string) (err error) {
 
 func (a *AIOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {
 	return ErrorFromDecodedResponse[v1.DeploymentStatus, void]("AI.Status", func() (any, error) {
-		return a.Client.StatusAZ0501(ctx, v1.StatusAZ0501Params{
+		return a.Client.ReadAiResourceStatus(ctx, v1.ReadAiResourceStatusParams{
 			ResourceGroupName: resourceGroupName,
 			DeploymentName:    deploymentName,
 		})

@@ -10,8 +10,8 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 )
 
-func encodeCreateAZ0101Request(
-	req *DatalakePostRequestBody,
+func encodeCreateAiResourceRequest(
+	req *AiRequestBody,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -24,77 +24,7 @@ func encodeCreateAZ0101Request(
 	return nil
 }
 
-func encodeCreateAZ0102Request(
-	req *DatawarehousePostRequestBody,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeCreateAZ0103Request(
-	req *EtlPostRequestBody,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeCreateAZ0104Request(
-	req *QueryPostRequestBody,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeCreateAZ0105Request(
-	req *SearchPostRequestBody,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeCreateAZ0107Request(
-	req *StreamingRequestBody,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeCreateAZ0301Request(
+func encodeCreateCdnResourceRequest(
 	req *NetworkRequestBody,
 	r *http.Request,
 ) error {
@@ -108,7 +38,21 @@ func encodeCreateAZ0301Request(
 	return nil
 }
 
-func encodeCreateAZ0401Request(
+func encodeCreateDatalakeResourceRequest(
+	req *DatalakePostRequestBody,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateDdosResourceRequest(
 	req *DdosRequestBody,
 	r *http.Request,
 ) error {
@@ -122,8 +66,8 @@ func encodeCreateAZ0401Request(
 	return nil
 }
 
-func encodeCreateAZ0402Request(
-	req *WafRequestBody,
+func encodeCreateDwhResourceRequest(
+	req *DatawarehousePostRequestBody,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -136,7 +80,63 @@ func encodeCreateAZ0402Request(
 	return nil
 }
 
-func encodeCreateAZ0403Request(
+func encodeCreateEtlResourceRequest(
+	req *EtlPostRequestBody,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateQueryResourceRequest(
+	req *QueryPostRequestBody,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateSearchResourceRequest(
+	req *SearchPostRequestBody,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateStreamingResourceRequest(
+	req *StreamingRequestBody,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateVulnerabilityResourceRequest(
 	req *VulnerabilityRequestBody,
 	r *http.Request,
 ) error {
@@ -150,8 +150,22 @@ func encodeCreateAZ0403Request(
 	return nil
 }
 
-func encodeCreateAZ0501Request(
-	req *AiRequestBody,
+func encodeCreateWafResourceRequest(
+	req *WafRequestBody,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePurgeCdnCacheRequest(
+	req *CachePurgeRequestBody,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

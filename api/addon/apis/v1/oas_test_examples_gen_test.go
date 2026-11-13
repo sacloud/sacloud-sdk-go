@@ -3,7 +3,11 @@
 package v1
 
 import (
+	"fmt"
+
+	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
+	"github.com/ogen-go/ogen/validate"
 
 	std "encoding/json"
 	"testing"
@@ -22,6 +26,47 @@ func TestAiRequestBody_EncodeDecode(t *testing.T) {
 
 	var typ2 AiRequestBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestAiRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ AiRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 AiRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestAiRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ AiRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 AiRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestAiServiceSku_EncodeDecode(t *testing.T) {
 	var typ AiServiceSku
@@ -46,6 +91,71 @@ func TestAzureLocation_EncodeDecode(t *testing.T) {
 
 	var typ2 AzureLocation
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestAzureResourceGroupData_EncodeDecode(t *testing.T) {
+	var typ AzureResourceGroupData
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 AzureResourceGroupData
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCachePurgeRequestBody_EncodeDecode(t *testing.T) {
+	var typ CachePurgeRequestBody
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CachePurgeRequestBody
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCachePurgeRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ CachePurgeRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CachePurgeRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCachePurgeRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CachePurgeRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CachePurgeRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestCreatedByType_EncodeDecode(t *testing.T) {
 	var typ CreatedByType
@@ -95,6 +205,47 @@ func TestDatalakePostRequestBody_EncodeDecode(t *testing.T) {
 	var typ2 DatalakePostRequestBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestDatalakePostRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ DatalakePostRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DatalakePostRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDatalakePostRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DatalakePostRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DatalakePostRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestDatawarehousePostRequestBody_EncodeDecode(t *testing.T) {
 	var typ DatawarehousePostRequestBody
 	typ.SetFake()
@@ -107,6 +258,47 @@ func TestDatawarehousePostRequestBody_EncodeDecode(t *testing.T) {
 	var typ2 DatawarehousePostRequestBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestDatawarehousePostRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ DatawarehousePostRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DatawarehousePostRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDatawarehousePostRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DatawarehousePostRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DatawarehousePostRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestDdosRequestBody_EncodeDecode(t *testing.T) {
 	var typ DdosRequestBody
 	typ.SetFake()
@@ -118,6 +310,47 @@ func TestDdosRequestBody_EncodeDecode(t *testing.T) {
 
 	var typ2 DdosRequestBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDdosRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ DdosRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DdosRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDdosRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DdosRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DdosRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestDeploymentStatus_EncodeDecode(t *testing.T) {
 	var typ DeploymentStatus
@@ -178,6 +411,47 @@ func TestEtlPostRequestBody_EncodeDecode(t *testing.T) {
 
 	var typ2 EtlPostRequestBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestEtlPostRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ EtlPostRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 EtlPostRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestEtlPostRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ EtlPostRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 EtlPostRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestFrontDoorEndpoint_EncodeDecode(t *testing.T) {
 	var typ FrontDoorEndpoint
@@ -275,6 +549,47 @@ func TestNetworkRequestBody_EncodeDecode(t *testing.T) {
 	var typ2 NetworkRequestBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestNetworkRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ NetworkRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 NetworkRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestNetworkRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ NetworkRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 NetworkRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestPostDeploymentResponse_EncodeDecode(t *testing.T) {
 	var typ PostDeploymentResponse
 	typ.SetFake()
@@ -285,6 +600,18 @@ func TestPostDeploymentResponse_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 PostDeploymentResponse
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestPostPurgeResponse_EncodeDecode(t *testing.T) {
+	var typ PostPurgeResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PostPurgeResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestPricingLevel_EncodeDecode(t *testing.T) {
@@ -310,6 +637,47 @@ func TestQueryPostRequestBody_EncodeDecode(t *testing.T) {
 
 	var typ2 QueryPostRequestBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestQueryPostRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ QueryPostRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 QueryPostRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestQueryPostRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ QueryPostRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 QueryPostRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestResourceGroupData_EncodeDecode(t *testing.T) {
 	var typ ResourceGroupData
@@ -385,6 +753,59 @@ func TestSearchPostRequestBody_EncodeDecode(t *testing.T) {
 	var typ2 SearchPostRequestBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestSearchPostRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ SearchPostRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 SearchPostRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestSearchPostRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ SearchPostRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 SearchPostRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestSearchPostRequestBodyPartitionCount_EncodeDecode(t *testing.T) {
+	var typ SearchPostRequestBodyPartitionCount
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 SearchPostRequestBodyPartitionCount
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestSearchSku_EncodeDecode(t *testing.T) {
 	var typ SearchSku
 	typ.SetFake()
@@ -421,6 +842,47 @@ func TestStreamingRequestBody_EncodeDecode(t *testing.T) {
 	var typ2 StreamingRequestBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestStreamingRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ StreamingRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 StreamingRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestStreamingRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ StreamingRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 StreamingRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestSystemData_EncodeDecode(t *testing.T) {
 	var typ SystemData
 	typ.SetFake()
@@ -445,6 +907,47 @@ func TestVulnerabilityRequestBody_EncodeDecode(t *testing.T) {
 	var typ2 VulnerabilityRequestBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestVulnerabilityRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ VulnerabilityRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 VulnerabilityRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestVulnerabilityRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ VulnerabilityRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 VulnerabilityRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestVulnerabilityResponseBody_EncodeDecode(t *testing.T) {
 	var typ VulnerabilityResponseBody
 	typ.SetFake()
@@ -468,4 +971,45 @@ func TestWafRequestBody_EncodeDecode(t *testing.T) {
 
 	var typ2 WafRequestBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWafRequestBodyLocation_EncodeDecode(t *testing.T) {
+	var typ WafRequestBodyLocation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WafRequestBodyLocation
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestWafRequestBodyLocation_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"japaneast\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ WafRequestBodyLocation
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 WafRequestBodyLocation
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
