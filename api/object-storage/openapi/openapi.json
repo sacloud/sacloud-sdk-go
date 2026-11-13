@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "1.5.0",
+    "version": "1.7.0",
     "title": "さくらのオブジェクトストレージ APIドキュメント",
     "contact": {
       "name": "SAKURA internet Inc."
@@ -9,16 +9,12 @@
     "license": {
       "name": "Copyright(C) 2021-2022 SAKURA internet Inc. all rights reserved."
     },
-    "x-logo": {
-      "url": "logo.svg",
-      "altText": "さくらのオブジェクトストレージ：APIドキュメント"
-    },
-    "description": "\n---\n\n「さくらのオブジェクトストレージ」が提供するAPIの利用方法とサンプルを公開しております。\n\nJSON 形式の OpenAPI 仕様は、以下の URL からダウンロードしてください。\n\n<ul><li><a href=\"https://manual.sakura.ad.jp/cloud/objectstorage/api/api-json.json\">JSON形式でダウンロード</a></li></ul>\n\n# 基本的な使い方\n\n## APIキーの発行\n\nAPIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。\nAPIキーは「ユーザーID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n\n|   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |\n|------------|------------------------------|--------------------------------------|\n| ユーザーID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n\n<div class=\"warning\">\n<b>操作マニュアル</b><br />\n<ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n</div>\n\n## 入力パラメータ\n\nAPIの入力には送信先URLに対して、いくつかのヘッダーとAPIキーを送信します。\n\n* APIのURLは以下の2つが存在します。※ 各APIの使い分けは後述します。\n  * `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/(エンドポイント)`\n  * `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/(エンドポイント)`\n* 認証方式はHTTP Basic認証です。APIキーのアクセストークンをユーザーID、アクセストークンシークレットをパスワードとして指定します。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     'https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters'\n```\n\n## 出力結果と応答コード（HTTPステータスコード）\n\nAPIからの結果は、「応答コード（HTTPステータスコード）」と、「JSON形式(UTF-8)の結果」として出力されます。\n\n応答コードは、リクエストが成功したのか、失敗したのか大まかな情報を判断することができるもので、例えば失敗したときには、なぜこのような結果になったのかなど、具体的な情報は応答コードと主に返された本文を見ることで把握することができます。\n\n| 結果                                | 応答コード/status   |\n|-------------------------------------|---------------------|\n| 成功（要求を受け付けた）             | 2xx                 |\n| 失敗（要求が受け付けられなかった）  | 4xx, 5xx            |\n\n```\n# 出力結果サンプル（レスポンスヘッダ）\nHTTP/1.1 200 OK\nServer: nginx\nDate: Tue, 16 Nov 2021 12:39:48 GMT\nContent-Type: application/json; charset=UTF-8\nContent-Length: 443\nConnection: keep-alive\nStatus: 200 OK\nPragma: no-cache\nCache-Control: no-cache\nX-Sakura-Proxy-Microtime: 66245\nX-Sakura-Proxy-Decode-Microtime: 62\nX-Sakura-Content-Length: 443\nX-Sakura-Serial: 86ab6c743f72aa5ea6f17e254fd5f803\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 1; mode=block\nX-Frame-Options: DENY\nX-Sakura-Encode-Microtime: 260\nVary: Accept-Encoding\n```\n\n```\n# 出力結果サンプル（レスポンスボディー）\n{\n  \"error\": {\n    \"code\": 404,\n    \"errors\": [\n      {\n        \"domain\": \"fed.objectstorage.sacloud\",\n        \"location\": \"clusters\",\n        \"location_type\": \"path_parameter\",\n        \"message\": \"Cluster was not found\",\n        \"reason\": \"not_found\"\n      }\n    ],\n    \"message\": \"Cluster was not found\",\n    \"trace_id\": \"0f36837633984f3fc8871f515e8efa24\"\n  }\n}\n```\n\n# 利用例\n\n## 1.接続先サイト一覧の取得\n\nさくらのオブジェクトストレージを利用するには、まずバケット作成先となる**サイト**を取得・選択します。\n\nサイト一覧を取得するには、以下のような入力を行います。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     'https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters'\n```\n\n実行結果として、サイトのリストが返却されます。\n\n```\n# 出力結果サンプル\n{\n  \"data\": [\n    {\n      \"api_zone\": [],\n      \"control_panel_url\": \"https://secure.sakura.ad.jp/objectstorage/\",\n      \"display_name_en_us\": \"Ishikari Site #1\",\n      \"display_name_ja\": \"石狩第1サイト\",\n      \"display_name\": \"石狩第1サイト\",\n      \"display_order\": 1,\n      \"endpoint_base\": \"isk01.sakurastorage.jp\",\n      \"id\": \"isk01\",\n      \"region\": \"jp-north-1\",\n      \"s3_endpoint\": \"s3.isk01.sakurastorage.jp\",\n      \"s3_endpoint_for_control_panel\": \"s3.cp.isk01.sakurastorage.jp\",\n      \"storage_zone\": []\n    }\n  ]\n}\n```\n\n得られたサイトID（上記の`id`フィールド）を確認します。これは後続の利用例で使用します。\n\n## 2.サイトアカウントの作成\n\n上記のサイトから利用したいサイトIDを選択し（ここではisk01を選択することにします）、**サイトアカウント**を作成します。\n\nサイトアカウントとは、サイトを利用するための独立したアカウントであり、サイトアカウント作成・削除による料金の発生はございません。\nなお、すでにサイトアカウントを作成済みの場合は、再度サイトアカウントの作成は不要です。\n\nサイトアカウントを作成するには以下のような入力を行います。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X POST \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/account\n```\n\nサイトアカウントの作成が完了すると、選択したサイトにて\n\n* バケットの作成・削除\n* アクセスキーの発行・削除\n* パーミッションキーの発行・削除\n\nなどの操作が可能になります。\n\n## 3.バケットの作成・削除\n\n選択したサイトにてサイトアカウントを作成後、**バケット**の作成・削除が可能です。\n\nバケットを作成するには以下のような入力を行います。\nこの時、選択したサイト（ここではisk01とします）をリクエストボディーに入れ、作成したいバケット名をパスパラメータに入れる必要があります。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X PUT \\\n     -d '{\"cluster_id\": \"isk01\"}' \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/buckets/sample\n```\n\n上記で作成したバケットを削除するには以下のような入力を行います。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X DELETE \\\n     -d '{\"cluster_id\": \"isk01\"}' \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/buckets/sample\n```\n\n## 4.アクセスキーの発行・削除\n\n選択したサイトにてサイトアカウントを作成後、**アクセスキー**の発行・削除が可能です。\n\nアクセスキーを発行するには以下のような入力を行います。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X POST \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/account/keys\n```\n\nコマンド結果には以下のフィールドが含まれます。\n\n* `created_at` : 作成日時\n* `id` : アクセスキーID\n* `secret` : シークレットアクセスキー\n\n```\n# 出力結果サンプル\n{\n  \"data\": {\n    \"created_at\": \"2021-11-04T07:42:41.121418479Z\",\n    \"id\": \"XPJK4SC9883N91RHR253\",\n    \"secret\": \"jqRaUo5l+EiEYqP8wos9exbmFfq4/vG8CLPYI2XN\"\n  }\n}\n```\n\n上記で作成したアクセスキーを削除するには以下のような入力を行います。\nこの時、削除したいアクセスキーIDをパスパラメータに入れる必要があります。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X DELETE \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/account/keys/XPJK4SC9883N91RHR253\n```\n\n## 5.パーミッション及びパーミッションアクセスキーの発行・削除\n\n選択したサイトにてサイトアカウントを作成後且つバケットが1つ以上ある場合、**パーミッション**の発行・削除が可能です。\n\nパーミッションを作成するには以下のような入力を行います。\nこの時、パーミッション名、パーミッションで制御したいバケットとそれに対する操作をリクエストボディーに入れる必要があります。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X POST \\\n     -d '{\"display_name\": \"sample_permission\", \"bucket_controls\": [{\"bucket_name\": \"sample\", \"can_read\": true, \"can_write\": true}]}' \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/permissions\n```\n\n作成が完了すると、パーミッションIDが含まれたレスポンスを受け取ります。\n```\n# 出力サンプル\n{\n  \"data\": {\n    \"bucket_controls\": [\n      {\n        \"bucket_name\":\"sample\",\n        \"can_read\":true,\n        \"can_write\":true,\n        \"created_at\":\"2021-11-11T13:36:08.767118492Z\"\n      }\n    ],\n    \"created_at\":\"2021-11-11T13:36:08.690384415Z\",\n    \"display_name\":\"sample_permission\",\n    \"id\":619\n  }\n}\n```\n\nこのパーミッションのアクセスキーを発行するには以下のような入力を行います。\nこの時、パーミッション作成時に発行されたID（ここでは619とします）をパスパラメータに含める必要があります。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X POST \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/permissions/619/keys\n```\n\nコマンド結果には以下のフィールドが含まれます。\n\n* `created_at` : 作成日時\n* `id` : アクセスキーID\n* `secret` : シークレットアクセスキー\n\n```\n# 出力結果サンプル\n{\n  \"data\": {\n    \"created_at\": \"2021-11-04T07:42:41.121418479Z\",\n    \"id\": \"XPJK4SC9883N91RHR253\",\n    \"secret\": \"jqRaUo5l+EiEYqP8wos9exbmFfq4/vG8CLPYI2XN\"\n  }\n}\n```\n\nパーミッションアクセスキーを削除するには以下のような入力を行います。\nこの時、パーミッションアクセスキー発行時に出力されたIDをパスパラメータに含める必要があります。\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X DELETE \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/permissions/619/keys/XPJK4SC9883N91RHR253\n```\n\nパーミッションを削除するには以下のような入力を行います。\nこの時、パーミッション作成時に発行されたID（ここでは619とします）をパスパラメータに含める必要があります。\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X DELETE \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/permissions/619\n```\n----"
+    "description": "\n---\n\n「さくらのオブジェクトストレージ」が提供するAPIの利用方法とサンプルを公開しております。\n\n# 基本的な使い方\n\n## APIキーの発行\n\nAPIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。\nAPIキーは「ユーザーID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n\n|   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |\n|------------|------------------------------|--------------------------------------|\n| ユーザーID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n\n<div class=\"warning\">\n<b>操作マニュアル</b><br />\n<ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n</div>\n\n## 入力パラメータ\n\nAPIの入力には送信先URLに対して、いくつかのヘッダーとAPIキーを送信します。\n\n* APIのURLは以下の2つが存在します。※ 各APIの使い分けは後述します。\n  * `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/(エンドポイント)`\n  * `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/(エンドポイント)`\n* 認証方式はHTTP Basic認証です。APIキーのアクセストークンをユーザーID、アクセストークンシークレットをパスワードとして指定します。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     'https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters'\n```\n\n## 出力結果と応答コード（HTTPステータスコード）\n\nAPIからの結果は、「応答コード（HTTPステータスコード）」と、「JSON形式(UTF-8)の結果」として出力されます。\n\n応答コードは、リクエストが成功したのか、失敗したのか大まかな情報を判断することができるもので、例えば失敗したときには、なぜこのような結果になったのかなど、具体的な情報は応答コードと主に返された本文を見ることで把握することができます。\n\n| 結果                                | 応答コード/status   |\n|-------------------------------------|---------------------|\n| 成功（要求を受け付けた）             | 2xx                 |\n| 失敗（要求が受け付けられなかった）  | 4xx, 5xx            |\n\n```\n# 出力結果サンプル（レスポンスボディー）\n{\n  \"error\": {\n    \"code\": 404,\n    \"errors\": [\n      {\n        \"domain\": \"fed.objectstorage.sacloud\",\n        \"location\": \"clusters\",\n        \"location_type\": \"path_parameter\",\n        \"message\": \"Cluster was not found\",\n        \"reason\": \"not_found\"\n      }\n    ],\n    \"message\": \"Cluster was not found\",\n    \"trace_id\": \"0f36837633984f3fc8871f515e8efa24\"\n  }\n}\n```\n\n# 利用例\n\n## 1.接続先サイト一覧の取得\n\nさくらのオブジェクトストレージを利用するには、まずバケット作成先となる**サイト**を取得・選択します。\n\nサイト一覧を取得するには、以下のような入力を行います。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     'https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters'\n```\n\n実行結果として、サイトのリストが返却されます。\n\n```\n# 出力結果サンプル\n{\n  \"data\": [\n    {\n      \"api_zone\": [],\n      \"control_panel_url\": \"https://secure.sakura.ad.jp/objectstorage/\",\n      \"display_name_en_us\": \"Ishikari Site #1\",\n      \"display_name_ja\": \"石狩第1サイト\",\n      \"display_name\": \"石狩第1サイト\",\n      \"display_order\": 1,\n      \"endpoint_base\": \"isk01.sakurastorage.jp\",\n      \"id\": \"isk01\",\n      \"region\": \"jp-north-1\",\n      \"s3_endpoint\": \"s3.isk01.sakurastorage.jp\",\n      \"s3_endpoint_for_control_panel\": \"s3.cp.isk01.sakurastorage.jp\",\n      \"storage_zone\": []\n    }\n  ]\n}\n```\n\n得られたサイトID（上記の`id`フィールド）を確認します。これは後続の利用例で使用します。\n\n## 2.サイトアカウントの作成\n\n上記のサイトから利用したいサイトIDを選択し（ここではisk01を選択することにします）、**サイトアカウント**を作成します。\n\nサイトアカウントとは、サイトを利用するための独立したアカウントであり、サイトアカウント作成・削除による料金の発生はございません。\nなお、すでにサイトアカウントを作成済みの場合は、再度サイトアカウントの作成は不要です。\n\nサイトアカウントを作成するには以下のような入力を行います。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X POST \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/account\n```\n\nサイトアカウントの作成が完了すると、選択したサイトにて\n\n* バケットの作成・削除\n* アクセスキーの発行・削除\n* パーミッションキーの発行・削除\n\nなどの操作が可能になります。\n\n## 3.バケットの作成・削除\n\n選択したサイトにてサイトアカウントを作成後、**バケット**の作成・削除が可能です。\n\nバケットを作成するには以下のような入力を行います。\nこの時、選択したサイト（ここではisk01とします）をリクエストボディーに入れ、作成したいバケット名をパスパラメータに入れる必要があります。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X PUT \\\n     -d '{\"cluster_id\": \"isk01\"}' \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/buckets/sample\n```\n\n上記で作成したバケットを削除するには以下のような入力を行います。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X DELETE \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/buckets/sample\n```\n\n## 4.アクセスキーの発行・削除\n\n選択したサイトにてサイトアカウントを作成後、**アクセスキー**の発行・削除が可能です。\n\nアクセスキーを発行するには以下のような入力を行います。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X POST \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/account/keys\n```\n\nコマンド結果には以下のフィールドが含まれます。\n\n* `created_at` : 作成日時\n* `id` : アクセスキーID\n* `secret` : シークレットアクセスキー\n\n```\n# 出力結果サンプル\n{\n  \"data\": {\n    \"created_at\": \"2021-11-04T07:42:41.121418479Z\",\n    \"id\": \"XPJK4SC9883N91RHR253\",\n    \"secret\": \"jqRaUo5l+EiEYqP8wos9exbmFfq4/vG8CLPYI2XN\"\n  }\n}\n```\n\n上記で作成したアクセスキーを削除するには以下のような入力を行います。\nこの時、削除したいアクセスキーIDをパスパラメータに入れる必要があります。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X DELETE \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/account/keys/XPJK4SC9883N91RHR253\n```\n\n## 5.パーミッション及びパーミッションアクセスキーの発行・削除\n\n選択したサイトにてサイトアカウントを作成後且つバケットが1つ以上ある場合、**パーミッション**の発行・削除が可能です。\n\nパーミッションを作成するには以下のような入力を行います。\nこの時、パーミッション名、パーミッションで制御したいバケットとそれに対する操作をリクエストボディーに入れる必要があります。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X POST \\\n     -d '{\"display_name\": \"sample_permission\", \"bucket_controls\": [{\"bucket_name\": \"sample\", \"can_read\": true, \"can_write\": true}]}' \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/permissions\n```\n\n作成が完了すると、パーミッションIDが含まれたレスポンスを受け取ります。\n```\n# 出力サンプル\n{\n  \"data\": {\n    \"bucket_controls\": [\n      {\n        \"bucket_name\":\"sample\",\n        \"can_read\":true,\n        \"can_write\":true,\n        \"created_at\":\"2021-11-11T13:36:08.767118492Z\"\n      }\n    ],\n    \"created_at\":\"2021-11-11T13:36:08.690384415Z\",\n    \"display_name\":\"sample_permission\",\n    \"id\":619\n  }\n}\n```\n\nこのパーミッションのアクセスキーを発行するには以下のような入力を行います。\nこの時、パーミッション作成時に発行されたID（ここでは619とします）をパスパラメータに含める必要があります。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X POST \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/permissions/619/keys\n```\n\nコマンド結果には以下のフィールドが含まれます。\n\n* `created_at` : 作成日時\n* `id` : アクセスキーID\n* `secret` : シークレットアクセスキー\n\n```\n# 出力結果サンプル\n{\n  \"data\": {\n    \"created_at\": \"2021-11-04T07:42:41.121418479Z\",\n    \"id\": \"XPJK4SC9883N91RHR253\",\n    \"secret\": \"jqRaUo5l+EiEYqP8wos9exbmFfq4/vG8CLPYI2XN\"\n  }\n}\n```\n\nパーミッションアクセスキーを削除するには以下のような入力を行います。\nこの時、パーミッションアクセスキー発行時に出力されたIDをパスパラメータに含める必要があります。\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X DELETE \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/permissions/619/keys/XPJK4SC9883N91RHR253\n```\n\nパーミッションを削除するには以下のような入力を行います。\nこの時、パーミッション作成時に発行されたID（ここでは619とします）をパスパラメータに含める必要があります。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X DELETE \\\n     https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/isk01/v2/permissions/619\n```\n----"
   },
   "paths": {
     "/clusters": {
       "get": {
-        "operationId": "getClusters",
+        "operationId": "listClusters",
         "tags": [
           "サイト"
         ],
@@ -35,7 +31,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/handler.listClustersRes"
+                  "$ref": "#/components/schemas/handler.ListClustersResponse"
                 }
               }
             }
@@ -55,7 +51,7 @@
     },
     "/clusters/{id}": {
       "get": {
-        "operationId": "getCluster",
+        "operationId": "readCluster",
         "tags": [
           "サイト"
         ],
@@ -83,7 +79,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/handler.getClusterRes"
+                  "$ref": "#/components/schemas/handler.ReadClusterResponse"
                 }
               }
             }
@@ -125,7 +121,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BucketList"
+                  "$ref": "#/components/schemas/handler.ListBucketsResponse"
                 }
               }
             }
@@ -171,7 +167,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/handler.PutBucketReqBody"
+                "$ref": "#/components/schemas/handler.CreateBucketRequestBody"
               }
             }
           },
@@ -184,7 +180,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/handler.putBucketRes"
+                  "$ref": "#/components/schemas/handler.CreateBucketResponse"
                 }
               }
             }
@@ -273,7 +269,7 @@
     },
     "/buckets/{name}/replication": {
       "get": {
-        "operationId": "getBucketReplication",
+        "operationId": "readBucketReplication",
         "tags": [
           "バケット"
         ],
@@ -296,7 +292,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/handler.getReplicationRes"
+                  "$ref": "#/components/schemas/handler.ReadBucketReplicationResponse"
                 }
               }
             }
@@ -324,7 +320,7 @@
         }
       },
       "post": {
-        "operationId": "postBucketReplication",
+        "operationId": "createBucketReplication",
         "tags": [
           "バケット"
         ],
@@ -370,7 +366,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/handler.postReplicationRes"
+                  "$ref": "#/components/schemas/handler.CreateBucketReplicationResponse"
                 }
               }
             }
@@ -454,7 +450,7 @@
     },
     "/buckets/{name}/replicable-targets": {
       "get": {
-        "operationId": "getBucketReplicableTargets",
+        "operationId": "listBucketReplicableTargets",
         "tags": [
           "バケット"
         ],
@@ -477,7 +473,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/handler.getReplicableTargetsRes"
+                  "$ref": "#/components/schemas/handler.ListBucketReplicableTargetsResponse"
                 }
               }
             }
@@ -507,7 +503,7 @@
     },
     "/buckets/{name}/encryption": {
       "get": {
-        "operationId": "getBucketEncryption",
+        "operationId": "readBucketEncryption",
         "tags": [
           "バケット"
         ],
@@ -536,9 +532,19 @@
                   ],
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/handler.EncryptionConfigRes"
+                      "$ref": "#/components/schemas/handler.ReadBucketEncryptionResponse"
                     }
                   }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "認証に失敗しました",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error401"
                 }
               }
             }
@@ -556,7 +562,7 @@
         }
       },
       "put": {
-        "operationId": "putBucketEncryption",
+        "operationId": "updateBucketEncryption",
         "tags": [
           "バケット"
         ],
@@ -578,7 +584,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/handler.EncryptionConfigReqBody"
+                "$ref": "#/components/schemas/handler.UpdateBucketEncryptionRequestBody"
               }
             }
           }
@@ -595,7 +601,7 @@
                   ],
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/handler.EncryptionConfigRes"
+                      "$ref": "#/components/schemas/handler.UpdateBucketEncryptionResponse"
                     }
                   }
                 }
@@ -608,6 +614,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "認証に失敗しました",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error401"
                 }
               }
             }
@@ -646,6 +662,16 @@
           "204": {
             "description": "バケット暗号化設定の削除に成功しました"
           },
+          "401": {
+            "description": "認証に失敗しました",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error401"
+                }
+              }
+            }
+          },
           "404": {
             "description": "指定したバケットが見つかりませんでした",
             "content": {
@@ -661,7 +687,7 @@
     },
     "/buckets/{name}/plan": {
       "get": {
-        "operationId": "getBucketPlan",
+        "operationId": "readBucketPlan",
         "tags": [
           "バケット"
         ],
@@ -717,6 +743,16 @@
               }
             }
           },
+          "405": {
+            "description": "サイトのplan typeがarchiveではありません",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error405"
+                }
+              }
+            }
+          },
           "default": {
             "description": "不明なエラーです",
             "content": {
@@ -730,7 +766,7 @@
         }
       },
       "put": {
-        "operationId": "putBucketPlan",
+        "operationId": "updateBucketPlan",
         "tags": [
           "バケット"
         ],
@@ -786,6 +822,16 @@
               }
             }
           },
+          "405": {
+            "description": "サイトのplan typeがarchiveではありません",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error405"
+                }
+              }
+            }
+          },
           "409": {
             "description": "コンフリクト（同時再契約、無効な状態遷移など）",
             "content": {
@@ -811,7 +857,7 @@
     },
     "/buckets/{name}/penalty": {
       "get": {
-        "operationId": "getBucketPenalty",
+        "operationId": "readBucketPenalty",
         "tags": [
           "バケット"
         ],
@@ -874,7 +920,7 @@
     },
     "/buckets/{name}/usage": {
       "get": {
-        "operationId": "getBucketUsage",
+        "operationId": "readBucketUsage",
         "tags": [
           "バケット"
         ],
@@ -937,7 +983,7 @@
     },
     "/buckets/{name}/quota": {
       "get": {
-        "operationId": "getBucketQuota",
+        "operationId": "readBucketQuota",
         "tags": [
           "バケット"
         ],
@@ -1010,7 +1056,7 @@
     },
     "/account": {
       "get": {
-        "operationId": "getAccount",
+        "operationId": "readAccount",
         "tags": [
           "サイトアカウント"
         ],
@@ -1165,7 +1211,7 @@
     },
     "/account/keys": {
       "get": {
-        "operationId": "getAccountKeys",
+        "operationId": "listAccountKeys",
         "tags": [
           "サイトアカウント"
         ],
@@ -1277,7 +1323,7 @@
     },
     "/account/keys/{id}": {
       "get": {
-        "operationId": "getAccountKey",
+        "operationId": "readAccountKey",
         "tags": [
           "サイトアカウント"
         ],
@@ -1300,7 +1346,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/accountKey"
+                  "$ref": "#/components/schemas/readAccountKey"
                 }
               }
             }
@@ -1384,7 +1430,7 @@
     },
     "/permissions": {
       "get": {
-        "operationId": "getPermissions",
+        "operationId": "listPermissions",
         "tags": [
           "パーミッション"
         ],
@@ -1498,7 +1544,7 @@
     },
     "/permissions/{id}": {
       "get": {
-        "operationId": "getPermission",
+        "operationId": "readPermission",
         "tags": [
           "パーミッション"
         ],
@@ -1509,7 +1555,7 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
             "required": true,
             "description": "パーミッションID"
@@ -1570,7 +1616,7 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
             "required": true,
             "description": "パーミッションID"
@@ -1652,7 +1698,7 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
             "required": true,
             "description": "パーミッションID"
@@ -1687,7 +1733,7 @@
     },
     "/permissions/{id}/keys": {
       "get": {
-        "operationId": "getPermissionKeys",
+        "operationId": "listPermissionKeys",
         "tags": [
           "パーミッション"
         ],
@@ -1698,7 +1744,7 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
             "required": true,
             "description": "パーミッションID"
@@ -1710,7 +1756,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PermissionKeys"
+                  "$ref": "#/components/schemas/handler.ListPermissionKeysResponse"
                 }
               }
             }
@@ -1759,7 +1805,7 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
             "required": true,
             "description": "パーミッションID"
@@ -1771,7 +1817,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PermissionKey"
+                  "$ref": "#/components/schemas/handler.CreatePermissionKeyResponse"
                 }
               }
             }
@@ -1821,7 +1867,7 @@
     },
     "/permissions/{id}/keys/{key_id}": {
       "get": {
-        "operationId": "getPermissionKey",
+        "operationId": "readPermissionKey",
         "tags": [
           "パーミッション"
         ],
@@ -1832,7 +1878,7 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
             "required": true,
             "description": "パーミッションID"
@@ -1853,7 +1899,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PermissionKey"
+                  "$ref": "#/components/schemas/handler.ReadPermissionKeyResponse"
                 }
               }
             }
@@ -1902,7 +1948,7 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
             "required": true,
             "description": "パーミッションID"
@@ -1956,7 +2002,7 @@
     },
     "/status": {
       "get": {
-        "operationId": "getStatus",
+        "operationId": "readStatus",
         "tags": [
           "ステータス"
         ],
@@ -1998,7 +2044,7 @@
     },
     "/plans": {
       "get": {
-        "operationId": "getPlans",
+        "operationId": "listPlans",
         "tags": [
           "プラン"
         ],
@@ -2051,7 +2097,7 @@
     },
     "/quota": {
       "get": {
-        "operationId": "getQuota",
+        "operationId": "readQuota",
         "tags": [
           "全体制限値"
         ],
@@ -2093,7 +2139,7 @@
     },
     "/metering/buckets/{name}": {
       "get": {
-        "operationId": "getBucketMetering",
+        "operationId": "listBucketMetering",
         "tags": [
           "メータリング履歴"
         ],
@@ -2115,7 +2161,7 @@
             "schema": {
               "type": "string",
               "format": "date",
-              "example": "2022-03-01"
+              "example": "2022-03"
             },
             "description": "範囲の開始月",
             "required": true
@@ -2126,7 +2172,7 @@
             "schema": {
               "type": "string",
               "format": "date",
-              "example": "2022-08-01"
+              "example": "2022-08"
             },
             "description": "範囲の終了月",
             "required": true
@@ -2139,6 +2185,9 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "data"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
@@ -2210,7 +2259,7 @@
       }
     },
     "schemas": {
-      "handler.PutBucketReqBody": {
+      "handler.CreateBucketRequestBody": {
         "type": "object",
         "required": [
           "cluster_id"
@@ -2234,7 +2283,7 @@
           }
         }
       },
-      "handler.EncryptionConfigReqBody": {
+      "handler.UpdateBucketEncryptionRequestBody": {
         "type": "object",
         "required": [
           "kms_key_id"
@@ -2249,8 +2298,12 @@
           }
         }
       },
-      "handler.EncryptionConfigRes": {
+      "handler.ReadBucketEncryptionResponse": {
         "type": "object",
+        "required": [
+          "kms_key_id",
+          "configured_at"
+        ],
         "properties": {
           "kms_key_id": {
             "allOf": [
@@ -2268,36 +2321,85 @@
           }
         }
       },
-      "handler.getClusterRes": {
+      "handler.UpdateBucketEncryptionResponse": {
         "type": "object",
+        "required": [
+          "kms_key_id",
+          "configured_at"
+        ],
         "properties": {
-          "data": {
-            "$ref": "#/components/schemas/model.Cluster"
+          "kms_key_id": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ResourceID"
+              }
+            ]
+          },
+          "configured_at": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CreatedAt"
+              }
+            ]
           }
         }
       },
-      "handler.listClustersRes": {
+      "handler.ReadClusterResponse": {
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
-            "description": "If use a pointer type, braek output",
+            "$ref": "#/components/schemas/ClusterResponseBody"
+          }
+        }
+      },
+      "handler.ListClustersResponse": {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "description": "If use a pointer type, break output",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/model.Cluster"
+              "$ref": "#/components/schemas/ClusterResponseBody"
             }
           }
         }
       },
-      "handler.putBucketRes": {
+      "handler.ListBucketsResponse": {
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/model.Bucket"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BucketListResponseBody"
+            }
           }
         }
       },
-      "handler.postReplicationRes": {
+      "handler.CreateBucketResponse": {
         "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/BucketResponseBody"
+          }
+        }
+      },
+      "handler.ReadBucketReplicationResponse": {
+        "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "$ref": "#/components/schemas/model.Replication"
@@ -2326,8 +2428,11 @@
           }
         }
       },
-      "handler.getReplicationRes": {
+      "handler.CreateBucketReplicationResponse": {
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "$ref": "#/components/schemas/model.Replication"
@@ -2356,14 +2461,53 @@
           }
         }
       },
-      "handler.getReplicableTargetsRes": {
+      "handler.ListBucketReplicableTargetsResponse": {
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/model.Bucket"
+              "$ref": "#/components/schemas/BucketListResponseBody"
             }
+          }
+        }
+      },
+      "handler.CreatePermissionKeyResponse": {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PermissionKeyCreateResponseBody"
+          }
+        }
+      },
+      "handler.ListPermissionKeysResponse": {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PermissionKeyReadResponseBody"
+            }
+          }
+        }
+      },
+      "handler.ReadPermissionKeyResponse": {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PermissionKeyReadResponseBody"
           }
         }
       },
@@ -2383,7 +2527,7 @@
                 "$ref": "#/components/schemas/model.PlanType"
               },
               "service_class_path": {
-                "type": "string"
+                "$ref": "#/components/schemas/ServiceClassPath"
               }
             }
           }
@@ -2439,16 +2583,6 @@
             "description": "Endpoint Base of Cluster",
             "type": "string",
             "example": "isk01.objectstorage.sakurastorage.jp"
-          },
-          "iam_endpoint": {
-            "description": "URL of IAM-compat API",
-            "type": "string",
-            "example": "iam.isk01.objectstorage.sakurastorage.jp"
-          },
-          "iam_endpoint_for_control_panel": {
-            "description": "URL of IAM-compat API (w/ resigning)",
-            "type": "string",
-            "example": "iam.cp.isk01.objectstorage.sakurastorage.jp"
           },
           "id": {
             "type": "string",
@@ -2510,6 +2644,11 @@
         "properties": {
           "source_bucket": {
             "type": "object",
+            "required": [
+              "name",
+              "cluster_id",
+              "plan"
+            ],
             "description": "Source bucket info",
             "properties": {
               "name": {
@@ -2520,6 +2659,10 @@
               },
               "plan": {
                 "type": "object",
+                "required": [
+                  "type",
+                  "service_class_path"
+                ],
                 "properties": {
                   "type": {
                     "$ref": "#/components/schemas/model.PlanType"
@@ -2541,6 +2684,11 @@
           },
           "dest_bucket": {
             "type": "object",
+            "required": [
+              "name",
+              "cluster_id",
+              "plan"
+            ],
             "description": "Destination bucket info",
             "properties": {
               "name": {
@@ -2551,6 +2699,10 @@
               },
               "plan": {
                 "type": "object",
+                "required": [
+                  "type",
+                  "service_class_path"
+                ],
                 "properties": {
                   "type": {
                     "$ref": "#/components/schemas/model.PlanType"
@@ -2584,6 +2736,31 @@
           }
         }
       },
+      "ClusterResponseBody": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/model.Cluster"
+          },
+          {
+            "type": "object",
+            "required": [
+              "api_zone",
+              "control_panel_url",
+              "display_name_en_us",
+              "display_name_ja",
+              "display_name",
+              "display_order",
+              "endpoint_base",
+              "id",
+              "region",
+              "s3_endpoint",
+              "s3_endpoint_for_control_panel",
+              "storage_zone",
+              "plan_family"
+            ]
+          }
+        ]
+      },
       "PlanChangeReqBody": {
         "type": "object",
         "required": [
@@ -2593,6 +2770,9 @@
         "properties": {
           "previous_contract": {
             "type": "object",
+            "required": [
+              "resource_id"
+            ],
             "properties": {
               "resource_id": {
                 "description": "Current contract resource ID. This is for validation to avoid recontracting from an unexpected state.\n",
@@ -2634,6 +2814,12 @@
       },
       "ContractSummary": {
         "type": "object",
+        "required": [
+          "resource_id",
+          "status",
+          "created_at",
+          "deleted_at"
+        ],
         "properties": {
           "resource_id": {
             "type": "string",
@@ -2659,6 +2845,12 @@
       },
       "PlanSummary": {
         "type": "object",
+        "required": [
+          "type",
+          "service_class_path",
+          "cluster_id",
+          "capacity_gib"
+        ],
         "properties": {
           "type": {
             "$ref": "#/components/schemas/model.PlanType"
@@ -2681,6 +2873,10 @@
       },
       "PlanWithContract": {
         "type": "object",
+        "required": [
+          "plan",
+          "contract"
+        ],
         "properties": {
           "plan": {
             "$ref": "#/components/schemas/PlanSummary"
@@ -2692,6 +2888,13 @@
       },
       "PlanItem": {
         "type": "object",
+        "required": [
+          "service_class_path",
+          "type",
+          "cluster_id",
+          "capacity_gib",
+          "fee"
+        ],
         "properties": {
           "service_class_path": {
             "$ref": "#/components/schemas/ServiceClassPath"
@@ -2709,8 +2912,13 @@
           },
           "fee": {
             "type": "object",
+            "required": [
+              "for_month",
+              "monthly",
+              "daily",
+              "hourly"
+            ],
             "description": "Fee information (tax included)",
-            "nullable": true,
             "properties": {
               "for_month": {
                 "type": "integer",
@@ -2740,9 +2948,16 @@
       "BucketUsage": {
         "description": "Bucket usage",
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "type": "object",
+            "required": [
+              "num_objects_per_bucket",
+              "amount_gib_per_bucket"
+            ],
             "properties": {
               "num_objects_per_bucket": {
                 "type": "integer",
@@ -2757,57 +2972,147 @@
           }
         }
       },
-      "BucketList": {
-        "description": "Bucket list",
+      "BucketListResponseBody": {
         "type": "object",
+        "required": [
+          "name",
+          "resource_id"
+        ],
         "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "required": [
-                "name"
-              ],
-              "properties": {
-                "name": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/BucketName"
-                    }
-                  ]
-                },
-                "resource_id": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ResourceID"
-                    }
-                  ]
-                },
-                "plan": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "$ref": "#/components/schemas/model.PlanType"
-                    },
-                    "service_class_path": {
-                      "$ref": "#/components/schemas/ServiceClassPath"
-                    }
-                  }
-                }
+          "name": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BucketName"
+              }
+            ]
+          },
+          "resource_id": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ResourceID"
+              }
+            ]
+          },
+          "plan": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "$ref": "#/components/schemas/model.PlanType"
+              },
+              "service_class_path": {
+                "$ref": "#/components/schemas/ServiceClassPath"
               }
             }
           }
         }
       },
+      "BucketResponseBody": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/model.Bucket"
+          },
+          {
+            "type": "object",
+            "required": [
+              "cluster_id",
+              "name",
+              "plan"
+            ],
+            "properties": {
+              "plan": {
+                "$ref": "#/components/schemas/BucketPlanResponseBody"
+              }
+            }
+          }
+        ]
+      },
+      "BucketPlanResponseBody": {
+        "type": "object",
+        "required": [
+          "type",
+          "service_class_path"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/model.PlanType"
+          },
+          "service_class_path": {
+            "$ref": "#/components/schemas/ServiceClassPath"
+          }
+        }
+      },
+      "PermissionKeyReadResponseBody": {
+        "type": "object",
+        "required": [
+          "id",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/PermissionKeyID"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/CreatedAt"
+          }
+        }
+      },
+      "PermissionKeyCreateResponseBody": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PermissionKey"
+          },
+          {
+            "type": "object",
+            "required": [
+              "id",
+              "secret",
+              "created_at"
+            ]
+          }
+        ]
+      },
       "BucketPenalty": {
         "description": "Bucket penalty",
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "type": "object",
+            "required": [
+              "num_objects_per_bucket",
+              "amount_gib_per_bucket"
+            ],
             "properties": {
               "num_objects_per_bucket": {
                 "type": "object",
+                "required": [
+                  "val",
+                  "quota",
+                  "is_applied"
+                ],
+                "properties": {
+                  "val": {
+                    "type": "integer",
+                    "example": 10002495
+                  },
+                  "quota": {
+                    "type": "integer",
+                    "example": 10000000
+                  },
+                  "is_applied": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "amount_gib_per_bucket": {
+                "type": "object",
+                "required": [
+                  "val",
+                  "quota",
+                  "is_applied"
+                ],
                 "properties": {
                   "val": {
                     "type": "number",
@@ -2818,23 +3123,6 @@
                     "type": "number",
                     "format": "float",
                     "example": 10240
-                  },
-                  "is_applied": {
-                    "type": "boolean"
-                  }
-                }
-              },
-              "amount_gib_per_bucket": {
-                "type": "object",
-                "properties": {
-                  "val": {
-                    "type": "number",
-                    "format": "float",
-                    "example": 10002495
-                  },
-                  "quota": {
-                    "type": "integer",
-                    "example": 10000000
                   },
                   "is_applied": {
                     "type": "boolean",
@@ -2849,10 +3137,17 @@
       "BucketQuota": {
         "description": "Bucket quota",
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "description": "data type",
             "type": "object",
+            "required": [
+              "num_objects_per_bucket",
+              "amount_gib_per_bucket"
+            ],
             "properties": {
               "num_objects_per_bucket": {
                 "type": "integer",
@@ -2870,10 +3165,22 @@
       "Quota": {
         "description": "Quota",
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "description": "data type",
             "type": "object",
+            "required": [
+              "num_root_keys",
+              "num_buckets",
+              "num_permissions",
+              "num_keys_per_permission",
+              "num_buckets_per_permission",
+              "num_objects_per_bucket",
+              "amount_gib_per_bucket"
+            ],
             "properties": {
               "num_root_keys": {
                 "type": "integer",
@@ -2911,6 +3218,14 @@
       "BucketBillingItemDetail": {
         "description": "Charge information",
         "type": "object",
+        "required": [
+          "found",
+          "usage",
+          "charge",
+          "is_closing",
+          "from",
+          "to"
+        ],
         "properties": {
           "found": {
             "type": "boolean",
@@ -2920,7 +3235,7 @@
           "usage": {
             "type": "number",
             "format": "double",
-            "example": 1100,
+            "example": 1100.0,
             "description": "Usage for calculating charge"
           },
           "charge": {
@@ -2950,6 +3265,14 @@
       "BucketBillingItem": {
         "description": "Bucket usage and charge for metering",
         "type": "object",
+        "required": [
+          "year_month",
+          "basic",
+          "storage_usage",
+          "num_objects",
+          "num_transactions",
+          "transfer_amount"
+        ],
         "properties": {
           "year_month": {
             "type": "string",
@@ -2984,20 +3307,16 @@
         "format": "int64",
         "example": 123
       },
-      "PermissionKeyID": {
-        "description": "Permission Key ID",
-        "type": "string",
-        "example": "AKIAIOSFODNN7EXAMPLE"
-      },
       "ResourceID": {
         "description": "Resource ID",
         "type": "string",
-        "pattern": "\\d{1,12}",
+        "pattern": "^\\d{1,12}$",
         "example": "123456789012"
       },
       "Code": {
         "description": "Code",
         "type": "string",
+        "pattern": "^[\\w@]+$",
         "example": "abc01234@foo@isk01"
       },
       "CreatedAt": {
@@ -3009,8 +3328,10 @@
       "BucketName": {
         "description": "バケット名",
         "type": "string",
-        "pattern": "^[a-zA-Z][a-zA-Z0-9\\-]{2,}",
-        "example": "Abcdefg1235-"
+        "minLength": 3,
+        "maxLength": 64,
+        "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$",
+        "example": "sample1-bucket"
       },
       "CanRead": {
         "description": "The flag to read bucket contents",
@@ -3043,24 +3364,24 @@
       "accountKeys": {
         "description": "Root user access keys",
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "description": "data type",
             "type": "array",
             "items": {
               "type": "object",
+              "required": [
+                "id",
+                "created_at"
+              ],
               "properties": {
                 "id": {
                   "allOf": [
                     {
                       "$ref": "#/components/schemas/AccessKeyID"
-                    }
-                  ]
-                },
-                "secret": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/SecretAccessKey"
                     }
                   ]
                 },
@@ -3079,10 +3400,18 @@
       "accountKey": {
         "description": "Root user access key",
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "description": "data type",
             "type": "object",
+            "required": [
+              "id",
+              "created_at",
+              "secret"
+            ],
             "properties": {
               "id": {
                 "allOf": [
@@ -3109,11 +3438,50 @@
           }
         }
       },
+      "readAccountKey": {
+        "description": "Root user access key",
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "description": "data type",
+            "type": "object",
+            "required": [
+              "id",
+              "created_at"
+            ],
+            "properties": {
+              "id": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AccessKeyID"
+                  }
+                ]
+              },
+              "created_at": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CreatedAt"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
       "BucketControls": {
         "description": "Bucket controls",
         "type": "array",
         "items": {
           "type": "object",
+          "required": [
+            "bucket_name",
+            "can_read",
+            "can_write",
+            "created_at"
+          ],
           "properties": {
             "bucket_name": {
               "$ref": "#/components/schemas/BucketName"
@@ -3130,7 +3498,36 @@
           }
         }
       },
-      "PermissionSecret": {
+      "BucketControlsBody": {
+        "description": "Request body for bucket controls for Permission",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "bucket_name",
+            "can_read",
+            "can_write"
+          ],
+          "properties": {
+            "bucket_name": {
+              "$ref": "#/components/schemas/BucketName"
+            },
+            "can_read": {
+              "$ref": "#/components/schemas/CanRead"
+            },
+            "can_write": {
+              "$ref": "#/components/schemas/CanWrite"
+            }
+          }
+        }
+      },
+      "PermissionKeyID": {
+        "description": "Permission key ID",
+        "type": "string",
+        "pattern": "^[\\w\\d\\/]{1,40}$",
+        "example": "abcdefABCDEF0123456789"
+      },
+      "PermissionKeySecret": {
         "description": "Permission secret key",
         "type": "string",
         "pattern": "^[\\w\\d\\/+=]{1,40}$",
@@ -3139,10 +3536,18 @@
       "Account": {
         "description": "Account info",
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "description": "data type",
             "type": "object",
+            "required": [
+              "resource_id",
+              "code",
+              "created_at"
+            ],
             "properties": {
               "resource_id": {
                 "allOf": [
@@ -3172,12 +3577,21 @@
       "Permissions": {
         "description": "Permission",
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "description": "data type",
             "type": "array",
             "items": {
               "type": "object",
+              "required": [
+                "id",
+                "display_name",
+                "bucket_controls",
+                "created_at"
+              ],
               "properties": {
                 "id": {
                   "allOf": [
@@ -3215,10 +3629,19 @@
       "Permission": {
         "description": "Permission",
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "description": "data type",
             "type": "object",
+            "required": [
+              "id",
+              "display_name",
+              "bucket_controls",
+              "created_at"
+            ],
             "properties": {
               "id": {
                 "allOf": [
@@ -3255,6 +3678,10 @@
       "PermissionBucketControlsBody": {
         "description": "Request body for bucket controls for Permission",
         "type": "object",
+        "required": [
+          "display_name",
+          "bucket_controls"
+        ],
         "properties": {
           "display_name": {
             "allOf": [
@@ -3266,7 +3693,7 @@
           "bucket_controls": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/BucketControls"
+                "$ref": "#/components/schemas/BucketControlsBody"
               }
             ]
           }
@@ -3275,24 +3702,24 @@
       "PermissionKeys": {
         "description": "Permission Key",
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "description": "data type",
             "type": "array",
             "items": {
               "type": "object",
+              "required": [
+                "id",
+                "created_at"
+              ],
               "properties": {
                 "id": {
                   "allOf": [
                     {
                       "$ref": "#/components/schemas/PermissionKeyID"
-                    }
-                  ]
-                },
-                "secret": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/PermissionSecret"
                     }
                   ]
                 },
@@ -3312,42 +3739,45 @@
         "description": "Permission Key",
         "type": "object",
         "properties": {
-          "data": {
-            "description": "data type",
-            "type": "object",
-            "properties": {
-              "id": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/PermissionKeyID"
-                  }
-                ]
-              },
-              "secret": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/PermissionSecret"
-                  }
-                ]
-              },
-              "created_at": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/CreatedAt"
-                  }
-                ]
+          "id": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PermissionKeyID"
               }
-            }
+            ]
+          },
+          "secret": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PermissionKeySecret"
+              }
+            ]
+          },
+          "created_at": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CreatedAt"
+              }
+            ]
           }
         }
       },
       "Status": {
         "description": "Status",
         "type": "object",
+        "required": [
+          "data"
+        ],
         "properties": {
           "data": {
             "description": "data type",
             "type": "object",
+            "required": [
+              "accept_new",
+              "message",
+              "started_at",
+              "status_code"
+            ],
             "properties": {
               "accept_new": {
                 "type": "boolean",
@@ -3364,6 +3794,10 @@
               },
               "status_code": {
                 "type": "object",
+                "required": [
+                  "id",
+                  "status"
+                ],
                 "properties": {
                   "id": {
                     "type": "integer",
@@ -3389,7 +3823,7 @@
         "type": "string"
       },
       "ErrorTraceId": {
-        "description": "X-Sakura-Internal-Serial-ID\n",
+        "description": "トレースID。\nエラー発生時のログ特定などに利用する。\n",
         "type": "string"
       },
       "ErrorsDomain": {
@@ -3629,6 +4063,48 @@
           }
         }
       },
+      "Error405": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "error 405",
+            "type": "object",
+            "properties": {
+              "code": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ErrorCode"
+                  }
+                ],
+                "example": 405
+              },
+              "message": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ErrorMessage"
+                  }
+                ],
+                "example": "Method Not Allowed"
+              },
+              "trace_id": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ErrorTraceId"
+                  }
+                ],
+                "example": "0f36837633984f3fc8871f515e8efa24"
+              },
+              "errors": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Errors"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
       "Error409": {
         "type": "object",
         "properties": {
@@ -3738,3 +4214,4 @@
     }
   ]
 }
+
