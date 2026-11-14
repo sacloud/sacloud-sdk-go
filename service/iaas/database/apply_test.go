@@ -209,8 +209,34 @@ func TestCreateRequest_Validate(t *testing.T) {
 			hasError: false,
 		},
 	}
+
 	for _, tc := range cases {
 		err := tc.in.Validate()
 		require.Equal(t, tc.hasError, err != nil, "with: %#v error: %s", tc.in, err)
 	}
+}
+
+func TestApplyRequest_ValidatePasswords(t *testing.T) {
+	req := &ApplyRequest{
+		Zone:           "tk1a",
+		Name:           "test",
+		PlanID:         types.DatabasePlans.DB10GB,
+		SwitchID:       1,
+		IPAddresses:    []string{"192.168.0.11"},
+		NetworkMaskLen: 24,
+		DatabaseType:   "postgres",
+		Username:       "default",
+	}
+
+	require.ErrorContains(t, req.Validate(), "Password: required")
+
+	req.ID = 1
+	require.NoError(t, req.Validate())
+
+	req.EnableReplication = true
+	require.NoError(t, req.Validate())
+
+	req.ID = 0
+	req.Password = "password"
+	require.ErrorContains(t, req.Validate(), "ReplicaUserPassword: required")
 }

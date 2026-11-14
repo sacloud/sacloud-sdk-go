@@ -38,6 +38,7 @@ type UpdateRequest struct {
 	SourceNetwork         *[]string              `service:",omitempty" validate:"omitempty,dive,cidrv4"`
 	EnableReplication     *bool                  `service:",omitempty"`
 	ReplicaUserPassword   *string                `service:",omitempty" validate:"omitempty,required_with=EnableReplication"`
+	Password              *string                `service:",omitempty"`
 	EnableWebUI           *bool                  `service:",omitempty"`
 	EnableBackup          *bool                  `service:",omitempty"`
 	BackupWeekdays        *[]types.EDayOfTheWeek `service:",omitempty" validate:"omitempty,required_with=EnableBackup,max=7"`
@@ -144,9 +145,7 @@ func (req *UpdateRequest) ApplyRequest(ctx context.Context, caller iaas.APICalle
 		DatabaseType:          strings.ToLower(types.RDBMSTypeFromString(current.Conf.DatabaseName).String()),
 		DatabaseVersion:       current.Conf.DatabaseVersion,
 		Username:              current.CommonSetting.DefaultUser,
-		Password:              current.CommonSetting.UserPassword,
 		EnableReplication:     current.ReplicationSetting != nil,
-		ReplicaUserPassword:   current.CommonSetting.ReplicaPassword,
 		EnableWebUI:           current.CommonSetting.WebUI.Bool(),
 		EnableBackup:          current.BackupSetting != nil,
 		BackupWeekdays:        bkWeekdays,
