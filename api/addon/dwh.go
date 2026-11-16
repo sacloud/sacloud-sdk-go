@@ -34,8 +34,8 @@ type DWHOp struct{ *v1.Client }
 func NewDWHOp(client *v1.Client) DWHAPI { return &DWHOp{Client: client} }
 
 func (d *DWHOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListAZ0102NotFound]("DWH.List", func() (any, error) {
-		return d.Client.ListAZ0102(ctx)
+	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListDwhResourcesNotFound]("DWH.List", func() (any, error) {
+		return d.Client.ListDwhResources(ctx)
 	}); e != nil {
 		err = e
 	} else if resources, ok := res.GetResources().Get(); ok {
@@ -46,23 +46,23 @@ func (d *DWHOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err e
 
 func (d *DWHOp) Create(ctx context.Context, location string) (*v1.PostDeploymentResponse, error) {
 	return ErrorFromDecodedResponse[v1.PostDeploymentResponse, void]("DWH.Create", func() (any, error) {
-		return d.Client.CreateAZ0102(ctx, &v1.DatawarehousePostRequestBody{
-			Location: location,
+		return d.Client.CreateDwhResource(ctx, &v1.DatawarehousePostRequestBody{
+			Location: v1.DatawarehousePostRequestBodyLocation(location),
 		})
 	})
 }
 
 func (d *DWHOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, error) {
-	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.GetAZ0102NotFound]("DWH.Read", func() (any, error) {
-		return d.Client.GetAZ0102(ctx, v1.GetAZ0102Params{
+	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.ReadDwhResourceNotFound]("DWH.Read", func() (any, error) {
+		return d.Client.ReadDwhResource(ctx, v1.ReadDwhResourceParams{
 			ResourceGroupName: id,
 		})
 	})
 }
 
 func (d *DWHOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteAZ0102NoContent, v1.DeleteAZ0102NotFound]("DWH.Delete", func() (any, error) {
-		return d.Client.DeleteAZ0102(ctx, v1.DeleteAZ0102Params{
+	_, err = ErrorFromDecodedResponse[v1.DeleteDwhResourceNoContent, v1.DeleteDwhResourceNotFound]("DWH.Delete", func() (any, error) {
+		return d.Client.DeleteDwhResource(ctx, v1.DeleteDwhResourceParams{
 			ResourceGroupName: id,
 		})
 	})
@@ -71,7 +71,7 @@ func (d *DWHOp) Delete(ctx context.Context, id string) (err error) {
 
 func (d *DWHOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {
 	return ErrorFromDecodedResponse[v1.DeploymentStatus, void]("DWH.Status", func() (any, error) {
-		return d.Client.StatusAZ0102(ctx, v1.StatusAZ0102Params{
+		return d.Client.ReadDwhResourceStatus(ctx, v1.ReadDwhResourceStatusParams{
 			ResourceGroupName: resourceGroupName,
 			DeploymentName:    deploymentName,
 		})

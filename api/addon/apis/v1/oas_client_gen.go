@@ -21,330 +21,336 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
-	// CreateAZ0101 invokes create_AZ0101 operation.
-	//
-	// アドオンのデータレイクリソースを作成します。.
-	//
-	// POST /analytics/datalake
-	CreateAZ0101(ctx context.Context, request *DatalakePostRequestBody) (CreateAZ0101Res, error)
-	// CreateAZ0102 invokes create_AZ0102 operation.
-	//
-	// アドオンのデータウェアハウスリソースを作成します。.
-	//
-	// POST /analytics/dwh
-	CreateAZ0102(ctx context.Context, request *DatawarehousePostRequestBody) (CreateAZ0102Res, error)
-	// CreateAZ0103 invokes create_AZ0103 operation.
-	//
-	// アドオンのデータETLリソースを作成します。.
-	//
-	// POST /analytics/etl
-	CreateAZ0103(ctx context.Context, request *EtlPostRequestBody) (CreateAZ0103Res, error)
-	// CreateAZ0104 invokes create_AZ0104 operation.
-	//
-	// アドオンのクエリ機能リソースを作成します。.
-	//
-	// POST /analytics/query
-	CreateAZ0104(ctx context.Context, request *QueryPostRequestBody) (CreateAZ0104Res, error)
-	// CreateAZ0105 invokes create_AZ0105 operation.
-	//
-	// アドオンの検索機能リソースを作成します。.
-	//
-	// POST /analytics/search
-	CreateAZ0105(ctx context.Context, request *SearchPostRequestBody) (CreateAZ0105Res, error)
-	// CreateAZ0107 invokes create_AZ0107 operation.
-	//
-	// アドオンのストリーミング処理機能リソースを作成します。.
-	//
-	// POST /analytics/streaming
-	CreateAZ0107(ctx context.Context, request *StreamingRequestBody) (CreateAZ0107Res, error)
-	// CreateAZ0301 invokes create_AZ0301 operation.
-	//
-	// アドオンのCDNサービスリソースを作成します。.
-	//
-	// POST /cdn
-	CreateAZ0301(ctx context.Context, request *NetworkRequestBody) (CreateAZ0301Res, error)
-	// CreateAZ0401 invokes create_AZ0401 operation.
-	//
-	// アドオンのDDoS対策サービスリソースを作成します。.
-	//
-	// POST /security/ddos
-	CreateAZ0401(ctx context.Context, request *DdosRequestBody) (CreateAZ0401Res, error)
-	// CreateAZ0402 invokes create_AZ0402 operation.
-	//
-	// アドオンのWAFサービスリソースを作成します。.
-	//
-	// POST /security/waf
-	CreateAZ0402(ctx context.Context, request *WafRequestBody) (CreateAZ0402Res, error)
-	// CreateAZ0403 invokes create_AZ0403 operation.
-	//
-	// アドオンの脆弱性検出サービスリソースを作成します。.
-	//
-	// POST /security/vulnerability
-	CreateAZ0403(ctx context.Context, request *VulnerabilityRequestBody) (CreateAZ0403Res, error)
-	// CreateAZ0501 invokes create_AZ0501 operation.
+	// CreateAiResource invokes createAiResource operation.
 	//
 	// アドオンのAI機能リソースを作成します。.
 	//
 	// POST /ai
-	CreateAZ0501(ctx context.Context, request *AiRequestBody) (CreateAZ0501Res, error)
-	// DeleteAZ0101 invokes delete_AZ0101 operation.
+	CreateAiResource(ctx context.Context, request *AiRequestBody) (CreateAiResourceRes, error)
+	// CreateCdnResource invokes createCdnResource operation.
 	//
-	// アドオンの指定されたデータレイクリソースを削除します。.
+	// アドオンのCDNサービスリソースを作成します。.
 	//
-	// DELETE /analytics/datalake/{resourceGroupName}
-	DeleteAZ0101(ctx context.Context, params DeleteAZ0101Params) (DeleteAZ0101Res, error)
-	// DeleteAZ0102 invokes delete_AZ0102 operation.
+	// POST /cdn
+	CreateCdnResource(ctx context.Context, request *NetworkRequestBody) (CreateCdnResourceRes, error)
+	// CreateDatalakeResource invokes createDatalakeResource operation.
 	//
-	// アドオンの指定されたデータウェアハウスリソースを削除します。.
+	// アドオンのデータレイクリソースを作成します。.
 	//
-	// DELETE /analytics/dwh/{resourceGroupName}
-	DeleteAZ0102(ctx context.Context, params DeleteAZ0102Params) (DeleteAZ0102Res, error)
-	// DeleteAZ0103 invokes delete_AZ0103 operation.
+	// POST /analytics/datalake
+	CreateDatalakeResource(ctx context.Context, request *DatalakePostRequestBody) (CreateDatalakeResourceRes, error)
+	// CreateDdosResource invokes createDdosResource operation.
 	//
-	// アドオンの指定されたデータETLリソースを削除します。.
+	// アドオンのDDoS対策サービスリソースを作成します。.
 	//
-	// DELETE /analytics/etl/{resourceGroupName}
-	DeleteAZ0103(ctx context.Context, params DeleteAZ0103Params) (DeleteAZ0103Res, error)
-	// DeleteAZ0104 invokes delete_AZ0104 operation.
+	// POST /security/ddos
+	CreateDdosResource(ctx context.Context, request *DdosRequestBody) (CreateDdosResourceRes, error)
+	// CreateDwhResource invokes createDwhResource operation.
 	//
-	// アドオンの指定されたクエリ機能リソースを削除します。.
+	// アドオンのデータウェアハウスリソースを作成します。.
 	//
-	// DELETE /analytics/query/{resourceGroupName}
-	DeleteAZ0104(ctx context.Context, params DeleteAZ0104Params) (DeleteAZ0104Res, error)
-	// DeleteAZ0105 invokes delete_AZ0105 operation.
+	// POST /analytics/dwh
+	CreateDwhResource(ctx context.Context, request *DatawarehousePostRequestBody) (CreateDwhResourceRes, error)
+	// CreateEtlResource invokes createEtlResource operation.
 	//
-	// アドオンの指定された検索機能リソースを削除します。.
+	// アドオンのデータETLリソースを作成します。.
 	//
-	// DELETE /analytics/search/{resourceGroupName}
-	DeleteAZ0105(ctx context.Context, params DeleteAZ0105Params) (DeleteAZ0105Res, error)
-	// DeleteAZ0107 invokes delete_AZ0107 operation.
+	// POST /analytics/etl
+	CreateEtlResource(ctx context.Context, request *EtlPostRequestBody) (CreateEtlResourceRes, error)
+	// CreateQueryResource invokes createQueryResource operation.
 	//
-	// アドオンの指定されたストリーミング処理機能リソースを削除します。.
+	// アドオンのクエリ機能リソースを作成します。.
 	//
-	// DELETE /analytics/streaming/{resourceGroupName}
-	DeleteAZ0107(ctx context.Context, params DeleteAZ0107Params) (DeleteAZ0107Res, error)
-	// DeleteAZ0301 invokes delete_AZ0301 operation.
+	// POST /analytics/query
+	CreateQueryResource(ctx context.Context, request *QueryPostRequestBody) (CreateQueryResourceRes, error)
+	// CreateSearchResource invokes createSearchResource operation.
 	//
-	// アドオンの指定されたCDNサービスリソースを削除します。.
+	// アドオンの検索機能リソースを作成します。.
 	//
-	// DELETE /cdn/{resourceGroupName}
-	DeleteAZ0301(ctx context.Context, params DeleteAZ0301Params) (DeleteAZ0301Res, error)
-	// DeleteAZ0401 invokes delete_AZ0401 operation.
+	// POST /analytics/search
+	CreateSearchResource(ctx context.Context, request *SearchPostRequestBody) (CreateSearchResourceRes, error)
+	// CreateStreamingResource invokes createStreamingResource operation.
 	//
-	// アドオンの指定されたDDoS対策サービスリソースを削除します。.
+	// アドオンのストリーミング処理機能リソースを作成します。.
 	//
-	// DELETE /security/ddos/{resourceGroupName}
-	DeleteAZ0401(ctx context.Context, params DeleteAZ0401Params) (DeleteAZ0401Res, error)
-	// DeleteAZ0402 invokes delete_AZ0402 operation.
+	// POST /analytics/streaming
+	CreateStreamingResource(ctx context.Context, request *StreamingRequestBody) (CreateStreamingResourceRes, error)
+	// CreateVulnerabilityResource invokes createVulnerabilityResource operation.
 	//
-	// アドオンの指定されたWAFサービスリソースを削除します。.
+	// アドオンの脆弱性検出サービスリソースを作成します。脆弱性検出サービスを利用するためには、レスポンスに含まれるインストールスクリプトを対象のVMで実行しエージェントをインストールする必要があります。.
 	//
-	// DELETE /security/waf/{resourceGroupName}
-	DeleteAZ0402(ctx context.Context, params DeleteAZ0402Params) (DeleteAZ0402Res, error)
-	// DeleteAZ0403 invokes delete_AZ0403 operation.
+	// POST /security/vulnerability
+	CreateVulnerabilityResource(ctx context.Context, request *VulnerabilityRequestBody) (CreateVulnerabilityResourceRes, error)
+	// CreateWafResource invokes createWafResource operation.
 	//
-	// アドオンの指定された脆弱性検出サービスリソースを削除します。.
+	// アドオンのWAFサービスリソースを作成します。.
 	//
-	// DELETE /security/vulnerability/{resourceGroupName}
-	DeleteAZ0403(ctx context.Context, params DeleteAZ0403Params) (DeleteAZ0403Res, error)
-	// DeleteAZ0501 invokes delete_AZ0501 operation.
+	// POST /security/waf
+	CreateWafResource(ctx context.Context, request *WafRequestBody) (CreateWafResourceRes, error)
+	// DeleteAiResource invokes deleteAiResource operation.
 	//
 	// アドオンの指定されたAI機能リソースを削除します。.
 	//
 	// DELETE /ai/{resourceGroupName}
-	DeleteAZ0501(ctx context.Context, params DeleteAZ0501Params) (DeleteAZ0501Res, error)
-	// GetAZ0101 invokes get_AZ0101 operation.
+	DeleteAiResource(ctx context.Context, params DeleteAiResourceParams) (DeleteAiResourceRes, error)
+	// DeleteCdnResource invokes deleteCdnResource operation.
 	//
-	// アドオンの指定されたデータレイクリソースを取得します。.
+	// アドオンの指定されたCDNサービスリソースを削除します。.
 	//
-	// GET /analytics/datalake/{resourceGroupName}
-	GetAZ0101(ctx context.Context, params GetAZ0101Params) (GetAZ0101Res, error)
-	// GetAZ0102 invokes get_AZ0102 operation.
+	// DELETE /cdn/{resourceGroupName}
+	DeleteCdnResource(ctx context.Context, params DeleteCdnResourceParams) (DeleteCdnResourceRes, error)
+	// DeleteDatalakeResource invokes deleteDatalakeResource operation.
 	//
-	// アドオンの指定されたデータウェアハウスリソースを取得します。.
+	// アドオンの指定されたデータレイクリソースを削除します。.
 	//
-	// GET /analytics/dwh/{resourceGroupName}
-	GetAZ0102(ctx context.Context, params GetAZ0102Params) (GetAZ0102Res, error)
-	// GetAZ0103 invokes get_AZ0103 operation.
+	// DELETE /analytics/datalake/{resourceGroupName}
+	DeleteDatalakeResource(ctx context.Context, params DeleteDatalakeResourceParams) (DeleteDatalakeResourceRes, error)
+	// DeleteDdosResource invokes deleteDdosResource operation.
 	//
-	// アドオンの指定されたデータETLリソースを取得します。.
+	// アドオンの指定されたDDoS対策サービスリソースを削除します。.
 	//
-	// GET /analytics/etl/{resourceGroupName}
-	GetAZ0103(ctx context.Context, params GetAZ0103Params) (GetAZ0103Res, error)
-	// GetAZ0104 invokes get_AZ0104 operation.
+	// DELETE /security/ddos/{resourceGroupName}
+	DeleteDdosResource(ctx context.Context, params DeleteDdosResourceParams) (DeleteDdosResourceRes, error)
+	// DeleteDwhResource invokes deleteDwhResource operation.
 	//
-	// アドオンの指定されたクエリ機能リソースを取得します。.
+	// アドオンの指定されたデータウェアハウスリソースを削除します。.
 	//
-	// GET /analytics/query/{resourceGroupName}
-	GetAZ0104(ctx context.Context, params GetAZ0104Params) (GetAZ0104Res, error)
-	// GetAZ0105 invokes get_AZ0105 operation.
+	// DELETE /analytics/dwh/{resourceGroupName}
+	DeleteDwhResource(ctx context.Context, params DeleteDwhResourceParams) (DeleteDwhResourceRes, error)
+	// DeleteEtlResource invokes deleteEtlResource operation.
 	//
-	// アドオンの指定された検索機能リソースを取得します。.
+	// アドオンの指定されたデータETLリソースを削除します。.
 	//
-	// GET /analytics/search/{resourceGroupName}
-	GetAZ0105(ctx context.Context, params GetAZ0105Params) (GetAZ0105Res, error)
-	// GetAZ0107 invokes get_AZ0107 operation.
+	// DELETE /analytics/etl/{resourceGroupName}
+	DeleteEtlResource(ctx context.Context, params DeleteEtlResourceParams) (DeleteEtlResourceRes, error)
+	// DeleteQueryResource invokes deleteQueryResource operation.
 	//
-	// アドオンの指定されたストリーミング処理機能リソースを取得します。.
+	// アドオンの指定されたクエリ機能リソースを削除します。.
 	//
-	// GET /analytics/streaming/{resourceGroupName}
-	GetAZ0107(ctx context.Context, params GetAZ0107Params) (GetAZ0107Res, error)
-	// GetAZ0301 invokes get_AZ0301 operation.
+	// DELETE /analytics/query/{resourceGroupName}
+	DeleteQueryResource(ctx context.Context, params DeleteQueryResourceParams) (DeleteQueryResourceRes, error)
+	// DeleteSearchResource invokes deleteSearchResource operation.
 	//
-	// アドオンの指定されたCDNサービスリソースを取得します。.
+	// アドオンの指定された検索機能リソースを削除します。.
 	//
-	// GET /cdn/{resourceGroupName}
-	GetAZ0301(ctx context.Context, params GetAZ0301Params) (GetAZ0301Res, error)
-	// GetAZ0401 invokes get_AZ0401 operation.
+	// DELETE /analytics/search/{resourceGroupName}
+	DeleteSearchResource(ctx context.Context, params DeleteSearchResourceParams) (DeleteSearchResourceRes, error)
+	// DeleteStreamingResource invokes deleteStreamingResource operation.
 	//
-	// アドオンの指定されたDDoS対策サービスリソースを取得します。.
+	// アドオンの指定されたストリーミング処理機能リソースを削除します。.
 	//
-	// GET /security/ddos/{resourceGroupName}
-	GetAZ0401(ctx context.Context, params GetAZ0401Params) (GetAZ0401Res, error)
-	// GetAZ0402 invokes get_AZ0402 operation.
+	// DELETE /analytics/streaming/{resourceGroupName}
+	DeleteStreamingResource(ctx context.Context, params DeleteStreamingResourceParams) (DeleteStreamingResourceRes, error)
+	// DeleteVulnerabilityResource invokes deleteVulnerabilityResource operation.
 	//
-	// アドオンの指定されたWAFサービスリソースを取得します。.
+	// アドオンの指定された脆弱性検出サービスリソースを削除します。.
 	//
-	// GET /security/waf/{resourceGroupName}
-	GetAZ0402(ctx context.Context, params GetAZ0402Params) (GetAZ0402Res, error)
-	// GetAZ0403 invokes get_AZ0403 operation.
+	// DELETE /security/vulnerability/{resourceGroupName}
+	DeleteVulnerabilityResource(ctx context.Context, params DeleteVulnerabilityResourceParams) (DeleteVulnerabilityResourceRes, error)
+	// DeleteWafResource invokes deleteWafResource operation.
 	//
-	// アドオンの指定された脆弱性検出サービスリソースを取得します。.
+	// アドオンの指定されたWAFサービスリソースを削除します。.
 	//
-	// GET /security/vulnerability/{resourceGroupName}
-	GetAZ0403(ctx context.Context, params GetAZ0403Params) (GetAZ0403Res, error)
-	// GetAZ0501 invokes get_AZ0501 operation.
-	//
-	// アドオンの指定されたAI機能リソースを取得します。.
-	//
-	// GET /ai/{resourceGroupName}
-	GetAZ0501(ctx context.Context, params GetAZ0501Params) (GetAZ0501Res, error)
-	// ListAZ0101 invokes list_AZ0101 operation.
-	//
-	// アドオンのデータレイクリソースの一覧を取得します。.
-	//
-	// GET /analytics/datalake
-	ListAZ0101(ctx context.Context) (ListAZ0101Res, error)
-	// ListAZ0102 invokes list_AZ0102 operation.
-	//
-	// アドオンのデータウェアハウスリソースの一覧を取得します。.
-	//
-	// GET /analytics/dwh
-	ListAZ0102(ctx context.Context) (ListAZ0102Res, error)
-	// ListAZ0103 invokes list_AZ0103 operation.
-	//
-	// アドオンのデータETLリソースの一覧を取得します。.
-	//
-	// GET /analytics/etl
-	ListAZ0103(ctx context.Context) (ListAZ0103Res, error)
-	// ListAZ0104 invokes list_AZ0104 operation.
-	//
-	// アドオンのクエリ機能リソースの一覧を取得します。.
-	//
-	// GET /analytics/query
-	ListAZ0104(ctx context.Context) (ListAZ0104Res, error)
-	// ListAZ0105 invokes list_AZ0105 operation.
-	//
-	// アドオンの検索機能リソースの一覧を取得します。.
-	//
-	// GET /analytics/search
-	ListAZ0105(ctx context.Context) (ListAZ0105Res, error)
-	// ListAZ0107 invokes list_AZ0107 operation.
-	//
-	// アドオンのストリーミング処理機能リソースの一覧を取得します。.
-	//
-	// GET /analytics/streaming
-	ListAZ0107(ctx context.Context) (ListAZ0107Res, error)
-	// ListAZ0301 invokes list_AZ0301 operation.
-	//
-	// アドオンのCDNサービスリソースの一覧を取得します。.
-	//
-	// GET /cdn
-	ListAZ0301(ctx context.Context) (ListAZ0301Res, error)
-	// ListAZ0401 invokes list_AZ0401 operation.
-	//
-	// アドオンのDDoS対策サービスリソースの一覧を取得します。.
-	//
-	// GET /security/ddos
-	ListAZ0401(ctx context.Context) (ListAZ0401Res, error)
-	// ListAZ0402 invokes list_AZ0402 operation.
-	//
-	// アドオンのWAFサービスリソースの一覧を取得します。.
-	//
-	// GET /security/waf
-	ListAZ0402(ctx context.Context) (ListAZ0402Res, error)
-	// ListAZ0403 invokes list_AZ0403 operation.
-	//
-	// アドオンの脆弱性検出サービスリソースの一覧を取得します。.
-	//
-	// GET /security/vulnerability
-	ListAZ0403(ctx context.Context) (ListAZ0403Res, error)
-	// ListAZ0501 invokes list_AZ0501 operation.
+	// DELETE /security/waf/{resourceGroupName}
+	DeleteWafResource(ctx context.Context, params DeleteWafResourceParams) (DeleteWafResourceRes, error)
+	// ListAiResources invokes listAiResources operation.
 	//
 	// アドオンのAI機能リソースの一覧を取得します。.
 	//
 	// GET /ai
-	ListAZ0501(ctx context.Context) (ListAZ0501Res, error)
-	// StatusAZ0101 invokes status_AZ0101 operation.
+	ListAiResources(ctx context.Context) (ListAiResourcesRes, error)
+	// ListCdnResources invokes listCdnResources operation.
 	//
-	// アドオンの指定されたデータレイクリソースのステータスを取得します。.
+	// アドオンのCDNサービスリソースの一覧を取得します。.
 	//
-	// GET /analytics/datalake/status/{resourceGroupName}/{deploymentName}
-	StatusAZ0101(ctx context.Context, params StatusAZ0101Params) (StatusAZ0101Res, error)
-	// StatusAZ0102 invokes status_AZ0102 operation.
+	// GET /cdn
+	ListCdnResources(ctx context.Context) (ListCdnResourcesRes, error)
+	// ListDatalakeResources invokes listDatalakeResources operation.
 	//
-	// アドオンの指定されたデータウェアハウスリソースのステータスを取得します。.
+	// アドオンのデータレイクリソースの一覧を取得します。.
 	//
-	// GET /analytics/dwh/status/{resourceGroupName}/{deploymentName}
-	StatusAZ0102(ctx context.Context, params StatusAZ0102Params) (StatusAZ0102Res, error)
-	// StatusAZ0103 invokes status_AZ0103 operation.
+	// GET /analytics/datalake
+	ListDatalakeResources(ctx context.Context) (ListDatalakeResourcesRes, error)
+	// ListDdosResources invokes listDdosResources operation.
 	//
-	// アドオンの指定されたデータETLリソースのステータスを取得します。.
+	// アドオンのDDoS対策サービスリソースの一覧を取得します。.
 	//
-	// GET /analytics/etl/status/{resourceGroupName}/{deploymentName}
-	StatusAZ0103(ctx context.Context, params StatusAZ0103Params) (StatusAZ0103Res, error)
-	// StatusAZ0104 invokes status_AZ0104 operation.
+	// GET /security/ddos
+	ListDdosResources(ctx context.Context) (ListDdosResourcesRes, error)
+	// ListDwhResources invokes listDwhResources operation.
 	//
-	// アドオンの指定されたクエリ機能リソースのステータスを取得します。.
+	// アドオンのデータウェアハウスリソースの一覧を取得します。.
 	//
-	// GET /analytics/query/status/{resourceGroupName}/{deploymentName}
-	StatusAZ0104(ctx context.Context, params StatusAZ0104Params) (StatusAZ0104Res, error)
-	// StatusAZ0105 invokes status_AZ0105 operation.
+	// GET /analytics/dwh
+	ListDwhResources(ctx context.Context) (ListDwhResourcesRes, error)
+	// ListEtlResources invokes listEtlResources operation.
 	//
-	// アドオンの指定された検索機能リソースのステータスを取得します。.
+	// アドオンのデータETLリソースの一覧を取得します。.
 	//
-	// GET /analytics/search/status/{resourceGroupName}/{deploymentName}
-	StatusAZ0105(ctx context.Context, params StatusAZ0105Params) (StatusAZ0105Res, error)
-	// StatusAZ0107 invokes status_AZ0107 operation.
+	// GET /analytics/etl
+	ListEtlResources(ctx context.Context) (ListEtlResourcesRes, error)
+	// ListQueryResources invokes listQueryResources operation.
 	//
-	// アドオンの指定されたストリーミング処理機能リソースのステータスを取得します。.
+	// アドオンのクエリ機能リソースの一覧を取得します。.
 	//
-	// GET /analytics/streaming/status/{resourceGroupName}/{deploymentName}
-	StatusAZ0107(ctx context.Context, params StatusAZ0107Params) (StatusAZ0107Res, error)
-	// StatusAZ0301 invokes status_AZ0301 operation.
+	// GET /analytics/query
+	ListQueryResources(ctx context.Context) (ListQueryResourcesRes, error)
+	// ListSearchResources invokes listSearchResources operation.
 	//
-	// アドオンの指定されたCDNサービスリソースのステータスを取得します。.
+	// アドオンの検索機能リソースの一覧を取得します。.
 	//
-	// GET /cdn/status/{resourceGroupName}/{deploymentName}
-	StatusAZ0301(ctx context.Context, params StatusAZ0301Params) (StatusAZ0301Res, error)
-	// StatusAZ0401 invokes status_AZ0401 operation.
+	// GET /analytics/search
+	ListSearchResources(ctx context.Context) (ListSearchResourcesRes, error)
+	// ListStreamingResources invokes listStreamingResources operation.
 	//
-	// アドオンの指定されたDDoS対策サービスリソースのステータスを取得します。.
+	// アドオンのストリーミング処理機能リソースの一覧を取得します。.
 	//
-	// GET /security/ddos/status/{resourceGroupName}/{deploymentName}
-	StatusAZ0401(ctx context.Context, params StatusAZ0401Params) (StatusAZ0401Res, error)
-	// StatusAZ0402 invokes status_AZ0402 operation.
+	// GET /analytics/streaming
+	ListStreamingResources(ctx context.Context) (ListStreamingResourcesRes, error)
+	// ListVulnerabilityResources invokes listVulnerabilityResources operation.
 	//
-	// アドオンの指定されたWAFサービスリソースのステータスを取得します。.
+	// アドオンの脆弱性検出サービスリソースの一覧を取得します。.
 	//
-	// GET /security/waf/status/{resourceGroupName}/{deploymentName}
-	StatusAZ0402(ctx context.Context, params StatusAZ0402Params) (StatusAZ0402Res, error)
-	// StatusAZ0501 invokes status_AZ0501 operation.
+	// GET /security/vulnerability
+	ListVulnerabilityResources(ctx context.Context) (ListVulnerabilityResourcesRes, error)
+	// ListWafResources invokes listWafResources operation.
+	//
+	// アドオンのWAFサービスリソースの一覧を取得します。.
+	//
+	// GET /security/waf
+	ListWafResources(ctx context.Context) (ListWafResourcesRes, error)
+	// PurgeCdnCache invokes purgeCdnCache operation.
+	//
+	// アドオンの指定されたCDNサービスリソースのキャッシュを削除します。.
+	//
+	// POST /cdn/{resourceGroupName}/purge
+	PurgeCdnCache(ctx context.Context, request *CachePurgeRequestBody, params PurgeCdnCacheParams) (PurgeCdnCacheRes, error)
+	// ReadAiResource invokes readAiResource operation.
+	//
+	// アドオンの指定されたAI機能リソースを取得します。.
+	//
+	// GET /ai/{resourceGroupName}
+	ReadAiResource(ctx context.Context, params ReadAiResourceParams) (ReadAiResourceRes, error)
+	// ReadAiResourceStatus invokes readAiResourceStatus operation.
 	//
 	// アドオンの指定されたAI機能リソースのステータスを取得します。.
 	//
 	// GET /ai/status/{resourceGroupName}/{deploymentName}
-	StatusAZ0501(ctx context.Context, params StatusAZ0501Params) (StatusAZ0501Res, error)
+	ReadAiResourceStatus(ctx context.Context, params ReadAiResourceStatusParams) (ReadAiResourceStatusRes, error)
+	// ReadCdnResource invokes readCdnResource operation.
+	//
+	// アドオンの指定されたCDNサービスリソースを取得します。.
+	//
+	// GET /cdn/{resourceGroupName}
+	ReadCdnResource(ctx context.Context, params ReadCdnResourceParams) (ReadCdnResourceRes, error)
+	// ReadCdnResourceStatus invokes readCdnResourceStatus operation.
+	//
+	// アドオンの指定されたCDNサービスリソースのステータスを取得します。.
+	//
+	// GET /cdn/status/{resourceGroupName}/{deploymentName}
+	ReadCdnResourceStatus(ctx context.Context, params ReadCdnResourceStatusParams) (ReadCdnResourceStatusRes, error)
+	// ReadDatalakeResource invokes readDatalakeResource operation.
+	//
+	// アドオンの指定されたデータレイクリソースを取得します。.
+	//
+	// GET /analytics/datalake/{resourceGroupName}
+	ReadDatalakeResource(ctx context.Context, params ReadDatalakeResourceParams) (ReadDatalakeResourceRes, error)
+	// ReadDatalakeResourceStatus invokes readDatalakeResourceStatus operation.
+	//
+	// アドオンの指定されたデータレイクリソースのステータスを取得します。.
+	//
+	// GET /analytics/datalake/status/{resourceGroupName}/{deploymentName}
+	ReadDatalakeResourceStatus(ctx context.Context, params ReadDatalakeResourceStatusParams) (ReadDatalakeResourceStatusRes, error)
+	// ReadDdosResource invokes readDdosResource operation.
+	//
+	// アドオンの指定されたDDoS対策サービスリソースを取得します。.
+	//
+	// GET /security/ddos/{resourceGroupName}
+	ReadDdosResource(ctx context.Context, params ReadDdosResourceParams) (ReadDdosResourceRes, error)
+	// ReadDdosResourceStatus invokes readDdosResourceStatus operation.
+	//
+	// アドオンの指定されたDDoS対策サービスリソースのステータスを取得します。.
+	//
+	// GET /security/ddos/status/{resourceGroupName}/{deploymentName}
+	ReadDdosResourceStatus(ctx context.Context, params ReadDdosResourceStatusParams) (ReadDdosResourceStatusRes, error)
+	// ReadDwhResource invokes readDwhResource operation.
+	//
+	// アドオンの指定されたデータウェアハウスリソースを取得します。.
+	//
+	// GET /analytics/dwh/{resourceGroupName}
+	ReadDwhResource(ctx context.Context, params ReadDwhResourceParams) (ReadDwhResourceRes, error)
+	// ReadDwhResourceStatus invokes readDwhResourceStatus operation.
+	//
+	// アドオンの指定されたデータウェアハウスリソースのステータスを取得します。.
+	//
+	// GET /analytics/dwh/status/{resourceGroupName}/{deploymentName}
+	ReadDwhResourceStatus(ctx context.Context, params ReadDwhResourceStatusParams) (ReadDwhResourceStatusRes, error)
+	// ReadEtlResource invokes readEtlResource operation.
+	//
+	// アドオンの指定されたデータETLリソースを取得します。.
+	//
+	// GET /analytics/etl/{resourceGroupName}
+	ReadEtlResource(ctx context.Context, params ReadEtlResourceParams) (ReadEtlResourceRes, error)
+	// ReadEtlResourceStatus invokes readEtlResourceStatus operation.
+	//
+	// アドオンの指定されたデータETLリソースのステータスを取得します。.
+	//
+	// GET /analytics/etl/status/{resourceGroupName}/{deploymentName}
+	ReadEtlResourceStatus(ctx context.Context, params ReadEtlResourceStatusParams) (ReadEtlResourceStatusRes, error)
+	// ReadQueryResource invokes readQueryResource operation.
+	//
+	// アドオンの指定されたクエリ機能リソースを取得します。.
+	//
+	// GET /analytics/query/{resourceGroupName}
+	ReadQueryResource(ctx context.Context, params ReadQueryResourceParams) (ReadQueryResourceRes, error)
+	// ReadQueryResourceStatus invokes readQueryResourceStatus operation.
+	//
+	// アドオンの指定されたクエリ機能リソースのステータスを取得します。.
+	//
+	// GET /analytics/query/status/{resourceGroupName}/{deploymentName}
+	ReadQueryResourceStatus(ctx context.Context, params ReadQueryResourceStatusParams) (ReadQueryResourceStatusRes, error)
+	// ReadSearchResource invokes readSearchResource operation.
+	//
+	// アドオンの指定された検索機能リソースを取得します。.
+	//
+	// GET /analytics/search/{resourceGroupName}
+	ReadSearchResource(ctx context.Context, params ReadSearchResourceParams) (ReadSearchResourceRes, error)
+	// ReadSearchResourceStatus invokes readSearchResourceStatus operation.
+	//
+	// アドオンの指定された検索機能リソースのステータスを取得します。.
+	//
+	// GET /analytics/search/status/{resourceGroupName}/{deploymentName}
+	ReadSearchResourceStatus(ctx context.Context, params ReadSearchResourceStatusParams) (ReadSearchResourceStatusRes, error)
+	// ReadStreamingResource invokes readStreamingResource operation.
+	//
+	// アドオンの指定されたストリーミング処理機能リソースを取得します。.
+	//
+	// GET /analytics/streaming/{resourceGroupName}
+	ReadStreamingResource(ctx context.Context, params ReadStreamingResourceParams) (ReadStreamingResourceRes, error)
+	// ReadStreamingResourceStatus invokes readStreamingResourceStatus operation.
+	//
+	// アドオンの指定されたストリーミング処理機能リソースのステータスを取得します。.
+	//
+	// GET /analytics/streaming/status/{resourceGroupName}/{deploymentName}
+	ReadStreamingResourceStatus(ctx context.Context, params ReadStreamingResourceStatusParams) (ReadStreamingResourceStatusRes, error)
+	// ReadVulnerabilityResource invokes readVulnerabilityResource operation.
+	//
+	// アドオンの指定された脆弱性検出サービスリソースを取得します。.
+	//
+	// GET /security/vulnerability/{resourceGroupName}
+	ReadVulnerabilityResource(ctx context.Context, params ReadVulnerabilityResourceParams) (ReadVulnerabilityResourceRes, error)
+	// ReadWafResource invokes readWafResource operation.
+	//
+	// アドオンの指定されたWAFサービスリソースを取得します。.
+	//
+	// GET /security/waf/{resourceGroupName}
+	ReadWafResource(ctx context.Context, params ReadWafResourceParams) (ReadWafResourceRes, error)
+	// ReadWafResourceStatus invokes readWafResourceStatus operation.
+	//
+	// アドオンの指定されたWAFサービスリソースのステータスを取得します。.
+	//
+	// GET /security/waf/status/{resourceGroupName}/{deploymentName}
+	ReadWafResourceStatus(ctx context.Context, params ReadWafResourceStatusParams) (ReadWafResourceStatusRes, error)
 }
 
 // Client implements OAS client.
@@ -386,567 +392,17 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
-// CreateAZ0101 invokes create_AZ0101 operation.
-//
-// アドオンのデータレイクリソースを作成します。.
-//
-// POST /analytics/datalake
-func (c *Client) CreateAZ0101(ctx context.Context, request *DatalakePostRequestBody) (CreateAZ0101Res, error) {
-	res, err := c.sendCreateAZ0101(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateAZ0101(ctx context.Context, request *DatalakePostRequestBody) (res CreateAZ0101Res, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/analytics/datalake"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateAZ0101Request(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateAZ0101Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateAZ0102 invokes create_AZ0102 operation.
-//
-// アドオンのデータウェアハウスリソースを作成します。.
-//
-// POST /analytics/dwh
-func (c *Client) CreateAZ0102(ctx context.Context, request *DatawarehousePostRequestBody) (CreateAZ0102Res, error) {
-	res, err := c.sendCreateAZ0102(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateAZ0102(ctx context.Context, request *DatawarehousePostRequestBody) (res CreateAZ0102Res, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/analytics/dwh"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateAZ0102Request(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateAZ0102Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateAZ0103 invokes create_AZ0103 operation.
-//
-// アドオンのデータETLリソースを作成します。.
-//
-// POST /analytics/etl
-func (c *Client) CreateAZ0103(ctx context.Context, request *EtlPostRequestBody) (CreateAZ0103Res, error) {
-	res, err := c.sendCreateAZ0103(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateAZ0103(ctx context.Context, request *EtlPostRequestBody) (res CreateAZ0103Res, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/analytics/etl"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateAZ0103Request(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateAZ0103Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateAZ0104 invokes create_AZ0104 operation.
-//
-// アドオンのクエリ機能リソースを作成します。.
-//
-// POST /analytics/query
-func (c *Client) CreateAZ0104(ctx context.Context, request *QueryPostRequestBody) (CreateAZ0104Res, error) {
-	res, err := c.sendCreateAZ0104(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateAZ0104(ctx context.Context, request *QueryPostRequestBody) (res CreateAZ0104Res, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/analytics/query"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateAZ0104Request(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateAZ0104Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateAZ0105 invokes create_AZ0105 operation.
-//
-// アドオンの検索機能リソースを作成します。.
-//
-// POST /analytics/search
-func (c *Client) CreateAZ0105(ctx context.Context, request *SearchPostRequestBody) (CreateAZ0105Res, error) {
-	res, err := c.sendCreateAZ0105(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateAZ0105(ctx context.Context, request *SearchPostRequestBody) (res CreateAZ0105Res, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/analytics/search"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateAZ0105Request(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateAZ0105Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateAZ0107 invokes create_AZ0107 operation.
-//
-// アドオンのストリーミング処理機能リソースを作成します。.
-//
-// POST /analytics/streaming
-func (c *Client) CreateAZ0107(ctx context.Context, request *StreamingRequestBody) (CreateAZ0107Res, error) {
-	res, err := c.sendCreateAZ0107(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateAZ0107(ctx context.Context, request *StreamingRequestBody) (res CreateAZ0107Res, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/analytics/streaming"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateAZ0107Request(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateAZ0107Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateAZ0301 invokes create_AZ0301 operation.
-//
-// アドオンのCDNサービスリソースを作成します。.
-//
-// POST /cdn
-func (c *Client) CreateAZ0301(ctx context.Context, request *NetworkRequestBody) (CreateAZ0301Res, error) {
-	res, err := c.sendCreateAZ0301(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateAZ0301(ctx context.Context, request *NetworkRequestBody) (res CreateAZ0301Res, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/cdn"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateAZ0301Request(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateAZ0301Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateAZ0401 invokes create_AZ0401 operation.
-//
-// アドオンのDDoS対策サービスリソースを作成します。.
-//
-// POST /security/ddos
-func (c *Client) CreateAZ0401(ctx context.Context, request *DdosRequestBody) (CreateAZ0401Res, error) {
-	res, err := c.sendCreateAZ0401(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateAZ0401(ctx context.Context, request *DdosRequestBody) (res CreateAZ0401Res, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/security/ddos"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateAZ0401Request(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateAZ0401Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateAZ0402 invokes create_AZ0402 operation.
-//
-// アドオンのWAFサービスリソースを作成します。.
-//
-// POST /security/waf
-func (c *Client) CreateAZ0402(ctx context.Context, request *WafRequestBody) (CreateAZ0402Res, error) {
-	res, err := c.sendCreateAZ0402(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateAZ0402(ctx context.Context, request *WafRequestBody) (res CreateAZ0402Res, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/security/waf"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateAZ0402Request(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateAZ0402Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateAZ0403 invokes create_AZ0403 operation.
-//
-// アドオンの脆弱性検出サービスリソースを作成します。.
-//
-// POST /security/vulnerability
-func (c *Client) CreateAZ0403(ctx context.Context, request *VulnerabilityRequestBody) (CreateAZ0403Res, error) {
-	res, err := c.sendCreateAZ0403(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateAZ0403(ctx context.Context, request *VulnerabilityRequestBody) (res CreateAZ0403Res, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/security/vulnerability"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateAZ0403Request(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateAZ0403Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateAZ0501 invokes create_AZ0501 operation.
+// CreateAiResource invokes createAiResource operation.
 //
 // アドオンのAI機能リソースを作成します。.
 //
 // POST /ai
-func (c *Client) CreateAZ0501(ctx context.Context, request *AiRequestBody) (CreateAZ0501Res, error) {
-	res, err := c.sendCreateAZ0501(ctx, request)
+func (c *Client) CreateAiResource(ctx context.Context, request *AiRequestBody) (CreateAiResourceRes, error) {
+	res, err := c.sendCreateAiResource(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendCreateAZ0501(ctx context.Context, request *AiRequestBody) (res CreateAZ0501Res, err error) {
+func (c *Client) sendCreateAiResource(ctx context.Context, request *AiRequestBody) (res CreateAiResourceRes, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -966,7 +422,7 @@ func (c *Client) sendCreateAZ0501(ctx context.Context, request *AiRequestBody) (
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeCreateAZ0501Request(request, r); err != nil {
+	if err := encodeCreateAiResourceRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -983,7 +439,7 @@ func (c *Client) sendCreateAZ0501(ctx context.Context, request *AiRequestBody) (
 		_ = body.Close()
 	}()
 
-	result, err := decodeCreateAZ0501Response(resp)
+	result, err := decodeCreateAiResourceResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -991,44 +447,38 @@ func (c *Client) sendCreateAZ0501(ctx context.Context, request *AiRequestBody) (
 	return result, nil
 }
 
-// DeleteAZ0101 invokes delete_AZ0101 operation.
+// CreateCdnResource invokes createCdnResource operation.
 //
-// アドオンの指定されたデータレイクリソースを削除します。.
+// アドオンのCDNサービスリソースを作成します。.
 //
-// DELETE /analytics/datalake/{resourceGroupName}
-func (c *Client) DeleteAZ0101(ctx context.Context, params DeleteAZ0101Params) (DeleteAZ0101Res, error) {
-	res, err := c.sendDeleteAZ0101(ctx, params)
+// POST /cdn
+func (c *Client) CreateCdnResource(ctx context.Context, request *NetworkRequestBody) (CreateCdnResourceRes, error) {
+	res, err := c.sendCreateCdnResource(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendDeleteAZ0101(ctx context.Context, params DeleteAZ0101Params) (res DeleteAZ0101Res, err error) {
+func (c *Client) sendCreateCdnResource(ctx context.Context, request *NetworkRequestBody) (res CreateCdnResourceRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/datalake/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
+	var pathParts [1]string
+	pathParts[0] = "/cdn"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "DELETE", u)
+	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateCdnResourceRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
 	}
 
 	resp, err := c.cfg.Client.Do(r)
@@ -1044,7 +494,7 @@ func (c *Client) sendDeleteAZ0101(ctx context.Context, params DeleteAZ0101Params
 		_ = body.Close()
 	}()
 
-	result, err := decodeDeleteAZ0101Response(resp)
+	result, err := decodeCreateCdnResourceResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1052,1307 +502,38 @@ func (c *Client) sendDeleteAZ0101(ctx context.Context, params DeleteAZ0101Params
 	return result, nil
 }
 
-// DeleteAZ0102 invokes delete_AZ0102 operation.
+// CreateDatalakeResource invokes createDatalakeResource operation.
 //
-// アドオンの指定されたデータウェアハウスリソースを削除します。.
+// アドオンのデータレイクリソースを作成します。.
 //
-// DELETE /analytics/dwh/{resourceGroupName}
-func (c *Client) DeleteAZ0102(ctx context.Context, params DeleteAZ0102Params) (DeleteAZ0102Res, error) {
-	res, err := c.sendDeleteAZ0102(ctx, params)
+// POST /analytics/datalake
+func (c *Client) CreateDatalakeResource(ctx context.Context, request *DatalakePostRequestBody) (CreateDatalakeResourceRes, error) {
+	res, err := c.sendCreateDatalakeResource(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendDeleteAZ0102(ctx context.Context, params DeleteAZ0102Params) (res DeleteAZ0102Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/dwh/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
+func (c *Client) sendCreateDatalakeResource(ctx context.Context, request *DatalakePostRequestBody) (res CreateDatalakeResourceRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
 		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
 	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteAZ0102Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteAZ0103 invokes delete_AZ0103 operation.
-//
-// アドオンの指定されたデータETLリソースを削除します。.
-//
-// DELETE /analytics/etl/{resourceGroupName}
-func (c *Client) DeleteAZ0103(ctx context.Context, params DeleteAZ0103Params) (DeleteAZ0103Res, error) {
-	res, err := c.sendDeleteAZ0103(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteAZ0103(ctx context.Context, params DeleteAZ0103Params) (res DeleteAZ0103Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/etl/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteAZ0103Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteAZ0104 invokes delete_AZ0104 operation.
-//
-// アドオンの指定されたクエリ機能リソースを削除します。.
-//
-// DELETE /analytics/query/{resourceGroupName}
-func (c *Client) DeleteAZ0104(ctx context.Context, params DeleteAZ0104Params) (DeleteAZ0104Res, error) {
-	res, err := c.sendDeleteAZ0104(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteAZ0104(ctx context.Context, params DeleteAZ0104Params) (res DeleteAZ0104Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/query/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteAZ0104Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteAZ0105 invokes delete_AZ0105 operation.
-//
-// アドオンの指定された検索機能リソースを削除します。.
-//
-// DELETE /analytics/search/{resourceGroupName}
-func (c *Client) DeleteAZ0105(ctx context.Context, params DeleteAZ0105Params) (DeleteAZ0105Res, error) {
-	res, err := c.sendDeleteAZ0105(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteAZ0105(ctx context.Context, params DeleteAZ0105Params) (res DeleteAZ0105Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/search/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteAZ0105Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteAZ0107 invokes delete_AZ0107 operation.
-//
-// アドオンの指定されたストリーミング処理機能リソースを削除します。.
-//
-// DELETE /analytics/streaming/{resourceGroupName}
-func (c *Client) DeleteAZ0107(ctx context.Context, params DeleteAZ0107Params) (DeleteAZ0107Res, error) {
-	res, err := c.sendDeleteAZ0107(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteAZ0107(ctx context.Context, params DeleteAZ0107Params) (res DeleteAZ0107Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/streaming/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteAZ0107Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteAZ0301 invokes delete_AZ0301 operation.
-//
-// アドオンの指定されたCDNサービスリソースを削除します。.
-//
-// DELETE /cdn/{resourceGroupName}
-func (c *Client) DeleteAZ0301(ctx context.Context, params DeleteAZ0301Params) (DeleteAZ0301Res, error) {
-	res, err := c.sendDeleteAZ0301(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteAZ0301(ctx context.Context, params DeleteAZ0301Params) (res DeleteAZ0301Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/cdn/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteAZ0301Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteAZ0401 invokes delete_AZ0401 operation.
-//
-// アドオンの指定されたDDoS対策サービスリソースを削除します。.
-//
-// DELETE /security/ddos/{resourceGroupName}
-func (c *Client) DeleteAZ0401(ctx context.Context, params DeleteAZ0401Params) (DeleteAZ0401Res, error) {
-	res, err := c.sendDeleteAZ0401(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteAZ0401(ctx context.Context, params DeleteAZ0401Params) (res DeleteAZ0401Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/security/ddos/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteAZ0401Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteAZ0402 invokes delete_AZ0402 operation.
-//
-// アドオンの指定されたWAFサービスリソースを削除します。.
-//
-// DELETE /security/waf/{resourceGroupName}
-func (c *Client) DeleteAZ0402(ctx context.Context, params DeleteAZ0402Params) (DeleteAZ0402Res, error) {
-	res, err := c.sendDeleteAZ0402(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteAZ0402(ctx context.Context, params DeleteAZ0402Params) (res DeleteAZ0402Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/security/waf/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteAZ0402Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteAZ0403 invokes delete_AZ0403 operation.
-//
-// アドオンの指定された脆弱性検出サービスリソースを削除します。.
-//
-// DELETE /security/vulnerability/{resourceGroupName}
-func (c *Client) DeleteAZ0403(ctx context.Context, params DeleteAZ0403Params) (DeleteAZ0403Res, error) {
-	res, err := c.sendDeleteAZ0403(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteAZ0403(ctx context.Context, params DeleteAZ0403Params) (res DeleteAZ0403Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/security/vulnerability/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteAZ0403Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteAZ0501 invokes delete_AZ0501 operation.
-//
-// アドオンの指定されたAI機能リソースを削除します。.
-//
-// DELETE /ai/{resourceGroupName}
-func (c *Client) DeleteAZ0501(ctx context.Context, params DeleteAZ0501Params) (DeleteAZ0501Res, error) {
-	res, err := c.sendDeleteAZ0501(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteAZ0501(ctx context.Context, params DeleteAZ0501Params) (res DeleteAZ0501Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/ai/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteAZ0501Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAZ0101 invokes get_AZ0101 operation.
-//
-// アドオンの指定されたデータレイクリソースを取得します。.
-//
-// GET /analytics/datalake/{resourceGroupName}
-func (c *Client) GetAZ0101(ctx context.Context, params GetAZ0101Params) (GetAZ0101Res, error) {
-	res, err := c.sendGetAZ0101(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAZ0101(ctx context.Context, params GetAZ0101Params) (res GetAZ0101Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/datalake/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAZ0101Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAZ0102 invokes get_AZ0102 operation.
-//
-// アドオンの指定されたデータウェアハウスリソースを取得します。.
-//
-// GET /analytics/dwh/{resourceGroupName}
-func (c *Client) GetAZ0102(ctx context.Context, params GetAZ0102Params) (GetAZ0102Res, error) {
-	res, err := c.sendGetAZ0102(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAZ0102(ctx context.Context, params GetAZ0102Params) (res GetAZ0102Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/dwh/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAZ0102Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAZ0103 invokes get_AZ0103 operation.
-//
-// アドオンの指定されたデータETLリソースを取得します。.
-//
-// GET /analytics/etl/{resourceGroupName}
-func (c *Client) GetAZ0103(ctx context.Context, params GetAZ0103Params) (GetAZ0103Res, error) {
-	res, err := c.sendGetAZ0103(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAZ0103(ctx context.Context, params GetAZ0103Params) (res GetAZ0103Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/etl/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAZ0103Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAZ0104 invokes get_AZ0104 operation.
-//
-// アドオンの指定されたクエリ機能リソースを取得します。.
-//
-// GET /analytics/query/{resourceGroupName}
-func (c *Client) GetAZ0104(ctx context.Context, params GetAZ0104Params) (GetAZ0104Res, error) {
-	res, err := c.sendGetAZ0104(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAZ0104(ctx context.Context, params GetAZ0104Params) (res GetAZ0104Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/query/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAZ0104Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAZ0105 invokes get_AZ0105 operation.
-//
-// アドオンの指定された検索機能リソースを取得します。.
-//
-// GET /analytics/search/{resourceGroupName}
-func (c *Client) GetAZ0105(ctx context.Context, params GetAZ0105Params) (GetAZ0105Res, error) {
-	res, err := c.sendGetAZ0105(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAZ0105(ctx context.Context, params GetAZ0105Params) (res GetAZ0105Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/search/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAZ0105Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAZ0107 invokes get_AZ0107 operation.
-//
-// アドオンの指定されたストリーミング処理機能リソースを取得します。.
-//
-// GET /analytics/streaming/{resourceGroupName}
-func (c *Client) GetAZ0107(ctx context.Context, params GetAZ0107Params) (GetAZ0107Res, error) {
-	res, err := c.sendGetAZ0107(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAZ0107(ctx context.Context, params GetAZ0107Params) (res GetAZ0107Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/analytics/streaming/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAZ0107Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAZ0301 invokes get_AZ0301 operation.
-//
-// アドオンの指定されたCDNサービスリソースを取得します。.
-//
-// GET /cdn/{resourceGroupName}
-func (c *Client) GetAZ0301(ctx context.Context, params GetAZ0301Params) (GetAZ0301Res, error) {
-	res, err := c.sendGetAZ0301(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAZ0301(ctx context.Context, params GetAZ0301Params) (res GetAZ0301Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/cdn/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAZ0301Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAZ0401 invokes get_AZ0401 operation.
-//
-// アドオンの指定されたDDoS対策サービスリソースを取得します。.
-//
-// GET /security/ddos/{resourceGroupName}
-func (c *Client) GetAZ0401(ctx context.Context, params GetAZ0401Params) (GetAZ0401Res, error) {
-	res, err := c.sendGetAZ0401(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAZ0401(ctx context.Context, params GetAZ0401Params) (res GetAZ0401Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/security/ddos/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAZ0401Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAZ0402 invokes get_AZ0402 operation.
-//
-// アドオンの指定されたWAFサービスリソースを取得します。.
-//
-// GET /security/waf/{resourceGroupName}
-func (c *Client) GetAZ0402(ctx context.Context, params GetAZ0402Params) (GetAZ0402Res, error) {
-	res, err := c.sendGetAZ0402(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAZ0402(ctx context.Context, params GetAZ0402Params) (res GetAZ0402Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/security/waf/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAZ0402Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAZ0403 invokes get_AZ0403 operation.
-//
-// アドオンの指定された脆弱性検出サービスリソースを取得します。.
-//
-// GET /security/vulnerability/{resourceGroupName}
-func (c *Client) GetAZ0403(ctx context.Context, params GetAZ0403Params) (GetAZ0403Res, error) {
-	res, err := c.sendGetAZ0403(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAZ0403(ctx context.Context, params GetAZ0403Params) (res GetAZ0403Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/security/vulnerability/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAZ0403Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAZ0501 invokes get_AZ0501 operation.
-//
-// アドオンの指定されたAI機能リソースを取得します。.
-//
-// GET /ai/{resourceGroupName}
-func (c *Client) GetAZ0501(ctx context.Context, params GetAZ0501Params) (GetAZ0501Res, error) {
-	res, err := c.sendGetAZ0501(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAZ0501(ctx context.Context, params GetAZ0501Params) (res GetAZ0501Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/ai/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAZ0501Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ListAZ0101 invokes list_AZ0101 operation.
-//
-// アドオンのデータレイクリソースの一覧を取得します。.
-//
-// GET /analytics/datalake
-func (c *Client) ListAZ0101(ctx context.Context) (ListAZ0101Res, error) {
-	res, err := c.sendListAZ0101(ctx)
-	return res, err
-}
-
-func (c *Client) sendListAZ0101(ctx context.Context) (res ListAZ0101Res, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
 	pathParts[0] = "/analytics/datalake"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "GET", u)
+	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateDatalakeResourceRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
 	}
 
 	resp, err := c.cfg.Client.Do(r)
@@ -2368,7 +549,7 @@ func (c *Client) sendListAZ0101(ctx context.Context) (res ListAZ0101Res, err err
 		_ = body.Close()
 	}()
 
-	result, err := decodeListAZ0101Response(resp)
+	result, err := decodeCreateDatalakeResourceResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2376,26 +557,93 @@ func (c *Client) sendListAZ0101(ctx context.Context) (res ListAZ0101Res, err err
 	return result, nil
 }
 
-// ListAZ0102 invokes list_AZ0102 operation.
+// CreateDdosResource invokes createDdosResource operation.
 //
-// アドオンのデータウェアハウスリソースの一覧を取得します。.
+// アドオンのDDoS対策サービスリソースを作成します。.
 //
-// GET /analytics/dwh
-func (c *Client) ListAZ0102(ctx context.Context) (ListAZ0102Res, error) {
-	res, err := c.sendListAZ0102(ctx)
+// POST /security/ddos
+func (c *Client) CreateDdosResource(ctx context.Context, request *DdosRequestBody) (CreateDdosResourceRes, error) {
+	res, err := c.sendCreateDdosResource(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendListAZ0102(ctx context.Context) (res ListAZ0102Res, err error) {
+func (c *Client) sendCreateDdosResource(ctx context.Context, request *DdosRequestBody) (res CreateDdosResourceRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/security/ddos"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateDdosResourceRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateDdosResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateDwhResource invokes createDwhResource operation.
+//
+// アドオンのデータウェアハウスリソースを作成します。.
+//
+// POST /analytics/dwh
+func (c *Client) CreateDwhResource(ctx context.Context, request *DatawarehousePostRequestBody) (CreateDwhResourceRes, error) {
+	res, err := c.sendCreateDwhResource(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateDwhResource(ctx context.Context, request *DatawarehousePostRequestBody) (res CreateDwhResourceRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
 	pathParts[0] = "/analytics/dwh"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "GET", u)
+	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateDwhResourceRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
 	}
 
 	resp, err := c.cfg.Client.Do(r)
@@ -2411,7 +659,7 @@ func (c *Client) sendListAZ0102(ctx context.Context) (res ListAZ0102Res, err err
 		_ = body.Close()
 	}()
 
-	result, err := decodeListAZ0102Response(resp)
+	result, err := decodeCreateDwhResourceResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2419,26 +667,38 @@ func (c *Client) sendListAZ0102(ctx context.Context) (res ListAZ0102Res, err err
 	return result, nil
 }
 
-// ListAZ0103 invokes list_AZ0103 operation.
+// CreateEtlResource invokes createEtlResource operation.
 //
-// アドオンのデータETLリソースの一覧を取得します。.
+// アドオンのデータETLリソースを作成します。.
 //
-// GET /analytics/etl
-func (c *Client) ListAZ0103(ctx context.Context) (ListAZ0103Res, error) {
-	res, err := c.sendListAZ0103(ctx)
+// POST /analytics/etl
+func (c *Client) CreateEtlResource(ctx context.Context, request *EtlPostRequestBody) (CreateEtlResourceRes, error) {
+	res, err := c.sendCreateEtlResource(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendListAZ0103(ctx context.Context) (res ListAZ0103Res, err error) {
+func (c *Client) sendCreateEtlResource(ctx context.Context, request *EtlPostRequestBody) (res CreateEtlResourceRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
 	pathParts[0] = "/analytics/etl"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "GET", u)
+	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateEtlResourceRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
 	}
 
 	resp, err := c.cfg.Client.Do(r)
@@ -2454,7 +714,7 @@ func (c *Client) sendListAZ0103(ctx context.Context) (res ListAZ0103Res, err err
 		_ = body.Close()
 	}()
 
-	result, err := decodeListAZ0103Response(resp)
+	result, err := decodeCreateEtlResourceResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2462,26 +722,38 @@ func (c *Client) sendListAZ0103(ctx context.Context) (res ListAZ0103Res, err err
 	return result, nil
 }
 
-// ListAZ0104 invokes list_AZ0104 operation.
+// CreateQueryResource invokes createQueryResource operation.
 //
-// アドオンのクエリ機能リソースの一覧を取得します。.
+// アドオンのクエリ機能リソースを作成します。.
 //
-// GET /analytics/query
-func (c *Client) ListAZ0104(ctx context.Context) (ListAZ0104Res, error) {
-	res, err := c.sendListAZ0104(ctx)
+// POST /analytics/query
+func (c *Client) CreateQueryResource(ctx context.Context, request *QueryPostRequestBody) (CreateQueryResourceRes, error) {
+	res, err := c.sendCreateQueryResource(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendListAZ0104(ctx context.Context) (res ListAZ0104Res, err error) {
+func (c *Client) sendCreateQueryResource(ctx context.Context, request *QueryPostRequestBody) (res CreateQueryResourceRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
 	pathParts[0] = "/analytics/query"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "GET", u)
+	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateQueryResourceRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
 	}
 
 	resp, err := c.cfg.Client.Do(r)
@@ -2497,7 +769,7 @@ func (c *Client) sendListAZ0104(ctx context.Context) (res ListAZ0104Res, err err
 		_ = body.Close()
 	}()
 
-	result, err := decodeListAZ0104Response(resp)
+	result, err := decodeCreateQueryResourceResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2505,24 +777,262 @@ func (c *Client) sendListAZ0104(ctx context.Context) (res ListAZ0104Res, err err
 	return result, nil
 }
 
-// ListAZ0105 invokes list_AZ0105 operation.
+// CreateSearchResource invokes createSearchResource operation.
 //
-// アドオンの検索機能リソースの一覧を取得します。.
+// アドオンの検索機能リソースを作成します。.
 //
-// GET /analytics/search
-func (c *Client) ListAZ0105(ctx context.Context) (ListAZ0105Res, error) {
-	res, err := c.sendListAZ0105(ctx)
+// POST /analytics/search
+func (c *Client) CreateSearchResource(ctx context.Context, request *SearchPostRequestBody) (CreateSearchResourceRes, error) {
+	res, err := c.sendCreateSearchResource(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendListAZ0105(ctx context.Context) (res ListAZ0105Res, err error) {
+func (c *Client) sendCreateSearchResource(ctx context.Context, request *SearchPostRequestBody) (res CreateSearchResourceRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
 	pathParts[0] = "/analytics/search"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "GET", u)
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateSearchResourceRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateSearchResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateStreamingResource invokes createStreamingResource operation.
+//
+// アドオンのストリーミング処理機能リソースを作成します。.
+//
+// POST /analytics/streaming
+func (c *Client) CreateStreamingResource(ctx context.Context, request *StreamingRequestBody) (CreateStreamingResourceRes, error) {
+	res, err := c.sendCreateStreamingResource(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateStreamingResource(ctx context.Context, request *StreamingRequestBody) (res CreateStreamingResourceRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/analytics/streaming"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateStreamingResourceRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateStreamingResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateVulnerabilityResource invokes createVulnerabilityResource operation.
+//
+// アドオンの脆弱性検出サービスリソースを作成します。脆弱性検出サービスを利用するためには、レスポンスに含まれるインストールスクリプトを対象のVMで実行しエージェントをインストールする必要があります。.
+//
+// POST /security/vulnerability
+func (c *Client) CreateVulnerabilityResource(ctx context.Context, request *VulnerabilityRequestBody) (CreateVulnerabilityResourceRes, error) {
+	res, err := c.sendCreateVulnerabilityResource(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateVulnerabilityResource(ctx context.Context, request *VulnerabilityRequestBody) (res CreateVulnerabilityResourceRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/security/vulnerability"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateVulnerabilityResourceRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateVulnerabilityResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateWafResource invokes createWafResource operation.
+//
+// アドオンのWAFサービスリソースを作成します。.
+//
+// POST /security/waf
+func (c *Client) CreateWafResource(ctx context.Context, request *WafRequestBody) (CreateWafResourceRes, error) {
+	res, err := c.sendCreateWafResource(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateWafResource(ctx context.Context, request *WafRequestBody) (res CreateWafResourceRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/security/waf"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateWafResourceRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateWafResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteAiResource invokes deleteAiResource operation.
+//
+// アドオンの指定されたAI機能リソースを削除します。.
+//
+// DELETE /ai/{resourceGroupName}
+func (c *Client) DeleteAiResource(ctx context.Context, params DeleteAiResourceParams) (DeleteAiResourceRes, error) {
+	res, err := c.sendDeleteAiResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteAiResource(ctx context.Context, params DeleteAiResourceParams) (res DeleteAiResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/ai/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
@@ -2540,7 +1050,7 @@ func (c *Client) sendListAZ0105(ctx context.Context) (res ListAZ0105Res, err err
 		_ = body.Close()
 	}()
 
-	result, err := decodeListAZ0105Response(resp)
+	result, err := decodeDeleteAiResourceResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2548,21 +1058,631 @@ func (c *Client) sendListAZ0105(ctx context.Context) (res ListAZ0105Res, err err
 	return result, nil
 }
 
-// ListAZ0107 invokes list_AZ0107 operation.
+// DeleteCdnResource invokes deleteCdnResource operation.
 //
-// アドオンのストリーミング処理機能リソースの一覧を取得します。.
+// アドオンの指定されたCDNサービスリソースを削除します。.
 //
-// GET /analytics/streaming
-func (c *Client) ListAZ0107(ctx context.Context) (ListAZ0107Res, error) {
-	res, err := c.sendListAZ0107(ctx)
+// DELETE /cdn/{resourceGroupName}
+func (c *Client) DeleteCdnResource(ctx context.Context, params DeleteCdnResourceParams) (DeleteCdnResourceRes, error) {
+	res, err := c.sendDeleteCdnResource(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendListAZ0107(ctx context.Context) (res ListAZ0107Res, err error) {
+func (c *Client) sendDeleteCdnResource(ctx context.Context, params DeleteCdnResourceParams) (res DeleteCdnResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/cdn/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteCdnResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteDatalakeResource invokes deleteDatalakeResource operation.
+//
+// アドオンの指定されたデータレイクリソースを削除します。.
+//
+// DELETE /analytics/datalake/{resourceGroupName}
+func (c *Client) DeleteDatalakeResource(ctx context.Context, params DeleteDatalakeResourceParams) (DeleteDatalakeResourceRes, error) {
+	res, err := c.sendDeleteDatalakeResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteDatalakeResource(ctx context.Context, params DeleteDatalakeResourceParams) (res DeleteDatalakeResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/datalake/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteDatalakeResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteDdosResource invokes deleteDdosResource operation.
+//
+// アドオンの指定されたDDoS対策サービスリソースを削除します。.
+//
+// DELETE /security/ddos/{resourceGroupName}
+func (c *Client) DeleteDdosResource(ctx context.Context, params DeleteDdosResourceParams) (DeleteDdosResourceRes, error) {
+	res, err := c.sendDeleteDdosResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteDdosResource(ctx context.Context, params DeleteDdosResourceParams) (res DeleteDdosResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/security/ddos/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteDdosResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteDwhResource invokes deleteDwhResource operation.
+//
+// アドオンの指定されたデータウェアハウスリソースを削除します。.
+//
+// DELETE /analytics/dwh/{resourceGroupName}
+func (c *Client) DeleteDwhResource(ctx context.Context, params DeleteDwhResourceParams) (DeleteDwhResourceRes, error) {
+	res, err := c.sendDeleteDwhResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteDwhResource(ctx context.Context, params DeleteDwhResourceParams) (res DeleteDwhResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/dwh/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteDwhResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteEtlResource invokes deleteEtlResource operation.
+//
+// アドオンの指定されたデータETLリソースを削除します。.
+//
+// DELETE /analytics/etl/{resourceGroupName}
+func (c *Client) DeleteEtlResource(ctx context.Context, params DeleteEtlResourceParams) (DeleteEtlResourceRes, error) {
+	res, err := c.sendDeleteEtlResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteEtlResource(ctx context.Context, params DeleteEtlResourceParams) (res DeleteEtlResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/etl/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteEtlResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteQueryResource invokes deleteQueryResource operation.
+//
+// アドオンの指定されたクエリ機能リソースを削除します。.
+//
+// DELETE /analytics/query/{resourceGroupName}
+func (c *Client) DeleteQueryResource(ctx context.Context, params DeleteQueryResourceParams) (DeleteQueryResourceRes, error) {
+	res, err := c.sendDeleteQueryResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteQueryResource(ctx context.Context, params DeleteQueryResourceParams) (res DeleteQueryResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/query/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteQueryResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteSearchResource invokes deleteSearchResource operation.
+//
+// アドオンの指定された検索機能リソースを削除します。.
+//
+// DELETE /analytics/search/{resourceGroupName}
+func (c *Client) DeleteSearchResource(ctx context.Context, params DeleteSearchResourceParams) (DeleteSearchResourceRes, error) {
+	res, err := c.sendDeleteSearchResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteSearchResource(ctx context.Context, params DeleteSearchResourceParams) (res DeleteSearchResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/search/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteSearchResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteStreamingResource invokes deleteStreamingResource operation.
+//
+// アドオンの指定されたストリーミング処理機能リソースを削除します。.
+//
+// DELETE /analytics/streaming/{resourceGroupName}
+func (c *Client) DeleteStreamingResource(ctx context.Context, params DeleteStreamingResourceParams) (DeleteStreamingResourceRes, error) {
+	res, err := c.sendDeleteStreamingResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteStreamingResource(ctx context.Context, params DeleteStreamingResourceParams) (res DeleteStreamingResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/streaming/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteStreamingResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteVulnerabilityResource invokes deleteVulnerabilityResource operation.
+//
+// アドオンの指定された脆弱性検出サービスリソースを削除します。.
+//
+// DELETE /security/vulnerability/{resourceGroupName}
+func (c *Client) DeleteVulnerabilityResource(ctx context.Context, params DeleteVulnerabilityResourceParams) (DeleteVulnerabilityResourceRes, error) {
+	res, err := c.sendDeleteVulnerabilityResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteVulnerabilityResource(ctx context.Context, params DeleteVulnerabilityResourceParams) (res DeleteVulnerabilityResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/security/vulnerability/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteVulnerabilityResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteWafResource invokes deleteWafResource operation.
+//
+// アドオンの指定されたWAFサービスリソースを削除します。.
+//
+// DELETE /security/waf/{resourceGroupName}
+func (c *Client) DeleteWafResource(ctx context.Context, params DeleteWafResourceParams) (DeleteWafResourceRes, error) {
+	res, err := c.sendDeleteWafResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteWafResource(ctx context.Context, params DeleteWafResourceParams) (res DeleteWafResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/security/waf/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteWafResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListAiResources invokes listAiResources operation.
+//
+// アドオンのAI機能リソースの一覧を取得します。.
+//
+// GET /ai
+func (c *Client) ListAiResources(ctx context.Context) (ListAiResourcesRes, error) {
+	res, err := c.sendListAiResources(ctx)
+	return res, err
+}
+
+func (c *Client) sendListAiResources(ctx context.Context) (res ListAiResourcesRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
-	pathParts[0] = "/analytics/streaming"
+	pathParts[0] = "/ai"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -2583,7 +1703,7 @@ func (c *Client) sendListAZ0107(ctx context.Context) (res ListAZ0107Res, err err
 		_ = body.Close()
 	}()
 
-	result, err := decodeListAZ0107Response(resp)
+	result, err := decodeListAiResourcesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2591,17 +1711,17 @@ func (c *Client) sendListAZ0107(ctx context.Context) (res ListAZ0107Res, err err
 	return result, nil
 }
 
-// ListAZ0301 invokes list_AZ0301 operation.
+// ListCdnResources invokes listCdnResources operation.
 //
 // アドオンのCDNサービスリソースの一覧を取得します。.
 //
 // GET /cdn
-func (c *Client) ListAZ0301(ctx context.Context) (ListAZ0301Res, error) {
-	res, err := c.sendListAZ0301(ctx)
+func (c *Client) ListCdnResources(ctx context.Context) (ListCdnResourcesRes, error) {
+	res, err := c.sendListCdnResources(ctx)
 	return res, err
 }
 
-func (c *Client) sendListAZ0301(ctx context.Context) (res ListAZ0301Res, err error) {
+func (c *Client) sendListCdnResources(ctx context.Context) (res ListCdnResourcesRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -2626,7 +1746,7 @@ func (c *Client) sendListAZ0301(ctx context.Context) (res ListAZ0301Res, err err
 		_ = body.Close()
 	}()
 
-	result, err := decodeListAZ0301Response(resp)
+	result, err := decodeListCdnResourcesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2634,17 +1754,60 @@ func (c *Client) sendListAZ0301(ctx context.Context) (res ListAZ0301Res, err err
 	return result, nil
 }
 
-// ListAZ0401 invokes list_AZ0401 operation.
+// ListDatalakeResources invokes listDatalakeResources operation.
+//
+// アドオンのデータレイクリソースの一覧を取得します。.
+//
+// GET /analytics/datalake
+func (c *Client) ListDatalakeResources(ctx context.Context) (ListDatalakeResourcesRes, error) {
+	res, err := c.sendListDatalakeResources(ctx)
+	return res, err
+}
+
+func (c *Client) sendListDatalakeResources(ctx context.Context) (res ListDatalakeResourcesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/analytics/datalake"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListDatalakeResourcesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListDdosResources invokes listDdosResources operation.
 //
 // アドオンのDDoS対策サービスリソースの一覧を取得します。.
 //
 // GET /security/ddos
-func (c *Client) ListAZ0401(ctx context.Context) (ListAZ0401Res, error) {
-	res, err := c.sendListAZ0401(ctx)
+func (c *Client) ListDdosResources(ctx context.Context) (ListDdosResourcesRes, error) {
+	res, err := c.sendListDdosResources(ctx)
 	return res, err
 }
 
-func (c *Client) sendListAZ0401(ctx context.Context) (res ListAZ0401Res, err error) {
+func (c *Client) sendListDdosResources(ctx context.Context) (res ListDdosResourcesRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -2669,7 +1832,7 @@ func (c *Client) sendListAZ0401(ctx context.Context) (res ListAZ0401Res, err err
 		_ = body.Close()
 	}()
 
-	result, err := decodeListAZ0401Response(resp)
+	result, err := decodeListDdosResourcesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2677,21 +1840,21 @@ func (c *Client) sendListAZ0401(ctx context.Context) (res ListAZ0401Res, err err
 	return result, nil
 }
 
-// ListAZ0402 invokes list_AZ0402 operation.
+// ListDwhResources invokes listDwhResources operation.
 //
-// アドオンのWAFサービスリソースの一覧を取得します。.
+// アドオンのデータウェアハウスリソースの一覧を取得します。.
 //
-// GET /security/waf
-func (c *Client) ListAZ0402(ctx context.Context) (ListAZ0402Res, error) {
-	res, err := c.sendListAZ0402(ctx)
+// GET /analytics/dwh
+func (c *Client) ListDwhResources(ctx context.Context) (ListDwhResourcesRes, error) {
+	res, err := c.sendListDwhResources(ctx)
 	return res, err
 }
 
-func (c *Client) sendListAZ0402(ctx context.Context) (res ListAZ0402Res, err error) {
+func (c *Client) sendListDwhResources(ctx context.Context) (res ListDwhResourcesRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
-	pathParts[0] = "/security/waf"
+	pathParts[0] = "/analytics/dwh"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -2712,7 +1875,7 @@ func (c *Client) sendListAZ0402(ctx context.Context) (res ListAZ0402Res, err err
 		_ = body.Close()
 	}()
 
-	result, err := decodeListAZ0402Response(resp)
+	result, err := decodeListDwhResourcesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2720,17 +1883,189 @@ func (c *Client) sendListAZ0402(ctx context.Context) (res ListAZ0402Res, err err
 	return result, nil
 }
 
-// ListAZ0403 invokes list_AZ0403 operation.
+// ListEtlResources invokes listEtlResources operation.
+//
+// アドオンのデータETLリソースの一覧を取得します。.
+//
+// GET /analytics/etl
+func (c *Client) ListEtlResources(ctx context.Context) (ListEtlResourcesRes, error) {
+	res, err := c.sendListEtlResources(ctx)
+	return res, err
+}
+
+func (c *Client) sendListEtlResources(ctx context.Context) (res ListEtlResourcesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/analytics/etl"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListEtlResourcesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListQueryResources invokes listQueryResources operation.
+//
+// アドオンのクエリ機能リソースの一覧を取得します。.
+//
+// GET /analytics/query
+func (c *Client) ListQueryResources(ctx context.Context) (ListQueryResourcesRes, error) {
+	res, err := c.sendListQueryResources(ctx)
+	return res, err
+}
+
+func (c *Client) sendListQueryResources(ctx context.Context) (res ListQueryResourcesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/analytics/query"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListQueryResourcesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListSearchResources invokes listSearchResources operation.
+//
+// アドオンの検索機能リソースの一覧を取得します。.
+//
+// GET /analytics/search
+func (c *Client) ListSearchResources(ctx context.Context) (ListSearchResourcesRes, error) {
+	res, err := c.sendListSearchResources(ctx)
+	return res, err
+}
+
+func (c *Client) sendListSearchResources(ctx context.Context) (res ListSearchResourcesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/analytics/search"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListSearchResourcesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListStreamingResources invokes listStreamingResources operation.
+//
+// アドオンのストリーミング処理機能リソースの一覧を取得します。.
+//
+// GET /analytics/streaming
+func (c *Client) ListStreamingResources(ctx context.Context) (ListStreamingResourcesRes, error) {
+	res, err := c.sendListStreamingResources(ctx)
+	return res, err
+}
+
+func (c *Client) sendListStreamingResources(ctx context.Context) (res ListStreamingResourcesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/analytics/streaming"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListStreamingResourcesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListVulnerabilityResources invokes listVulnerabilityResources operation.
 //
 // アドオンの脆弱性検出サービスリソースの一覧を取得します。.
 //
 // GET /security/vulnerability
-func (c *Client) ListAZ0403(ctx context.Context) (ListAZ0403Res, error) {
-	res, err := c.sendListAZ0403(ctx)
+func (c *Client) ListVulnerabilityResources(ctx context.Context) (ListVulnerabilityResourcesRes, error) {
+	res, err := c.sendListVulnerabilityResources(ctx)
 	return res, err
 }
 
-func (c *Client) sendListAZ0403(ctx context.Context) (res ListAZ0403Res, err error) {
+func (c *Client) sendListVulnerabilityResources(ctx context.Context) (res ListVulnerabilityResourcesRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -2755,7 +2090,7 @@ func (c *Client) sendListAZ0403(ctx context.Context) (res ListAZ0403Res, err err
 		_ = body.Close()
 	}()
 
-	result, err := decodeListAZ0403Response(resp)
+	result, err := decodeListVulnerabilityResourcesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2763,21 +2098,21 @@ func (c *Client) sendListAZ0403(ctx context.Context) (res ListAZ0403Res, err err
 	return result, nil
 }
 
-// ListAZ0501 invokes list_AZ0501 operation.
+// ListWafResources invokes listWafResources operation.
 //
-// アドオンのAI機能リソースの一覧を取得します。.
+// アドオンのWAFサービスリソースの一覧を取得します。.
 //
-// GET /ai
-func (c *Client) ListAZ0501(ctx context.Context) (ListAZ0501Res, error) {
-	res, err := c.sendListAZ0501(ctx)
+// GET /security/waf
+func (c *Client) ListWafResources(ctx context.Context) (ListWafResourcesRes, error) {
+	res, err := c.sendListWafResources(ctx)
 	return res, err
 }
 
-func (c *Client) sendListAZ0501(ctx context.Context) (res ListAZ0501Res, err error) {
+func (c *Client) sendListWafResources(ctx context.Context) (res ListWafResourcesRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
-	pathParts[0] = "/ai"
+	pathParts[0] = "/security/waf"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -2798,7 +2133,7 @@ func (c *Client) sendListAZ0501(ctx context.Context) (res ListAZ0501Res, err err
 		_ = body.Close()
 	}()
 
-	result, err := decodeListAZ0501Response(resp)
+	result, err := decodeListWafResourcesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2806,21 +2141,30 @@ func (c *Client) sendListAZ0501(ctx context.Context) (res ListAZ0501Res, err err
 	return result, nil
 }
 
-// StatusAZ0101 invokes status_AZ0101 operation.
+// PurgeCdnCache invokes purgeCdnCache operation.
 //
-// アドオンの指定されたデータレイクリソースのステータスを取得します。.
+// アドオンの指定されたCDNサービスリソースのキャッシュを削除します。.
 //
-// GET /analytics/datalake/status/{resourceGroupName}/{deploymentName}
-func (c *Client) StatusAZ0101(ctx context.Context, params StatusAZ0101Params) (StatusAZ0101Res, error) {
-	res, err := c.sendStatusAZ0101(ctx, params)
+// POST /cdn/{resourceGroupName}/purge
+func (c *Client) PurgeCdnCache(ctx context.Context, request *CachePurgeRequestBody, params PurgeCdnCacheParams) (PurgeCdnCacheRes, error) {
+	res, err := c.sendPurgeCdnCache(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendStatusAZ0101(ctx context.Context, params StatusAZ0101Params) (res StatusAZ0101Res, err error) {
+func (c *Client) sendPurgeCdnCache(ctx context.Context, request *CachePurgeRequestBody, params PurgeCdnCacheParams) (res PurgeCdnCacheRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/analytics/datalake/status/"
+	var pathParts [3]string
+	pathParts[0] = "/cdn/"
 	{
 		// Encode "resourceGroupName" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -2839,30 +2183,15 @@ func (c *Client) sendStatusAZ0101(ctx context.Context, params StatusAZ0101Params
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/"
-	{
-		// Encode "deploymentName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "deploymentName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.DeploymentName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
+	pathParts[2] = "/purge"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "GET", u)
+	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePurgeCdnCacheRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
 	}
 
 	resp, err := c.cfg.Client.Do(r)
@@ -2878,7 +2207,7 @@ func (c *Client) sendStatusAZ0101(ctx context.Context, params StatusAZ0101Params
 		_ = body.Close()
 	}()
 
-	result, err := decodeStatusAZ0101Response(resp)
+	result, err := decodePurgeCdnCacheResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2886,21 +2215,21 @@ func (c *Client) sendStatusAZ0101(ctx context.Context, params StatusAZ0101Params
 	return result, nil
 }
 
-// StatusAZ0102 invokes status_AZ0102 operation.
+// ReadAiResource invokes readAiResource operation.
 //
-// アドオンの指定されたデータウェアハウスリソースのステータスを取得します。.
+// アドオンの指定されたAI機能リソースを取得します。.
 //
-// GET /analytics/dwh/status/{resourceGroupName}/{deploymentName}
-func (c *Client) StatusAZ0102(ctx context.Context, params StatusAZ0102Params) (StatusAZ0102Res, error) {
-	res, err := c.sendStatusAZ0102(ctx, params)
+// GET /ai/{resourceGroupName}
+func (c *Client) ReadAiResource(ctx context.Context, params ReadAiResourceParams) (ReadAiResourceRes, error) {
+	res, err := c.sendReadAiResource(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendStatusAZ0102(ctx context.Context, params StatusAZ0102Params) (res StatusAZ0102Res, err error) {
+func (c *Client) sendReadAiResource(ctx context.Context, params ReadAiResourceParams) (res ReadAiResourceRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/analytics/dwh/status/"
+	var pathParts [2]string
+	pathParts[0] = "/ai/"
 	{
 		// Encode "resourceGroupName" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -2919,25 +2248,6 @@ func (c *Client) sendStatusAZ0102(ctx context.Context, params StatusAZ0102Params
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/"
-	{
-		// Encode "deploymentName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "deploymentName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.DeploymentName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
 	uri.AddPathParts(u, pathParts[:]...)
 
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -2958,7 +2268,7 @@ func (c *Client) sendStatusAZ0102(ctx context.Context, params StatusAZ0102Params
 		_ = body.Close()
 	}()
 
-	result, err := decodeStatusAZ0102Response(resp)
+	result, err := decodeReadAiResourceResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2966,577 +2276,17 @@ func (c *Client) sendStatusAZ0102(ctx context.Context, params StatusAZ0102Params
 	return result, nil
 }
 
-// StatusAZ0103 invokes status_AZ0103 operation.
-//
-// アドオンの指定されたデータETLリソースのステータスを取得します。.
-//
-// GET /analytics/etl/status/{resourceGroupName}/{deploymentName}
-func (c *Client) StatusAZ0103(ctx context.Context, params StatusAZ0103Params) (StatusAZ0103Res, error) {
-	res, err := c.sendStatusAZ0103(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendStatusAZ0103(ctx context.Context, params StatusAZ0103Params) (res StatusAZ0103Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/analytics/etl/status/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	{
-		// Encode "deploymentName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "deploymentName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.DeploymentName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeStatusAZ0103Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// StatusAZ0104 invokes status_AZ0104 operation.
-//
-// アドオンの指定されたクエリ機能リソースのステータスを取得します。.
-//
-// GET /analytics/query/status/{resourceGroupName}/{deploymentName}
-func (c *Client) StatusAZ0104(ctx context.Context, params StatusAZ0104Params) (StatusAZ0104Res, error) {
-	res, err := c.sendStatusAZ0104(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendStatusAZ0104(ctx context.Context, params StatusAZ0104Params) (res StatusAZ0104Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/analytics/query/status/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	{
-		// Encode "deploymentName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "deploymentName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.DeploymentName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeStatusAZ0104Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// StatusAZ0105 invokes status_AZ0105 operation.
-//
-// アドオンの指定された検索機能リソースのステータスを取得します。.
-//
-// GET /analytics/search/status/{resourceGroupName}/{deploymentName}
-func (c *Client) StatusAZ0105(ctx context.Context, params StatusAZ0105Params) (StatusAZ0105Res, error) {
-	res, err := c.sendStatusAZ0105(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendStatusAZ0105(ctx context.Context, params StatusAZ0105Params) (res StatusAZ0105Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/analytics/search/status/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	{
-		// Encode "deploymentName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "deploymentName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.DeploymentName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeStatusAZ0105Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// StatusAZ0107 invokes status_AZ0107 operation.
-//
-// アドオンの指定されたストリーミング処理機能リソースのステータスを取得します。.
-//
-// GET /analytics/streaming/status/{resourceGroupName}/{deploymentName}
-func (c *Client) StatusAZ0107(ctx context.Context, params StatusAZ0107Params) (StatusAZ0107Res, error) {
-	res, err := c.sendStatusAZ0107(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendStatusAZ0107(ctx context.Context, params StatusAZ0107Params) (res StatusAZ0107Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/analytics/streaming/status/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	{
-		// Encode "deploymentName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "deploymentName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.DeploymentName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeStatusAZ0107Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// StatusAZ0301 invokes status_AZ0301 operation.
-//
-// アドオンの指定されたCDNサービスリソースのステータスを取得します。.
-//
-// GET /cdn/status/{resourceGroupName}/{deploymentName}
-func (c *Client) StatusAZ0301(ctx context.Context, params StatusAZ0301Params) (StatusAZ0301Res, error) {
-	res, err := c.sendStatusAZ0301(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendStatusAZ0301(ctx context.Context, params StatusAZ0301Params) (res StatusAZ0301Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/cdn/status/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	{
-		// Encode "deploymentName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "deploymentName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.DeploymentName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeStatusAZ0301Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// StatusAZ0401 invokes status_AZ0401 operation.
-//
-// アドオンの指定されたDDoS対策サービスリソースのステータスを取得します。.
-//
-// GET /security/ddos/status/{resourceGroupName}/{deploymentName}
-func (c *Client) StatusAZ0401(ctx context.Context, params StatusAZ0401Params) (StatusAZ0401Res, error) {
-	res, err := c.sendStatusAZ0401(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendStatusAZ0401(ctx context.Context, params StatusAZ0401Params) (res StatusAZ0401Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/security/ddos/status/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	{
-		// Encode "deploymentName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "deploymentName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.DeploymentName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeStatusAZ0401Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// StatusAZ0402 invokes status_AZ0402 operation.
-//
-// アドオンの指定されたWAFサービスリソースのステータスを取得します。.
-//
-// GET /security/waf/status/{resourceGroupName}/{deploymentName}
-func (c *Client) StatusAZ0402(ctx context.Context, params StatusAZ0402Params) (StatusAZ0402Res, error) {
-	res, err := c.sendStatusAZ0402(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendStatusAZ0402(ctx context.Context, params StatusAZ0402Params) (res StatusAZ0402Res, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/security/waf/status/"
-	{
-		// Encode "resourceGroupName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resourceGroupName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/"
-	{
-		// Encode "deploymentName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "deploymentName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.DeploymentName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeStatusAZ0402Response(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// StatusAZ0501 invokes status_AZ0501 operation.
+// ReadAiResourceStatus invokes readAiResourceStatus operation.
 //
 // アドオンの指定されたAI機能リソースのステータスを取得します。.
 //
 // GET /ai/status/{resourceGroupName}/{deploymentName}
-func (c *Client) StatusAZ0501(ctx context.Context, params StatusAZ0501Params) (StatusAZ0501Res, error) {
-	res, err := c.sendStatusAZ0501(ctx, params)
+func (c *Client) ReadAiResourceStatus(ctx context.Context, params ReadAiResourceStatusParams) (ReadAiResourceStatusRes, error) {
+	res, err := c.sendReadAiResourceStatus(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendStatusAZ0501(ctx context.Context, params StatusAZ0501Params) (res StatusAZ0501Res, err error) {
+func (c *Client) sendReadAiResourceStatus(ctx context.Context, params ReadAiResourceStatusParams) (res ReadAiResourceStatusRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [4]string
@@ -3598,7 +2348,1337 @@ func (c *Client) sendStatusAZ0501(ctx context.Context, params StatusAZ0501Params
 		_ = body.Close()
 	}()
 
-	result, err := decodeStatusAZ0501Response(resp)
+	result, err := decodeReadAiResourceStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadCdnResource invokes readCdnResource operation.
+//
+// アドオンの指定されたCDNサービスリソースを取得します。.
+//
+// GET /cdn/{resourceGroupName}
+func (c *Client) ReadCdnResource(ctx context.Context, params ReadCdnResourceParams) (ReadCdnResourceRes, error) {
+	res, err := c.sendReadCdnResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadCdnResource(ctx context.Context, params ReadCdnResourceParams) (res ReadCdnResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/cdn/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadCdnResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadCdnResourceStatus invokes readCdnResourceStatus operation.
+//
+// アドオンの指定されたCDNサービスリソースのステータスを取得します。.
+//
+// GET /cdn/status/{resourceGroupName}/{deploymentName}
+func (c *Client) ReadCdnResourceStatus(ctx context.Context, params ReadCdnResourceStatusParams) (ReadCdnResourceStatusRes, error) {
+	res, err := c.sendReadCdnResourceStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadCdnResourceStatus(ctx context.Context, params ReadCdnResourceStatusParams) (res ReadCdnResourceStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/cdn/status/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	{
+		// Encode "deploymentName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "deploymentName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.DeploymentName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadCdnResourceStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadDatalakeResource invokes readDatalakeResource operation.
+//
+// アドオンの指定されたデータレイクリソースを取得します。.
+//
+// GET /analytics/datalake/{resourceGroupName}
+func (c *Client) ReadDatalakeResource(ctx context.Context, params ReadDatalakeResourceParams) (ReadDatalakeResourceRes, error) {
+	res, err := c.sendReadDatalakeResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadDatalakeResource(ctx context.Context, params ReadDatalakeResourceParams) (res ReadDatalakeResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/datalake/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadDatalakeResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadDatalakeResourceStatus invokes readDatalakeResourceStatus operation.
+//
+// アドオンの指定されたデータレイクリソースのステータスを取得します。.
+//
+// GET /analytics/datalake/status/{resourceGroupName}/{deploymentName}
+func (c *Client) ReadDatalakeResourceStatus(ctx context.Context, params ReadDatalakeResourceStatusParams) (ReadDatalakeResourceStatusRes, error) {
+	res, err := c.sendReadDatalakeResourceStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadDatalakeResourceStatus(ctx context.Context, params ReadDatalakeResourceStatusParams) (res ReadDatalakeResourceStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/analytics/datalake/status/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	{
+		// Encode "deploymentName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "deploymentName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.DeploymentName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadDatalakeResourceStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadDdosResource invokes readDdosResource operation.
+//
+// アドオンの指定されたDDoS対策サービスリソースを取得します。.
+//
+// GET /security/ddos/{resourceGroupName}
+func (c *Client) ReadDdosResource(ctx context.Context, params ReadDdosResourceParams) (ReadDdosResourceRes, error) {
+	res, err := c.sendReadDdosResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadDdosResource(ctx context.Context, params ReadDdosResourceParams) (res ReadDdosResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/security/ddos/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadDdosResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadDdosResourceStatus invokes readDdosResourceStatus operation.
+//
+// アドオンの指定されたDDoS対策サービスリソースのステータスを取得します。.
+//
+// GET /security/ddos/status/{resourceGroupName}/{deploymentName}
+func (c *Client) ReadDdosResourceStatus(ctx context.Context, params ReadDdosResourceStatusParams) (ReadDdosResourceStatusRes, error) {
+	res, err := c.sendReadDdosResourceStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadDdosResourceStatus(ctx context.Context, params ReadDdosResourceStatusParams) (res ReadDdosResourceStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/security/ddos/status/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	{
+		// Encode "deploymentName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "deploymentName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.DeploymentName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadDdosResourceStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadDwhResource invokes readDwhResource operation.
+//
+// アドオンの指定されたデータウェアハウスリソースを取得します。.
+//
+// GET /analytics/dwh/{resourceGroupName}
+func (c *Client) ReadDwhResource(ctx context.Context, params ReadDwhResourceParams) (ReadDwhResourceRes, error) {
+	res, err := c.sendReadDwhResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadDwhResource(ctx context.Context, params ReadDwhResourceParams) (res ReadDwhResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/dwh/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadDwhResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadDwhResourceStatus invokes readDwhResourceStatus operation.
+//
+// アドオンの指定されたデータウェアハウスリソースのステータスを取得します。.
+//
+// GET /analytics/dwh/status/{resourceGroupName}/{deploymentName}
+func (c *Client) ReadDwhResourceStatus(ctx context.Context, params ReadDwhResourceStatusParams) (ReadDwhResourceStatusRes, error) {
+	res, err := c.sendReadDwhResourceStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadDwhResourceStatus(ctx context.Context, params ReadDwhResourceStatusParams) (res ReadDwhResourceStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/analytics/dwh/status/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	{
+		// Encode "deploymentName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "deploymentName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.DeploymentName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadDwhResourceStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadEtlResource invokes readEtlResource operation.
+//
+// アドオンの指定されたデータETLリソースを取得します。.
+//
+// GET /analytics/etl/{resourceGroupName}
+func (c *Client) ReadEtlResource(ctx context.Context, params ReadEtlResourceParams) (ReadEtlResourceRes, error) {
+	res, err := c.sendReadEtlResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadEtlResource(ctx context.Context, params ReadEtlResourceParams) (res ReadEtlResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/etl/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadEtlResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadEtlResourceStatus invokes readEtlResourceStatus operation.
+//
+// アドオンの指定されたデータETLリソースのステータスを取得します。.
+//
+// GET /analytics/etl/status/{resourceGroupName}/{deploymentName}
+func (c *Client) ReadEtlResourceStatus(ctx context.Context, params ReadEtlResourceStatusParams) (ReadEtlResourceStatusRes, error) {
+	res, err := c.sendReadEtlResourceStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadEtlResourceStatus(ctx context.Context, params ReadEtlResourceStatusParams) (res ReadEtlResourceStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/analytics/etl/status/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	{
+		// Encode "deploymentName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "deploymentName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.DeploymentName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadEtlResourceStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadQueryResource invokes readQueryResource operation.
+//
+// アドオンの指定されたクエリ機能リソースを取得します。.
+//
+// GET /analytics/query/{resourceGroupName}
+func (c *Client) ReadQueryResource(ctx context.Context, params ReadQueryResourceParams) (ReadQueryResourceRes, error) {
+	res, err := c.sendReadQueryResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadQueryResource(ctx context.Context, params ReadQueryResourceParams) (res ReadQueryResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/query/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadQueryResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadQueryResourceStatus invokes readQueryResourceStatus operation.
+//
+// アドオンの指定されたクエリ機能リソースのステータスを取得します。.
+//
+// GET /analytics/query/status/{resourceGroupName}/{deploymentName}
+func (c *Client) ReadQueryResourceStatus(ctx context.Context, params ReadQueryResourceStatusParams) (ReadQueryResourceStatusRes, error) {
+	res, err := c.sendReadQueryResourceStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadQueryResourceStatus(ctx context.Context, params ReadQueryResourceStatusParams) (res ReadQueryResourceStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/analytics/query/status/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	{
+		// Encode "deploymentName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "deploymentName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.DeploymentName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadQueryResourceStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadSearchResource invokes readSearchResource operation.
+//
+// アドオンの指定された検索機能リソースを取得します。.
+//
+// GET /analytics/search/{resourceGroupName}
+func (c *Client) ReadSearchResource(ctx context.Context, params ReadSearchResourceParams) (ReadSearchResourceRes, error) {
+	res, err := c.sendReadSearchResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadSearchResource(ctx context.Context, params ReadSearchResourceParams) (res ReadSearchResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/search/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadSearchResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadSearchResourceStatus invokes readSearchResourceStatus operation.
+//
+// アドオンの指定された検索機能リソースのステータスを取得します。.
+//
+// GET /analytics/search/status/{resourceGroupName}/{deploymentName}
+func (c *Client) ReadSearchResourceStatus(ctx context.Context, params ReadSearchResourceStatusParams) (ReadSearchResourceStatusRes, error) {
+	res, err := c.sendReadSearchResourceStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadSearchResourceStatus(ctx context.Context, params ReadSearchResourceStatusParams) (res ReadSearchResourceStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/analytics/search/status/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	{
+		// Encode "deploymentName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "deploymentName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.DeploymentName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadSearchResourceStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadStreamingResource invokes readStreamingResource operation.
+//
+// アドオンの指定されたストリーミング処理機能リソースを取得します。.
+//
+// GET /analytics/streaming/{resourceGroupName}
+func (c *Client) ReadStreamingResource(ctx context.Context, params ReadStreamingResourceParams) (ReadStreamingResourceRes, error) {
+	res, err := c.sendReadStreamingResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadStreamingResource(ctx context.Context, params ReadStreamingResourceParams) (res ReadStreamingResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/analytics/streaming/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadStreamingResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadStreamingResourceStatus invokes readStreamingResourceStatus operation.
+//
+// アドオンの指定されたストリーミング処理機能リソースのステータスを取得します。.
+//
+// GET /analytics/streaming/status/{resourceGroupName}/{deploymentName}
+func (c *Client) ReadStreamingResourceStatus(ctx context.Context, params ReadStreamingResourceStatusParams) (ReadStreamingResourceStatusRes, error) {
+	res, err := c.sendReadStreamingResourceStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadStreamingResourceStatus(ctx context.Context, params ReadStreamingResourceStatusParams) (res ReadStreamingResourceStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/analytics/streaming/status/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	{
+		// Encode "deploymentName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "deploymentName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.DeploymentName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadStreamingResourceStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadVulnerabilityResource invokes readVulnerabilityResource operation.
+//
+// アドオンの指定された脆弱性検出サービスリソースを取得します。.
+//
+// GET /security/vulnerability/{resourceGroupName}
+func (c *Client) ReadVulnerabilityResource(ctx context.Context, params ReadVulnerabilityResourceParams) (ReadVulnerabilityResourceRes, error) {
+	res, err := c.sendReadVulnerabilityResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadVulnerabilityResource(ctx context.Context, params ReadVulnerabilityResourceParams) (res ReadVulnerabilityResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/security/vulnerability/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadVulnerabilityResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadWafResource invokes readWafResource operation.
+//
+// アドオンの指定されたWAFサービスリソースを取得します。.
+//
+// GET /security/waf/{resourceGroupName}
+func (c *Client) ReadWafResource(ctx context.Context, params ReadWafResourceParams) (ReadWafResourceRes, error) {
+	res, err := c.sendReadWafResource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadWafResource(ctx context.Context, params ReadWafResourceParams) (res ReadWafResourceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/security/waf/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadWafResourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadWafResourceStatus invokes readWafResourceStatus operation.
+//
+// アドオンの指定されたWAFサービスリソースのステータスを取得します。.
+//
+// GET /security/waf/status/{resourceGroupName}/{deploymentName}
+func (c *Client) ReadWafResourceStatus(ctx context.Context, params ReadWafResourceStatusParams) (ReadWafResourceStatusRes, error) {
+	res, err := c.sendReadWafResourceStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadWafResourceStatus(ctx context.Context, params ReadWafResourceStatusParams) (res ReadWafResourceStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/security/waf/status/"
+	{
+		// Encode "resourceGroupName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resourceGroupName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceGroupName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	{
+		// Encode "deploymentName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "deploymentName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.DeploymentName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadWafResourceStatusResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

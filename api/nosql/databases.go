@@ -46,7 +46,7 @@ func (op *databaseOp) List(ctx context.Context) ([]v1.NosqlApplianceResponse, er
 	case *v1.ServerErrorResponse:
 		return nil, NewAPIError("Database.List", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Database.List", 0, nil)
+		return nil, NewAPIError("Database.List", 0, unknownError(res))
 	}
 }
 
@@ -77,7 +77,7 @@ func (op *databaseOp) Create(ctx context.Context, plan Plan, request v1.NosqlCre
 	case *v1.ServerErrorResponse:
 		return nil, NewAPIError("Database.Create", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Database.Create", 0, nil)
+		return nil, NewAPIError("Database.Create", 0, unknownError(res))
 	}
 }
 
@@ -99,7 +99,7 @@ func (op *databaseOp) Read(ctx context.Context, id string) (*v1.NosqlApplianceRe
 	case *v1.ServerErrorResponse:
 		return nil, NewAPIError("Database.Read", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Database.Read", 0, nil)
+		return nil, NewAPIError("Database.Read", 0, unknownError(res))
 	}
 }
 
@@ -124,7 +124,7 @@ func (op *databaseOp) Update(ctx context.Context, id string, request v1.NosqlUpd
 	case *v1.ServerErrorResponse:
 		return NewAPIError("Database.Update", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Database.Update", 0, nil)
+		return NewAPIError("Database.Update", 0, unknownError(res))
 	}
 }
 
@@ -148,7 +148,7 @@ func (op *databaseOp) Delete(ctx context.Context, id string) error {
 	case *v1.ServerErrorResponse:
 		return NewAPIError("Database.Delete", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Database.Delete", 0, nil)
+		return NewAPIError("Database.Delete", 0, unknownError(res))
 	}
 }
 
@@ -164,7 +164,7 @@ func (op *databaseOp) ApplyChanges(ctx context.Context, id string) error {
 	case *v1.BadRequestResponse:
 		return NewAPIError("Database.ApplyChanges", 400, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Database.ApplyChanges", 0, nil)
+		return NewAPIError("Database.ApplyChanges", 0, unknownError(res))
 	}
 }
 
@@ -184,6 +184,6 @@ func (op *databaseOp) GetStatus(ctx context.Context, id string) (*v1.NosqlStatus
 	case *v1.ServerErrorResponse:
 		return nil, NewAPIError("Database.GetStatus", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Database.GetStatus", 0, nil)
+		return nil, NewAPIError("Database.GetStatus", 0, unknownError(res))
 	}
 }

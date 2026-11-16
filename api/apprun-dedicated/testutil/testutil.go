@@ -398,7 +398,7 @@ func IntegratedAsg(ctx context.Context, assert *require.Assertions, client *v1.C
 		tkr := time.NewTicker(16 * time.Second)
 		defer tkr.Stop()
 
-		nodes := RepeatedList(func(cursor *v1.WorkerNodeID) (res []workernode.WorkerNodeDetail, next *v1.WorkerNodeID) {
+		nodes := RepeatedList(func(cursor *v1.WorkerNodeID) (res []v1.WorkerNodeSummary, next *v1.WorkerNodeID) {
 			res, next, err := nodeop.List(ctx, 10, cursor)
 			assert.NoError(err)
 			return

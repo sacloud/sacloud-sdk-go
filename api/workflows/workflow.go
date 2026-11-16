@@ -65,7 +65,7 @@ func (op *workflowOp) Create(ctx context.Context, req v1.CreateWorkflowReq) (*v1
 	case *v1.CreateWorkflowInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -93,7 +93,7 @@ func (op *workflowOp) List(ctx context.Context, params v1.ListWorkflowsParams) (
 	case *v1.ListWorkflowsInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -121,7 +121,7 @@ func (op *workflowOp) ListSuggest(ctx context.Context, params v1.ListSuggestions
 	case *v1.ListSuggestionsInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -149,7 +149,7 @@ func (op *workflowOp) Read(ctx context.Context, id string) (*v1.ReadWorkflowOKWo
 	case *v1.ReadWorkflowInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -177,7 +177,7 @@ func (op *workflowOp) Update(ctx context.Context, id string, req v1.PatchWorkflo
 	case *v1.PatchWorkflowInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -207,6 +207,6 @@ func (op *workflowOp) Delete(ctx context.Context, id string) error {
 	case *v1.DeleteWorkflowInternalServerError:
 		return NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return NewAPIError(methodName, 0, err)
+		return NewAPIError(methodName, 0, unknownError(res))
 	}
 }

@@ -82,12 +82,13 @@ func TestDDoSOp_Create_400(t *testing.T) {
 	assert, api := setupDDoS(t, &MockErrorResponse, http.StatusBadRequest)
 
 	result, err := api.Create(t.Context(), DDoSCreateParams{
-		Location:     "invalid-location",
+		Location:     "japaneast",
 		PricingLevel: v1.PricingLevel1,
 		Patterns:     []string{"/*"},
 		Origin:       MockFrontDoorOrigin,
 	})
 	assert.Error(err)
+	assert.Contains(err.Error(), `"errors"`)
 	assert.Nil(result)
 	assert.False(saclient.IsNotFoundError(err))
 }

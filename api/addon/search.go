@@ -34,8 +34,8 @@ type SearchOp struct{ *v1.Client }
 func NewSearchOp(client *v1.Client) SearchAPI { return &SearchOp{Client: client} }
 
 func (s *SearchOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListAZ0105NotFound]("Search.List", func() (any, error) {
-		return s.Client.ListAZ0105(ctx)
+	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListSearchResourcesNotFound]("Search.List", func() (any, error) {
+		return s.Client.ListSearchResources(ctx)
 	}); e != nil {
 		err = e
 	} else if resources, ok := res.GetResources().Get(); ok {
@@ -54,9 +54,9 @@ type SearchCreateParams struct {
 
 func (s *SearchOp) Create(ctx context.Context, params SearchCreateParams) (*v1.PostDeploymentResponse, error) {
 	return ErrorFromDecodedResponse[v1.PostDeploymentResponse, void]("Search.Create", func() (any, error) {
-		return s.Client.CreateAZ0105(ctx, &v1.SearchPostRequestBody{
-			Location:       params.Location,
-			PartitionCount: params.PartitionCount,
+		return s.Client.CreateSearchResource(ctx, &v1.SearchPostRequestBody{
+			Location:       v1.SearchPostRequestBodyLocation(params.Location),
+			PartitionCount: v1.SearchPostRequestBodyPartitionCount(params.PartitionCount),
 			ReplicaCount:   params.ReplicaCount,
 			Sku:            params.Sku,
 		})
@@ -64,16 +64,16 @@ func (s *SearchOp) Create(ctx context.Context, params SearchCreateParams) (*v1.P
 }
 
 func (s *SearchOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, error) {
-	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.GetAZ0105NotFound]("Search.Read", func() (any, error) {
-		return s.Client.GetAZ0105(ctx, v1.GetAZ0105Params{
+	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.ReadSearchResourceNotFound]("Search.Read", func() (any, error) {
+		return s.Client.ReadSearchResource(ctx, v1.ReadSearchResourceParams{
 			ResourceGroupName: id,
 		})
 	})
 }
 
 func (s *SearchOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteAZ0105NoContent, v1.DeleteAZ0105NotFound]("Search.Delete", func() (any, error) {
-		return s.Client.DeleteAZ0105(ctx, v1.DeleteAZ0105Params{
+	_, err = ErrorFromDecodedResponse[v1.DeleteSearchResourceNoContent, v1.DeleteSearchResourceNotFound]("Search.Delete", func() (any, error) {
+		return s.Client.DeleteSearchResource(ctx, v1.DeleteSearchResourceParams{
 			ResourceGroupName: id,
 		})
 	})
@@ -83,7 +83,7 @@ func (s *SearchOp) Delete(ctx context.Context, id string) (err error) {
 
 func (s *SearchOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {
 	return ErrorFromDecodedResponse[v1.DeploymentStatus, void]("Search.Status", func() (any, error) {
-		return s.Client.StatusAZ0105(ctx, v1.StatusAZ0105Params{
+		return s.Client.ReadSearchResourceStatus(ctx, v1.ReadSearchResourceStatusParams{
 			ResourceGroupName: resourceGroupName,
 			DeploymentName:    deploymentName,
 		})

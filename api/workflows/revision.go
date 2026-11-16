@@ -66,7 +66,7 @@ func (op *revisionOp) Create(ctx context.Context, workflowID string, req v1.Crea
 	case *v1.CreateRevisionInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -94,7 +94,7 @@ func (op *revisionOp) List(ctx context.Context, params v1.ListRevisionsParams) (
 	case *v1.ListRevisionsInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -125,7 +125,7 @@ func (op *revisionOp) Read(ctx context.Context, workflowID string, revisionNumbe
 	case *v1.ReadRevisionInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -158,7 +158,7 @@ func (op *revisionOp) UpdateAlias(ctx context.Context, workflowID string, revisi
 	case *v1.UpdateRevisionAliasInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, NewAPIError(methodName, 0, unknownError(res))
 	}
 }
 
@@ -189,6 +189,6 @@ func (op *revisionOp) DeleteAlias(ctx context.Context, workflowID string, revisi
 	case *v1.DeleteRevisionAliasInternalServerError:
 		return NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
-		return NewAPIError(methodName, 0, err)
+		return NewAPIError(methodName, 0, unknownError(res))
 	}
 }

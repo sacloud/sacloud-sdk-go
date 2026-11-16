@@ -45,7 +45,7 @@ func (op *backupOp) List(ctx context.Context) ([]v1.NosqlBackup, error) {
 	case *v1.ServerErrorResponse:
 		return nil, NewAPIError("Backup.List", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Backup.List", 0, nil)
+		return nil, NewAPIError("Backup.List", 0, unknownError(res))
 	}
 }
 
@@ -67,7 +67,7 @@ func (op *backupOp) Create(ctx context.Context) error {
 	case *v1.ServerErrorResponse:
 		return NewAPIError("Backup.Create", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Backup.Create", 0, nil)
+		return NewAPIError("Backup.Create", 0, unknownError(res))
 	}
 }
 
@@ -89,7 +89,7 @@ func (op *backupOp) Restore(ctx context.Context, id uuid.UUID) error {
 	case *v1.ServerErrorResponse:
 		return NewAPIError("Backup.Restore", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Backup.Restore", 0, nil)
+		return NewAPIError("Backup.Restore", 0, unknownError(res))
 	}
 }
 
@@ -111,6 +111,6 @@ func (op *backupOp) Delete(ctx context.Context, id uuid.UUID) error {
 	case *v1.ServerErrorResponse:
 		return NewAPIError("Backup.Delete", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Backup.Delete", 0, nil)
+		return NewAPIError("Backup.Delete", 0, unknownError(res))
 	}
 }

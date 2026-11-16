@@ -81,11 +81,12 @@ func TestDataLakeOp_Create_400(t *testing.T) {
 	assert, api := setupDataLake(t, &MockErrorResponse, http.StatusBadRequest)
 
 	result, err := api.Create(t.Context(), DataLakeCreateParams{
-		Location:    "invalid-location",
+		Location:    "japaneast",
 		Performance: v1.DataLakePerformance1,
 		Redundancy:  v1.DataLakeRedundancy1,
 	})
 	assert.Error(err)
+	assert.Contains(err.Error(), `"errors"`)
 	assert.Nil(result)
 	assert.False(saclient.IsNotFoundError(err))
 }

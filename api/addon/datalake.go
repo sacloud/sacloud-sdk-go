@@ -33,8 +33,8 @@ type DataLakeOp struct{ *v1.Client }
 func NewDataLakeOp(client *v1.Client) DataLakeAPI { return &DataLakeOp{Client: client} }
 
 func (d *DataLakeOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListAZ0101NotFound]("DataLake.List", func() (any, error) {
-		return d.Client.ListAZ0101(ctx)
+	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListDatalakeResourcesNotFound]("DataLake.List", func() (any, error) {
+		return d.Client.ListDatalakeResources(ctx)
 	}); e != nil {
 		err = e
 	} else if resources, ok := res.GetResources().Get(); ok {
@@ -51,8 +51,8 @@ type DataLakeCreateParams struct {
 
 func (d *DataLakeOp) Create(ctx context.Context, params DataLakeCreateParams) (*v1.PostDeploymentResponse, error) {
 	return ErrorFromDecodedResponse[v1.PostDeploymentResponse, void]("DataLake.Create", func() (any, error) {
-		return d.Client.CreateAZ0101(ctx, &v1.DatalakePostRequestBody{
-			Location:    params.Location,
+		return d.Client.CreateDatalakeResource(ctx, &v1.DatalakePostRequestBody{
+			Location:    v1.DatalakePostRequestBodyLocation(params.Location),
 			Performance: params.Performance,
 			Redundancy:  params.Redundancy,
 		})
@@ -60,16 +60,16 @@ func (d *DataLakeOp) Create(ctx context.Context, params DataLakeCreateParams) (*
 }
 
 func (d *DataLakeOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, error) {
-	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.GetAZ0101NotFound]("DataLake.Read", func() (any, error) {
-		return d.Client.GetAZ0101(ctx, v1.GetAZ0101Params{
+	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.ReadDatalakeResourceNotFound]("DataLake.Read", func() (any, error) {
+		return d.Client.ReadDatalakeResource(ctx, v1.ReadDatalakeResourceParams{
 			ResourceGroupName: id,
 		})
 	})
 }
 
 func (d *DataLakeOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteAZ0101NoContent, v1.DeleteAZ0101NotFound]("DataLake.Delete", func() (any, error) {
-		return d.Client.DeleteAZ0101(ctx, v1.DeleteAZ0101Params{
+	_, err = ErrorFromDecodedResponse[v1.DeleteDatalakeResourceNoContent, v1.DeleteDatalakeResourceNotFound]("DataLake.Delete", func() (any, error) {
+		return d.Client.DeleteDatalakeResource(ctx, v1.DeleteDatalakeResourceParams{
 			ResourceGroupName: id,
 		})
 	})
@@ -78,7 +78,7 @@ func (d *DataLakeOp) Delete(ctx context.Context, id string) (err error) {
 
 func (d *DataLakeOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {
 	return ErrorFromDecodedResponse[v1.DeploymentStatus, void]("DataLake.Status", func() (any, error) {
-		return d.Client.StatusAZ0101(ctx, v1.StatusAZ0101Params{
+		return d.Client.ReadDatalakeResourceStatus(ctx, v1.ReadDatalakeResourceStatusParams{
 			ResourceGroupName: resourceGroupName,
 			DeploymentName:    deploymentName,
 		})

@@ -75,8 +75,9 @@ func TestETLOp_Create_202(t *testing.T) {
 func TestETLOp_Create_400(t *testing.T) {
 	assert, api := setupETL(t, &MockErrorResponse, http.StatusBadRequest)
 
-	result, err := api.Create(t.Context(), "invalid-location")
+	result, err := api.Create(t.Context(), "japaneast")
 	assert.Error(err)
+	assert.Contains(err.Error(), `"errors"`)
 	assert.Nil(result)
 	assert.False(saclient.IsNotFoundError(err))
 }

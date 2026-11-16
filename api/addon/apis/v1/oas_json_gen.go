@@ -24,7 +24,7 @@ func (s *AiRequestBody) Encode(e *jx.Encoder) {
 func (s *AiRequestBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("location")
-		e.Str(s.Location)
+		s.Location.Encode(e)
 	}
 	{
 		e.FieldStart("sku")
@@ -49,9 +49,7 @@ func (s *AiRequestBody) Decode(d *jx.Decoder) error {
 		case "location":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Location = string(v)
-				if err != nil {
+				if err := s.Location.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -120,6 +118,44 @@ func (s *AiRequestBody) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *AiRequestBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes AiRequestBodyLocation as json.
+func (s AiRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes AiRequestBodyLocation from json.
+func (s *AiRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode AiRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch AiRequestBodyLocation(v) {
+	case AiRequestBodyLocationJapaneast:
+		*s = AiRequestBodyLocationJapaneast
+	default:
+		*s = AiRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s AiRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *AiRequestBodyLocation) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -232,6 +268,247 @@ func (s *AzureLocation) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *AzureLocation) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *AzureResourceGroupData) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *AzureResourceGroupData) encodeFields(e *jx.Encoder) {
+	{
+		if s.Name.Set {
+			e.FieldStart("name")
+			s.Name.Encode(e)
+		}
+	}
+	{
+		if s.Location.Set {
+			e.FieldStart("location")
+			s.Location.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfAzureResourceGroupData = [2]string{
+	0: "name",
+	1: "location",
+}
+
+// Decode decodes AzureResourceGroupData from json.
+func (s *AzureResourceGroupData) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode AzureResourceGroupData to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "name":
+			if err := func() error {
+				s.Name.Reset()
+				if err := s.Name.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"name\"")
+			}
+		case "location":
+			if err := func() error {
+				s.Location.Reset()
+				if err := s.Location.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"location\"")
+			}
+		default:
+			return errors.Errorf("unexpected field %q", k)
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode AzureResourceGroupData")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *AzureResourceGroupData) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *AzureResourceGroupData) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CachePurgeRequestBody) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CachePurgeRequestBody) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("location")
+		s.Location.Encode(e)
+	}
+	{
+		e.FieldStart("contentPaths")
+		e.ArrStart()
+		for _, elem := range s.ContentPaths {
+			e.Str(elem)
+		}
+		e.ArrEnd()
+	}
+}
+
+var jsonFieldsNameOfCachePurgeRequestBody = [2]string{
+	0: "location",
+	1: "contentPaths",
+}
+
+// Decode decodes CachePurgeRequestBody from json.
+func (s *CachePurgeRequestBody) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CachePurgeRequestBody to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "location":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Location.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"location\"")
+			}
+		case "contentPaths":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				s.ContentPaths = make([]string, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem string
+					v, err := d.Str()
+					elem = string(v)
+					if err != nil {
+						return err
+					}
+					s.ContentPaths = append(s.ContentPaths, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"contentPaths\"")
+			}
+		default:
+			return errors.Errorf("unexpected field %q", k)
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CachePurgeRequestBody")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCachePurgeRequestBody) {
+					name = jsonFieldsNameOfCachePurgeRequestBody[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CachePurgeRequestBody) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CachePurgeRequestBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CachePurgeRequestBodyLocation as json.
+func (s CachePurgeRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes CachePurgeRequestBodyLocation from json.
+func (s *CachePurgeRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CachePurgeRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch CachePurgeRequestBodyLocation(v) {
+	case CachePurgeRequestBodyLocationJapaneast:
+		*s = CachePurgeRequestBodyLocationJapaneast
+	default:
+		*s = CachePurgeRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CachePurgeRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CachePurgeRequestBodyLocation) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -355,7 +632,7 @@ func (s *DatalakePostRequestBody) Encode(e *jx.Encoder) {
 func (s *DatalakePostRequestBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("location")
-		e.Str(s.Location)
+		s.Location.Encode(e)
 	}
 	{
 		e.FieldStart("performance")
@@ -392,9 +669,7 @@ func (s *DatalakePostRequestBody) Decode(d *jx.Decoder) error {
 		case "location":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Location = string(v)
-				if err != nil {
+				if err := s.Location.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -487,6 +762,44 @@ func (s *DatalakePostRequestBody) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes DatalakePostRequestBodyLocation as json.
+func (s DatalakePostRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes DatalakePostRequestBodyLocation from json.
+func (s *DatalakePostRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode DatalakePostRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch DatalakePostRequestBodyLocation(v) {
+	case DatalakePostRequestBodyLocationJapaneast:
+		*s = DatalakePostRequestBodyLocationJapaneast
+	default:
+		*s = DatalakePostRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s DatalakePostRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *DatalakePostRequestBodyLocation) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode implements json.Marshaler.
 func (s *DatawarehousePostRequestBody) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -498,7 +811,7 @@ func (s *DatawarehousePostRequestBody) Encode(e *jx.Encoder) {
 func (s *DatawarehousePostRequestBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("location")
-		e.Str(s.Location)
+		s.Location.Encode(e)
 	}
 }
 
@@ -518,9 +831,7 @@ func (s *DatawarehousePostRequestBody) Decode(d *jx.Decoder) error {
 		case "location":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Location = string(v)
-				if err != nil {
+				if err := s.Location.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -583,6 +894,44 @@ func (s *DatawarehousePostRequestBody) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes DatawarehousePostRequestBodyLocation as json.
+func (s DatawarehousePostRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes DatawarehousePostRequestBodyLocation from json.
+func (s *DatawarehousePostRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode DatawarehousePostRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch DatawarehousePostRequestBodyLocation(v) {
+	case DatawarehousePostRequestBodyLocationJapaneast:
+		*s = DatawarehousePostRequestBodyLocationJapaneast
+	default:
+		*s = DatawarehousePostRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s DatawarehousePostRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *DatawarehousePostRequestBodyLocation) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode implements json.Marshaler.
 func (s *DdosRequestBody) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -594,7 +943,7 @@ func (s *DdosRequestBody) Encode(e *jx.Encoder) {
 func (s *DdosRequestBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("location")
-		e.Str(s.Location)
+		s.Location.Encode(e)
 	}
 	{
 		e.FieldStart("profile")
@@ -624,9 +973,7 @@ func (s *DdosRequestBody) Decode(d *jx.Decoder) error {
 		case "location":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Location = string(v)
-				if err != nil {
+				if err := s.Location.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -705,6 +1052,44 @@ func (s *DdosRequestBody) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *DdosRequestBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes DdosRequestBodyLocation as json.
+func (s DdosRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes DdosRequestBodyLocation from json.
+func (s *DdosRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode DdosRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch DdosRequestBodyLocation(v) {
+	case DdosRequestBodyLocationJapaneast:
+		*s = DdosRequestBodyLocationJapaneast
+	default:
+		*s = DdosRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s DdosRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *DdosRequestBodyLocation) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -1057,7 +1442,7 @@ func (s *EtlPostRequestBody) Encode(e *jx.Encoder) {
 func (s *EtlPostRequestBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("location")
-		e.Str(s.Location)
+		s.Location.Encode(e)
 	}
 }
 
@@ -1077,9 +1462,7 @@ func (s *EtlPostRequestBody) Decode(d *jx.Decoder) error {
 		case "location":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Location = string(v)
-				if err != nil {
+				if err := s.Location.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -1138,6 +1521,44 @@ func (s *EtlPostRequestBody) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *EtlPostRequestBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes EtlPostRequestBodyLocation as json.
+func (s EtlPostRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes EtlPostRequestBodyLocation from json.
+func (s *EtlPostRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode EtlPostRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch EtlPostRequestBodyLocation(v) {
+	case EtlPostRequestBodyLocationJapaneast:
+		*s = EtlPostRequestBodyLocationJapaneast
+	default:
+		*s = EtlPostRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s EtlPostRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *EtlPostRequestBodyLocation) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -1698,11 +2119,18 @@ func (s *GetResourceResponse) encodeFields(e *jx.Encoder) {
 			s.URL.Encode(e)
 		}
 	}
+	{
+		if s.ResourceGroup.Set {
+			e.FieldStart("resourceGroup")
+			s.ResourceGroup.Encode(e)
+		}
+	}
 }
 
-var jsonFieldsNameOfGetResourceResponse = [2]string{
+var jsonFieldsNameOfGetResourceResponse = [3]string{
 	0: "data",
 	1: "url",
+	2: "resourceGroup",
 }
 
 // Decode decodes GetResourceResponse from json.
@@ -1733,6 +2161,16 @@ func (s *GetResourceResponse) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"url\"")
+			}
+		case "resourceGroup":
+			if err := func() error {
+				s.ResourceGroup.Reset()
+				if err := s.ResourceGroup.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"resourceGroup\"")
 			}
 		default:
 			return errors.Errorf("unexpected field %q", k)
@@ -1832,7 +2270,7 @@ func (s *NetworkRequestBody) Encode(e *jx.Encoder) {
 func (s *NetworkRequestBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("location")
-		e.Str(s.Location)
+		s.Location.Encode(e)
 	}
 	{
 		e.FieldStart("profile")
@@ -1862,9 +2300,7 @@ func (s *NetworkRequestBody) Decode(d *jx.Decoder) error {
 		case "location":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Location = string(v)
-				if err != nil {
+				if err := s.Location.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -1947,6 +2383,44 @@ func (s *NetworkRequestBody) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes NetworkRequestBodyLocation as json.
+func (s NetworkRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes NetworkRequestBodyLocation from json.
+func (s *NetworkRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode NetworkRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch NetworkRequestBodyLocation(v) {
+	case NetworkRequestBodyLocationJapaneast:
+		*s = NetworkRequestBodyLocationJapaneast
+	default:
+		*s = NetworkRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s NetworkRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *NetworkRequestBodyLocation) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes string as json.
 func (o NilString) Encode(e *jx.Encoder) {
 	if o.Null {
@@ -2022,6 +2496,39 @@ func (s OptAzureLocation) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptAzureLocation) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes AzureResourceGroupData as json.
+func (o OptAzureResourceGroupData) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes AzureResourceGroupData from json.
+func (o *OptAzureResourceGroupData) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptAzureResourceGroupData to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptAzureResourceGroupData) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptAzureResourceGroupData) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -2535,41 +3042,6 @@ func (s *OptSystemData) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes url.URL as json.
-func (o OptURI) Encode(e *jx.Encoder) {
-	if !o.Set {
-		return
-	}
-	json.EncodeURI(e, o.Value)
-}
-
-// Decode decodes url.URL from json.
-func (o *OptURI) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode OptURI to nil")
-	}
-	o.Set = true
-	v, err := json.DecodeURI(d)
-	if err != nil {
-		return err
-	}
-	o.Value = v
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s OptURI) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptURI) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
 // Encode implements json.Marshaler.
 func (s *PostDeploymentResponse) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -2650,6 +3122,69 @@ func (s *PostDeploymentResponse) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode implements json.Marshaler.
+func (s *PostPurgeResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PostPurgeResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.ResourceGroupName.Set {
+			e.FieldStart("resourceGroupName")
+			s.ResourceGroupName.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfPostPurgeResponse = [1]string{
+	0: "resourceGroupName",
+}
+
+// Decode decodes PostPurgeResponse from json.
+func (s *PostPurgeResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PostPurgeResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "resourceGroupName":
+			if err := func() error {
+				s.ResourceGroupName.Reset()
+				if err := s.ResourceGroupName.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"resourceGroupName\"")
+			}
+		default:
+			return errors.Errorf("unexpected field %q", k)
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PostPurgeResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PostPurgeResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PostPurgeResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes PricingLevel as json.
 func (s PricingLevel) Encode(e *jx.Encoder) {
 	e.Int32(int32(s))
@@ -2693,7 +3228,7 @@ func (s *QueryPostRequestBody) Encode(e *jx.Encoder) {
 func (s *QueryPostRequestBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("location")
-		e.Str(s.Location)
+		s.Location.Encode(e)
 	}
 }
 
@@ -2713,9 +3248,7 @@ func (s *QueryPostRequestBody) Decode(d *jx.Decoder) error {
 		case "location":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Location = string(v)
-				if err != nil {
+				if err := s.Location.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -2774,6 +3307,44 @@ func (s *QueryPostRequestBody) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *QueryPostRequestBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes QueryPostRequestBodyLocation as json.
+func (s QueryPostRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes QueryPostRequestBodyLocation from json.
+func (s *QueryPostRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode QueryPostRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch QueryPostRequestBodyLocation(v) {
+	case QueryPostRequestBodyLocationJapaneast:
+		*s = QueryPostRequestBodyLocationJapaneast
+	default:
+		*s = QueryPostRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s QueryPostRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *QueryPostRequestBodyLocation) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -3043,19 +3614,12 @@ func (s *ResourceGroupResource) encodeFields(e *jx.Encoder) {
 			s.Data.Encode(e)
 		}
 	}
-	{
-		if s.URL.Set {
-			e.FieldStart("url")
-			s.URL.Encode(e)
-		}
-	}
 }
 
-var jsonFieldsNameOfResourceGroupResource = [4]string{
+var jsonFieldsNameOfResourceGroupResource = [3]string{
 	0: "id",
 	1: "hasData",
 	2: "data",
-	3: "url",
 }
 
 // Decode decodes ResourceGroupResource from json.
@@ -3097,16 +3661,6 @@ func (s *ResourceGroupResource) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"data\"")
-			}
-		case "url":
-			if err := func() error {
-				s.URL.Reset()
-				if err := s.URL.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"url\"")
 			}
 		default:
 			return errors.Errorf("unexpected field %q", k)
@@ -3390,7 +3944,7 @@ func (s *SearchPostRequestBody) Encode(e *jx.Encoder) {
 func (s *SearchPostRequestBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("location")
-		e.Str(s.Location)
+		s.Location.Encode(e)
 	}
 	{
 		e.FieldStart("sku")
@@ -3408,7 +3962,7 @@ func (s *SearchPostRequestBody) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("partitionCount")
-		e.Int32(s.PartitionCount)
+		s.PartitionCount.Encode(e)
 	}
 }
 
@@ -3432,9 +3986,7 @@ func (s *SearchPostRequestBody) Decode(d *jx.Decoder) error {
 		case "location":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Location = string(v)
-				if err != nil {
+				if err := s.Location.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -3476,9 +4028,7 @@ func (s *SearchPostRequestBody) Decode(d *jx.Decoder) error {
 		case "partitionCount":
 			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
-				v, err := d.Int32()
-				s.PartitionCount = int32(v)
-				if err != nil {
+				if err := s.PartitionCount.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -3537,6 +4087,76 @@ func (s *SearchPostRequestBody) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *SearchPostRequestBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes SearchPostRequestBodyLocation as json.
+func (s SearchPostRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes SearchPostRequestBodyLocation from json.
+func (s *SearchPostRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode SearchPostRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch SearchPostRequestBodyLocation(v) {
+	case SearchPostRequestBodyLocationJapaneast:
+		*s = SearchPostRequestBodyLocationJapaneast
+	default:
+		*s = SearchPostRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s SearchPostRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *SearchPostRequestBodyLocation) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes SearchPostRequestBodyPartitionCount as json.
+func (s SearchPostRequestBodyPartitionCount) Encode(e *jx.Encoder) {
+	e.Int32(int32(s))
+}
+
+// Decode decodes SearchPostRequestBodyPartitionCount from json.
+func (s *SearchPostRequestBodyPartitionCount) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode SearchPostRequestBodyPartitionCount to nil")
+	}
+	v, err := d.Int32()
+	if err != nil {
+		return err
+	}
+	*s = SearchPostRequestBodyPartitionCount(v)
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s SearchPostRequestBodyPartitionCount) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *SearchPostRequestBodyPartitionCount) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -3616,7 +4236,7 @@ func (s *StreamingRequestBody) Encode(e *jx.Encoder) {
 func (s *StreamingRequestBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("location")
-		e.Str(s.Location)
+		s.Location.Encode(e)
 	}
 	{
 		e.FieldStart("unitCount")
@@ -3641,9 +4261,7 @@ func (s *StreamingRequestBody) Decode(d *jx.Decoder) error {
 		case "location":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Location = string(v)
-				if err != nil {
+				if err := s.Location.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -3714,6 +4332,44 @@ func (s *StreamingRequestBody) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *StreamingRequestBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes StreamingRequestBodyLocation as json.
+func (s StreamingRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes StreamingRequestBodyLocation from json.
+func (s *StreamingRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode StreamingRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch StreamingRequestBodyLocation(v) {
+	case StreamingRequestBodyLocationJapaneast:
+		*s = StreamingRequestBodyLocationJapaneast
+	default:
+		*s = StreamingRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s StreamingRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *StreamingRequestBodyLocation) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -3881,7 +4537,7 @@ func (s *VulnerabilityRequestBody) Encode(e *jx.Encoder) {
 func (s *VulnerabilityRequestBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("location")
-		e.Str(s.Location)
+		s.Location.Encode(e)
 	}
 	{
 		e.FieldStart("os")
@@ -3906,9 +4562,7 @@ func (s *VulnerabilityRequestBody) Decode(d *jx.Decoder) error {
 		case "location":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Location = string(v)
-				if err != nil {
+				if err := s.Location.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -3977,6 +4631,44 @@ func (s *VulnerabilityRequestBody) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *VulnerabilityRequestBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes VulnerabilityRequestBodyLocation as json.
+func (s VulnerabilityRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes VulnerabilityRequestBodyLocation from json.
+func (s *VulnerabilityRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode VulnerabilityRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch VulnerabilityRequestBodyLocation(v) {
+	case VulnerabilityRequestBodyLocationJapaneast:
+		*s = VulnerabilityRequestBodyLocationJapaneast
+	default:
+		*s = VulnerabilityRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s VulnerabilityRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *VulnerabilityRequestBodyLocation) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -4072,7 +4764,7 @@ func (s *WafRequestBody) Encode(e *jx.Encoder) {
 func (s *WafRequestBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("location")
-		e.Str(s.Location)
+		s.Location.Encode(e)
 	}
 	{
 		e.FieldStart("profile")
@@ -4102,9 +4794,7 @@ func (s *WafRequestBody) Decode(d *jx.Decoder) error {
 		case "location":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Location = string(v)
-				if err != nil {
+				if err := s.Location.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -4183,6 +4873,44 @@ func (s *WafRequestBody) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *WafRequestBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes WafRequestBodyLocation as json.
+func (s WafRequestBodyLocation) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes WafRequestBodyLocation from json.
+func (s *WafRequestBodyLocation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode WafRequestBodyLocation to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch WafRequestBodyLocation(v) {
+	case WafRequestBodyLocationJapaneast:
+		*s = WafRequestBodyLocationJapaneast
+	default:
+		*s = WafRequestBodyLocation(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s WafRequestBodyLocation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *WafRequestBodyLocation) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

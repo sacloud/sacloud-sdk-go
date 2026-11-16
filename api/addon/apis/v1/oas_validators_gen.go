@@ -14,20 +14,8 @@ func (s *AiRequestBody) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Location)); err != nil {
-			return errors.Wrap(err, "string")
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -53,9 +41,61 @@ func (s *AiRequestBody) Validate() error {
 	return nil
 }
 
+func (s AiRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s AiServiceSku) Validate() error {
 	switch s {
 	case 1:
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *CachePurgeRequestBody) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Location.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "location",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.ContentPaths == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "contentPaths",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s CachePurgeRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -95,20 +135,8 @@ func (s *DatalakePostRequestBody) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Location)); err != nil {
-			return errors.Wrap(err, "string")
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -145,6 +173,15 @@ func (s *DatalakePostRequestBody) Validate() error {
 	return nil
 }
 
+func (s DatalakePostRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *DatawarehousePostRequestBody) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -152,20 +189,8 @@ func (s *DatawarehousePostRequestBody) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Location)); err != nil {
-			return errors.Wrap(err, "string")
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -180,6 +205,15 @@ func (s *DatawarehousePostRequestBody) Validate() error {
 	return nil
 }
 
+func (s DatawarehousePostRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *DdosRequestBody) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -187,20 +221,8 @@ func (s *DdosRequestBody) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Location)); err != nil {
-			return errors.Wrap(err, "string")
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -235,6 +257,15 @@ func (s *DdosRequestBody) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s DdosRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 
 func (s *ErrorResponse) Validate() error {
@@ -274,20 +305,8 @@ func (s *EtlPostRequestBody) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Location)); err != nil {
-			return errors.Wrap(err, "string")
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -300,6 +319,15 @@ func (s *EtlPostRequestBody) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s EtlPostRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 
 func (s *FrontDoorEndpoint) Validate() error {
@@ -500,20 +528,8 @@ func (s *NetworkRequestBody) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Location)); err != nil {
-			return errors.Wrap(err, "string")
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -550,6 +566,15 @@ func (s *NetworkRequestBody) Validate() error {
 	return nil
 }
 
+func (s NetworkRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s PricingLevel) Validate() error {
 	switch s {
 	case 1:
@@ -568,20 +593,8 @@ func (s *QueryPostRequestBody) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Location)); err != nil {
-			return errors.Wrap(err, "string")
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -596,6 +609,15 @@ func (s *QueryPostRequestBody) Validate() error {
 	return nil
 }
 
+func (s QueryPostRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *SearchPostRequestBody) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -603,20 +625,8 @@ func (s *SearchPostRequestBody) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Location)); err != nil {
-			return errors.Wrap(err, "string")
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -657,10 +667,49 @@ func (s *SearchPostRequestBody) Validate() error {
 			Error: err,
 		})
 	}
+	if err := func() error {
+		if err := s.PartitionCount.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "partitionCount",
+			Error: err,
+		})
+	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s SearchPostRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s SearchPostRequestBodyPartitionCount) Validate() error {
+	switch s {
+	case 1:
+		return nil
+	case 2:
+		return nil
+	case 3:
+		return nil
+	case 4:
+		return nil
+	case 6:
+		return nil
+	case 12:
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 
 func (s SearchSku) Validate() error {
@@ -704,20 +753,8 @@ func (s *StreamingRequestBody) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Location)); err != nil {
-			return errors.Wrap(err, "string")
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -755,6 +792,15 @@ func (s *StreamingRequestBody) Validate() error {
 	return nil
 }
 
+func (s StreamingRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *VulnerabilityRequestBody) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -762,20 +808,8 @@ func (s *VulnerabilityRequestBody) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Location)); err != nil {
-			return errors.Wrap(err, "string")
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -801,6 +835,15 @@ func (s *VulnerabilityRequestBody) Validate() error {
 	return nil
 }
 
+func (s VulnerabilityRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *WafRequestBody) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -808,20 +851,8 @@ func (s *WafRequestBody) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Location)); err != nil {
-			return errors.Wrap(err, "string")
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -856,4 +887,13 @@ func (s *WafRequestBody) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s WafRequestBodyLocation) Validate() error {
+	switch s {
+	case "japaneast":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }

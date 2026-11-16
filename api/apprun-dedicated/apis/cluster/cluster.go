@@ -12,10 +12,10 @@ import (
 )
 
 type ClusterAPI interface {
-	// List returns the list of Clusters, paginated.
+	// List returns the list of Cluster summaries, paginated.
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
-	List(ctx context.Context, maxItems int64, cursor *v1.ClusterID) (list []ClusterDetail, nextCursor *v1.ClusterID, err error)
+	List(ctx context.Context, maxItems int64, cursor *v1.ClusterID) (list []v1.ReadClusterSummary, nextCursor *v1.ClusterID, err error)
 	Create(ctx context.Context, params CreateParams) (cluster *v1.ClusterIdentifier, err error)
 	Read(ctx context.Context, id v1.ClusterID) (cluster *ClusterDetail, err error)
 	Update(ctx context.Context, id v1.ClusterID, params UpdateParams) error
@@ -28,7 +28,7 @@ type ClusterOp struct{ *v1.Client }
 
 func NewClusterOp(client *v1.Client) *ClusterOp { return &ClusterOp{Client: client} }
 
-func (op *ClusterOp) List(ctx context.Context, maxItems int64, cursor *v1.ClusterID) (clusters []ClusterDetail, nextCursor *v1.ClusterID, err error) {
+func (op *ClusterOp) List(ctx context.Context, maxItems int64, cursor *v1.ClusterID) (clusters []v1.ReadClusterSummary, nextCursor *v1.ClusterID, err error) {
 	res, err := common.ErrorFromDecodedResponse("Cluster.List", func() (*v1.ListClustersResponse, error) {
 		return op.Client.ListClusters(ctx, v1.ListClustersParams{
 			Cursor:   into.Opt[v1.OptClusterID](cursor),
@@ -38,11 +38,7 @@ func (op *ClusterOp) List(ctx context.Context, maxItems int64, cursor *v1.Cluste
 
 	if res != nil {
 		nextCursor = common.FromOpt(res.NextCursor)
-		clusters = common.MapSlice(res.Clusters, func(c v1.ReadClusterSummary) ClusterDetail {
-			var detail ClusterDetail
-			detail.fromSummary(&c)
-			return detail
-		})
+		clusters = res.Clusters
 	}
 
 	return
@@ -141,15 +137,6 @@ type ClusterDetail struct {
 	ServicePrincipalID  string                       `json:"servicePrincipalID"`
 	HasLetsEncryptEmail bool                         `json:"hasLetsEncryptEmail"`
 	Created             int                          `json:"created"`
-}
-
-func (c *ClusterDetail) fromSummary(res *v1.ReadClusterSummary) {
-	c.ClusterID = res.GetClusterID()
-	c.Name = res.GetName()
-	c.Ports = []v1.ClusterLoadBalancerPort(nil)
-	c.ServicePrincipalID = ""
-	c.HasLetsEncryptEmail = false
-	c.Created = res.GetCreated()
 }
 
 func (c *ClusterDetail) from(res *v1.ReadCluster) {

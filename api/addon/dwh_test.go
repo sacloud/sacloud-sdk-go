@@ -66,7 +66,7 @@ func TestDWHOp_List_404(t *testing.T) {
 func TestDWHOp_Create_202(t *testing.T) {
 	assert, api := setupDWH(t, &MockPostDeploymentResponse, http.StatusAccepted)
 
-	result, err := api.Create(t.Context(), "us-west")
+	result, err := api.Create(t.Context(), "japaneast")
 	assert.NoError(err)
 	assert.NotNil(result)
 	assert.Equal(&MockPostDeploymentResponse, result)
@@ -75,8 +75,9 @@ func TestDWHOp_Create_202(t *testing.T) {
 func TestDWHOp_Create_400(t *testing.T) {
 	assert, api := setupDWH(t, &MockErrorResponse, http.StatusBadRequest)
 
-	result, err := api.Create(t.Context(), "invalid-location")
+	result, err := api.Create(t.Context(), "japaneast")
 	assert.Error(err)
+	assert.Contains(err.Error(), `"errors"`)
 	assert.Nil(result)
 	assert.False(saclient.IsNotFoundError(err))
 }

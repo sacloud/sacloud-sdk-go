@@ -15,7 +15,9 @@
 package addon_test
 
 import (
+	"encoding/json"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	. "github.com/sacloud/sacloud-sdk-go/api/addon"
@@ -82,14 +84,53 @@ func TestSearchOp_Create_400(t *testing.T) {
 	assert, api := setupSearch(t, &MockErrorResponse, http.StatusBadRequest)
 
 	result, err := api.Create(t.Context(), SearchCreateParams{
-		Location:       "invalid-location",
+		Location:       "japaneast",
 		PartitionCount: 1,
 		ReplicaCount:   3,
 		Sku:            v1.SearchSku1,
 	})
 	assert.Error(err)
+	assert.Contains(err.Error(), `"errors"`)
 	assert.Nil(result)
 	assert.False(saclient.IsNotFoundError(err))
+}
+
+func TestSearchOp_CreateRequest(t *testing.T) {
+	requests := make(chan v1.SearchPostRequestBody, 1)
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var body v1.SearchPostRequestBody
+		err := json.NewDecoder(r.Body).Decode(&body)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		requests <- body
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusAccepted)
+		_, _ = w.Write([]byte(`{}`))
+	}))
+	defer server.Close()
+	client, err := v1.NewClient(server.URL)
+	require.NoError(t, err)
+	api := NewSearchOp(client)
+
+	params := SearchCreateParams{Location: "japaneast", PartitionCount: 6, ReplicaCount: 2, Sku: v1.SearchSku3}
+	_, err = api.Create(t.Context(), params)
+	require.NoError(t, err)
+	body := <-requests
+	require.Equal(t, "japaneast", string(body.Location))
+	require.Equal(t, int32(6), int32(body.PartitionCount))
+	require.Equal(t, params.ReplicaCount, body.ReplicaCount)
+	require.Equal(t, params.Sku, body.Sku)
+
+	params.PartitionCount = 5
+	_, err = api.Create(t.Context(), params)
+	require.ErrorContains(t, err, "partitionCount")
+	select {
+	case <-requests:
+		t.Fatal("invalid request was sent")
+	default:
+	}
 }
 
 func TestSearchOp_Read_200(t *testing.T) {

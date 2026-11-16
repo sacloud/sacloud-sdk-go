@@ -34,8 +34,8 @@ type StreamingOp struct{ *v1.Client }
 func NewStreamingOp(client *v1.Client) StreamingAPI { return &StreamingOp{Client: client} }
 
 func (s *StreamingOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListAZ0107NotFound]("Streaming.List", func() (any, error) {
-		return s.Client.ListAZ0107(ctx)
+	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListStreamingResourcesNotFound]("Streaming.List", func() (any, error) {
+		return s.Client.ListStreamingResources(ctx)
 	}); e != nil {
 		err = e
 	} else if resources, ok := res.GetResources().Get(); ok {
@@ -47,24 +47,24 @@ func (s *StreamingOp) List(ctx context.Context) (ret []v1.ResourceGroupResource,
 
 func (s *StreamingOp) Create(ctx context.Context, location, unitCount string) (*v1.PostDeploymentResponse, error) {
 	return ErrorFromDecodedResponse[v1.PostDeploymentResponse, void]("Streaming.Create", func() (any, error) {
-		return s.Client.CreateAZ0107(ctx, &v1.StreamingRequestBody{
-			Location:  location,
+		return s.Client.CreateStreamingResource(ctx, &v1.StreamingRequestBody{
+			Location:  v1.StreamingRequestBodyLocation(location),
 			UnitCount: unitCount,
 		})
 	})
 }
 
 func (s *StreamingOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, error) {
-	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.GetAZ0107NotFound]("Streaming.Read", func() (any, error) {
-		return s.Client.GetAZ0107(ctx, v1.GetAZ0107Params{
+	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.ReadStreamingResourceNotFound]("Streaming.Read", func() (any, error) {
+		return s.Client.ReadStreamingResource(ctx, v1.ReadStreamingResourceParams{
 			ResourceGroupName: id,
 		})
 	})
 }
 
 func (s *StreamingOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteAZ0107NoContent, v1.DeleteAZ0107NotFound]("Streaming.Delete", func() (any, error) {
-		return s.Client.DeleteAZ0107(ctx, v1.DeleteAZ0107Params{
+	_, err = ErrorFromDecodedResponse[v1.DeleteStreamingResourceNoContent, v1.DeleteStreamingResourceNotFound]("Streaming.Delete", func() (any, error) {
+		return s.Client.DeleteStreamingResource(ctx, v1.DeleteStreamingResourceParams{
 			ResourceGroupName: id,
 		})
 	})
@@ -74,7 +74,7 @@ func (s *StreamingOp) Delete(ctx context.Context, id string) (err error) {
 
 func (s *StreamingOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {
 	return ErrorFromDecodedResponse[v1.DeploymentStatus, void]("Streaming.Status", func() (any, error) {
-		return s.Client.StatusAZ0107(ctx, v1.StatusAZ0107Params{
+		return s.Client.ReadStreamingResourceStatus(ctx, v1.ReadStreamingResourceStatusParams{
 			ResourceGroupName: resourceGroupName,
 			DeploymentName:    deploymentName,
 		})

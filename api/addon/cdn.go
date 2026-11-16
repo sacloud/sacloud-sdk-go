@@ -26,6 +26,7 @@ type CDNAPI interface {
 	Create(ctx context.Context, params CDNCreateParams) (*v1.PostDeploymentResponse, error)
 	Read(ctx context.Context, id string) (*v1.GetResourceResponse, error)
 	Delete(ctx context.Context, id string) error
+	Purge(ctx context.Context, id string, params CDNPurgeParams) (*v1.PostPurgeResponse, error)
 
 	Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error)
 }
@@ -35,8 +36,8 @@ type CDNOp struct{ *v1.Client }
 func NewCDNOp(client *v1.Client) CDNAPI { return &CDNOp{Client: client} }
 
 func (c *CDNOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListAZ0301NotFound]("CDN.List", func() (any, error) {
-		return c.Client.ListAZ0301(ctx)
+	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListCdnResourcesNotFound]("CDN.List", func() (any, error) {
+		return c.Client.ListCdnResources(ctx)
 	}); e != nil {
 		err = e
 	} else if resources, ok := res.GetResources().Get(); ok {
@@ -59,8 +60,8 @@ func (c *CDNOp) Create(ctx context.Context, params CDNCreateParams) (*v1.PostDep
 			// avoid encode error
 			return nil, NewError("CDN.Create", fmt.Errorf("empty Patterns makes no sense"))
 		} else {
-			return c.Client.CreateAZ0301(ctx, &v1.NetworkRequestBody{
-				Location: params.Location,
+			return c.Client.CreateCdnResource(ctx, &v1.NetworkRequestBody{
+				Location: v1.NetworkRequestBodyLocation(params.Location),
 				Profile: v1.FrontDoorProfile{
 					Level: params.PricingLevel,
 				},
@@ -78,16 +79,16 @@ func (c *CDNOp) Create(ctx context.Context, params CDNCreateParams) (*v1.PostDep
 }
 
 func (c *CDNOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, error) {
-	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.GetAZ0301NotFound]("CDN.Read", func() (any, error) {
-		return c.Client.GetAZ0301(ctx, v1.GetAZ0301Params{
+	return ErrorFromDecodedResponse[v1.GetResourceResponse, v1.ReadCdnResourceNotFound]("CDN.Read", func() (any, error) {
+		return c.Client.ReadCdnResource(ctx, v1.ReadCdnResourceParams{
 			ResourceGroupName: id,
 		})
 	})
 }
 
 func (c *CDNOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteAZ0301NoContent, v1.DeleteAZ0301NotFound]("CDN.Delete", func() (any, error) {
-		return c.Client.DeleteAZ0301(ctx, v1.DeleteAZ0301Params{
+	_, err = ErrorFromDecodedResponse[v1.DeleteCdnResourceNoContent, v1.DeleteCdnResourceNotFound]("CDN.Delete", func() (any, error) {
+		return c.Client.DeleteCdnResource(ctx, v1.DeleteCdnResourceParams{
 			ResourceGroupName: id,
 		})
 	})
@@ -95,9 +96,25 @@ func (c *CDNOp) Delete(ctx context.Context, id string) (err error) {
 	return
 }
 
+type CDNPurgeParams struct {
+	Location     string
+	ContentPaths []string
+}
+
+func (c *CDNOp) Purge(ctx context.Context, id string, params CDNPurgeParams) (*v1.PostPurgeResponse, error) {
+	return ErrorFromDecodedResponse[v1.PostPurgeResponse, v1.PurgeCdnCacheNotFound]("CDN.Purge", func() (any, error) {
+		return c.Client.PurgeCdnCache(ctx, &v1.CachePurgeRequestBody{
+			Location:     v1.CachePurgeRequestBodyLocation(params.Location),
+			ContentPaths: params.ContentPaths,
+		}, v1.PurgeCdnCacheParams{
+			ResourceGroupName: id,
+		})
+	})
+}
+
 func (c *CDNOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {
 	return ErrorFromDecodedResponse[v1.DeploymentStatus, void]("CDN.Status", func() (any, error) {
-		return c.Client.StatusAZ0301(ctx, v1.StatusAZ0301Params{
+		return c.Client.ReadCdnResourceStatus(ctx, v1.ReadCdnResourceStatusParams{
 			ResourceGroupName: resourceGroupName,
 			DeploymentName:    deploymentName,
 		})

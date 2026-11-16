@@ -1,7 +1,7 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
-    "version": "1.1.0",
+    "version": "1.2.0",
     "title": "Add-on APIドキュメント",
     "description": "---\n\n「Add-on」が提供するAPIの利用方法とサンプルを公開しております。\n\n# 基本的な使い方\n\n## APIキーの発行\n\nAPIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。  \nAPIキーは「ユーザーID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n\n|   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |\n|------------|------------------------------|--------------------------------------|\n| ユーザーID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n\n<div class=\"warning\">\n  <b>操作マニュアル</b><br />\n  <ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n</div>\n\n## APIエンドポイント\nhttps://secure.sakura.ad.jp/cloud/api/addon/1.0/\n\n---\n",
     "contact": {
@@ -24,7 +24,7 @@
         ],
         "summary": "AI機能リソースの一覧を取得します。",
         "description": "アドオンのAI機能リソースの一覧を取得します。",
-        "operationId": "list_AZ0501",
+        "operationId": "listAiResources",
         "responses": {
           "200": {
             "description": "AI機能リソースの取得に成功しました。",
@@ -57,7 +57,7 @@
         ],
         "summary": "AI機能リソースを作成します。",
         "description": "アドオンのAI機能リソースを作成します。",
-        "operationId": "create_AZ0501",
+        "operationId": "createAiResource",
         "requestBody": {
           "content": {
             "application/json": {
@@ -99,7 +99,7 @@
         ],
         "summary": "指定されたAI機能リソースを取得します。",
         "description": "アドオンの指定されたAI機能リソースを取得します。",
-        "operationId": "get_AZ0501",
+        "operationId": "readAiResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -143,7 +143,7 @@
         ],
         "summary": "指定されたAI機能リソースを削除します。",
         "description": "アドオンの指定されたAI機能リソースを削除します。",
-        "operationId": "delete_AZ0501",
+        "operationId": "deleteAiResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -182,7 +182,7 @@
         ],
         "summary": "指定されたAI機能リソースのステータスを取得します。",
         "description": "アドオンの指定されたAI機能リソースのステータスを取得します。",
-        "operationId": "status_AZ0501",
+        "operationId": "readAiResourceStatus",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -232,7 +232,7 @@
         ],
         "summary": "CDNサービスリソースの一覧を取得します。",
         "description": "アドオンのCDNサービスリソースの一覧を取得します。",
-        "operationId": "list_AZ0301",
+        "operationId": "listCdnResources",
         "responses": {
           "200": {
             "description": "CDNサービスリソースの取得に成功しました。",
@@ -265,7 +265,7 @@
         ],
         "summary": "CDNサービスリソースを作成します。",
         "description": "アドオンのCDNサービスリソースを作成します。",
-        "operationId": "create_AZ0301",
+        "operationId": "createCdnResource",
         "requestBody": {
           "content": {
             "application/json": {
@@ -307,7 +307,7 @@
         ],
         "summary": "指定されたCDNサービスリソースを取得します。",
         "description": "アドオンの指定されたCDNサービスリソースを取得します。",
-        "operationId": "get_AZ0301",
+        "operationId": "readCdnResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -351,7 +351,7 @@
         ],
         "summary": "指定されたCDNサービスリソースを削除します。",
         "description": "アドオンの指定されたCDNサービスリソースを削除します。",
-        "operationId": "delete_AZ0301",
+        "operationId": "deleteCdnResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -383,6 +383,61 @@
         }
       }
     },
+    "/cdn/{resourceGroupName}/purge": {
+      "post": {
+        "tags": [
+          "CDN"
+        ],
+        "summary": "指定されたCDNサービスリソースのキャッシュを削除します。",
+        "description": "アドオンの指定されたCDNサービスリソースのキャッシュを削除します。",
+        "operationId": "purgeCdnCache",
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CachePurgeRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "CDNサービスリソースのキャッシュ削除を開始しました。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostPurgeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "リクエストが不正です。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "CDNサービスリソースが見つかりませんでした。"
+          }
+        }
+      }
+    },
     "/cdn/status/{resourceGroupName}/{deploymentName}": {
       "get": {
         "tags": [
@@ -390,7 +445,7 @@
         ],
         "summary": "指定されたCDNサービスリソースのステータスを取得します。",
         "description": "アドオンの指定されたCDNサービスリソースのステータスを取得します。",
-        "operationId": "status_AZ0301",
+        "operationId": "readCdnResourceStatus",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -442,7 +497,7 @@
         ],
         "summary": "DDoS対策サービスリソースの一覧を取得します。",
         "description": "アドオンのDDoS対策サービスリソースの一覧を取得します。",
-        "operationId": "list_AZ0401",
+        "operationId": "listDdosResources",
         "responses": {
           "200": {
             "description": "DDoS対策サービスリソースの取得に成功しました。",
@@ -475,7 +530,7 @@
         ],
         "summary": "DDoS対策サービスリソースを作成します。",
         "description": "アドオンのDDoS対策サービスリソースを作成します。",
-        "operationId": "create_AZ0401",
+        "operationId": "createDdosResource",
         "requestBody": {
           "content": {
             "application/json": {
@@ -517,7 +572,7 @@
         ],
         "summary": "指定されたDDoS対策サービスリソースを取得します。",
         "description": "アドオンの指定されたDDoS対策サービスリソースを取得します。",
-        "operationId": "get_AZ0401",
+        "operationId": "readDdosResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -561,7 +616,7 @@
         ],
         "summary": "指定されたDDoS対策サービスリソースを削除します。",
         "description": "アドオンの指定されたDDoS対策サービスリソースを削除します。",
-        "operationId": "delete_AZ0401",
+        "operationId": "deleteDdosResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -600,7 +655,7 @@
         ],
         "summary": "指定されたDDoS対策サービスリソースのステータスを取得します。",
         "description": "アドオンの指定されたDDoS対策サービスリソースのステータスを取得します。",
-        "operationId": "status_AZ0401",
+        "operationId": "readDdosResourceStatus",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -652,7 +707,7 @@
         ],
         "summary": "WAFサービスリソースの一覧を取得します。",
         "description": "アドオンのWAFサービスリソースの一覧を取得します。",
-        "operationId": "list_AZ0402",
+        "operationId": "listWafResources",
         "responses": {
           "200": {
             "description": "WAFサービスリソースの取得に成功しました。",
@@ -685,7 +740,7 @@
         ],
         "summary": "WAFサービスリソースを作成します。",
         "description": "アドオンのWAFサービスリソースを作成します。",
-        "operationId": "create_AZ0402",
+        "operationId": "createWafResource",
         "requestBody": {
           "content": {
             "application/json": {
@@ -727,7 +782,7 @@
         ],
         "summary": "指定されたWAFサービスリソースを取得します。",
         "description": "アドオンの指定されたWAFサービスリソースを取得します。",
-        "operationId": "get_AZ0402",
+        "operationId": "readWafResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -771,7 +826,7 @@
         ],
         "summary": "指定されたWAFサービスリソースを削除します。",
         "description": "アドオンの指定されたWAFサービスリソースを削除します。",
-        "operationId": "delete_AZ0402",
+        "operationId": "deleteWafResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -810,7 +865,7 @@
         ],
         "summary": "指定されたWAFサービスリソースのステータスを取得します。",
         "description": "アドオンの指定されたWAFサービスリソースのステータスを取得します。",
-        "operationId": "status_AZ0402",
+        "operationId": "readWafResourceStatus",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -862,7 +917,7 @@
         ],
         "summary": "脆弱性検出サービスリソースの一覧を取得します。",
         "description": "アドオンの脆弱性検出サービスリソースの一覧を取得します。",
-        "operationId": "list_AZ0403",
+        "operationId": "listVulnerabilityResources",
         "responses": {
           "200": {
             "description": "脆弱性検出サービスリソースの取得に成功しました。",
@@ -893,9 +948,9 @@
         "tags": [
           "セキュリティ"
         ],
-        "summary": "脆弱性検出サービスリソースを作成します。",
-        "description": "アドオンの脆弱性検出サービスリソースを作成します。",
-        "operationId": "create_AZ0403",
+        "summary": "脆弱性検出サービスのインストールスクリプトを発行します。",
+        "description": "アドオンの脆弱性検出サービスリソースを作成します。脆弱性検出サービスを利用するためには、レスポンスに含まれるインストールスクリプトを対象のVMで実行しエージェントをインストールする必要があります。",
+        "operationId": "createVulnerabilityResource",
         "requestBody": {
           "content": {
             "application/json": {
@@ -908,7 +963,7 @@
         },
         "responses": {
           "202": {
-            "description": "脆弱性検出サービスリソースの作成を開始しました。",
+            "description": "脆弱性検出サービスのインストールスクリプトを発行しました。",
             "content": {
               "application/json": {
                 "schema": {
@@ -937,7 +992,7 @@
         ],
         "summary": "指定された脆弱性検出サービスリソースを取得します。",
         "description": "アドオンの指定された脆弱性検出サービスリソースを取得します。",
-        "operationId": "get_AZ0403",
+        "operationId": "readVulnerabilityResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -981,7 +1036,7 @@
         ],
         "summary": "指定された脆弱性検出サービスリソースを削除します。",
         "description": "アドオンの指定された脆弱性検出サービスリソースを削除します。",
-        "operationId": "delete_AZ0403",
+        "operationId": "deleteVulnerabilityResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1020,7 +1075,7 @@
         ],
         "summary": "データレイクリソースの一覧を取得します。",
         "description": "アドオンのデータレイクリソースの一覧を取得します。",
-        "operationId": "list_AZ0101",
+        "operationId": "listDatalakeResources",
         "responses": {
           "200": {
             "description": "データレイクリソースの取得に成功しました。",
@@ -1053,7 +1108,7 @@
         ],
         "summary": "データレイクリソースを作成します。",
         "description": "アドオンのデータレイクリソースを作成します。",
-        "operationId": "create_AZ0101",
+        "operationId": "createDatalakeResource",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1095,7 +1150,7 @@
         ],
         "summary": "指定されたデータレイクリソースを取得します。",
         "description": "アドオンの指定されたデータレイクリソースを取得します。",
-        "operationId": "get_AZ0101",
+        "operationId": "readDatalakeResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1139,7 +1194,7 @@
         ],
         "summary": "指定されたデータレイクリソースを削除します。",
         "description": "アドオンの指定されたデータレイクリソースを削除します。",
-        "operationId": "delete_AZ0101",
+        "operationId": "deleteDatalakeResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1178,7 +1233,7 @@
         ],
         "summary": "指定されたデータレイクリソースのステータスを取得します。",
         "description": "アドオンの指定されたデータレイクリソースのステータスを取得します。",
-        "operationId": "status_AZ0101",
+        "operationId": "readDatalakeResourceStatus",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1228,7 +1283,7 @@
         ],
         "summary": "データウェアハウスリソースの一覧を取得します。",
         "description": "アドオンのデータウェアハウスリソースの一覧を取得します。",
-        "operationId": "list_AZ0102",
+        "operationId": "listDwhResources",
         "responses": {
           "200": {
             "description": "データウェアハウスリソースの取得に成功しました。",
@@ -1261,7 +1316,7 @@
         ],
         "summary": "データウェアハウスリソースを作成します。",
         "description": "アドオンのデータウェアハウスリソースを作成します。",
-        "operationId": "create_AZ0102",
+        "operationId": "createDwhResource",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1303,7 +1358,7 @@
         ],
         "summary": "指定されたデータウェアハウスリソースを取得します。",
         "description": "アドオンの指定されたデータウェアハウスリソースを取得します。",
-        "operationId": "get_AZ0102",
+        "operationId": "readDwhResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1347,7 +1402,7 @@
         ],
         "summary": "指定されたデータウェアハウスリソースを削除します。",
         "description": "アドオンの指定されたデータウェアハウスリソースを削除します。",
-        "operationId": "delete_AZ0102",
+        "operationId": "deleteDwhResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1386,7 +1441,7 @@
         ],
         "summary": "指定されたデータウェアハウスリソースのステータスを取得します。",
         "description": "アドオンの指定されたデータウェアハウスリソースのステータスを取得します。",
-        "operationId": "status_AZ0102",
+        "operationId": "readDwhResourceStatus",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1436,7 +1491,7 @@
         ],
         "summary": "データETLリソースの一覧を取得します。",
         "description": "アドオンのデータETLリソースの一覧を取得します。",
-        "operationId": "list_AZ0103",
+        "operationId": "listEtlResources",
         "responses": {
           "200": {
             "description": "データETLリソースの取得に成功しました。",
@@ -1469,7 +1524,7 @@
         ],
         "summary": "データETLリソースを作成します。",
         "description": "アドオンのデータETLリソースを作成します。",
-        "operationId": "create_AZ0103",
+        "operationId": "createEtlResource",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1511,7 +1566,7 @@
         ],
         "summary": "指定されたデータETLリソースを削除します。",
         "description": "アドオンの指定されたデータETLリソースを削除します。",
-        "operationId": "delete_AZ0103",
+        "operationId": "deleteEtlResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1548,7 +1603,7 @@
         ],
         "summary": "指定されたデータETLリソースを取得します。",
         "description": "アドオンの指定されたデータETLリソースを取得します。",
-        "operationId": "get_AZ0103",
+        "operationId": "readEtlResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1594,7 +1649,7 @@
         ],
         "summary": "指定されたデータETLリソースのステータスを取得します。",
         "description": "アドオンの指定されたデータETLリソースのステータスを取得します。",
-        "operationId": "status_AZ0103",
+        "operationId": "readEtlResourceStatus",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1644,7 +1699,7 @@
         ],
         "summary": "クエリ機能リソースの一覧を取得します。",
         "description": "アドオンのクエリ機能リソースの一覧を取得します。",
-        "operationId": "list_AZ0104",
+        "operationId": "listQueryResources",
         "responses": {
           "200": {
             "description": "クエリ機能リソースの取得に成功しました。",
@@ -1677,7 +1732,7 @@
         ],
         "summary": "クエリ機能リソースを作成します。",
         "description": "アドオンのクエリ機能リソースを作成します。",
-        "operationId": "create_AZ0104",
+        "operationId": "createQueryResource",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1719,7 +1774,7 @@
         ],
         "summary": "指定されたクエリ機能リソースを取得します。",
         "description": "アドオンの指定されたクエリ機能リソースを取得します。",
-        "operationId": "get_AZ0104",
+        "operationId": "readQueryResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1763,7 +1818,7 @@
         ],
         "summary": "指定されたクエリ機能リソースを削除します。",
         "description": "アドオンの指定されたクエリ機能リソースを削除します。",
-        "operationId": "delete_AZ0104",
+        "operationId": "deleteQueryResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1802,7 +1857,7 @@
         ],
         "summary": "指定されたクエリ機能リソースのステータスを取得します。",
         "description": "アドオンの指定されたクエリ機能リソースのステータスを取得します。",
-        "operationId": "status_AZ0104",
+        "operationId": "readQueryResourceStatus",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1852,7 +1907,7 @@
         ],
         "summary": "検索機能リソースの一覧を取得します。",
         "description": "アドオンの検索機能リソースの一覧を取得します。",
-        "operationId": "list_AZ0105",
+        "operationId": "listSearchResources",
         "responses": {
           "200": {
             "description": "検索機能リソースの取得に成功しました。",
@@ -1885,7 +1940,7 @@
         ],
         "summary": "検索機能リソースを作成します。",
         "description": "アドオンの検索機能リソースを作成します。",
-        "operationId": "create_AZ0105",
+        "operationId": "createSearchResource",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1927,7 +1982,7 @@
         ],
         "summary": "指定された検索機能リソースを取得します。",
         "description": "アドオンの指定された検索機能リソースを取得します。",
-        "operationId": "get_AZ0105",
+        "operationId": "readSearchResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -1971,7 +2026,7 @@
         ],
         "summary": "指定された検索機能リソースを削除します。",
         "description": "アドオンの指定された検索機能リソースを削除します。",
-        "operationId": "delete_AZ0105",
+        "operationId": "deleteSearchResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -2010,7 +2065,7 @@
         ],
         "summary": "指定された検索機能リソースのステータスを取得します。",
         "description": "アドオンの指定された検索機能リソースのステータスを取得します。",
-        "operationId": "status_AZ0105",
+        "operationId": "readSearchResourceStatus",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -2060,7 +2115,7 @@
         ],
         "summary": "ストリーミング処理機能リソースの一覧を取得します。",
         "description": "アドオンのストリーミング処理機能リソースの一覧を取得します。",
-        "operationId": "list_AZ0107",
+        "operationId": "listStreamingResources",
         "responses": {
           "200": {
             "description": "ストリーミング処理機能リソースの取得に成功しました。",
@@ -2093,7 +2148,7 @@
         ],
         "summary": "ストリーミング処理機能リソースを作成します。",
         "description": "アドオンのストリーミング処理機能リソースを作成します。",
-        "operationId": "create_AZ0107",
+        "operationId": "createStreamingResource",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2135,7 +2190,7 @@
         ],
         "summary": "指定されたストリーミング処理機能リソースを取得します。",
         "description": "アドオンの指定されたストリーミング処理機能リソースを取得します。",
-        "operationId": "get_AZ0107",
+        "operationId": "readStreamingResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -2179,7 +2234,7 @@
         ],
         "summary": "指定されたストリーミング処理機能リソースを削除します。",
         "description": "アドオンの指定されたストリーミング処理機能リソースを削除します。",
-        "operationId": "delete_AZ0107",
+        "operationId": "deleteStreamingResource",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -2218,7 +2273,7 @@
         ],
         "summary": "指定されたストリーミング処理機能リソースのステータスを取得します。",
         "description": "アドオンの指定されたストリーミング処理機能リソースのステータスを取得します。",
-        "operationId": "status_AZ0107",
+        "operationId": "readStreamingResourceStatus",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -2273,19 +2328,26 @@
         "properties": {
           "location": {
             "minLength": 1,
-            "type": "string"
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
           },
           "sku": {
             "$ref": "#/components/schemas/AiServiceSku"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "機械学習関連機能の作成APIで受信するリクエストボディを表します。"
       },
       "AiServiceSku": {
         "enum": [
           1
         ],
         "type": "integer",
+        "description": "AI Servicesリソースで使用するSKUを指定します。指定値とSKUの対応は次の通りです。\r\n- 1: S0",
         "format": "int32"
       },
       "AzureLocation": {
@@ -2304,6 +2366,50 @@
         },
         "additionalProperties": false
       },
+      "AzureResourceGroupData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "リソースグループ名",
+            "nullable": true
+          },
+          "location": {
+            "type": "string",
+            "description": "リソースグループのリージョン",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "リソースグループの情報を表します。"
+      },
+      "CachePurgeRequestBody": {
+        "required": [
+          "contentPaths",
+          "location"
+        ],
+        "type": "object",
+        "properties": {
+          "location": {
+            "minLength": 1,
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
+          },
+          "contentPaths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "パージ対象のコンテンツパス配列。パスの先頭はスラッシュ (/) にする必要があります。全コンテンツをパージする場合は \"/*\" を指定します。"
+          }
+        },
+        "additionalProperties": false,
+        "description": "キャッシュパージAPIで受信するリクエストボディを表します。"
+      },
       "CreatedByType": {
         "type": "object",
         "additionalProperties": false
@@ -2314,6 +2420,7 @@
           2
         ],
         "type": "integer",
+        "description": "パフォーマンスを指定します。指定値とパフォーマンスの対応は次の通りです。\r\n- 1: Standard\r\n- 2: Premium",
         "format": "int32"
       },
       "DataLakeRedundancy": {
@@ -2324,6 +2431,7 @@
           4
         ],
         "type": "integer",
+        "description": "冗長性を指定します。指定値と冗長性の対応は次の通りです。\r\n- 1: LRS（ローカル冗長ストレージ）\r\n- 2: GRS（geo冗長ストレージ）\r\n- 3: ZRS（ゾーン冗長ストレージ）\r\n- 4: GZRS（geoゾーン冗長ストレージ）",
         "format": "int32"
       },
       "DatalakePostRequestBody": {
@@ -2336,7 +2444,12 @@
         "properties": {
           "location": {
             "minLength": 1,
-            "type": "string"
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
           },
           "performance": {
             "$ref": "#/components/schemas/DataLakePerformance"
@@ -2346,11 +2459,13 @@
           },
           "accountType": {
             "type": "string",
+            "description": "アカウントタイプ（パフォーマンスと冗長性の組み合わせ）",
             "nullable": true,
             "readOnly": true
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "データレイク機能の作成APIで受信するリクエストボディ"
       },
       "DatawarehousePostRequestBody": {
         "required": [
@@ -2360,7 +2475,12 @@
         "properties": {
           "location": {
             "minLength": 1,
-            "type": "string"
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
           }
         },
         "additionalProperties": false
@@ -2375,7 +2495,12 @@
         "properties": {
           "location": {
             "minLength": 1,
-            "type": "string"
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
           },
           "profile": {
             "$ref": "#/components/schemas/FrontDoorProfile"
@@ -2384,56 +2509,67 @@
             "$ref": "#/components/schemas/FrontDoorEndpoint"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "セキュリティ機能 DDoSサービスの作成APIで受信するリクエストボディを表します。"
       },
       "DeploymentStatus": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
+            "description": "デプロイメントの一意の識別子。",
             "nullable": true
           },
           "name": {
             "type": "string",
+            "description": "デプロイメントの名前。",
             "nullable": true
           },
           "type": {
             "type": "string",
+            "description": "デプロイメントのタイプ。",
             "nullable": true
           },
           "properties": {
             "$ref": "#/components/schemas/DeploymentStatusProperties"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "デプロイメントステータスのレスポンスを表します。"
       },
       "DeploymentStatusProperties": {
         "type": "object",
         "properties": {
           "provisioningState": {
             "type": "string",
+            "description": "リソースのプロビジョニング状態。",
             "nullable": true
           },
           "timestamp": {
             "type": "string",
+            "description": "デプロイメントステータスのタイムスタンプ。",
             "format": "date-time"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "デプロイメントステータスのプロパティを表します。"
       },
       "ErrorInfo": {
         "type": "object",
         "properties": {
           "code": {
             "type": "string",
+            "description": "エラーコード",
             "nullable": true
           },
           "message": {
             "type": "string",
+            "description": "エラーメッセージ",
             "nullable": true
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "エラー情報"
       },
       "ErrorResponse": {
         "type": "object",
@@ -2443,10 +2579,12 @@
             "items": {
               "$ref": "#/components/schemas/ErrorInfo"
             },
+            "description": "エラーリスト",
             "nullable": true
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "エラーレスポンス"
       },
       "EtlPostRequestBody": {
         "required": [
@@ -2456,7 +2594,12 @@
         "properties": {
           "location": {
             "minLength": 1,
-            "type": "string"
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
           }
         },
         "additionalProperties": false
@@ -2471,7 +2614,8 @@
             "$ref": "#/components/schemas/FrontDoorRoute"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Front Doorのエンドポイント"
       },
       "FrontDoorOrigin": {
         "required": [
@@ -2483,15 +2627,18 @@
           "hostName": {
             "maxLength": 100,
             "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "description": "配信元のホスト名を指定します。\r\nホスト名は、有効なドメイン名、IPv4、または IPv6 である必要があります。"
           },
           "hostHeader": {
             "maxLength": 100,
             "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "description": "配信元のホストヘッダーを指定します。\r\nホストヘッダーは、有効なドメイン名、IPv4、または IPv6 である必要があります。"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "配信元"
       },
       "FrontDoorOriginGroup": {
         "required": [
@@ -2503,7 +2650,8 @@
             "$ref": "#/components/schemas/FrontDoorOrigin"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "配信元グループ"
       },
       "FrontDoorProfile": {
         "required": [
@@ -2516,11 +2664,13 @@
           },
           "levelNameOfBicepParameter": {
             "type": "string",
+            "description": "Azure Front Doorの価格レベルのBicepテンプレートパラメーター名を取得します。",
             "nullable": true,
             "readOnly": true
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Front Doorのプロファイル"
       },
       "FrontDoorRoute": {
         "required": [
@@ -2533,26 +2683,34 @@
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Front Doorルートのパスパターンを指定します。\r\nパターンの先頭はスラッシュ (/) にする必要があります。アスタリスクは末尾のみで使用でき、アスタリスクの前はスラッシュ (/*) にする必要があります 。"
           },
           "originGroup": {
             "$ref": "#/components/schemas/FrontDoorOriginGroup"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Front Doorルート"
       },
       "GetResourceResponse": {
         "type": "object",
         "properties": {
           "data": {
+            "description": "データ",
             "nullable": true
           },
           "url": {
             "type": "string",
+            "description": "管理ポータルのURL",
             "nullable": true
+          },
+          "resourceGroup": {
+            "$ref": "#/components/schemas/AzureResourceGroupData"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "リソース個別取得APIのレスポンス"
       },
       "ListResourcesResponse": {
         "type": "object",
@@ -2562,6 +2720,7 @@
             "items": {
               "$ref": "#/components/schemas/ResourceGroupResource"
             },
+            "description": "リソースグループ一覧",
             "nullable": true
           }
         },
@@ -2577,7 +2736,12 @@
         "properties": {
           "location": {
             "minLength": 1,
-            "type": "string"
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
           },
           "profile": {
             "$ref": "#/components/schemas/FrontDoorProfile"
@@ -2586,21 +2750,37 @@
             "$ref": "#/components/schemas/FrontDoorEndpoint"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "ネットワークとCDNの作成APIで受信するリクエストボディを表します。"
       },
       "PostDeploymentResponse": {
         "type": "object",
         "properties": {
           "resourceGroupName": {
             "type": "string",
+            "description": "リソースグループ名を取得します。",
             "nullable": true
           },
           "deploymentName": {
             "type": "string",
+            "description": "デプロイメント名を取得します。",
             "nullable": true
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "デプロイメントが投稿された後に受け取るレスポンスを表します。"
+      },
+      "PostPurgeResponse": {
+        "type": "object",
+        "properties": {
+          "resourceGroupName": {
+            "type": "string",
+            "description": "リソースグループ名を取得します。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "キャッシュパージ後に受け取るレスポンスを表します。"
       },
       "PricingLevel": {
         "enum": [
@@ -2608,6 +2788,7 @@
           2
         ],
         "type": "integer",
+        "description": "Front Doorリソースの価格レベルを指定します。指定値と価格レベルの対応は次の通りです。\r\n- 1: Standard\r\n- 2: Premium",
         "format": "int32"
       },
       "QueryPostRequestBody": {
@@ -2618,7 +2799,12 @@
         "properties": {
           "location": {
             "minLength": 1,
-            "type": "string"
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
           }
         },
         "additionalProperties": false
@@ -2676,11 +2862,6 @@
           },
           "data": {
             "$ref": "#/components/schemas/ResourceGroupData"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri",
-            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -2747,13 +2928,19 @@
         "properties": {
           "location": {
             "minLength": 1,
-            "type": "string"
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
           },
           "sku": {
             "$ref": "#/components/schemas/SearchSku"
           },
           "skuString": {
             "type": "string",
+            "description": "Azure AI SearchのSKUのBicepパラメータ用文字列",
             "nullable": true,
             "readOnly": true
           },
@@ -2761,14 +2948,25 @@
             "maximum": 12,
             "minimum": 1,
             "type": "integer",
+            "description": "AI Searchのレプリカ数を指定します。\r\n選択したSKUに応じて、指定可能な値は次の通りです。\r\n- 1: 全SKUで指定可能\r\n- 2, 3: Free 以外のSKUで指定可能\r\n- 4 ～ 12: Free、Basic 以外のSKUで指定可能",
             "format": "int32"
           },
           "partitionCount": {
+            "enum": [
+              1,
+              2,
+              3,
+              4,
+              6,
+              12
+            ],
             "type": "integer",
+            "description": "AI Searchのパーティション数を指定します。\r\n指定できる値は 1, 2, 3, 4, 6, 12 のいずれかです。\r\n選択したSKUに応じて、指定可能な値は次の通りです。\r\n- 1: 全SKUで指定可能\r\n- 2, 3: Free 以外のSKUで指定可能\r\n- 4, 6, 12: Free、Basic、Standard3HD 以外のSKUで指定可能\r\n\r\nまた、レプリカ数 × パーティション数は次の範囲にしてください。\r\n- 1: SKUにFreeを指定する場合\r\n- 1 ～ 9: SKUにBasicを指定する場合\r\n- 1 ～ 36: Free、Basic 以外のSKUを指定する場合",
             "format": "int32"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "検索機能の作成APIで受信するリクエストボディ"
       },
       "SearchSku": {
         "enum": [
@@ -2782,6 +2980,7 @@
           8
         ],
         "type": "integer",
+        "description": "AI SearchのSKUを指定します。\r\n指定値とSKUの対応は次の通りです。\r\n- 1: Free\r\n- 2: Basic\r\n- 3: Standard\r\n- 4: Standard2\r\n- 5: Standard3\r\n- 6: Standard3HD\r\n- 7: StorageOptimizedL1\r\n- 8: StorageOptimizedL2",
         "format": "int32"
       },
       "ServerOsType": {
@@ -2790,6 +2989,7 @@
           2
         ],
         "type": "integer",
+        "description": "サーバーのOSの種類を指定します。指定値とOSの種類の対応は次の通りです。\r\n- 1: Windows\r\n- 2: Linux",
         "format": "int32"
       },
       "StreamingRequestBody": {
@@ -2801,11 +3001,17 @@
         "properties": {
           "location": {
             "minLength": 1,
-            "type": "string"
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
           },
           "unitCount": {
             "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "description": "Stream Analyticsのストリーミングユニット数を指定します。\r\n指定値と実際のユニット数の対応は次の通りです。\r\n- 3: 1/3ユニット\r\n- 7: 2/3ユニット\r\n- 10 ～ 660: 1 ～ 66ユニット（※）\r\n\r\n※ 10 以上を指定する場合は、作成したいユニット数 × 10 の値を指定してください。指定できるのは 10 の倍数のみです。11 など 10 の倍数でない値を指定した場合はエラーとなります。"
           }
         },
         "additionalProperties": false
@@ -2853,27 +3059,36 @@
         "properties": {
           "location": {
             "minLength": 1,
-            "type": "string"
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
           },
           "os": {
             "$ref": "#/components/schemas/ServerOsType"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "セキュリティ機能 脆弱性診断サービスの作成APIで受信するリクエストボディを表します。"
       },
       "VulnerabilityResponseBody": {
         "type": "object",
         "properties": {
           "resourceGroupName": {
             "type": "string",
+            "description": "リソースグループ名",
             "nullable": true
           },
           "installScript": {
             "type": "string",
+            "description": "インストールスクリプト",
             "nullable": true
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "脆弱性検出サービスリソース作成APIのレスポンス"
       },
       "WafRequestBody": {
         "required": [
@@ -2885,7 +3100,12 @@
         "properties": {
           "location": {
             "minLength": 1,
-            "type": "string"
+            "enum": [
+              "japaneast"
+            ],
+            "type": "string",
+            "description": "デプロイ先のリージョン",
+            "example": "japaneast"
           },
           "profile": {
             "$ref": "#/components/schemas/FrontDoorProfile"
@@ -2894,8 +3114,24 @@
             "$ref": "#/components/schemas/FrontDoorEndpoint"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "セキュリティ機能 WAFサービスの作成APIで受信するリクエストボディを表します。"
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "AI"
+    },
+    {
+      "name": "CDN"
+    },
+    {
+      "name": "セキュリティ"
+    },
+    {
+      "name": "データ分析"
+    }
+  ]
 }
+

@@ -12,10 +12,10 @@ import (
 )
 
 type WorkerNodeAPI interface {
-	// List returns the list of WorkerNodes, paginated.
+	// List returns the list of WorkerNode summaries, paginated.
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
-	List(ctx context.Context, maxItems int64, cursor *v1.WorkerNodeID) (list []WorkerNodeDetail, nextCursor *v1.WorkerNodeID, err error)
+	List(ctx context.Context, maxItems int64, cursor *v1.WorkerNodeID) (list []v1.WorkerNodeSummary, nextCursor *v1.WorkerNodeID, err error)
 	Read(ctx context.Context, id v1.WorkerNodeID) (node *WorkerNodeDetail, err error)
 	Update(ctx context.Context, id v1.WorkerNodeID, draining bool) error
 }
@@ -34,7 +34,7 @@ func NewWorkerNodeOp(client *v1.Client, clusterID v1.ClusterID, autoScalingGroup
 	}
 }
 
-func (op *WorkerNodeOp) List(ctx context.Context, maxItems int64, cursor *v1.WorkerNodeID) (nodes []WorkerNodeDetail, nextCursor *v1.WorkerNodeID, err error) {
+func (op *WorkerNodeOp) List(ctx context.Context, maxItems int64, cursor *v1.WorkerNodeID) (nodes []v1.WorkerNodeSummary, nextCursor *v1.WorkerNodeID, err error) {
 	res, err := common.ErrorFromDecodedResponse("WorkerNode.List", func() (*v1.ListWorkerNodesResponse, error) {
 		return op.client.ListWorkerNodes(ctx, v1.ListWorkerNodesParams{
 			ClusterID:          op.clusterID,
@@ -46,11 +46,7 @@ func (op *WorkerNodeOp) List(ctx context.Context, maxItems int64, cursor *v1.Wor
 
 	if res != nil {
 		nextCursor = common.FromOpt(res.NextCursor)
-		nodes = common.MapSlice(res.WorkerNodes, func(w v1.WorkerNodeSummary) WorkerNodeDetail {
-			var detail WorkerNodeDetail
-			detail.fromSummary(&w)
-			return detail
-		})
+		nodes = res.WorkerNodes
 	}
 
 	return
@@ -100,20 +96,6 @@ type WorkerNodeDetail struct {
 	NetworkInterfaces  []WorkerNodeNetworkInterface    `json:"networkInterfaces"`
 	ArchiveVersion     *string                         `json:"archiveVersion"`
 	CreateErrorMessage *string                         `json:"createErrorMessage"`
-}
-
-func (w *WorkerNodeDetail) fromSummary(res *v1.WorkerNodeSummary) {
-	w.WorkerNodeID = res.GetWorkerNodeID()
-	w.ResourceID = common.FromOpt(res.GetResourceID())
-	w.Draining = res.GetDraining()
-	w.Status = res.GetStatus()
-	w.Healthy = false
-	w.Creating = false
-	w.Created = res.GetCreated()
-	w.RunningContainers = []v1.WorkerNodeRunningContainer(nil)
-	w.NetworkInterfaces = common.MapSlice(res.GetNetworkInterfaces(), common.ConvertFrom[v1.WorkerNodeNetworkInterface, WorkerNodeNetworkInterface]())
-	w.ArchiveVersion = common.FromOpt(res.GetArchiveVersion())
-	w.CreateErrorMessage = common.FromOpt(res.GetCreateErrorMessage())
 }
 
 func (w *WorkerNodeDetail) from(res *v1.WorkerNode) {

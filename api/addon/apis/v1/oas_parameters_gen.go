@@ -2,200 +2,205 @@
 
 package v1
 
-// DeleteAZ0101Params is parameters of delete_AZ0101 operation.
-type DeleteAZ0101Params struct {
+// DeleteAiResourceParams is parameters of deleteAiResource operation.
+type DeleteAiResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// DeleteAZ0102Params is parameters of delete_AZ0102 operation.
-type DeleteAZ0102Params struct {
+// DeleteCdnResourceParams is parameters of deleteCdnResource operation.
+type DeleteCdnResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// DeleteAZ0103Params is parameters of delete_AZ0103 operation.
-type DeleteAZ0103Params struct {
+// DeleteDatalakeResourceParams is parameters of deleteDatalakeResource operation.
+type DeleteDatalakeResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// DeleteAZ0104Params is parameters of delete_AZ0104 operation.
-type DeleteAZ0104Params struct {
+// DeleteDdosResourceParams is parameters of deleteDdosResource operation.
+type DeleteDdosResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// DeleteAZ0105Params is parameters of delete_AZ0105 operation.
-type DeleteAZ0105Params struct {
+// DeleteDwhResourceParams is parameters of deleteDwhResource operation.
+type DeleteDwhResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// DeleteAZ0107Params is parameters of delete_AZ0107 operation.
-type DeleteAZ0107Params struct {
+// DeleteEtlResourceParams is parameters of deleteEtlResource operation.
+type DeleteEtlResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// DeleteAZ0301Params is parameters of delete_AZ0301 operation.
-type DeleteAZ0301Params struct {
+// DeleteQueryResourceParams is parameters of deleteQueryResource operation.
+type DeleteQueryResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// DeleteAZ0401Params is parameters of delete_AZ0401 operation.
-type DeleteAZ0401Params struct {
+// DeleteSearchResourceParams is parameters of deleteSearchResource operation.
+type DeleteSearchResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// DeleteAZ0402Params is parameters of delete_AZ0402 operation.
-type DeleteAZ0402Params struct {
+// DeleteStreamingResourceParams is parameters of deleteStreamingResource operation.
+type DeleteStreamingResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// DeleteAZ0403Params is parameters of delete_AZ0403 operation.
-type DeleteAZ0403Params struct {
+// DeleteVulnerabilityResourceParams is parameters of deleteVulnerabilityResource operation.
+type DeleteVulnerabilityResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// DeleteAZ0501Params is parameters of delete_AZ0501 operation.
-type DeleteAZ0501Params struct {
+// DeleteWafResourceParams is parameters of deleteWafResource operation.
+type DeleteWafResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// GetAZ0101Params is parameters of get_AZ0101 operation.
-type GetAZ0101Params struct {
+// PurgeCdnCacheParams is parameters of purgeCdnCache operation.
+type PurgeCdnCacheParams struct {
+	ResourceGroupName string
+}
+
+// ReadAiResourceParams is parameters of readAiResource operation.
+type ReadAiResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 }
 
-// GetAZ0102Params is parameters of get_AZ0102 operation.
-type GetAZ0102Params struct {
-	// リソースグループ名.
-	ResourceGroupName string
-}
-
-// GetAZ0103Params is parameters of get_AZ0103 operation.
-type GetAZ0103Params struct {
-	// リソースグループ名.
-	ResourceGroupName string
-}
-
-// GetAZ0104Params is parameters of get_AZ0104 operation.
-type GetAZ0104Params struct {
-	// リソースグループ名.
-	ResourceGroupName string
-}
-
-// GetAZ0105Params is parameters of get_AZ0105 operation.
-type GetAZ0105Params struct {
-	// リソースグループ名.
-	ResourceGroupName string
-}
-
-// GetAZ0107Params is parameters of get_AZ0107 operation.
-type GetAZ0107Params struct {
-	// リソースグループ名.
-	ResourceGroupName string
-}
-
-// GetAZ0301Params is parameters of get_AZ0301 operation.
-type GetAZ0301Params struct {
-	// リソースグループ名.
-	ResourceGroupName string
-}
-
-// GetAZ0401Params is parameters of get_AZ0401 operation.
-type GetAZ0401Params struct {
-	// リソースグループ名.
-	ResourceGroupName string
-}
-
-// GetAZ0402Params is parameters of get_AZ0402 operation.
-type GetAZ0402Params struct {
-	// リソースグループ名.
-	ResourceGroupName string
-}
-
-// GetAZ0403Params is parameters of get_AZ0403 operation.
-type GetAZ0403Params struct {
-	// リソースグループ名.
-	ResourceGroupName string
-}
-
-// GetAZ0501Params is parameters of get_AZ0501 operation.
-type GetAZ0501Params struct {
-	// リソースグループ名.
-	ResourceGroupName string
-}
-
-// StatusAZ0101Params is parameters of status_AZ0101 operation.
-type StatusAZ0101Params struct {
+// ReadAiResourceStatusParams is parameters of readAiResourceStatus operation.
+type ReadAiResourceStatusParams struct {
 	ResourceGroupName string
 	DeploymentName    string
 }
 
-// StatusAZ0102Params is parameters of status_AZ0102 operation.
-type StatusAZ0102Params struct {
+// ReadCdnResourceParams is parameters of readCdnResource operation.
+type ReadCdnResourceParams struct {
+	// リソースグループ名.
 	ResourceGroupName string
-	DeploymentName    string
 }
 
-// StatusAZ0103Params is parameters of status_AZ0103 operation.
-type StatusAZ0103Params struct {
-	ResourceGroupName string
-	DeploymentName    string
-}
-
-// StatusAZ0104Params is parameters of status_AZ0104 operation.
-type StatusAZ0104Params struct {
-	ResourceGroupName string
-	DeploymentName    string
-}
-
-// StatusAZ0105Params is parameters of status_AZ0105 operation.
-type StatusAZ0105Params struct {
-	ResourceGroupName string
-	DeploymentName    string
-}
-
-// StatusAZ0107Params is parameters of status_AZ0107 operation.
-type StatusAZ0107Params struct {
-	ResourceGroupName string
-	DeploymentName    string
-}
-
-// StatusAZ0301Params is parameters of status_AZ0301 operation.
-type StatusAZ0301Params struct {
+// ReadCdnResourceStatusParams is parameters of readCdnResourceStatus operation.
+type ReadCdnResourceStatusParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
 	// デプロイメント名.
 	DeploymentName string
 }
 
-// StatusAZ0401Params is parameters of status_AZ0401 operation.
-type StatusAZ0401Params struct {
+// ReadDatalakeResourceParams is parameters of readDatalakeResource operation.
+type ReadDatalakeResourceParams struct {
 	// リソースグループ名.
 	ResourceGroupName string
-	// デプロイメント名.
-	DeploymentName string
 }
 
-// StatusAZ0402Params is parameters of status_AZ0402 operation.
-type StatusAZ0402Params struct {
-	// リソースグループ名.
-	ResourceGroupName string
-	// デプロイメント名.
-	DeploymentName string
-}
-
-// StatusAZ0501Params is parameters of status_AZ0501 operation.
-type StatusAZ0501Params struct {
+// ReadDatalakeResourceStatusParams is parameters of readDatalakeResourceStatus operation.
+type ReadDatalakeResourceStatusParams struct {
 	ResourceGroupName string
 	DeploymentName    string
+}
+
+// ReadDdosResourceParams is parameters of readDdosResource operation.
+type ReadDdosResourceParams struct {
+	// リソースグループ名.
+	ResourceGroupName string
+}
+
+// ReadDdosResourceStatusParams is parameters of readDdosResourceStatus operation.
+type ReadDdosResourceStatusParams struct {
+	// リソースグループ名.
+	ResourceGroupName string
+	// デプロイメント名.
+	DeploymentName string
+}
+
+// ReadDwhResourceParams is parameters of readDwhResource operation.
+type ReadDwhResourceParams struct {
+	// リソースグループ名.
+	ResourceGroupName string
+}
+
+// ReadDwhResourceStatusParams is parameters of readDwhResourceStatus operation.
+type ReadDwhResourceStatusParams struct {
+	ResourceGroupName string
+	DeploymentName    string
+}
+
+// ReadEtlResourceParams is parameters of readEtlResource operation.
+type ReadEtlResourceParams struct {
+	// リソースグループ名.
+	ResourceGroupName string
+}
+
+// ReadEtlResourceStatusParams is parameters of readEtlResourceStatus operation.
+type ReadEtlResourceStatusParams struct {
+	ResourceGroupName string
+	DeploymentName    string
+}
+
+// ReadQueryResourceParams is parameters of readQueryResource operation.
+type ReadQueryResourceParams struct {
+	// リソースグループ名.
+	ResourceGroupName string
+}
+
+// ReadQueryResourceStatusParams is parameters of readQueryResourceStatus operation.
+type ReadQueryResourceStatusParams struct {
+	ResourceGroupName string
+	DeploymentName    string
+}
+
+// ReadSearchResourceParams is parameters of readSearchResource operation.
+type ReadSearchResourceParams struct {
+	// リソースグループ名.
+	ResourceGroupName string
+}
+
+// ReadSearchResourceStatusParams is parameters of readSearchResourceStatus operation.
+type ReadSearchResourceStatusParams struct {
+	ResourceGroupName string
+	DeploymentName    string
+}
+
+// ReadStreamingResourceParams is parameters of readStreamingResource operation.
+type ReadStreamingResourceParams struct {
+	// リソースグループ名.
+	ResourceGroupName string
+}
+
+// ReadStreamingResourceStatusParams is parameters of readStreamingResourceStatus operation.
+type ReadStreamingResourceStatusParams struct {
+	ResourceGroupName string
+	DeploymentName    string
+}
+
+// ReadVulnerabilityResourceParams is parameters of readVulnerabilityResource operation.
+type ReadVulnerabilityResourceParams struct {
+	// リソースグループ名.
+	ResourceGroupName string
+}
+
+// ReadWafResourceParams is parameters of readWafResource operation.
+type ReadWafResourceParams struct {
+	// リソースグループ名.
+	ResourceGroupName string
+}
+
+// ReadWafResourceStatusParams is parameters of readWafResourceStatus operation.
+type ReadWafResourceStatusParams struct {
+	// リソースグループ名.
+	ResourceGroupName string
+	// デプロイメント名.
+	DeploymentName string
 }
