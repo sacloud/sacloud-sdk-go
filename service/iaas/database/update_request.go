@@ -38,7 +38,7 @@ type UpdateRequest struct {
 	SourceNetwork         *[]string              `service:",omitempty" validate:"omitempty,dive,cidrv4"`
 	EnableReplication     *bool                  `service:",omitempty"`
 	ReplicaUserPassword   *string                `service:",omitempty" validate:"omitempty,required_with=EnableReplication"`
-	Password              *string                `service:",omitempty"`
+	Password              *string                `service:",omitempty" validate:"omitempty,min=1"`
 	EnableWebUI           *bool                  `service:",omitempty"`
 	EnableBackup          *bool                  `service:",omitempty"`
 	BackupWeekdays        *[]types.EDayOfTheWeek `service:",omitempty" validate:"omitempty,required_with=EnableBackup,max=7"`
