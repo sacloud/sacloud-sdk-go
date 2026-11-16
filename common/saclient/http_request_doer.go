@@ -67,14 +67,14 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	// endpoint served with a private CA) in addition to the system roots.
 	// The httptest.Server path below uses its own preconfigured client and
 	// does not need this.
-	if certPEM, ok, err := obtainFromConfig[[]byte](c, "CACertPEM").decompose(); err != nil {
+	if certPEM, ok, err := obtainFromConfig[string](c, "CACertPEM").decompose(); err != nil {
 		return nil, err
 	} else if ok && len(certPEM) > 0 {
 		pool, err := x509.SystemCertPool()
 		if err != nil {
 			pool = x509.NewCertPool()
 		}
-		if !pool.AppendCertsFromPEM(certPEM) {
+		if !pool.AppendCertsFromPEM([]byte(certPEM)) {
 			return nil, NewErrorf("no certificate found in CA certificate PEM")
 		}
 		tr := h.Transport.(*http.Transport)

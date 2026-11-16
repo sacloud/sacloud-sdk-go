@@ -105,13 +105,13 @@ func (s *TLSTestSuite) TestWithCACertPEM() {
 	s.Equal(http.StatusOK, status)
 }
 
-func (s *TLSTestSuite) TestWithCACertFile() {
+func (s *TLSTestSuite) TestWithCACertPath() {
 	svr, pemBytes := s.newTLSServer()
 
 	path := filepath.Join(s.T().TempDir(), "ca.pem")
 	s.Require().NoError(os.WriteFile(path, pemBytes, 0o600))
 
-	subject, err := s.client.DupWith(WithCACertFile(path))
+	subject, err := s.client.DupWith(WithCACertPath(path))
 	s.Require().NoError(err)
 	s.Require().NoError(subject.SetEnviron(tlsDummyEnviron))
 	s.Require().NoError(subject.Populate())
@@ -121,7 +121,7 @@ func (s *TLSTestSuite) TestWithCACertFile() {
 	s.Equal(http.StatusOK, status)
 }
 
-func (s *TLSTestSuite) TestCACertEnv() {
+func (s *TLSTestSuite) TestCACertPathEnv() {
 	svr, pemBytes := s.newTLSServer()
 
 	path := filepath.Join(s.T().TempDir(), "ca.pem")
@@ -129,7 +129,25 @@ func (s *TLSTestSuite) TestCACertEnv() {
 
 	subject, err := s.client.DupWith()
 	s.Require().NoError(err)
-	s.Require().NoError(subject.SetEnviron(append([]string{"SAKURA_CACERT=" + path}, tlsDummyEnviron...)))
+	s.Require().NoError(subject.SetEnviron(append([]string{"SAKURA_CA_CERT_PATH=" + path}, tlsDummyEnviron...)))
+	s.Require().NoError(subject.Populate())
+
+	status, err := s.doGet(subject, svr)
+	s.NoError(err)
+	s.Equal(http.StatusOK, status)
+}
+
+// TestCACertPEMEnv proves the SAKURA_CA_CERT environment variable accepts the
+// PEM content itself (like SAKURA_PRIVATE_KEY does), not just a path.
+func (s *TLSTestSuite) TestCACertPEMEnv() {
+	svr, pemBytes := s.newTLSServer()
+
+	subject, err := s.client.DupWith()
+	s.Require().NoError(err)
+	// The PEM spans multiple lines; intoEnvmap splits at the first '=' so the
+	// whole PEM becomes the value.
+	environ := append([]string{"SAKURA_CA_CERT=" + string(pemBytes)}, tlsDummyEnviron...)
+	s.Require().NoError(subject.SetEnviron(environ))
 	s.Require().NoError(subject.Populate())
 
 	status, err := s.doGet(subject, svr)
@@ -220,7 +238,7 @@ func (s *TLSTestSuite) TestCACertInvalidPEM() {
 func (s *TLSTestSuite) TestCACertFileNotFound() {
 	_, _ = s.newTLSServer()
 
-	subject, err := s.client.DupWith(WithCACertFile(filepath.Join(s.T().TempDir(), "missing.pem")))
+	subject, err := s.client.DupWith(WithCACertPath(filepath.Join(s.T().TempDir(), "missing.pem")))
 	s.Require().NoError(err)
 	s.Require().NoError(subject.SetEnviron(tlsDummyEnviron))
 	err = subject.Populate()

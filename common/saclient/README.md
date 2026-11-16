@@ -95,10 +95,19 @@ roots, so the client keeps talking to normally-trusted endpoints too.
 client.SetWith(saclient.WithCACertPEM(pemBytes))
 
 // or from a file
-client.SetWith(saclient.WithCACertFile("/path/to/ca.pem"))
+client.SetWith(saclient.WithCACertPath("/path/to/ca.pem"))
 ```
 
-The same setting can be given as the `SAKURA_CACERT` environment variable, whose
-value is the path of a PEM file. The client reads and validates the file when
-its settings are populated, so a missing or broken file fails early.
+The same settings are also available as environment variables, following the
+`SAKURA_PRIVATE_KEY` / `SAKURA_PRIVATE_KEY_PATH` convention:
+
+| environment variable | value |
+|----------------------|-------|
+| `SAKURA_CA_CERT` | the PEM content itself |
+| `SAKURA_CA_CERT_PATH` | the path of a PEM file |
+
+When both are given, the direct PEM value (`WithCACertPEM` / `SAKURA_CA_CERT`)
+takes precedence over the path (`WithCACertPath` / `SAKURA_CA_CERT_PATH`). The
+client reads and validates the PEM when its settings are populated, so a missing
+or broken file fails early.
 

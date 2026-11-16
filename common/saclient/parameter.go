@@ -62,7 +62,7 @@ type storage struct {
 	middlewares            option[[]Middleware]
 	checkRetryFunc         option[retryablehttp.CheckRetry]
 	endpoints              option[map[string]string]
-	caCertPEM              option[[]byte]
+	caCertPEM              option[string]
 	caCertPEMPath          option[string]
 
 	// Deprecated: this is to migrate from old client.
@@ -93,7 +93,7 @@ func (p *parameter) setEnviron(env []string) error {
 		return NewErrorf("nil parameter")
 	} else {
 		p.env = slices.Clone(env)
-		r := make([]error, 0, 45) // <- 45 is the # of `append` calls below
+		r := make([]error, 0, 46) // <- 46 is the # of `append` calls below
 		e := intoEnvmap(env)
 		s := &p.envp
 
@@ -122,7 +122,8 @@ func (p *parameter) setEnviron(env []string) error {
 		r = append(r, e.fetchInto("SAKURA_RATE_LIMIT", s.apiRequestRateLimit.fromEnv)) // <- intentional; not SAKURA_API_REQUEST_RATE_LIMIT
 		r = append(r, e.fetchInto("SAKURA_TRACE", s.traceMode.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_ACCEPT_LANGUAGE", s.acceptLanguage.fromEnv))
-		r = append(r, e.fetchInto("SAKURA_CACERT", s.caCertPEMPath.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_CA_CERT", s.caCertPEM.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_CA_CERT_PATH", s.caCertPEMPath.fromEnv))
 
 		// SAKURA_ENDPOINTS_* variables
 		endpoints := make(map[string]string)
@@ -840,14 +841,15 @@ func (p *parameter) populateEndpoints(c *config) error {
 }
 
 // populateCACertPEM resolves the custom root CA the client should trust, in
-// addition to the system roots. Direct PEM bytes (set via WithCACertPEM) take
-// precedence; otherwise the PEM file named by CACertPEMPath (WithCACertFile or
-// the SAKURA_CACERT environment variable) is read. The content is validated
-// here so a broken file fails at Populate time.
+// addition to the system roots. Direct PEM text (set via WithCACertPEM or the
+// SAKURA_CA_CERT environment variable) takes precedence; otherwise the PEM file
+// named by CACertPEMPath (WithCACertPath or the SAKURA_CA_CERT_PATH environment
+// variable) is read. The content is validated here so a broken file fails at
+// Populate time.
 func (p *parameter) populateCACertPEM(c *config) error {
-	if v, ok, err := prioritizedParameterValue[[]byte](p, c, "CACertPEM").decompose(); err != nil {
+	if v, ok, err := prioritizedParameterValue[string](p, c, "CACertPEM").decompose(); err != nil {
 		return err
-	} else if ok && len(v) > 0 {
+	} else if ok && v != "" {
 		if err := validateCACertPEM(v); err != nil {
 			return err
 		}
@@ -866,15 +868,16 @@ func (p *parameter) populateCACertPEM(c *config) error {
 	if err != nil {
 		return NewErrorf("cannot read CA certificate file: %v", err)
 	}
-	if err := validateCACertPEM(b); err != nil {
+	pemText := string(b)
+	if err := validateCACertPEM(pemText); err != nil {
 		return err
 	}
-	return c.set("CACertPEM", b)
+	return c.set("CACertPEM", pemText)
 }
 
-func validateCACertPEM(pemBytes []byte) error {
+func validateCACertPEM(pemText string) error {
 	pool := x509.NewCertPool()
-	if !pool.AppendCertsFromPEM(pemBytes) {
+	if !pool.AppendCertsFromPEM([]byte(pemText)) {
 		return NewErrorf("no certificate found in CA certificate PEM")
 	}
 	return nil
