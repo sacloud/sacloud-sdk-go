@@ -64,40 +64,22 @@ func (k SortKey) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON キーの文字列表現("Name"、降順は"-Name")からのデコード
-//
-// MarshalJSON が出力する文字列形式に加え、従来のオブジェクト形式({"Key":"Name","Order":1})も受け付ける。
 func (k *SortKey) UnmarshalJSON(data []byte) error {
 	// null の場合は値を変更しない(encoding/json の規約に従う)
 	if string(data) == "null" {
 		return nil
 	}
 
-	if len(data) > 0 && data[0] == '"' {
-		// 文字列形式: 昇順は"Name"、降順は"-Name"
-		var s string
-		if err := json.Unmarshal(data, &s); err != nil {
-			return err
-		}
-		if len(s) > 0 && s[0] == '-' {
-			k.Key = s[1:]
-			k.Order = SortDesc
-		} else {
-			k.Key = s
-			k.Order = SortAsc
-		}
-		return nil
+	var s string
+	if err := json.Unmarshal(data, &s); err != nil {
+		return fmt.Errorf("search: cannot unmarshal %s into SortKey (must be a string like \"Name\" or \"-Name\")", data)
 	}
-
-	if len(data) > 0 && data[0] == '{' {
-		// オブジェクト形式: {"Key":"Name","Order":1}
-		type alias SortKey
-		var a alias
-		if err := json.Unmarshal(data, &a); err != nil {
-			return err
-		}
-		*k = SortKey(a)
-		return nil
+	if len(s) > 0 && s[0] == '-' {
+		k.Key = s[1:]
+		k.Order = SortDesc
+	} else {
+		k.Key = s
+		k.Order = SortAsc
 	}
-
-	return fmt.Errorf("search: cannot unmarshal %s into SortKey (must be a string like \"Name\" or \"-Name\", or an object like {\"Key\":\"Name\",\"Order\":1})", data)
+	return nil
 }

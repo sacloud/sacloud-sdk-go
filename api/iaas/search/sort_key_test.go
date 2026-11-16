@@ -44,23 +44,6 @@ func TestSortKey_UnmarshalJSON(t *testing.T) {
 		}
 	})
 
-	t.Run("object form", func(t *testing.T) {
-		testCases := []struct {
-			input  string
-			expect SortKey
-		}{
-			{input: `{"Key":"Name","Order":0}`, expect: SortKeyAsc("Name")},
-			{input: `{"Key":"Name","Order":1}`, expect: SortKeyDesc("Name")},
-			{input: `{"Key":"Name"}`, expect: SortKeyAsc("Name")},
-		}
-		for _, tc := range testCases {
-			var k SortKey
-			err := json.Unmarshal([]byte(tc.input), &k)
-			require.NoError(t, err)
-			require.Equal(t, tc.expect, k)
-		}
-	})
-
 	t.Run("null", func(t *testing.T) {
 		// null は値を変更しない
 		k := SortKeyAsc("Name")
@@ -70,11 +53,13 @@ func TestSortKey_UnmarshalJSON(t *testing.T) {
 	})
 
 	t.Run("invalid", func(t *testing.T) {
-		for _, data := range []string{`1`, `true`, `[]`} {
+		// オブジェクト形式({"Key":"Name","Order":1})は MarshalJSON が出力しないため受け付けない
+		for _, data := range []string{`1`, `true`, `[]`, `{"Key":"Name","Order":1}`} {
 			var k SortKey
 			err := json.Unmarshal([]byte(data), &k)
 			require.Error(t, err)
 			require.ErrorContains(t, err, "SortKey")
+			require.ErrorContains(t, err, "string like")
 		}
 	})
 }
