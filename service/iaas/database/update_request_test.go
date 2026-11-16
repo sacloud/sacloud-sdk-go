@@ -4,10 +4,57 @@
 package database
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
+
+func TestUpdateRequestValidatePassword(t *testing.T) {
+	tests := []struct {
+		name    string
+		request *UpdateRequest
+		wantErr string
+	}{
+		{
+			name:    "password omitted",
+			request: &UpdateRequest{Zone: "is1b", ID: 123},
+		},
+		{
+			name: "password specified",
+			request: &UpdateRequest{
+				Zone:     "is1b",
+				ID:       123,
+				Password: new("new-password"),
+			},
+		},
+		{
+			name: "explicit empty password",
+			request: &UpdateRequest{
+				Zone:     "is1b",
+				ID:       123,
+				Password: new(""),
+			},
+			wantErr: "Password: min=1",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := tt.request.Validate()
+			if tt.wantErr == "" {
+				if err != nil {
+					t.Fatalf("Validate() error = %v, want nil", err)
+				}
+				return
+			}
+			// validatorのエラーはmultierrorでラップされるため部分一致で判定する
+			if err == nil || !strings.Contains(err.Error(), tt.wantErr) {
+				t.Fatalf("Validate() error = %v, want error containing %q", err, tt.wantErr)
+			}
+		})
+	}
+}
 
 func TestUpdateRequestValidateBackupv2Weekdays(t *testing.T) {
 	tests := []struct {

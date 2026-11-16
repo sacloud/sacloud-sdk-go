@@ -243,7 +243,8 @@ func (b *Builder) update(ctx context.Context, zone string, id types.ID) (*iaas.D
 }
 
 func (b *Builder) collectUpdateInfo(db *iaas.Database) (isNeedShutdown bool, err error) {
-	isNeedShutdown = b.CommonSetting.ReplicaPassword != db.CommonSetting.ReplicaPassword
+	isNeedShutdown = b.CommonSetting.ReplicaPassword != "" &&
+		b.CommonSetting.ReplicaPassword != db.CommonSetting.ReplicaPassword
 	return
 }
 
