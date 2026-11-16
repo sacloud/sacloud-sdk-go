@@ -9,6 +9,10 @@ type CreateAccountRes interface {
 	createAccountRes()
 }
 
+type CreateBucketReplicationRes interface {
+	createBucketReplicationRes()
+}
+
 type CreateBucketRes interface {
 	createBucketRes()
 }
@@ -49,100 +53,96 @@ type DeletePermissionRes interface {
 	deletePermissionRes()
 }
 
-type GetAccountKeyRes interface {
-	getAccountKeyRes()
+type ListAccountKeysRes interface {
+	listAccountKeysRes()
 }
 
-type GetAccountKeysRes interface {
-	getAccountKeysRes()
+type ListBucketMeteringRes interface {
+	listBucketMeteringRes()
 }
 
-type GetAccountRes interface {
-	getAccountRes()
-}
-
-type GetBucketEncryptionRes interface {
-	getBucketEncryptionRes()
-}
-
-type GetBucketMeteringRes interface {
-	getBucketMeteringRes()
-}
-
-type GetBucketPenaltyRes interface {
-	getBucketPenaltyRes()
-}
-
-type GetBucketPlanRes interface {
-	getBucketPlanRes()
-}
-
-type GetBucketQuotaRes interface {
-	getBucketQuotaRes()
-}
-
-type GetBucketReplicableTargetsRes interface {
-	getBucketReplicableTargetsRes()
-}
-
-type GetBucketReplicationRes interface {
-	getBucketReplicationRes()
-}
-
-type GetBucketUsageRes interface {
-	getBucketUsageRes()
-}
-
-type GetClusterRes interface {
-	getClusterRes()
-}
-
-type GetClustersRes interface {
-	getClustersRes()
-}
-
-type GetPermissionKeyRes interface {
-	getPermissionKeyRes()
-}
-
-type GetPermissionKeysRes interface {
-	getPermissionKeysRes()
-}
-
-type GetPermissionRes interface {
-	getPermissionRes()
-}
-
-type GetPermissionsRes interface {
-	getPermissionsRes()
-}
-
-type GetPlansRes interface {
-	getPlansRes()
-}
-
-type GetQuotaRes interface {
-	getQuotaRes()
-}
-
-type GetStatusRes interface {
-	getStatusRes()
+type ListBucketReplicableTargetsRes interface {
+	listBucketReplicableTargetsRes()
 }
 
 type ListBucketsRes interface {
 	listBucketsRes()
 }
 
-type PostBucketReplicationRes interface {
-	postBucketReplicationRes()
+type ListClustersRes interface {
+	listClustersRes()
 }
 
-type PutBucketEncryptionRes interface {
-	putBucketEncryptionRes()
+type ListPermissionKeysRes interface {
+	listPermissionKeysRes()
 }
 
-type PutBucketPlanRes interface {
-	putBucketPlanRes()
+type ListPermissionsRes interface {
+	listPermissionsRes()
+}
+
+type ListPlansRes interface {
+	listPlansRes()
+}
+
+type ReadAccountKeyRes interface {
+	readAccountKeyRes()
+}
+
+type ReadAccountRes interface {
+	readAccountRes()
+}
+
+type ReadBucketEncryptionRes interface {
+	readBucketEncryptionRes()
+}
+
+type ReadBucketPenaltyRes interface {
+	readBucketPenaltyRes()
+}
+
+type ReadBucketPlanRes interface {
+	readBucketPlanRes()
+}
+
+type ReadBucketQuotaRes interface {
+	readBucketQuotaRes()
+}
+
+type ReadBucketReplicationRes interface {
+	readBucketReplicationRes()
+}
+
+type ReadBucketUsageRes interface {
+	readBucketUsageRes()
+}
+
+type ReadClusterRes interface {
+	readClusterRes()
+}
+
+type ReadPermissionKeyRes interface {
+	readPermissionKeyRes()
+}
+
+type ReadPermissionRes interface {
+	readPermissionRes()
+}
+
+type ReadQuotaRes interface {
+	readQuotaRes()
+}
+
+type ReadStatusRes interface {
+	readStatusRes()
+}
+
+type UpdateBucketEncryptionRes interface {
+	updateBucketEncryptionRes()
+}
+
+type UpdateBucketPlanRes interface {
+	updateBucketPlanRes()
 }
 
 type UpdatePermissionRes interface {

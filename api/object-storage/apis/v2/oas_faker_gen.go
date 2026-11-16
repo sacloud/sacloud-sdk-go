@@ -96,11 +96,6 @@ func (s *AccountKeysDataItem) SetFake() {
 	}
 	{
 		{
-			s.Secret.SetFake()
-		}
-	}
-	{
-		{
 			s.CreatedAt.SetFake()
 		}
 	}
@@ -110,7 +105,7 @@ func (s *AccountKeysDataItem) SetFake() {
 func (s *BucketBillingItem) SetFake() {
 	{
 		{
-			s.YearMonth.SetFake()
+			s.YearMonth = "string"
 		}
 	}
 	{
@@ -144,32 +139,32 @@ func (s *BucketBillingItem) SetFake() {
 func (s *BucketBillingItemDetail) SetFake() {
 	{
 		{
-			s.Found.SetFake()
+			s.Found = true
 		}
 	}
 	{
 		{
-			s.Usage.SetFake()
+			s.Usage = float64(0)
 		}
 	}
 	{
 		{
-			s.Charge.SetFake()
+			s.Charge = int(0)
 		}
 	}
 	{
 		{
-			s.IsClosing.SetFake()
+			s.IsClosing = true
 		}
 	}
 	{
 		{
-			s.From.SetFake()
+			s.From = time.Now()
 		}
 	}
 	{
 		{
-			s.To.SetFake()
+			s.To = time.Now()
 		}
 	}
 }
@@ -188,6 +183,41 @@ func (s *BucketControls) SetFake() {
 		}
 	}
 	*s = BucketControls(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *BucketControlsBody) SetFake() {
+	var unwrapped []BucketControlsBodyItem
+	{
+		unwrapped = nil
+		for i := 0; i < 0; i++ {
+			var elem BucketControlsBodyItem
+			{
+				elem.SetFake()
+			}
+			unwrapped = append(unwrapped, elem)
+		}
+	}
+	*s = BucketControlsBody(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *BucketControlsBodyItem) SetFake() {
+	{
+		{
+			s.BucketName.SetFake()
+		}
+	}
+	{
+		{
+			s.CanRead.SetFake()
+		}
+	}
+	{
+		{
+			s.CanWrite.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -215,23 +245,7 @@ func (s *BucketControlsItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *BucketList) SetFake() {
-	{
-		{
-			s.Data = nil
-			for i := 0; i < 0; i++ {
-				var elem BucketListDataItem
-				{
-					elem.SetFake()
-				}
-				s.Data = append(s.Data, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *BucketListDataItem) SetFake() {
+func (s *BucketListResponseBody) SetFake() {
 	{
 		{
 			s.Name.SetFake()
@@ -250,7 +264,7 @@ func (s *BucketListDataItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *BucketListDataItemPlan) SetFake() {
+func (s *BucketListResponseBodyPlan) SetFake() {
 	{
 		{
 			s.Type.SetFake()
@@ -299,17 +313,17 @@ func (s *BucketPenaltyData) SetFake() {
 func (s *BucketPenaltyDataAmountGibPerBucket) SetFake() {
 	{
 		{
-			s.Val.SetFake()
+			s.Val = float32(0)
 		}
 	}
 	{
 		{
-			s.Quota.SetFake()
+			s.Quota = float32(0)
 		}
 	}
 	{
 		{
-			s.IsApplied.SetFake()
+			s.IsApplied = true
 		}
 	}
 }
@@ -318,17 +332,17 @@ func (s *BucketPenaltyDataAmountGibPerBucket) SetFake() {
 func (s *BucketPenaltyDataNumObjectsPerBucket) SetFake() {
 	{
 		{
-			s.Val.SetFake()
+			s.Val = int(0)
 		}
 	}
 	{
 		{
-			s.Quota.SetFake()
+			s.Quota = int(0)
 		}
 	}
 	{
 		{
-			s.IsApplied.SetFake()
+			s.IsApplied = true
 		}
 	}
 }
@@ -346,14 +360,52 @@ func (s *BucketQuota) SetFake() {
 func (s *BucketQuotaData) SetFake() {
 	{
 		{
-			s.NumObjectsPerBucket.SetFake()
+			s.NumObjectsPerBucket = int(0)
 		}
 	}
 	{
 		{
-			s.AmountGibPerBucket.SetFake()
+			s.AmountGibPerBucket = float32(0)
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *BucketResponseBody) SetFake() {
+	{
+		{
+			s.ClusterID = "string"
+		}
+	}
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Plan.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *BucketResponseBodyPlan) SetFake() {
+	{
+		{
+			s.Type.SetFake()
+		}
+	}
+	{
+		{
+			s.ServiceClassPath = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *BucketResponseBodyPlanType) SetFake() {
+	*s = BucketResponseBodyPlanTypeStandard
 }
 
 // SetFake set fake values.
@@ -369,12 +421,12 @@ func (s *BucketUsage) SetFake() {
 func (s *BucketUsageData) SetFake() {
 	{
 		{
-			s.NumObjectsPerBucket.SetFake()
+			s.NumObjectsPerBucket = int(0)
 		}
 	}
 	{
 		{
-			s.AmountGibPerBucket.SetFake()
+			s.AmountGibPerBucket = float32(0)
 		}
 	}
 }
@@ -398,6 +450,94 @@ func (s *CanWrite) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *ClusterResponseBody) SetFake() {
+	{
+		{
+			s.APIZone = nil
+			for i := 0; i < 0; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.APIZone = append(s.APIZone, elem)
+			}
+		}
+	}
+	{
+		{
+			s.ControlPanelURL = "string"
+		}
+	}
+	{
+		{
+			s.DisplayNameEnUs = "string"
+		}
+	}
+	{
+		{
+			s.DisplayNameJa = "string"
+		}
+	}
+	{
+		{
+			s.DisplayName = "string"
+		}
+	}
+	{
+		{
+			s.DisplayOrder = int(0)
+		}
+	}
+	{
+		{
+			s.EndpointBase = "string"
+		}
+	}
+	{
+		{
+			s.ID = "string"
+		}
+	}
+	{
+		{
+			s.Region = "string"
+		}
+	}
+	{
+		{
+			s.S3Endpoint = "string"
+		}
+	}
+	{
+		{
+			s.S3EndpointForControlPanel = "string"
+		}
+	}
+	{
+		{
+			s.StorageZone = nil
+			for i := 0; i < 0; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.StorageZone = append(s.StorageZone, elem)
+			}
+		}
+	}
+	{
+		{
+			s.PlanFamily.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ClusterResponseBodyPlanFamily) SetFake() {
+	*s = ClusterResponseBodyPlanFamilyStandard
+}
+
+// SetFake set fake values.
 func (s *Code) SetFake() {
 	var unwrapped string
 	{
@@ -410,7 +550,7 @@ func (s *Code) SetFake() {
 func (s *ContractSummary) SetFake() {
 	{
 		{
-			s.ResourceID.SetFake()
+			s.ResourceID = "string"
 		}
 	}
 	{
@@ -420,7 +560,7 @@ func (s *ContractSummary) SetFake() {
 	}
 	{
 		{
-			s.CreatedAt.SetFake()
+			s.CreatedAt = time.Now()
 		}
 	}
 	{
@@ -433,6 +573,15 @@ func (s *ContractSummary) SetFake() {
 // SetFake set fake values.
 func (s *ContractSummaryStatus) SetFake() {
 	*s = ContractSummaryStatusActive
+}
+
+// SetFake set fake values.
+func (s *CreateBucketReplicationReq) SetFake() {
+	{
+		{
+			s.DestBucket = "string"
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -563,6 +712,39 @@ func (s *Error404) SetFake() {
 
 // SetFake set fake values.
 func (s *Error404Error) SetFake() {
+	{
+		{
+			s.Code.SetFake()
+		}
+	}
+	{
+		{
+			s.Message.SetFake()
+		}
+	}
+	{
+		{
+			s.TraceID.SetFake()
+		}
+	}
+	{
+		{
+			s.Errors.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *Error405) SetFake() {
+	{
+		{
+			s.Error.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *Error405Error) SetFake() {
 	{
 		{
 			s.Code.SetFake()
@@ -769,7 +951,7 @@ func (s *ErrorsReason) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *GetBucketEncryptionOK) SetFake() {
+func (s *HandlerCreateBucketReplicationResponse) SetFake() {
 	{
 		{
 			s.Data.SetFake()
@@ -778,7 +960,181 @@ func (s *GetBucketEncryptionOK) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *GetBucketMeteringOK) SetFake() {
+func (s *HandlerCreateBucketRequestBody) SetFake() {
+	{
+		{
+			s.ClusterID = "string"
+		}
+	}
+	{
+		{
+			s.Plan.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerCreateBucketRequestBodyPlan) SetFake() {
+	{
+		{
+			s.Type.SetFake()
+		}
+	}
+	{
+		{
+			s.ServiceClassPath.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerCreateBucketResponse) SetFake() {
+	{
+		{
+			s.Data.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerCreatePermissionKeyResponse) SetFake() {
+	{
+		{
+			s.Data.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerListBucketReplicableTargetsResponse) SetFake() {
+	{
+		{
+			s.Data = nil
+			for i := 0; i < 0; i++ {
+				var elem BucketListResponseBody
+				{
+					elem.SetFake()
+				}
+				s.Data = append(s.Data, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerListBucketsResponse) SetFake() {
+	{
+		{
+			s.Data = nil
+			for i := 0; i < 0; i++ {
+				var elem BucketListResponseBody
+				{
+					elem.SetFake()
+				}
+				s.Data = append(s.Data, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerListClustersResponse) SetFake() {
+	{
+		{
+			s.Data = nil
+			for i := 0; i < 0; i++ {
+				var elem ClusterResponseBody
+				{
+					elem.SetFake()
+				}
+				s.Data = append(s.Data, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerListPermissionKeysResponse) SetFake() {
+	{
+		{
+			s.Data = nil
+			for i := 0; i < 0; i++ {
+				var elem PermissionKeyReadResponseBody
+				{
+					elem.SetFake()
+				}
+				s.Data = append(s.Data, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadBucketEncryptionResponse) SetFake() {
+	{
+		{
+			s.KmsKeyID.SetFake()
+		}
+	}
+	{
+		{
+			s.ConfiguredAt.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadBucketReplicationResponse) SetFake() {
+	{
+		{
+			s.Data.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadClusterResponse) SetFake() {
+	{
+		{
+			s.Data.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadPermissionKeyResponse) SetFake() {
+	{
+		{
+			s.Data.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerUpdateBucketEncryptionRequestBody) SetFake() {
+	{
+		{
+			s.KmsKeyID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerUpdateBucketEncryptionResponse) SetFake() {
+	{
+		{
+			s.KmsKeyID.SetFake()
+		}
+	}
+	{
+		{
+			s.ConfiguredAt.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListBucketMeteringOK) SetFake() {
 	{
 		{
 			s.Data = nil
@@ -794,16 +1150,7 @@ func (s *GetBucketMeteringOK) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *GetBucketPlanOK) SetFake() {
-	{
-		{
-			s.Data.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetPlansOK) SetFake() {
+func (s *ListPlansOK) SetFake() {
 	{
 		{
 			s.Data = nil
@@ -816,256 +1163,6 @@ func (s *GetPlansOK) SetFake() {
 			}
 		}
 	}
-}
-
-// SetFake set fake values.
-func (s *HandlerEncryptionConfigReqBody) SetFake() {
-	{
-		{
-			s.KmsKeyID.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerEncryptionConfigRes) SetFake() {
-	{
-		{
-			s.KmsKeyID.SetFake()
-		}
-	}
-	{
-		{
-			s.ConfiguredAt.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetClusterRes) SetFake() {
-	{
-		{
-			s.Data.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetReplicableTargetsRes) SetFake() {
-	{
-		{
-			s.Data = nil
-			for i := 0; i < 0; i++ {
-				var elem ModelBucket
-				{
-					elem.SetFake()
-				}
-				s.Data = append(s.Data, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetReplicationRes) SetFake() {
-	{
-		{
-			s.Data.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerListClustersRes) SetFake() {
-	{
-		{
-			s.Data = nil
-			for i := 0; i < 0; i++ {
-				var elem ModelCluster
-				{
-					elem.SetFake()
-				}
-				s.Data = append(s.Data, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerPostReplicationRes) SetFake() {
-	{
-		{
-			s.Data.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerPutBucketReqBody) SetFake() {
-	{
-		{
-			s.ClusterID = "string"
-		}
-	}
-	{
-		{
-			s.Plan.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerPutBucketReqBodyPlan) SetFake() {
-	{
-		{
-			s.Type.SetFake()
-		}
-	}
-	{
-		{
-			s.ServiceClassPath.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerPutBucketRes) SetFake() {
-	{
-		{
-			s.Data.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ModelBucket) SetFake() {
-	{
-		{
-			s.ClusterID.SetFake()
-		}
-	}
-	{
-		{
-			s.Name.SetFake()
-		}
-	}
-	{
-		{
-			s.Plan.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ModelBucketPlan) SetFake() {
-	{
-		{
-			s.Type.SetFake()
-		}
-	}
-	{
-		{
-			s.ServiceClassPath.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ModelCluster) SetFake() {
-	{
-		{
-			s.APIZone = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.APIZone = append(s.APIZone, elem)
-			}
-		}
-	}
-	{
-		{
-			s.ControlPanelURL.SetFake()
-		}
-	}
-	{
-		{
-			s.DisplayNameEnUs.SetFake()
-		}
-	}
-	{
-		{
-			s.DisplayNameJa.SetFake()
-		}
-	}
-	{
-		{
-			s.DisplayName.SetFake()
-		}
-	}
-	{
-		{
-			s.DisplayOrder.SetFake()
-		}
-	}
-	{
-		{
-			s.EndpointBase.SetFake()
-		}
-	}
-	{
-		{
-			s.IamEndpoint.SetFake()
-		}
-	}
-	{
-		{
-			s.IamEndpointForControlPanel.SetFake()
-		}
-	}
-	{
-		{
-			s.ID.SetFake()
-		}
-	}
-	{
-		{
-			s.Region.SetFake()
-		}
-	}
-	{
-		{
-			s.S3Endpoint.SetFake()
-		}
-	}
-	{
-		{
-			s.S3EndpointForControlPanel.SetFake()
-		}
-	}
-	{
-		{
-			s.StorageZone = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.StorageZone = append(s.StorageZone, elem)
-			}
-		}
-	}
-	{
-		{
-			s.PlanFamily.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ModelClusterPlanFamily) SetFake() {
-	*s = ModelClusterPlanFamilyStandard
 }
 
 // SetFake set fake values.
@@ -1106,12 +1203,12 @@ func (s *ModelReplicationConfigStatus) SetFake() {
 func (s *ModelReplicationDestBucket) SetFake() {
 	{
 		{
-			s.Name.SetFake()
+			s.Name = "string"
 		}
 	}
 	{
 		{
-			s.ClusterID.SetFake()
+			s.ClusterID = "string"
 		}
 	}
 	{
@@ -1139,12 +1236,12 @@ func (s *ModelReplicationDestBucketPlan) SetFake() {
 func (s *ModelReplicationSourceBucket) SetFake() {
 	{
 		{
-			s.Name.SetFake()
+			s.Name = "string"
 		}
 	}
 	{
 		{
-			s.ClusterID.SetFake()
+			s.ClusterID = "string"
 		}
 	}
 	{
@@ -1169,134 +1266,18 @@ func (s *ModelReplicationSourceBucketPlan) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptAccessKeyID) SetFake() {
-	var elem AccessKeyID
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
+func (s *NilDateTime) SetFake() {
+	s.Null = true
 }
 
 // SetFake set fake values.
-func (s *OptAccountData) SetFake() {
-	var elem AccountData
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
+func (s *NilInt) SetFake() {
+	s.Null = true
 }
 
 // SetFake set fake values.
-func (s *OptAccountKeyData) SetFake() {
-	var elem AccountKeyData
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptBool) SetFake() {
-	var elem bool
-	{
-		elem = true
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptBucketBillingItemDetail) SetFake() {
-	var elem BucketBillingItemDetail
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptBucketListDataItemPlan) SetFake() {
-	var elem BucketListDataItemPlan
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptBucketName) SetFake() {
-	var elem BucketName
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptBucketPenaltyData) SetFake() {
-	var elem BucketPenaltyData
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptBucketPenaltyDataAmountGibPerBucket) SetFake() {
-	var elem BucketPenaltyDataAmountGibPerBucket
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptBucketPenaltyDataNumObjectsPerBucket) SetFake() {
-	var elem BucketPenaltyDataNumObjectsPerBucket
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptBucketQuotaData) SetFake() {
-	var elem BucketQuotaData
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptBucketUsageData) SetFake() {
-	var elem BucketUsageData
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptCanRead) SetFake() {
-	var elem CanRead
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptCanWrite) SetFake() {
-	var elem CanWrite
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptCode) SetFake() {
-	var elem Code
+func (s *OptBucketListResponseBodyPlan) SetFake() {
+	var elem BucketListResponseBodyPlan
 	{
 		elem.SetFake()
 	}
@@ -1306,51 +1287,6 @@ func (s *OptCode) SetFake() {
 // SetFake set fake values.
 func (s *OptContractSummary) SetFake() {
 	var elem ContractSummary
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptContractSummaryStatus) SetFake() {
-	var elem ContractSummaryStatus
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptCreatedAt) SetFake() {
-	var elem CreatedAt
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptDate) SetFake() {
-	var elem time.Time
-	{
-		elem = time.Now()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptDateTime) SetFake() {
-	var elem time.Time
-	{
-		elem = time.Now()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptDisplayName) SetFake() {
-	var elem DisplayName
 	{
 		elem.SetFake()
 	}
@@ -1387,6 +1323,15 @@ func (s *OptError403Error) SetFake() {
 // SetFake set fake values.
 func (s *OptError404Error) SetFake() {
 	var elem Error404Error
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptError405Error) SetFake() {
+	var elem Error405Error
 	{
 		elem.SetFake()
 	}
@@ -1484,69 +1429,6 @@ func (s *OptErrorsReason) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptFloat32) SetFake() {
-	var elem float32
-	{
-		elem = float32(0)
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptFloat64) SetFake() {
-	var elem float64
-	{
-		elem = float64(0)
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptInt) SetFake() {
-	var elem int
-	{
-		elem = int(0)
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptModelBucket) SetFake() {
-	var elem ModelBucket
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptModelBucketPlan) SetFake() {
-	var elem ModelBucketPlan
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptModelCluster) SetFake() {
-	var elem ModelCluster
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptModelClusterPlanFamily) SetFake() {
-	var elem ModelClusterPlanFamily
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
 func (s *OptModelPlanType) SetFake() {
 	var elem ModelPlanType
 	{
@@ -1556,99 +1438,9 @@ func (s *OptModelPlanType) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptModelReplication) SetFake() {
-	var elem ModelReplication
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptModelReplicationDestBucketPlan) SetFake() {
-	var elem ModelReplicationDestBucketPlan
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptModelReplicationSourceBucketPlan) SetFake() {
-	var elem ModelReplicationSourceBucketPlan
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptNilDateTime) SetFake() {
+func (s *OptNilHandlerCreateBucketRequestBodyPlan) SetFake() {
 	s.Null = true
 	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptNilHandlerPutBucketReqBodyPlan) SetFake() {
-	s.Null = true
-	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptNilInt) SetFake() {
-	s.Null = true
-	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptNilPlanItemFee) SetFake() {
-	s.Null = true
-	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptPermissionData) SetFake() {
-	var elem PermissionData
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptPermissionID) SetFake() {
-	var elem PermissionID
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptPermissionKeyData) SetFake() {
-	var elem PermissionKeyData
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptPermissionKeyID) SetFake() {
-	var elem PermissionKeyID
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptPermissionSecret) SetFake() {
-	var elem PermissionSecret
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
 }
 
 // SetFake set fake values.
@@ -1661,64 +1453,10 @@ func (s *OptPlanSummary) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptQuotaData) SetFake() {
-	var elem QuotaData
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptResourceID) SetFake() {
-	var elem ResourceID
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptSecretAccessKey) SetFake() {
-	var elem SecretAccessKey
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
 func (s *OptServiceClassPath) SetFake() {
 	var elem ServiceClassPath
 	{
 		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptStatusData) SetFake() {
-	var elem StatusData
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptStatusDataStatusCode) SetFake() {
-	var elem StatusDataStatusCode
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptString) SetFake() {
-	var elem string
-	{
-		elem = "string"
 	}
 	s.SetTo(elem)
 }
@@ -1780,16 +1518,7 @@ func (s *PermissionID) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PermissionKey) SetFake() {
-	{
-		{
-			s.Data.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PermissionKeyData) SetFake() {
+func (s *PermissionKeyCreateResponseBody) SetFake() {
 	{
 		{
 			s.ID.SetFake()
@@ -1817,31 +1546,10 @@ func (s *PermissionKeyID) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PermissionKeys) SetFake() {
-	{
-		{
-			s.Data = nil
-			for i := 0; i < 0; i++ {
-				var elem PermissionKeysDataItem
-				{
-					elem.SetFake()
-				}
-				s.Data = append(s.Data, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PermissionKeysDataItem) SetFake() {
+func (s *PermissionKeyReadResponseBody) SetFake() {
 	{
 		{
 			s.ID.SetFake()
-		}
-	}
-	{
-		{
-			s.Secret.SetFake()
 		}
 	}
 	{
@@ -1852,12 +1560,12 @@ func (s *PermissionKeysDataItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PermissionSecret) SetFake() {
+func (s *PermissionKeySecret) SetFake() {
 	var unwrapped string
 	{
 		unwrapped = "string"
 	}
-	*s = PermissionSecret(unwrapped)
+	*s = PermissionKeySecret(unwrapped)
 }
 
 // SetFake set fake values.
@@ -1970,12 +1678,12 @@ func (s *PlanItem) SetFake() {
 	}
 	{
 		{
-			s.ClusterID.SetFake()
+			s.ClusterID = "string"
 		}
 	}
 	{
 		{
-			s.CapacityGib.SetFake()
+			s.CapacityGib = int(0)
 		}
 	}
 	{
@@ -1989,22 +1697,22 @@ func (s *PlanItem) SetFake() {
 func (s *PlanItemFee) SetFake() {
 	{
 		{
-			s.ForMonth.SetFake()
+			s.ForMonth = int(0)
 		}
 	}
 	{
 		{
-			s.Monthly.SetFake()
+			s.Monthly = int(0)
 		}
 	}
 	{
 		{
-			s.Daily.SetFake()
+			s.Daily = int(0)
 		}
 	}
 	{
 		{
-			s.Hourly.SetFake()
+			s.Hourly = int(0)
 		}
 	}
 }
@@ -2023,7 +1731,7 @@ func (s *PlanSummary) SetFake() {
 	}
 	{
 		{
-			s.ClusterID.SetFake()
+			s.ClusterID = "string"
 		}
 	}
 	{
@@ -2048,33 +1756,6 @@ func (s *PlanWithContract) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PostBucketReplicationReq) SetFake() {
-	{
-		{
-			s.DestBucket = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PutBucketEncryptionOK) SetFake() {
-	{
-		{
-			s.Data.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PutBucketPlanOK) SetFake() {
-	{
-		{
-			s.Data.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
 func (s *Quota) SetFake() {
 	{
 		{
@@ -2087,37 +1768,78 @@ func (s *Quota) SetFake() {
 func (s *QuotaData) SetFake() {
 	{
 		{
-			s.NumRootKeys.SetFake()
+			s.NumRootKeys = int(0)
 		}
 	}
 	{
 		{
-			s.NumBuckets.SetFake()
+			s.NumBuckets = int(0)
 		}
 	}
 	{
 		{
-			s.NumPermissions.SetFake()
+			s.NumPermissions = int(0)
 		}
 	}
 	{
 		{
-			s.NumKeysPerPermission.SetFake()
+			s.NumKeysPerPermission = int(0)
 		}
 	}
 	{
 		{
-			s.NumBucketsPerPermission.SetFake()
+			s.NumBucketsPerPermission = int(0)
 		}
 	}
 	{
 		{
-			s.NumObjectsPerBucket.SetFake()
+			s.NumObjectsPerBucket = int(0)
 		}
 	}
 	{
 		{
-			s.AmountGibPerBucket.SetFake()
+			s.AmountGibPerBucket = float32(0)
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadAccountKey) SetFake() {
+	{
+		{
+			s.Data.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadAccountKeyData) SetFake() {
+	{
+		{
+			s.ID.SetFake()
+		}
+	}
+	{
+		{
+			s.CreatedAt.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadBucketEncryptionOK) SetFake() {
+	{
+		{
+			s.Data.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadBucketPlanOK) SetFake() {
+	{
+		{
+			s.Data.SetFake()
 		}
 	}
 }
@@ -2162,17 +1884,17 @@ func (s *Status) SetFake() {
 func (s *StatusData) SetFake() {
 	{
 		{
-			s.AcceptNew.SetFake()
+			s.AcceptNew = true
 		}
 	}
 	{
 		{
-			s.Message.SetFake()
+			s.Message = "string"
 		}
 	}
 	{
 		{
-			s.StartedAt.SetFake()
+			s.StartedAt = time.Now()
 		}
 	}
 	{
@@ -2186,12 +1908,30 @@ func (s *StatusData) SetFake() {
 func (s *StatusDataStatusCode) SetFake() {
 	{
 		{
-			s.ID.SetFake()
+			s.ID = int(0)
 		}
 	}
 	{
 		{
-			s.Status.SetFake()
+			s.Status = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateBucketEncryptionOK) SetFake() {
+	{
+		{
+			s.Data.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateBucketPlanOK) SetFake() {
+	{
+		{
+			s.Data.SetFake()
 		}
 	}
 }

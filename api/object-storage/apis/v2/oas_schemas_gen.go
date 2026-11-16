@@ -14,56 +14,56 @@ type AccessKeyID string
 // Ref: #/components/schemas/Account
 type Account struct {
 	// Data type.
-	Data OptAccountData `json:"data"`
+	Data AccountData `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *Account) GetData() OptAccountData {
+func (s *Account) GetData() AccountData {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *Account) SetData(val OptAccountData) {
+func (s *Account) SetData(val AccountData) {
 	s.Data = val
 }
 
 func (*Account) createAccountRes() {}
-func (*Account) getAccountRes()    {}
+func (*Account) readAccountRes()   {}
 
 // Data type.
 type AccountData struct {
-	ResourceID OptResourceID `json:"resource_id"`
-	Code       OptCode       `json:"code"`
-	CreatedAt  OptCreatedAt  `json:"created_at"`
+	ResourceID ResourceID `json:"resource_id"`
+	Code       Code       `json:"code"`
+	CreatedAt  CreatedAt  `json:"created_at"`
 }
 
 // GetResourceID returns the value of ResourceID.
-func (s *AccountData) GetResourceID() OptResourceID {
+func (s *AccountData) GetResourceID() ResourceID {
 	return s.ResourceID
 }
 
 // GetCode returns the value of Code.
-func (s *AccountData) GetCode() OptCode {
+func (s *AccountData) GetCode() Code {
 	return s.Code
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *AccountData) GetCreatedAt() OptCreatedAt {
+func (s *AccountData) GetCreatedAt() CreatedAt {
 	return s.CreatedAt
 }
 
 // SetResourceID sets the value of ResourceID.
-func (s *AccountData) SetResourceID(val OptResourceID) {
+func (s *AccountData) SetResourceID(val ResourceID) {
 	s.ResourceID = val
 }
 
 // SetCode sets the value of Code.
-func (s *AccountData) SetCode(val OptCode) {
+func (s *AccountData) SetCode(val Code) {
 	s.Code = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *AccountData) SetCreatedAt(val OptCreatedAt) {
+func (s *AccountData) SetCreatedAt(val CreatedAt) {
 	s.CreatedAt = val
 }
 
@@ -71,56 +71,55 @@ func (s *AccountData) SetCreatedAt(val OptCreatedAt) {
 // Ref: #/components/schemas/accountKey
 type AccountKey struct {
 	// Data type.
-	Data OptAccountKeyData `json:"data"`
+	Data AccountKeyData `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *AccountKey) GetData() OptAccountKeyData {
+func (s *AccountKey) GetData() AccountKeyData {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *AccountKey) SetData(val OptAccountKeyData) {
+func (s *AccountKey) SetData(val AccountKeyData) {
 	s.Data = val
 }
 
 func (*AccountKey) createAccountKeyRes() {}
-func (*AccountKey) getAccountKeyRes()    {}
 
 // Data type.
 type AccountKeyData struct {
-	ID        OptAccessKeyID     `json:"id"`
-	Secret    OptSecretAccessKey `json:"secret"`
-	CreatedAt OptCreatedAt       `json:"created_at"`
+	ID        AccessKeyID     `json:"id"`
+	Secret    SecretAccessKey `json:"secret"`
+	CreatedAt CreatedAt       `json:"created_at"`
 }
 
 // GetID returns the value of ID.
-func (s *AccountKeyData) GetID() OptAccessKeyID {
+func (s *AccountKeyData) GetID() AccessKeyID {
 	return s.ID
 }
 
 // GetSecret returns the value of Secret.
-func (s *AccountKeyData) GetSecret() OptSecretAccessKey {
+func (s *AccountKeyData) GetSecret() SecretAccessKey {
 	return s.Secret
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *AccountKeyData) GetCreatedAt() OptCreatedAt {
+func (s *AccountKeyData) GetCreatedAt() CreatedAt {
 	return s.CreatedAt
 }
 
 // SetID sets the value of ID.
-func (s *AccountKeyData) SetID(val OptAccessKeyID) {
+func (s *AccountKeyData) SetID(val AccessKeyID) {
 	s.ID = val
 }
 
 // SetSecret sets the value of Secret.
-func (s *AccountKeyData) SetSecret(val OptSecretAccessKey) {
+func (s *AccountKeyData) SetSecret(val SecretAccessKey) {
 	s.Secret = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *AccountKeyData) SetCreatedAt(val OptCreatedAt) {
+func (s *AccountKeyData) SetCreatedAt(val CreatedAt) {
 	s.CreatedAt = val
 }
 
@@ -141,41 +140,30 @@ func (s *AccountKeys) SetData(val []AccountKeysDataItem) {
 	s.Data = val
 }
 
-func (*AccountKeys) getAccountKeysRes() {}
+func (*AccountKeys) listAccountKeysRes() {}
 
 type AccountKeysDataItem struct {
-	ID        OptAccessKeyID     `json:"id"`
-	Secret    OptSecretAccessKey `json:"secret"`
-	CreatedAt OptCreatedAt       `json:"created_at"`
+	ID        AccessKeyID `json:"id"`
+	CreatedAt CreatedAt   `json:"created_at"`
 }
 
 // GetID returns the value of ID.
-func (s *AccountKeysDataItem) GetID() OptAccessKeyID {
+func (s *AccountKeysDataItem) GetID() AccessKeyID {
 	return s.ID
 }
 
-// GetSecret returns the value of Secret.
-func (s *AccountKeysDataItem) GetSecret() OptSecretAccessKey {
-	return s.Secret
-}
-
 // GetCreatedAt returns the value of CreatedAt.
-func (s *AccountKeysDataItem) GetCreatedAt() OptCreatedAt {
+func (s *AccountKeysDataItem) GetCreatedAt() CreatedAt {
 	return s.CreatedAt
 }
 
 // SetID sets the value of ID.
-func (s *AccountKeysDataItem) SetID(val OptAccessKeyID) {
+func (s *AccountKeysDataItem) SetID(val AccessKeyID) {
 	s.ID = val
 }
 
-// SetSecret sets the value of Secret.
-func (s *AccountKeysDataItem) SetSecret(val OptSecretAccessKey) {
-	s.Secret = val
-}
-
 // SetCreatedAt sets the value of CreatedAt.
-func (s *AccountKeysDataItem) SetCreatedAt(val OptCreatedAt) {
+func (s *AccountKeysDataItem) SetCreatedAt(val CreatedAt) {
 	s.CreatedAt = val
 }
 
@@ -219,76 +207,76 @@ func (s *BasicAuth) SetRoles(val []string) {
 // Ref: #/components/schemas/BucketBillingItem
 type BucketBillingItem struct {
 	// 集計対象の年月.
-	YearMonth OptString `json:"year_month"`
+	YearMonth string `json:"year_month"`
 	// 基本料金.
-	Basic OptBucketBillingItemDetail `json:"basic"`
+	Basic BucketBillingItemDetail `json:"basic"`
 	// ストレージ使用量.
-	StorageUsage OptBucketBillingItemDetail `json:"storage_usage"`
+	StorageUsage BucketBillingItemDetail `json:"storage_usage"`
 	// オブジェクト数.
-	NumObjects OptBucketBillingItemDetail `json:"num_objects"`
+	NumObjects BucketBillingItemDetail `json:"num_objects"`
 	// トランザクション数.
-	NumTransactions OptBucketBillingItemDetail `json:"num_transactions"`
+	NumTransactions BucketBillingItemDetail `json:"num_transactions"`
 	// 転送量.
-	TransferAmount OptBucketBillingItemDetail `json:"transfer_amount"`
+	TransferAmount BucketBillingItemDetail `json:"transfer_amount"`
 }
 
 // GetYearMonth returns the value of YearMonth.
-func (s *BucketBillingItem) GetYearMonth() OptString {
+func (s *BucketBillingItem) GetYearMonth() string {
 	return s.YearMonth
 }
 
 // GetBasic returns the value of Basic.
-func (s *BucketBillingItem) GetBasic() OptBucketBillingItemDetail {
+func (s *BucketBillingItem) GetBasic() BucketBillingItemDetail {
 	return s.Basic
 }
 
 // GetStorageUsage returns the value of StorageUsage.
-func (s *BucketBillingItem) GetStorageUsage() OptBucketBillingItemDetail {
+func (s *BucketBillingItem) GetStorageUsage() BucketBillingItemDetail {
 	return s.StorageUsage
 }
 
 // GetNumObjects returns the value of NumObjects.
-func (s *BucketBillingItem) GetNumObjects() OptBucketBillingItemDetail {
+func (s *BucketBillingItem) GetNumObjects() BucketBillingItemDetail {
 	return s.NumObjects
 }
 
 // GetNumTransactions returns the value of NumTransactions.
-func (s *BucketBillingItem) GetNumTransactions() OptBucketBillingItemDetail {
+func (s *BucketBillingItem) GetNumTransactions() BucketBillingItemDetail {
 	return s.NumTransactions
 }
 
 // GetTransferAmount returns the value of TransferAmount.
-func (s *BucketBillingItem) GetTransferAmount() OptBucketBillingItemDetail {
+func (s *BucketBillingItem) GetTransferAmount() BucketBillingItemDetail {
 	return s.TransferAmount
 }
 
 // SetYearMonth sets the value of YearMonth.
-func (s *BucketBillingItem) SetYearMonth(val OptString) {
+func (s *BucketBillingItem) SetYearMonth(val string) {
 	s.YearMonth = val
 }
 
 // SetBasic sets the value of Basic.
-func (s *BucketBillingItem) SetBasic(val OptBucketBillingItemDetail) {
+func (s *BucketBillingItem) SetBasic(val BucketBillingItemDetail) {
 	s.Basic = val
 }
 
 // SetStorageUsage sets the value of StorageUsage.
-func (s *BucketBillingItem) SetStorageUsage(val OptBucketBillingItemDetail) {
+func (s *BucketBillingItem) SetStorageUsage(val BucketBillingItemDetail) {
 	s.StorageUsage = val
 }
 
 // SetNumObjects sets the value of NumObjects.
-func (s *BucketBillingItem) SetNumObjects(val OptBucketBillingItemDetail) {
+func (s *BucketBillingItem) SetNumObjects(val BucketBillingItemDetail) {
 	s.NumObjects = val
 }
 
 // SetNumTransactions sets the value of NumTransactions.
-func (s *BucketBillingItem) SetNumTransactions(val OptBucketBillingItemDetail) {
+func (s *BucketBillingItem) SetNumTransactions(val BucketBillingItemDetail) {
 	s.NumTransactions = val
 }
 
 // SetTransferAmount sets the value of TransferAmount.
-func (s *BucketBillingItem) SetTransferAmount(val OptBucketBillingItemDetail) {
+func (s *BucketBillingItem) SetTransferAmount(val BucketBillingItemDetail) {
 	s.TransferAmount = val
 }
 
@@ -297,204 +285,225 @@ func (s *BucketBillingItem) SetTransferAmount(val OptBucketBillingItemDetail) {
 type BucketBillingItemDetail struct {
 	// Whether billing record was found or not. `false` means that bucket was not found, bucket was owned
 	// by other accounts, or error on metering.
-	Found OptBool `json:"found"`
+	Found bool `json:"found"`
 	// Usage for calculating charge.
-	Usage OptFloat64 `json:"usage"`
+	Usage float64 `json:"usage"`
 	// Amount billed including tax.
-	Charge OptInt `json:"charge"`
+	Charge int `json:"charge"`
 	// Result of monthly closing or not.
-	IsClosing OptBool `json:"is_closing"`
+	IsClosing bool `json:"is_closing"`
 	// The first day of metering range.
-	From OptDate `json:"from"`
+	From time.Time `json:"from"`
 	// The last day of metering range.
-	To OptDate `json:"to"`
+	To time.Time `json:"to"`
 }
 
 // GetFound returns the value of Found.
-func (s *BucketBillingItemDetail) GetFound() OptBool {
+func (s *BucketBillingItemDetail) GetFound() bool {
 	return s.Found
 }
 
 // GetUsage returns the value of Usage.
-func (s *BucketBillingItemDetail) GetUsage() OptFloat64 {
+func (s *BucketBillingItemDetail) GetUsage() float64 {
 	return s.Usage
 }
 
 // GetCharge returns the value of Charge.
-func (s *BucketBillingItemDetail) GetCharge() OptInt {
+func (s *BucketBillingItemDetail) GetCharge() int {
 	return s.Charge
 }
 
 // GetIsClosing returns the value of IsClosing.
-func (s *BucketBillingItemDetail) GetIsClosing() OptBool {
+func (s *BucketBillingItemDetail) GetIsClosing() bool {
 	return s.IsClosing
 }
 
 // GetFrom returns the value of From.
-func (s *BucketBillingItemDetail) GetFrom() OptDate {
+func (s *BucketBillingItemDetail) GetFrom() time.Time {
 	return s.From
 }
 
 // GetTo returns the value of To.
-func (s *BucketBillingItemDetail) GetTo() OptDate {
+func (s *BucketBillingItemDetail) GetTo() time.Time {
 	return s.To
 }
 
 // SetFound sets the value of Found.
-func (s *BucketBillingItemDetail) SetFound(val OptBool) {
+func (s *BucketBillingItemDetail) SetFound(val bool) {
 	s.Found = val
 }
 
 // SetUsage sets the value of Usage.
-func (s *BucketBillingItemDetail) SetUsage(val OptFloat64) {
+func (s *BucketBillingItemDetail) SetUsage(val float64) {
 	s.Usage = val
 }
 
 // SetCharge sets the value of Charge.
-func (s *BucketBillingItemDetail) SetCharge(val OptInt) {
+func (s *BucketBillingItemDetail) SetCharge(val int) {
 	s.Charge = val
 }
 
 // SetIsClosing sets the value of IsClosing.
-func (s *BucketBillingItemDetail) SetIsClosing(val OptBool) {
+func (s *BucketBillingItemDetail) SetIsClosing(val bool) {
 	s.IsClosing = val
 }
 
 // SetFrom sets the value of From.
-func (s *BucketBillingItemDetail) SetFrom(val OptDate) {
+func (s *BucketBillingItemDetail) SetFrom(val time.Time) {
 	s.From = val
 }
 
 // SetTo sets the value of To.
-func (s *BucketBillingItemDetail) SetTo(val OptDate) {
+func (s *BucketBillingItemDetail) SetTo(val time.Time) {
 	s.To = val
 }
 
 type BucketControls []BucketControlsItem
 
-type BucketControlsItem struct {
-	BucketName OptBucketName `json:"bucket_name"`
-	CanRead    OptCanRead    `json:"can_read"`
-	CanWrite   OptCanWrite   `json:"can_write"`
-	CreatedAt  OptCreatedAt  `json:"created_at"`
+type BucketControlsBody []BucketControlsBodyItem
+
+type BucketControlsBodyItem struct {
+	BucketName BucketName `json:"bucket_name"`
+	CanRead    CanRead    `json:"can_read"`
+	CanWrite   CanWrite   `json:"can_write"`
 }
 
 // GetBucketName returns the value of BucketName.
-func (s *BucketControlsItem) GetBucketName() OptBucketName {
+func (s *BucketControlsBodyItem) GetBucketName() BucketName {
 	return s.BucketName
 }
 
 // GetCanRead returns the value of CanRead.
-func (s *BucketControlsItem) GetCanRead() OptCanRead {
+func (s *BucketControlsBodyItem) GetCanRead() CanRead {
 	return s.CanRead
 }
 
 // GetCanWrite returns the value of CanWrite.
-func (s *BucketControlsItem) GetCanWrite() OptCanWrite {
+func (s *BucketControlsBodyItem) GetCanWrite() CanWrite {
 	return s.CanWrite
 }
 
-// GetCreatedAt returns the value of CreatedAt.
-func (s *BucketControlsItem) GetCreatedAt() OptCreatedAt {
-	return s.CreatedAt
-}
-
 // SetBucketName sets the value of BucketName.
-func (s *BucketControlsItem) SetBucketName(val OptBucketName) {
+func (s *BucketControlsBodyItem) SetBucketName(val BucketName) {
 	s.BucketName = val
 }
 
 // SetCanRead sets the value of CanRead.
-func (s *BucketControlsItem) SetCanRead(val OptCanRead) {
+func (s *BucketControlsBodyItem) SetCanRead(val CanRead) {
 	s.CanRead = val
 }
 
 // SetCanWrite sets the value of CanWrite.
-func (s *BucketControlsItem) SetCanWrite(val OptCanWrite) {
+func (s *BucketControlsBodyItem) SetCanWrite(val CanWrite) {
+	s.CanWrite = val
+}
+
+type BucketControlsItem struct {
+	BucketName BucketName `json:"bucket_name"`
+	CanRead    CanRead    `json:"can_read"`
+	CanWrite   CanWrite   `json:"can_write"`
+	CreatedAt  CreatedAt  `json:"created_at"`
+}
+
+// GetBucketName returns the value of BucketName.
+func (s *BucketControlsItem) GetBucketName() BucketName {
+	return s.BucketName
+}
+
+// GetCanRead returns the value of CanRead.
+func (s *BucketControlsItem) GetCanRead() CanRead {
+	return s.CanRead
+}
+
+// GetCanWrite returns the value of CanWrite.
+func (s *BucketControlsItem) GetCanWrite() CanWrite {
+	return s.CanWrite
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *BucketControlsItem) GetCreatedAt() CreatedAt {
+	return s.CreatedAt
+}
+
+// SetBucketName sets the value of BucketName.
+func (s *BucketControlsItem) SetBucketName(val BucketName) {
+	s.BucketName = val
+}
+
+// SetCanRead sets the value of CanRead.
+func (s *BucketControlsItem) SetCanRead(val CanRead) {
+	s.CanRead = val
+}
+
+// SetCanWrite sets the value of CanWrite.
+func (s *BucketControlsItem) SetCanWrite(val CanWrite) {
 	s.CanWrite = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *BucketControlsItem) SetCreatedAt(val OptCreatedAt) {
+func (s *BucketControlsItem) SetCreatedAt(val CreatedAt) {
 	s.CreatedAt = val
 }
 
-// Bucket list.
-// Ref: #/components/schemas/BucketList
-type BucketList struct {
-	Data []BucketListDataItem `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *BucketList) GetData() []BucketListDataItem {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *BucketList) SetData(val []BucketListDataItem) {
-	s.Data = val
-}
-
-func (*BucketList) listBucketsRes() {}
-
-type BucketListDataItem struct {
-	Name       BucketName                `json:"name"`
-	ResourceID OptResourceID             `json:"resource_id"`
-	Plan       OptBucketListDataItemPlan `json:"plan"`
+// Ref: #/components/schemas/BucketListResponseBody
+type BucketListResponseBody struct {
+	Name       BucketName                    `json:"name"`
+	ResourceID ResourceID                    `json:"resource_id"`
+	Plan       OptBucketListResponseBodyPlan `json:"plan"`
 }
 
 // GetName returns the value of Name.
-func (s *BucketListDataItem) GetName() BucketName {
+func (s *BucketListResponseBody) GetName() BucketName {
 	return s.Name
 }
 
 // GetResourceID returns the value of ResourceID.
-func (s *BucketListDataItem) GetResourceID() OptResourceID {
+func (s *BucketListResponseBody) GetResourceID() ResourceID {
 	return s.ResourceID
 }
 
 // GetPlan returns the value of Plan.
-func (s *BucketListDataItem) GetPlan() OptBucketListDataItemPlan {
+func (s *BucketListResponseBody) GetPlan() OptBucketListResponseBodyPlan {
 	return s.Plan
 }
 
 // SetName sets the value of Name.
-func (s *BucketListDataItem) SetName(val BucketName) {
+func (s *BucketListResponseBody) SetName(val BucketName) {
 	s.Name = val
 }
 
 // SetResourceID sets the value of ResourceID.
-func (s *BucketListDataItem) SetResourceID(val OptResourceID) {
+func (s *BucketListResponseBody) SetResourceID(val ResourceID) {
 	s.ResourceID = val
 }
 
 // SetPlan sets the value of Plan.
-func (s *BucketListDataItem) SetPlan(val OptBucketListDataItemPlan) {
+func (s *BucketListResponseBody) SetPlan(val OptBucketListResponseBodyPlan) {
 	s.Plan = val
 }
 
-type BucketListDataItemPlan struct {
+type BucketListResponseBodyPlan struct {
 	Type             OptModelPlanType    `json:"type"`
 	ServiceClassPath OptServiceClassPath `json:"service_class_path"`
 }
 
 // GetType returns the value of Type.
-func (s *BucketListDataItemPlan) GetType() OptModelPlanType {
+func (s *BucketListResponseBodyPlan) GetType() OptModelPlanType {
 	return s.Type
 }
 
 // GetServiceClassPath returns the value of ServiceClassPath.
-func (s *BucketListDataItemPlan) GetServiceClassPath() OptServiceClassPath {
+func (s *BucketListResponseBodyPlan) GetServiceClassPath() OptServiceClassPath {
 	return s.ServiceClassPath
 }
 
 // SetType sets the value of Type.
-func (s *BucketListDataItemPlan) SetType(val OptModelPlanType) {
+func (s *BucketListResponseBodyPlan) SetType(val OptModelPlanType) {
 	s.Type = val
 }
 
 // SetServiceClassPath sets the value of ServiceClassPath.
-func (s *BucketListDataItemPlan) SetServiceClassPath(val OptServiceClassPath) {
+func (s *BucketListResponseBodyPlan) SetServiceClassPath(val OptServiceClassPath) {
 	s.ServiceClassPath = val
 }
 
@@ -503,115 +512,115 @@ type BucketName string
 // Bucket penalty.
 // Ref: #/components/schemas/BucketPenalty
 type BucketPenalty struct {
-	Data OptBucketPenaltyData `json:"data"`
+	Data BucketPenaltyData `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *BucketPenalty) GetData() OptBucketPenaltyData {
+func (s *BucketPenalty) GetData() BucketPenaltyData {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *BucketPenalty) SetData(val OptBucketPenaltyData) {
+func (s *BucketPenalty) SetData(val BucketPenaltyData) {
 	s.Data = val
 }
 
-func (*BucketPenalty) getBucketPenaltyRes() {}
+func (*BucketPenalty) readBucketPenaltyRes() {}
 
 type BucketPenaltyData struct {
-	NumObjectsPerBucket OptBucketPenaltyDataNumObjectsPerBucket `json:"num_objects_per_bucket"`
-	AmountGibPerBucket  OptBucketPenaltyDataAmountGibPerBucket  `json:"amount_gib_per_bucket"`
+	NumObjectsPerBucket BucketPenaltyDataNumObjectsPerBucket `json:"num_objects_per_bucket"`
+	AmountGibPerBucket  BucketPenaltyDataAmountGibPerBucket  `json:"amount_gib_per_bucket"`
 }
 
 // GetNumObjectsPerBucket returns the value of NumObjectsPerBucket.
-func (s *BucketPenaltyData) GetNumObjectsPerBucket() OptBucketPenaltyDataNumObjectsPerBucket {
+func (s *BucketPenaltyData) GetNumObjectsPerBucket() BucketPenaltyDataNumObjectsPerBucket {
 	return s.NumObjectsPerBucket
 }
 
 // GetAmountGibPerBucket returns the value of AmountGibPerBucket.
-func (s *BucketPenaltyData) GetAmountGibPerBucket() OptBucketPenaltyDataAmountGibPerBucket {
+func (s *BucketPenaltyData) GetAmountGibPerBucket() BucketPenaltyDataAmountGibPerBucket {
 	return s.AmountGibPerBucket
 }
 
 // SetNumObjectsPerBucket sets the value of NumObjectsPerBucket.
-func (s *BucketPenaltyData) SetNumObjectsPerBucket(val OptBucketPenaltyDataNumObjectsPerBucket) {
+func (s *BucketPenaltyData) SetNumObjectsPerBucket(val BucketPenaltyDataNumObjectsPerBucket) {
 	s.NumObjectsPerBucket = val
 }
 
 // SetAmountGibPerBucket sets the value of AmountGibPerBucket.
-func (s *BucketPenaltyData) SetAmountGibPerBucket(val OptBucketPenaltyDataAmountGibPerBucket) {
+func (s *BucketPenaltyData) SetAmountGibPerBucket(val BucketPenaltyDataAmountGibPerBucket) {
 	s.AmountGibPerBucket = val
 }
 
 type BucketPenaltyDataAmountGibPerBucket struct {
-	Val       OptFloat32 `json:"val"`
-	Quota     OptInt     `json:"quota"`
-	IsApplied OptBool    `json:"is_applied"`
+	Val       float32 `json:"val"`
+	Quota     float32 `json:"quota"`
+	IsApplied bool    `json:"is_applied"`
 }
 
 // GetVal returns the value of Val.
-func (s *BucketPenaltyDataAmountGibPerBucket) GetVal() OptFloat32 {
+func (s *BucketPenaltyDataAmountGibPerBucket) GetVal() float32 {
 	return s.Val
 }
 
 // GetQuota returns the value of Quota.
-func (s *BucketPenaltyDataAmountGibPerBucket) GetQuota() OptInt {
+func (s *BucketPenaltyDataAmountGibPerBucket) GetQuota() float32 {
 	return s.Quota
 }
 
 // GetIsApplied returns the value of IsApplied.
-func (s *BucketPenaltyDataAmountGibPerBucket) GetIsApplied() OptBool {
+func (s *BucketPenaltyDataAmountGibPerBucket) GetIsApplied() bool {
 	return s.IsApplied
 }
 
 // SetVal sets the value of Val.
-func (s *BucketPenaltyDataAmountGibPerBucket) SetVal(val OptFloat32) {
+func (s *BucketPenaltyDataAmountGibPerBucket) SetVal(val float32) {
 	s.Val = val
 }
 
 // SetQuota sets the value of Quota.
-func (s *BucketPenaltyDataAmountGibPerBucket) SetQuota(val OptInt) {
+func (s *BucketPenaltyDataAmountGibPerBucket) SetQuota(val float32) {
 	s.Quota = val
 }
 
 // SetIsApplied sets the value of IsApplied.
-func (s *BucketPenaltyDataAmountGibPerBucket) SetIsApplied(val OptBool) {
+func (s *BucketPenaltyDataAmountGibPerBucket) SetIsApplied(val bool) {
 	s.IsApplied = val
 }
 
 type BucketPenaltyDataNumObjectsPerBucket struct {
-	Val       OptFloat32 `json:"val"`
-	Quota     OptFloat32 `json:"quota"`
-	IsApplied OptBool    `json:"is_applied"`
+	Val       int  `json:"val"`
+	Quota     int  `json:"quota"`
+	IsApplied bool `json:"is_applied"`
 }
 
 // GetVal returns the value of Val.
-func (s *BucketPenaltyDataNumObjectsPerBucket) GetVal() OptFloat32 {
+func (s *BucketPenaltyDataNumObjectsPerBucket) GetVal() int {
 	return s.Val
 }
 
 // GetQuota returns the value of Quota.
-func (s *BucketPenaltyDataNumObjectsPerBucket) GetQuota() OptFloat32 {
+func (s *BucketPenaltyDataNumObjectsPerBucket) GetQuota() int {
 	return s.Quota
 }
 
 // GetIsApplied returns the value of IsApplied.
-func (s *BucketPenaltyDataNumObjectsPerBucket) GetIsApplied() OptBool {
+func (s *BucketPenaltyDataNumObjectsPerBucket) GetIsApplied() bool {
 	return s.IsApplied
 }
 
 // SetVal sets the value of Val.
-func (s *BucketPenaltyDataNumObjectsPerBucket) SetVal(val OptFloat32) {
+func (s *BucketPenaltyDataNumObjectsPerBucket) SetVal(val int) {
 	s.Val = val
 }
 
 // SetQuota sets the value of Quota.
-func (s *BucketPenaltyDataNumObjectsPerBucket) SetQuota(val OptFloat32) {
+func (s *BucketPenaltyDataNumObjectsPerBucket) SetQuota(val int) {
 	s.Quota = val
 }
 
 // SetIsApplied sets the value of IsApplied.
-func (s *BucketPenaltyDataNumObjectsPerBucket) SetIsApplied(val OptBool) {
+func (s *BucketPenaltyDataNumObjectsPerBucket) SetIsApplied(val bool) {
 	s.IsApplied = val
 }
 
@@ -619,87 +628,196 @@ func (s *BucketPenaltyDataNumObjectsPerBucket) SetIsApplied(val OptBool) {
 // Ref: #/components/schemas/BucketQuota
 type BucketQuota struct {
 	// Data type.
-	Data OptBucketQuotaData `json:"data"`
+	Data BucketQuotaData `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *BucketQuota) GetData() OptBucketQuotaData {
+func (s *BucketQuota) GetData() BucketQuotaData {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *BucketQuota) SetData(val OptBucketQuotaData) {
+func (s *BucketQuota) SetData(val BucketQuotaData) {
 	s.Data = val
 }
 
-func (*BucketQuota) getBucketQuotaRes() {}
+func (*BucketQuota) readBucketQuotaRes() {}
 
 // Data type.
 type BucketQuotaData struct {
-	NumObjectsPerBucket OptInt     `json:"num_objects_per_bucket"`
-	AmountGibPerBucket  OptFloat32 `json:"amount_gib_per_bucket"`
+	NumObjectsPerBucket int     `json:"num_objects_per_bucket"`
+	AmountGibPerBucket  float32 `json:"amount_gib_per_bucket"`
 }
 
 // GetNumObjectsPerBucket returns the value of NumObjectsPerBucket.
-func (s *BucketQuotaData) GetNumObjectsPerBucket() OptInt {
+func (s *BucketQuotaData) GetNumObjectsPerBucket() int {
 	return s.NumObjectsPerBucket
 }
 
 // GetAmountGibPerBucket returns the value of AmountGibPerBucket.
-func (s *BucketQuotaData) GetAmountGibPerBucket() OptFloat32 {
+func (s *BucketQuotaData) GetAmountGibPerBucket() float32 {
 	return s.AmountGibPerBucket
 }
 
 // SetNumObjectsPerBucket sets the value of NumObjectsPerBucket.
-func (s *BucketQuotaData) SetNumObjectsPerBucket(val OptInt) {
+func (s *BucketQuotaData) SetNumObjectsPerBucket(val int) {
 	s.NumObjectsPerBucket = val
 }
 
 // SetAmountGibPerBucket sets the value of AmountGibPerBucket.
-func (s *BucketQuotaData) SetAmountGibPerBucket(val OptFloat32) {
+func (s *BucketQuotaData) SetAmountGibPerBucket(val float32) {
 	s.AmountGibPerBucket = val
+}
+
+// Merged schema.
+// Ref: #/components/schemas/BucketResponseBody
+type BucketResponseBody struct {
+	ClusterID string `json:"cluster_id"`
+	Name      string `json:"name"`
+	// Merged property.
+	Plan BucketResponseBodyPlan `json:"plan"`
+}
+
+// GetClusterID returns the value of ClusterID.
+func (s *BucketResponseBody) GetClusterID() string {
+	return s.ClusterID
+}
+
+// GetName returns the value of Name.
+func (s *BucketResponseBody) GetName() string {
+	return s.Name
+}
+
+// GetPlan returns the value of Plan.
+func (s *BucketResponseBody) GetPlan() BucketResponseBodyPlan {
+	return s.Plan
+}
+
+// SetClusterID sets the value of ClusterID.
+func (s *BucketResponseBody) SetClusterID(val string) {
+	s.ClusterID = val
+}
+
+// SetName sets the value of Name.
+func (s *BucketResponseBody) SetName(val string) {
+	s.Name = val
+}
+
+// SetPlan sets the value of Plan.
+func (s *BucketResponseBody) SetPlan(val BucketResponseBodyPlan) {
+	s.Plan = val
+}
+
+// Merged schema.
+type BucketResponseBodyPlan struct {
+	// Merged property.
+	Type BucketResponseBodyPlanType `json:"type"`
+	// Merged property.
+	ServiceClassPath string `json:"service_class_path"`
+}
+
+// GetType returns the value of Type.
+func (s *BucketResponseBodyPlan) GetType() BucketResponseBodyPlanType {
+	return s.Type
+}
+
+// GetServiceClassPath returns the value of ServiceClassPath.
+func (s *BucketResponseBodyPlan) GetServiceClassPath() string {
+	return s.ServiceClassPath
+}
+
+// SetType sets the value of Type.
+func (s *BucketResponseBodyPlan) SetType(val BucketResponseBodyPlanType) {
+	s.Type = val
+}
+
+// SetServiceClassPath sets the value of ServiceClassPath.
+func (s *BucketResponseBodyPlan) SetServiceClassPath(val string) {
+	s.ServiceClassPath = val
+}
+
+// Merged schema.
+type BucketResponseBodyPlanType string
+
+const (
+	BucketResponseBodyPlanTypeStandard BucketResponseBodyPlanType = "standard"
+	BucketResponseBodyPlanTypeArchive  BucketResponseBodyPlanType = "archive"
+)
+
+// AllValues returns all BucketResponseBodyPlanType values.
+func (BucketResponseBodyPlanType) AllValues() []BucketResponseBodyPlanType {
+	return []BucketResponseBodyPlanType{
+		BucketResponseBodyPlanTypeStandard,
+		BucketResponseBodyPlanTypeArchive,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s BucketResponseBodyPlanType) MarshalText() ([]byte, error) {
+	switch s {
+	case BucketResponseBodyPlanTypeStandard:
+		return []byte(s), nil
+	case BucketResponseBodyPlanTypeArchive:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *BucketResponseBodyPlanType) UnmarshalText(data []byte) error {
+	switch BucketResponseBodyPlanType(data) {
+	case BucketResponseBodyPlanTypeStandard:
+		*s = BucketResponseBodyPlanTypeStandard
+		return nil
+	case BucketResponseBodyPlanTypeArchive:
+		*s = BucketResponseBodyPlanTypeArchive
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Bucket usage.
 // Ref: #/components/schemas/BucketUsage
 type BucketUsage struct {
-	Data OptBucketUsageData `json:"data"`
+	Data BucketUsageData `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *BucketUsage) GetData() OptBucketUsageData {
+func (s *BucketUsage) GetData() BucketUsageData {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *BucketUsage) SetData(val OptBucketUsageData) {
+func (s *BucketUsage) SetData(val BucketUsageData) {
 	s.Data = val
 }
 
-func (*BucketUsage) getBucketUsageRes() {}
+func (*BucketUsage) readBucketUsageRes() {}
 
 type BucketUsageData struct {
-	NumObjectsPerBucket OptInt     `json:"num_objects_per_bucket"`
-	AmountGibPerBucket  OptFloat32 `json:"amount_gib_per_bucket"`
+	NumObjectsPerBucket int     `json:"num_objects_per_bucket"`
+	AmountGibPerBucket  float32 `json:"amount_gib_per_bucket"`
 }
 
 // GetNumObjectsPerBucket returns the value of NumObjectsPerBucket.
-func (s *BucketUsageData) GetNumObjectsPerBucket() OptInt {
+func (s *BucketUsageData) GetNumObjectsPerBucket() int {
 	return s.NumObjectsPerBucket
 }
 
 // GetAmountGibPerBucket returns the value of AmountGibPerBucket.
-func (s *BucketUsageData) GetAmountGibPerBucket() OptFloat32 {
+func (s *BucketUsageData) GetAmountGibPerBucket() float32 {
 	return s.AmountGibPerBucket
 }
 
 // SetNumObjectsPerBucket sets the value of NumObjectsPerBucket.
-func (s *BucketUsageData) SetNumObjectsPerBucket(val OptInt) {
+func (s *BucketUsageData) SetNumObjectsPerBucket(val int) {
 	s.NumObjectsPerBucket = val
 }
 
 // SetAmountGibPerBucket sets the value of AmountGibPerBucket.
-func (s *BucketUsageData) SetAmountGibPerBucket(val OptFloat32) {
+func (s *BucketUsageData) SetAmountGibPerBucket(val float32) {
 	s.AmountGibPerBucket = val
 }
 
@@ -707,53 +825,254 @@ type CanRead bool
 
 type CanWrite bool
 
+// Merged schema.
+// Ref: #/components/schemas/ClusterResponseBody
+type ClusterResponseBody struct {
+	// API Servers Zones.
+	APIZone []string `json:"api_zone"`
+	// URL of Control Panel.
+	ControlPanelURL string `json:"control_panel_url"`
+	// Display Name (en-us).
+	DisplayNameEnUs string `json:"display_name_en_us"`
+	// Display Name (ja).
+	DisplayNameJa string `json:"display_name_ja"`
+	// Display Name (Depending on Accept-Language).
+	DisplayName string `json:"display_name"`
+	// Display Order (Can be ignored).
+	DisplayOrder int `json:"display_order"`
+	// Endpoint Base of Cluster.
+	EndpointBase string `json:"endpoint_base"`
+	ID           string `json:"id"`
+	Region       string `json:"region"`
+	// URL of S3-compat API.
+	S3Endpoint string `json:"s3_endpoint"`
+	// URL of S3-compat API (w/ resigning).
+	S3EndpointForControlPanel string `json:"s3_endpoint_for_control_panel"`
+	// Storage Servers Zones.
+	StorageZone []string `json:"storage_zone"`
+	// Pricing/behavior family of the cluster.
+	PlanFamily ClusterResponseBodyPlanFamily `json:"plan_family"`
+}
+
+// GetAPIZone returns the value of APIZone.
+func (s *ClusterResponseBody) GetAPIZone() []string {
+	return s.APIZone
+}
+
+// GetControlPanelURL returns the value of ControlPanelURL.
+func (s *ClusterResponseBody) GetControlPanelURL() string {
+	return s.ControlPanelURL
+}
+
+// GetDisplayNameEnUs returns the value of DisplayNameEnUs.
+func (s *ClusterResponseBody) GetDisplayNameEnUs() string {
+	return s.DisplayNameEnUs
+}
+
+// GetDisplayNameJa returns the value of DisplayNameJa.
+func (s *ClusterResponseBody) GetDisplayNameJa() string {
+	return s.DisplayNameJa
+}
+
+// GetDisplayName returns the value of DisplayName.
+func (s *ClusterResponseBody) GetDisplayName() string {
+	return s.DisplayName
+}
+
+// GetDisplayOrder returns the value of DisplayOrder.
+func (s *ClusterResponseBody) GetDisplayOrder() int {
+	return s.DisplayOrder
+}
+
+// GetEndpointBase returns the value of EndpointBase.
+func (s *ClusterResponseBody) GetEndpointBase() string {
+	return s.EndpointBase
+}
+
+// GetID returns the value of ID.
+func (s *ClusterResponseBody) GetID() string {
+	return s.ID
+}
+
+// GetRegion returns the value of Region.
+func (s *ClusterResponseBody) GetRegion() string {
+	return s.Region
+}
+
+// GetS3Endpoint returns the value of S3Endpoint.
+func (s *ClusterResponseBody) GetS3Endpoint() string {
+	return s.S3Endpoint
+}
+
+// GetS3EndpointForControlPanel returns the value of S3EndpointForControlPanel.
+func (s *ClusterResponseBody) GetS3EndpointForControlPanel() string {
+	return s.S3EndpointForControlPanel
+}
+
+// GetStorageZone returns the value of StorageZone.
+func (s *ClusterResponseBody) GetStorageZone() []string {
+	return s.StorageZone
+}
+
+// GetPlanFamily returns the value of PlanFamily.
+func (s *ClusterResponseBody) GetPlanFamily() ClusterResponseBodyPlanFamily {
+	return s.PlanFamily
+}
+
+// SetAPIZone sets the value of APIZone.
+func (s *ClusterResponseBody) SetAPIZone(val []string) {
+	s.APIZone = val
+}
+
+// SetControlPanelURL sets the value of ControlPanelURL.
+func (s *ClusterResponseBody) SetControlPanelURL(val string) {
+	s.ControlPanelURL = val
+}
+
+// SetDisplayNameEnUs sets the value of DisplayNameEnUs.
+func (s *ClusterResponseBody) SetDisplayNameEnUs(val string) {
+	s.DisplayNameEnUs = val
+}
+
+// SetDisplayNameJa sets the value of DisplayNameJa.
+func (s *ClusterResponseBody) SetDisplayNameJa(val string) {
+	s.DisplayNameJa = val
+}
+
+// SetDisplayName sets the value of DisplayName.
+func (s *ClusterResponseBody) SetDisplayName(val string) {
+	s.DisplayName = val
+}
+
+// SetDisplayOrder sets the value of DisplayOrder.
+func (s *ClusterResponseBody) SetDisplayOrder(val int) {
+	s.DisplayOrder = val
+}
+
+// SetEndpointBase sets the value of EndpointBase.
+func (s *ClusterResponseBody) SetEndpointBase(val string) {
+	s.EndpointBase = val
+}
+
+// SetID sets the value of ID.
+func (s *ClusterResponseBody) SetID(val string) {
+	s.ID = val
+}
+
+// SetRegion sets the value of Region.
+func (s *ClusterResponseBody) SetRegion(val string) {
+	s.Region = val
+}
+
+// SetS3Endpoint sets the value of S3Endpoint.
+func (s *ClusterResponseBody) SetS3Endpoint(val string) {
+	s.S3Endpoint = val
+}
+
+// SetS3EndpointForControlPanel sets the value of S3EndpointForControlPanel.
+func (s *ClusterResponseBody) SetS3EndpointForControlPanel(val string) {
+	s.S3EndpointForControlPanel = val
+}
+
+// SetStorageZone sets the value of StorageZone.
+func (s *ClusterResponseBody) SetStorageZone(val []string) {
+	s.StorageZone = val
+}
+
+// SetPlanFamily sets the value of PlanFamily.
+func (s *ClusterResponseBody) SetPlanFamily(val ClusterResponseBodyPlanFamily) {
+	s.PlanFamily = val
+}
+
+// Pricing/behavior family of the cluster.
+type ClusterResponseBodyPlanFamily string
+
+const (
+	ClusterResponseBodyPlanFamilyStandard ClusterResponseBodyPlanFamily = "standard"
+	ClusterResponseBodyPlanFamilyArchive  ClusterResponseBodyPlanFamily = "archive"
+)
+
+// AllValues returns all ClusterResponseBodyPlanFamily values.
+func (ClusterResponseBodyPlanFamily) AllValues() []ClusterResponseBodyPlanFamily {
+	return []ClusterResponseBodyPlanFamily{
+		ClusterResponseBodyPlanFamilyStandard,
+		ClusterResponseBodyPlanFamilyArchive,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ClusterResponseBodyPlanFamily) MarshalText() ([]byte, error) {
+	switch s {
+	case ClusterResponseBodyPlanFamilyStandard:
+		return []byte(s), nil
+	case ClusterResponseBodyPlanFamilyArchive:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ClusterResponseBodyPlanFamily) UnmarshalText(data []byte) error {
+	switch ClusterResponseBodyPlanFamily(data) {
+	case ClusterResponseBodyPlanFamilyStandard:
+		*s = ClusterResponseBodyPlanFamilyStandard
+		return nil
+	case ClusterResponseBodyPlanFamilyArchive:
+		*s = ClusterResponseBodyPlanFamilyArchive
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type Code string
 
 // Ref: #/components/schemas/ContractSummary
 type ContractSummary struct {
-	ResourceID OptString                `json:"resource_id"`
-	Status     OptContractSummaryStatus `json:"status"`
-	CreatedAt  OptDateTime              `json:"created_at"`
-	DeletedAt  OptNilDateTime           `json:"deleted_at"`
+	ResourceID string                `json:"resource_id"`
+	Status     ContractSummaryStatus `json:"status"`
+	CreatedAt  time.Time             `json:"created_at"`
+	DeletedAt  NilDateTime           `json:"deleted_at"`
 }
 
 // GetResourceID returns the value of ResourceID.
-func (s *ContractSummary) GetResourceID() OptString {
+func (s *ContractSummary) GetResourceID() string {
 	return s.ResourceID
 }
 
 // GetStatus returns the value of Status.
-func (s *ContractSummary) GetStatus() OptContractSummaryStatus {
+func (s *ContractSummary) GetStatus() ContractSummaryStatus {
 	return s.Status
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *ContractSummary) GetCreatedAt() OptDateTime {
+func (s *ContractSummary) GetCreatedAt() time.Time {
 	return s.CreatedAt
 }
 
 // GetDeletedAt returns the value of DeletedAt.
-func (s *ContractSummary) GetDeletedAt() OptNilDateTime {
+func (s *ContractSummary) GetDeletedAt() NilDateTime {
 	return s.DeletedAt
 }
 
 // SetResourceID sets the value of ResourceID.
-func (s *ContractSummary) SetResourceID(val OptString) {
+func (s *ContractSummary) SetResourceID(val string) {
 	s.ResourceID = val
 }
 
 // SetStatus sets the value of Status.
-func (s *ContractSummary) SetStatus(val OptContractSummaryStatus) {
+func (s *ContractSummary) SetStatus(val ContractSummaryStatus) {
 	s.Status = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *ContractSummary) SetCreatedAt(val OptDateTime) {
+func (s *ContractSummary) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
 // SetDeletedAt sets the value of DeletedAt.
-func (s *ContractSummary) SetDeletedAt(val OptNilDateTime) {
+func (s *ContractSummary) SetDeletedAt(val NilDateTime) {
 	s.DeletedAt = val
 }
 
@@ -796,6 +1115,20 @@ func (s *ContractSummaryStatus) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+type CreateBucketReplicationReq struct {
+	DestBucket string `json:"dest_bucket"`
+}
+
+// GetDestBucket returns the value of DestBucket.
+func (s *CreateBucketReplicationReq) GetDestBucket() string {
+	return s.DestBucket
+}
+
+// SetDestBucket sets the value of DestBucket.
+func (s *CreateBucketReplicationReq) SetDestBucket(val string) {
+	s.DestBucket = val
 }
 
 type CreatedAt time.Time
@@ -853,14 +1186,14 @@ func (s *Error400) SetError(val OptError400Error) {
 	s.Error = val
 }
 
-func (*Error400) createBucketRes()          {}
-func (*Error400) deleteBucketRes()          {}
-func (*Error400) getBucketMeteringRes()     {}
-func (*Error400) getBucketPlanRes()         {}
-func (*Error400) getBucketQuotaRes()        {}
-func (*Error400) postBucketReplicationRes() {}
-func (*Error400) putBucketEncryptionRes()   {}
-func (*Error400) putBucketPlanRes()         {}
+func (*Error400) createBucketReplicationRes() {}
+func (*Error400) createBucketRes()            {}
+func (*Error400) deleteBucketRes()            {}
+func (*Error400) listBucketMeteringRes()      {}
+func (*Error400) readBucketPlanRes()          {}
+func (*Error400) readBucketQuotaRes()         {}
+func (*Error400) updateBucketEncryptionRes()  {}
+func (*Error400) updateBucketPlanRes()        {}
 
 // Error 400.
 type Error400Error struct {
@@ -926,36 +1259,39 @@ func (s *Error401) SetError(val OptError401Error) {
 	s.Error = val
 }
 
-func (*Error401) createAccountKeyRes()           {}
-func (*Error401) createAccountRes()              {}
-func (*Error401) createPermissionKeyRes()        {}
-func (*Error401) createPermissionRes()           {}
-func (*Error401) deleteAccountKeyRes()           {}
-func (*Error401) deleteAccountRes()              {}
-func (*Error401) deleteBucketReplicationRes()    {}
-func (*Error401) deletePermissionKeyRes()        {}
-func (*Error401) deletePermissionRes()           {}
-func (*Error401) getAccountKeyRes()              {}
-func (*Error401) getAccountKeysRes()             {}
-func (*Error401) getAccountRes()                 {}
-func (*Error401) getBucketMeteringRes()          {}
-func (*Error401) getBucketPenaltyRes()           {}
-func (*Error401) getBucketQuotaRes()             {}
-func (*Error401) getBucketReplicableTargetsRes() {}
-func (*Error401) getBucketReplicationRes()       {}
-func (*Error401) getBucketUsageRes()             {}
-func (*Error401) getClusterRes()                 {}
-func (*Error401) getClustersRes()                {}
-func (*Error401) getPermissionKeyRes()           {}
-func (*Error401) getPermissionKeysRes()          {}
-func (*Error401) getPermissionRes()              {}
-func (*Error401) getPermissionsRes()             {}
-func (*Error401) getPlansRes()                   {}
-func (*Error401) getQuotaRes()                   {}
-func (*Error401) getStatusRes()                  {}
-func (*Error401) listBucketsRes()                {}
-func (*Error401) postBucketReplicationRes()      {}
-func (*Error401) updatePermissionRes()           {}
+func (*Error401) createAccountKeyRes()            {}
+func (*Error401) createAccountRes()               {}
+func (*Error401) createBucketReplicationRes()     {}
+func (*Error401) createPermissionKeyRes()         {}
+func (*Error401) createPermissionRes()            {}
+func (*Error401) deleteAccountKeyRes()            {}
+func (*Error401) deleteAccountRes()               {}
+func (*Error401) deleteBucketEncryptionRes()      {}
+func (*Error401) deleteBucketReplicationRes()     {}
+func (*Error401) deletePermissionKeyRes()         {}
+func (*Error401) deletePermissionRes()            {}
+func (*Error401) listAccountKeysRes()             {}
+func (*Error401) listBucketMeteringRes()          {}
+func (*Error401) listBucketReplicableTargetsRes() {}
+func (*Error401) listBucketsRes()                 {}
+func (*Error401) listClustersRes()                {}
+func (*Error401) listPermissionKeysRes()          {}
+func (*Error401) listPermissionsRes()             {}
+func (*Error401) listPlansRes()                   {}
+func (*Error401) readAccountKeyRes()              {}
+func (*Error401) readAccountRes()                 {}
+func (*Error401) readBucketEncryptionRes()        {}
+func (*Error401) readBucketPenaltyRes()           {}
+func (*Error401) readBucketQuotaRes()             {}
+func (*Error401) readBucketReplicationRes()       {}
+func (*Error401) readBucketUsageRes()             {}
+func (*Error401) readClusterRes()                 {}
+func (*Error401) readPermissionKeyRes()           {}
+func (*Error401) readPermissionRes()              {}
+func (*Error401) readQuotaRes()                   {}
+func (*Error401) readStatusRes()                  {}
+func (*Error401) updateBucketEncryptionRes()      {}
+func (*Error401) updatePermissionRes()            {}
 
 // Error 401.
 type Error401Error struct {
@@ -1087,30 +1423,30 @@ func (s *Error404) SetError(val OptError404Error) {
 	s.Error = val
 }
 
-func (*Error404) createAccountKeyRes()           {}
-func (*Error404) createBucketRes()               {}
-func (*Error404) createPermissionKeyRes()        {}
-func (*Error404) createPermissionRes()           {}
-func (*Error404) deleteBucketEncryptionRes()     {}
-func (*Error404) deleteBucketReplicationRes()    {}
-func (*Error404) deletePermissionKeyRes()        {}
-func (*Error404) getAccountKeyRes()              {}
-func (*Error404) getAccountKeysRes()             {}
-func (*Error404) getAccountRes()                 {}
-func (*Error404) getBucketEncryptionRes()        {}
-func (*Error404) getBucketPenaltyRes()           {}
-func (*Error404) getBucketPlanRes()              {}
-func (*Error404) getBucketQuotaRes()             {}
-func (*Error404) getBucketReplicableTargetsRes() {}
-func (*Error404) getBucketReplicationRes()       {}
-func (*Error404) getBucketUsageRes()             {}
-func (*Error404) getClusterRes()                 {}
-func (*Error404) getPermissionKeyRes()           {}
-func (*Error404) getPermissionKeysRes()          {}
-func (*Error404) getPermissionRes()              {}
-func (*Error404) postBucketReplicationRes()      {}
-func (*Error404) putBucketEncryptionRes()        {}
-func (*Error404) updatePermissionRes()           {}
+func (*Error404) createAccountKeyRes()            {}
+func (*Error404) createBucketReplicationRes()     {}
+func (*Error404) createBucketRes()                {}
+func (*Error404) createPermissionKeyRes()         {}
+func (*Error404) createPermissionRes()            {}
+func (*Error404) deleteBucketEncryptionRes()      {}
+func (*Error404) deleteBucketReplicationRes()     {}
+func (*Error404) deletePermissionKeyRes()         {}
+func (*Error404) listAccountKeysRes()             {}
+func (*Error404) listBucketReplicableTargetsRes() {}
+func (*Error404) listPermissionKeysRes()          {}
+func (*Error404) readAccountKeyRes()              {}
+func (*Error404) readAccountRes()                 {}
+func (*Error404) readBucketEncryptionRes()        {}
+func (*Error404) readBucketPenaltyRes()           {}
+func (*Error404) readBucketPlanRes()              {}
+func (*Error404) readBucketQuotaRes()             {}
+func (*Error404) readBucketReplicationRes()       {}
+func (*Error404) readBucketUsageRes()             {}
+func (*Error404) readClusterRes()                 {}
+func (*Error404) readPermissionKeyRes()           {}
+func (*Error404) readPermissionRes()              {}
+func (*Error404) updateBucketEncryptionRes()      {}
+func (*Error404) updatePermissionRes()            {}
 
 // Error 404.
 type Error404Error struct {
@@ -1160,6 +1496,73 @@ func (s *Error404Error) SetErrors(val Errors) {
 	s.Errors = val
 }
 
+// Ref: #/components/schemas/Error405
+type Error405 struct {
+	// Error 405.
+	Error OptError405Error `json:"error"`
+}
+
+// GetError returns the value of Error.
+func (s *Error405) GetError() OptError405Error {
+	return s.Error
+}
+
+// SetError sets the value of Error.
+func (s *Error405) SetError(val OptError405Error) {
+	s.Error = val
+}
+
+func (*Error405) readBucketPlanRes()   {}
+func (*Error405) updateBucketPlanRes() {}
+
+// Error 405.
+type Error405Error struct {
+	Code    OptErrorCode    `json:"code"`
+	Message OptErrorMessage `json:"message"`
+	TraceID OptErrorTraceId `json:"trace_id"`
+	Errors  Errors          `json:"errors"`
+}
+
+// GetCode returns the value of Code.
+func (s *Error405Error) GetCode() OptErrorCode {
+	return s.Code
+}
+
+// GetMessage returns the value of Message.
+func (s *Error405Error) GetMessage() OptErrorMessage {
+	return s.Message
+}
+
+// GetTraceID returns the value of TraceID.
+func (s *Error405Error) GetTraceID() OptErrorTraceId {
+	return s.TraceID
+}
+
+// GetErrors returns the value of Errors.
+func (s *Error405Error) GetErrors() Errors {
+	return s.Errors
+}
+
+// SetCode sets the value of Code.
+func (s *Error405Error) SetCode(val OptErrorCode) {
+	s.Code = val
+}
+
+// SetMessage sets the value of Message.
+func (s *Error405Error) SetMessage(val OptErrorMessage) {
+	s.Message = val
+}
+
+// SetTraceID sets the value of TraceID.
+func (s *Error405Error) SetTraceID(val OptErrorTraceId) {
+	s.TraceID = val
+}
+
+// SetErrors sets the value of Errors.
+func (s *Error405Error) SetErrors(val Errors) {
+	s.Errors = val
+}
+
 // Ref: #/components/schemas/Error409
 type Error409 struct {
 	// Error 409.
@@ -1183,7 +1586,7 @@ func (*Error409) createPermissionKeyRes() {}
 func (*Error409) createPermissionRes()    {}
 func (*Error409) deleteAccountRes()       {}
 func (*Error409) deleteBucketRes()        {}
-func (*Error409) putBucketPlanRes()       {}
+func (*Error409) updateBucketPlanRes()    {}
 func (*Error409) updatePermissionRes()    {}
 
 // Error 409.
@@ -1334,22 +1737,22 @@ func (*ErrorDefaultStatusCode) deleteAccountKeyRes()    {}
 func (*ErrorDefaultStatusCode) deleteAccountRes()       {}
 func (*ErrorDefaultStatusCode) deletePermissionKeyRes() {}
 func (*ErrorDefaultStatusCode) deletePermissionRes()    {}
-func (*ErrorDefaultStatusCode) getAccountKeyRes()       {}
-func (*ErrorDefaultStatusCode) getAccountKeysRes()      {}
-func (*ErrorDefaultStatusCode) getAccountRes()          {}
-func (*ErrorDefaultStatusCode) getBucketMeteringRes()   {}
-func (*ErrorDefaultStatusCode) getBucketPenaltyRes()    {}
-func (*ErrorDefaultStatusCode) getBucketPlanRes()       {}
-func (*ErrorDefaultStatusCode) getBucketQuotaRes()      {}
-func (*ErrorDefaultStatusCode) getBucketUsageRes()      {}
-func (*ErrorDefaultStatusCode) getPermissionKeyRes()    {}
-func (*ErrorDefaultStatusCode) getPermissionKeysRes()   {}
-func (*ErrorDefaultStatusCode) getPermissionRes()       {}
-func (*ErrorDefaultStatusCode) getPermissionsRes()      {}
-func (*ErrorDefaultStatusCode) getPlansRes()            {}
-func (*ErrorDefaultStatusCode) getQuotaRes()            {}
-func (*ErrorDefaultStatusCode) getStatusRes()           {}
-func (*ErrorDefaultStatusCode) putBucketPlanRes()       {}
+func (*ErrorDefaultStatusCode) listAccountKeysRes()     {}
+func (*ErrorDefaultStatusCode) listBucketMeteringRes()  {}
+func (*ErrorDefaultStatusCode) listPermissionKeysRes()  {}
+func (*ErrorDefaultStatusCode) listPermissionsRes()     {}
+func (*ErrorDefaultStatusCode) listPlansRes()           {}
+func (*ErrorDefaultStatusCode) readAccountKeyRes()      {}
+func (*ErrorDefaultStatusCode) readAccountRes()         {}
+func (*ErrorDefaultStatusCode) readBucketPenaltyRes()   {}
+func (*ErrorDefaultStatusCode) readBucketPlanRes()      {}
+func (*ErrorDefaultStatusCode) readBucketQuotaRes()     {}
+func (*ErrorDefaultStatusCode) readBucketUsageRes()     {}
+func (*ErrorDefaultStatusCode) readPermissionKeyRes()   {}
+func (*ErrorDefaultStatusCode) readPermissionRes()      {}
+func (*ErrorDefaultStatusCode) readQuotaRes()           {}
+func (*ErrorDefaultStatusCode) readStatusRes()          {}
+func (*ErrorDefaultStatusCode) updateBucketPlanRes()    {}
 func (*ErrorDefaultStatusCode) updatePermissionRes()    {}
 
 type ErrorMessage string
@@ -1426,552 +1829,328 @@ type ErrorsMessage string
 
 type ErrorsReason string
 
-type GetBucketEncryptionOK struct {
-	Data HandlerEncryptionConfigRes `json:"data"`
+// Ref: #/components/schemas/handler.CreateBucketReplicationResponse
+type HandlerCreateBucketReplicationResponse struct {
+	Data ModelReplication `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *GetBucketEncryptionOK) GetData() HandlerEncryptionConfigRes {
+func (s *HandlerCreateBucketReplicationResponse) GetData() ModelReplication {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *GetBucketEncryptionOK) SetData(val HandlerEncryptionConfigRes) {
+func (s *HandlerCreateBucketReplicationResponse) SetData(val ModelReplication) {
 	s.Data = val
 }
 
-func (*GetBucketEncryptionOK) getBucketEncryptionRes() {}
+func (*HandlerCreateBucketReplicationResponse) createBucketReplicationRes() {}
 
-type GetBucketMeteringOK struct {
-	Data []BucketBillingItem `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *GetBucketMeteringOK) GetData() []BucketBillingItem {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *GetBucketMeteringOK) SetData(val []BucketBillingItem) {
-	s.Data = val
-}
-
-func (*GetBucketMeteringOK) getBucketMeteringRes() {}
-
-type GetBucketPlanOK struct {
-	Data PlanWithContract `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *GetBucketPlanOK) GetData() PlanWithContract {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *GetBucketPlanOK) SetData(val PlanWithContract) {
-	s.Data = val
-}
-
-func (*GetBucketPlanOK) getBucketPlanRes() {}
-
-type GetPlansOK struct {
-	Data []PlanItem `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *GetPlansOK) GetData() []PlanItem {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *GetPlansOK) SetData(val []PlanItem) {
-	s.Data = val
-}
-
-func (*GetPlansOK) getPlansRes() {}
-
-// Ref: #/components/schemas/handler.EncryptionConfigReqBody
-type HandlerEncryptionConfigReqBody struct {
-	KmsKeyID ResourceID `json:"kms_key_id"`
-}
-
-// GetKmsKeyID returns the value of KmsKeyID.
-func (s *HandlerEncryptionConfigReqBody) GetKmsKeyID() ResourceID {
-	return s.KmsKeyID
-}
-
-// SetKmsKeyID sets the value of KmsKeyID.
-func (s *HandlerEncryptionConfigReqBody) SetKmsKeyID(val ResourceID) {
-	s.KmsKeyID = val
-}
-
-// Ref: #/components/schemas/handler.EncryptionConfigRes
-type HandlerEncryptionConfigRes struct {
-	KmsKeyID     OptResourceID `json:"kms_key_id"`
-	ConfiguredAt OptCreatedAt  `json:"configured_at"`
-}
-
-// GetKmsKeyID returns the value of KmsKeyID.
-func (s *HandlerEncryptionConfigRes) GetKmsKeyID() OptResourceID {
-	return s.KmsKeyID
-}
-
-// GetConfiguredAt returns the value of ConfiguredAt.
-func (s *HandlerEncryptionConfigRes) GetConfiguredAt() OptCreatedAt {
-	return s.ConfiguredAt
-}
-
-// SetKmsKeyID sets the value of KmsKeyID.
-func (s *HandlerEncryptionConfigRes) SetKmsKeyID(val OptResourceID) {
-	s.KmsKeyID = val
-}
-
-// SetConfiguredAt sets the value of ConfiguredAt.
-func (s *HandlerEncryptionConfigRes) SetConfiguredAt(val OptCreatedAt) {
-	s.ConfiguredAt = val
-}
-
-// Ref: #/components/schemas/handler.getClusterRes
-type HandlerGetClusterRes struct {
-	Data OptModelCluster `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *HandlerGetClusterRes) GetData() OptModelCluster {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *HandlerGetClusterRes) SetData(val OptModelCluster) {
-	s.Data = val
-}
-
-func (*HandlerGetClusterRes) getClusterRes() {}
-
-// Ref: #/components/schemas/handler.getReplicableTargetsRes
-type HandlerGetReplicableTargetsRes struct {
-	Data []ModelBucket `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *HandlerGetReplicableTargetsRes) GetData() []ModelBucket {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *HandlerGetReplicableTargetsRes) SetData(val []ModelBucket) {
-	s.Data = val
-}
-
-func (*HandlerGetReplicableTargetsRes) getBucketReplicableTargetsRes() {}
-
-// Ref: #/components/schemas/handler.getReplicationRes
-type HandlerGetReplicationRes struct {
-	Data OptModelReplication `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *HandlerGetReplicationRes) GetData() OptModelReplication {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *HandlerGetReplicationRes) SetData(val OptModelReplication) {
-	s.Data = val
-}
-
-func (*HandlerGetReplicationRes) getBucketReplicationRes() {}
-
-// Ref: #/components/schemas/handler.listClustersRes
-type HandlerListClustersRes struct {
-	// If use a pointer type, braek output.
-	Data []ModelCluster `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *HandlerListClustersRes) GetData() []ModelCluster {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *HandlerListClustersRes) SetData(val []ModelCluster) {
-	s.Data = val
-}
-
-func (*HandlerListClustersRes) getClustersRes() {}
-
-// Ref: #/components/schemas/handler.postReplicationRes
-type HandlerPostReplicationRes struct {
-	Data OptModelReplication `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *HandlerPostReplicationRes) GetData() OptModelReplication {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *HandlerPostReplicationRes) SetData(val OptModelReplication) {
-	s.Data = val
-}
-
-func (*HandlerPostReplicationRes) postBucketReplicationRes() {}
-
-// Ref: #/components/schemas/handler.PutBucketReqBody
-type HandlerPutBucketReqBody struct {
+// Ref: #/components/schemas/handler.CreateBucketRequestBody
+type HandlerCreateBucketRequestBody struct {
 	ClusterID string `json:"cluster_id"`
 	// If not specified, the bucket will be created as "standard".
-	Plan OptNilHandlerPutBucketReqBodyPlan `json:"plan"`
+	Plan OptNilHandlerCreateBucketRequestBodyPlan `json:"plan"`
 }
 
 // GetClusterID returns the value of ClusterID.
-func (s *HandlerPutBucketReqBody) GetClusterID() string {
+func (s *HandlerCreateBucketRequestBody) GetClusterID() string {
 	return s.ClusterID
 }
 
 // GetPlan returns the value of Plan.
-func (s *HandlerPutBucketReqBody) GetPlan() OptNilHandlerPutBucketReqBodyPlan {
+func (s *HandlerCreateBucketRequestBody) GetPlan() OptNilHandlerCreateBucketRequestBodyPlan {
 	return s.Plan
 }
 
 // SetClusterID sets the value of ClusterID.
-func (s *HandlerPutBucketReqBody) SetClusterID(val string) {
+func (s *HandlerCreateBucketRequestBody) SetClusterID(val string) {
 	s.ClusterID = val
 }
 
 // SetPlan sets the value of Plan.
-func (s *HandlerPutBucketReqBody) SetPlan(val OptNilHandlerPutBucketReqBodyPlan) {
+func (s *HandlerCreateBucketRequestBody) SetPlan(val OptNilHandlerCreateBucketRequestBodyPlan) {
 	s.Plan = val
 }
 
 // If not specified, the bucket will be created as "standard".
-type HandlerPutBucketReqBodyPlan struct {
+type HandlerCreateBucketRequestBodyPlan struct {
 	Type             OptModelPlanType    `json:"type"`
 	ServiceClassPath OptServiceClassPath `json:"service_class_path"`
 }
 
 // GetType returns the value of Type.
-func (s *HandlerPutBucketReqBodyPlan) GetType() OptModelPlanType {
+func (s *HandlerCreateBucketRequestBodyPlan) GetType() OptModelPlanType {
 	return s.Type
 }
 
 // GetServiceClassPath returns the value of ServiceClassPath.
-func (s *HandlerPutBucketReqBodyPlan) GetServiceClassPath() OptServiceClassPath {
+func (s *HandlerCreateBucketRequestBodyPlan) GetServiceClassPath() OptServiceClassPath {
 	return s.ServiceClassPath
 }
 
 // SetType sets the value of Type.
-func (s *HandlerPutBucketReqBodyPlan) SetType(val OptModelPlanType) {
+func (s *HandlerCreateBucketRequestBodyPlan) SetType(val OptModelPlanType) {
 	s.Type = val
 }
 
 // SetServiceClassPath sets the value of ServiceClassPath.
-func (s *HandlerPutBucketReqBodyPlan) SetServiceClassPath(val OptServiceClassPath) {
+func (s *HandlerCreateBucketRequestBodyPlan) SetServiceClassPath(val OptServiceClassPath) {
 	s.ServiceClassPath = val
 }
 
-// Ref: #/components/schemas/handler.putBucketRes
-type HandlerPutBucketRes struct {
-	Data OptModelBucket `json:"data"`
+// Ref: #/components/schemas/handler.CreateBucketResponse
+type HandlerCreateBucketResponse struct {
+	Data BucketResponseBody `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *HandlerPutBucketRes) GetData() OptModelBucket {
+func (s *HandlerCreateBucketResponse) GetData() BucketResponseBody {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *HandlerPutBucketRes) SetData(val OptModelBucket) {
+func (s *HandlerCreateBucketResponse) SetData(val BucketResponseBody) {
 	s.Data = val
 }
 
-func (*HandlerPutBucketRes) createBucketRes() {}
+func (*HandlerCreateBucketResponse) createBucketRes() {}
 
-// Ref: #/components/schemas/model.Bucket
-type ModelBucket struct {
-	ClusterID OptString          `json:"cluster_id"`
-	Name      OptString          `json:"name"`
-	Plan      OptModelBucketPlan `json:"plan"`
+// Ref: #/components/schemas/handler.CreatePermissionKeyResponse
+type HandlerCreatePermissionKeyResponse struct {
+	Data PermissionKeyCreateResponseBody `json:"data"`
 }
 
-// GetClusterID returns the value of ClusterID.
-func (s *ModelBucket) GetClusterID() OptString {
-	return s.ClusterID
+// GetData returns the value of Data.
+func (s *HandlerCreatePermissionKeyResponse) GetData() PermissionKeyCreateResponseBody {
+	return s.Data
 }
 
-// GetName returns the value of Name.
-func (s *ModelBucket) GetName() OptString {
-	return s.Name
+// SetData sets the value of Data.
+func (s *HandlerCreatePermissionKeyResponse) SetData(val PermissionKeyCreateResponseBody) {
+	s.Data = val
 }
 
-// GetPlan returns the value of Plan.
-func (s *ModelBucket) GetPlan() OptModelBucketPlan {
-	return s.Plan
+func (*HandlerCreatePermissionKeyResponse) createPermissionKeyRes() {}
+
+// Ref: #/components/schemas/handler.ListBucketReplicableTargetsResponse
+type HandlerListBucketReplicableTargetsResponse struct {
+	Data []BucketListResponseBody `json:"data"`
 }
 
-// SetClusterID sets the value of ClusterID.
-func (s *ModelBucket) SetClusterID(val OptString) {
-	s.ClusterID = val
+// GetData returns the value of Data.
+func (s *HandlerListBucketReplicableTargetsResponse) GetData() []BucketListResponseBody {
+	return s.Data
 }
 
-// SetName sets the value of Name.
-func (s *ModelBucket) SetName(val OptString) {
-	s.Name = val
+// SetData sets the value of Data.
+func (s *HandlerListBucketReplicableTargetsResponse) SetData(val []BucketListResponseBody) {
+	s.Data = val
 }
 
-// SetPlan sets the value of Plan.
-func (s *ModelBucket) SetPlan(val OptModelBucketPlan) {
-	s.Plan = val
+func (*HandlerListBucketReplicableTargetsResponse) listBucketReplicableTargetsRes() {}
+
+// Ref: #/components/schemas/handler.ListBucketsResponse
+type HandlerListBucketsResponse struct {
+	Data []BucketListResponseBody `json:"data"`
 }
 
-type ModelBucketPlan struct {
-	Type             OptModelPlanType `json:"type"`
-	ServiceClassPath OptString        `json:"service_class_path"`
+// GetData returns the value of Data.
+func (s *HandlerListBucketsResponse) GetData() []BucketListResponseBody {
+	return s.Data
 }
 
-// GetType returns the value of Type.
-func (s *ModelBucketPlan) GetType() OptModelPlanType {
-	return s.Type
+// SetData sets the value of Data.
+func (s *HandlerListBucketsResponse) SetData(val []BucketListResponseBody) {
+	s.Data = val
 }
 
-// GetServiceClassPath returns the value of ServiceClassPath.
-func (s *ModelBucketPlan) GetServiceClassPath() OptString {
-	return s.ServiceClassPath
+func (*HandlerListBucketsResponse) listBucketsRes() {}
+
+// Ref: #/components/schemas/handler.ListClustersResponse
+type HandlerListClustersResponse struct {
+	// If use a pointer type, break output.
+	Data []ClusterResponseBody `json:"data"`
 }
 
-// SetType sets the value of Type.
-func (s *ModelBucketPlan) SetType(val OptModelPlanType) {
-	s.Type = val
+// GetData returns the value of Data.
+func (s *HandlerListClustersResponse) GetData() []ClusterResponseBody {
+	return s.Data
 }
 
-// SetServiceClassPath sets the value of ServiceClassPath.
-func (s *ModelBucketPlan) SetServiceClassPath(val OptString) {
-	s.ServiceClassPath = val
+// SetData sets the value of Data.
+func (s *HandlerListClustersResponse) SetData(val []ClusterResponseBody) {
+	s.Data = val
 }
 
-// Ref: #/components/schemas/model.Cluster
-type ModelCluster struct {
-	// API Servers Zones.
-	APIZone []string `json:"api_zone"`
-	// URL of Control Panel.
-	ControlPanelURL OptString `json:"control_panel_url"`
-	// Display Name (en-us).
-	DisplayNameEnUs OptString `json:"display_name_en_us"`
-	// Display Name (ja).
-	DisplayNameJa OptString `json:"display_name_ja"`
-	// Display Name (Depending on Accept-Language).
-	DisplayName OptString `json:"display_name"`
-	// Display Order (Can be ignored).
-	DisplayOrder OptInt `json:"display_order"`
-	// Endpoint Base of Cluster.
-	EndpointBase OptString `json:"endpoint_base"`
-	// URL of IAM-compat API.
-	IamEndpoint OptString `json:"iam_endpoint"`
-	// URL of IAM-compat API (w/ resigning).
-	IamEndpointForControlPanel OptString `json:"iam_endpoint_for_control_panel"`
-	ID                         OptString `json:"id"`
-	Region                     OptString `json:"region"`
-	// URL of S3-compat API.
-	S3Endpoint OptString `json:"s3_endpoint"`
-	// URL of S3-compat API (w/ resigning).
-	S3EndpointForControlPanel OptString `json:"s3_endpoint_for_control_panel"`
-	// Storage Servers Zones.
-	StorageZone []string `json:"storage_zone"`
-	// Pricing/behavior family of the cluster.
-	PlanFamily OptModelClusterPlanFamily `json:"plan_family"`
+func (*HandlerListClustersResponse) listClustersRes() {}
+
+// Ref: #/components/schemas/handler.ListPermissionKeysResponse
+type HandlerListPermissionKeysResponse struct {
+	Data []PermissionKeyReadResponseBody `json:"data"`
 }
 
-// GetAPIZone returns the value of APIZone.
-func (s *ModelCluster) GetAPIZone() []string {
-	return s.APIZone
+// GetData returns the value of Data.
+func (s *HandlerListPermissionKeysResponse) GetData() []PermissionKeyReadResponseBody {
+	return s.Data
 }
 
-// GetControlPanelURL returns the value of ControlPanelURL.
-func (s *ModelCluster) GetControlPanelURL() OptString {
-	return s.ControlPanelURL
+// SetData sets the value of Data.
+func (s *HandlerListPermissionKeysResponse) SetData(val []PermissionKeyReadResponseBody) {
+	s.Data = val
 }
 
-// GetDisplayNameEnUs returns the value of DisplayNameEnUs.
-func (s *ModelCluster) GetDisplayNameEnUs() OptString {
-	return s.DisplayNameEnUs
+func (*HandlerListPermissionKeysResponse) listPermissionKeysRes() {}
+
+// Ref: #/components/schemas/handler.ReadBucketEncryptionResponse
+type HandlerReadBucketEncryptionResponse struct {
+	KmsKeyID     ResourceID `json:"kms_key_id"`
+	ConfiguredAt CreatedAt  `json:"configured_at"`
 }
 
-// GetDisplayNameJa returns the value of DisplayNameJa.
-func (s *ModelCluster) GetDisplayNameJa() OptString {
-	return s.DisplayNameJa
+// GetKmsKeyID returns the value of KmsKeyID.
+func (s *HandlerReadBucketEncryptionResponse) GetKmsKeyID() ResourceID {
+	return s.KmsKeyID
 }
 
-// GetDisplayName returns the value of DisplayName.
-func (s *ModelCluster) GetDisplayName() OptString {
-	return s.DisplayName
+// GetConfiguredAt returns the value of ConfiguredAt.
+func (s *HandlerReadBucketEncryptionResponse) GetConfiguredAt() CreatedAt {
+	return s.ConfiguredAt
 }
 
-// GetDisplayOrder returns the value of DisplayOrder.
-func (s *ModelCluster) GetDisplayOrder() OptInt {
-	return s.DisplayOrder
+// SetKmsKeyID sets the value of KmsKeyID.
+func (s *HandlerReadBucketEncryptionResponse) SetKmsKeyID(val ResourceID) {
+	s.KmsKeyID = val
 }
 
-// GetEndpointBase returns the value of EndpointBase.
-func (s *ModelCluster) GetEndpointBase() OptString {
-	return s.EndpointBase
+// SetConfiguredAt sets the value of ConfiguredAt.
+func (s *HandlerReadBucketEncryptionResponse) SetConfiguredAt(val CreatedAt) {
+	s.ConfiguredAt = val
 }
 
-// GetIamEndpoint returns the value of IamEndpoint.
-func (s *ModelCluster) GetIamEndpoint() OptString {
-	return s.IamEndpoint
+// Ref: #/components/schemas/handler.ReadBucketReplicationResponse
+type HandlerReadBucketReplicationResponse struct {
+	Data ModelReplication `json:"data"`
 }
 
-// GetIamEndpointForControlPanel returns the value of IamEndpointForControlPanel.
-func (s *ModelCluster) GetIamEndpointForControlPanel() OptString {
-	return s.IamEndpointForControlPanel
+// GetData returns the value of Data.
+func (s *HandlerReadBucketReplicationResponse) GetData() ModelReplication {
+	return s.Data
 }
 
-// GetID returns the value of ID.
-func (s *ModelCluster) GetID() OptString {
-	return s.ID
+// SetData sets the value of Data.
+func (s *HandlerReadBucketReplicationResponse) SetData(val ModelReplication) {
+	s.Data = val
 }
 
-// GetRegion returns the value of Region.
-func (s *ModelCluster) GetRegion() OptString {
-	return s.Region
+func (*HandlerReadBucketReplicationResponse) readBucketReplicationRes() {}
+
+// Ref: #/components/schemas/handler.ReadClusterResponse
+type HandlerReadClusterResponse struct {
+	Data ClusterResponseBody `json:"data"`
 }
 
-// GetS3Endpoint returns the value of S3Endpoint.
-func (s *ModelCluster) GetS3Endpoint() OptString {
-	return s.S3Endpoint
+// GetData returns the value of Data.
+func (s *HandlerReadClusterResponse) GetData() ClusterResponseBody {
+	return s.Data
 }
 
-// GetS3EndpointForControlPanel returns the value of S3EndpointForControlPanel.
-func (s *ModelCluster) GetS3EndpointForControlPanel() OptString {
-	return s.S3EndpointForControlPanel
+// SetData sets the value of Data.
+func (s *HandlerReadClusterResponse) SetData(val ClusterResponseBody) {
+	s.Data = val
 }
 
-// GetStorageZone returns the value of StorageZone.
-func (s *ModelCluster) GetStorageZone() []string {
-	return s.StorageZone
+func (*HandlerReadClusterResponse) readClusterRes() {}
+
+// Ref: #/components/schemas/handler.ReadPermissionKeyResponse
+type HandlerReadPermissionKeyResponse struct {
+	Data PermissionKeyReadResponseBody `json:"data"`
 }
 
-// GetPlanFamily returns the value of PlanFamily.
-func (s *ModelCluster) GetPlanFamily() OptModelClusterPlanFamily {
-	return s.PlanFamily
+// GetData returns the value of Data.
+func (s *HandlerReadPermissionKeyResponse) GetData() PermissionKeyReadResponseBody {
+	return s.Data
 }
 
-// SetAPIZone sets the value of APIZone.
-func (s *ModelCluster) SetAPIZone(val []string) {
-	s.APIZone = val
+// SetData sets the value of Data.
+func (s *HandlerReadPermissionKeyResponse) SetData(val PermissionKeyReadResponseBody) {
+	s.Data = val
 }
 
-// SetControlPanelURL sets the value of ControlPanelURL.
-func (s *ModelCluster) SetControlPanelURL(val OptString) {
-	s.ControlPanelURL = val
+func (*HandlerReadPermissionKeyResponse) readPermissionKeyRes() {}
+
+// Ref: #/components/schemas/handler.UpdateBucketEncryptionRequestBody
+type HandlerUpdateBucketEncryptionRequestBody struct {
+	KmsKeyID ResourceID `json:"kms_key_id"`
 }
 
-// SetDisplayNameEnUs sets the value of DisplayNameEnUs.
-func (s *ModelCluster) SetDisplayNameEnUs(val OptString) {
-	s.DisplayNameEnUs = val
+// GetKmsKeyID returns the value of KmsKeyID.
+func (s *HandlerUpdateBucketEncryptionRequestBody) GetKmsKeyID() ResourceID {
+	return s.KmsKeyID
 }
 
-// SetDisplayNameJa sets the value of DisplayNameJa.
-func (s *ModelCluster) SetDisplayNameJa(val OptString) {
-	s.DisplayNameJa = val
+// SetKmsKeyID sets the value of KmsKeyID.
+func (s *HandlerUpdateBucketEncryptionRequestBody) SetKmsKeyID(val ResourceID) {
+	s.KmsKeyID = val
 }
 
-// SetDisplayName sets the value of DisplayName.
-func (s *ModelCluster) SetDisplayName(val OptString) {
-	s.DisplayName = val
+// Ref: #/components/schemas/handler.UpdateBucketEncryptionResponse
+type HandlerUpdateBucketEncryptionResponse struct {
+	KmsKeyID     ResourceID `json:"kms_key_id"`
+	ConfiguredAt CreatedAt  `json:"configured_at"`
 }
 
-// SetDisplayOrder sets the value of DisplayOrder.
-func (s *ModelCluster) SetDisplayOrder(val OptInt) {
-	s.DisplayOrder = val
+// GetKmsKeyID returns the value of KmsKeyID.
+func (s *HandlerUpdateBucketEncryptionResponse) GetKmsKeyID() ResourceID {
+	return s.KmsKeyID
 }
 
-// SetEndpointBase sets the value of EndpointBase.
-func (s *ModelCluster) SetEndpointBase(val OptString) {
-	s.EndpointBase = val
+// GetConfiguredAt returns the value of ConfiguredAt.
+func (s *HandlerUpdateBucketEncryptionResponse) GetConfiguredAt() CreatedAt {
+	return s.ConfiguredAt
 }
 
-// SetIamEndpoint sets the value of IamEndpoint.
-func (s *ModelCluster) SetIamEndpoint(val OptString) {
-	s.IamEndpoint = val
+// SetKmsKeyID sets the value of KmsKeyID.
+func (s *HandlerUpdateBucketEncryptionResponse) SetKmsKeyID(val ResourceID) {
+	s.KmsKeyID = val
 }
 
-// SetIamEndpointForControlPanel sets the value of IamEndpointForControlPanel.
-func (s *ModelCluster) SetIamEndpointForControlPanel(val OptString) {
-	s.IamEndpointForControlPanel = val
+// SetConfiguredAt sets the value of ConfiguredAt.
+func (s *HandlerUpdateBucketEncryptionResponse) SetConfiguredAt(val CreatedAt) {
+	s.ConfiguredAt = val
 }
 
-// SetID sets the value of ID.
-func (s *ModelCluster) SetID(val OptString) {
-	s.ID = val
+type ListBucketMeteringOK struct {
+	Data []BucketBillingItem `json:"data"`
 }
 
-// SetRegion sets the value of Region.
-func (s *ModelCluster) SetRegion(val OptString) {
-	s.Region = val
+// GetData returns the value of Data.
+func (s *ListBucketMeteringOK) GetData() []BucketBillingItem {
+	return s.Data
 }
 
-// SetS3Endpoint sets the value of S3Endpoint.
-func (s *ModelCluster) SetS3Endpoint(val OptString) {
-	s.S3Endpoint = val
+// SetData sets the value of Data.
+func (s *ListBucketMeteringOK) SetData(val []BucketBillingItem) {
+	s.Data = val
 }
 
-// SetS3EndpointForControlPanel sets the value of S3EndpointForControlPanel.
-func (s *ModelCluster) SetS3EndpointForControlPanel(val OptString) {
-	s.S3EndpointForControlPanel = val
+func (*ListBucketMeteringOK) listBucketMeteringRes() {}
+
+type ListPlansOK struct {
+	Data []PlanItem `json:"data"`
 }
 
-// SetStorageZone sets the value of StorageZone.
-func (s *ModelCluster) SetStorageZone(val []string) {
-	s.StorageZone = val
+// GetData returns the value of Data.
+func (s *ListPlansOK) GetData() []PlanItem {
+	return s.Data
 }
 
-// SetPlanFamily sets the value of PlanFamily.
-func (s *ModelCluster) SetPlanFamily(val OptModelClusterPlanFamily) {
-	s.PlanFamily = val
+// SetData sets the value of Data.
+func (s *ListPlansOK) SetData(val []PlanItem) {
+	s.Data = val
 }
 
-// Pricing/behavior family of the cluster.
-type ModelClusterPlanFamily string
-
-const (
-	ModelClusterPlanFamilyStandard ModelClusterPlanFamily = "standard"
-	ModelClusterPlanFamilyArchive  ModelClusterPlanFamily = "archive"
-)
-
-// AllValues returns all ModelClusterPlanFamily values.
-func (ModelClusterPlanFamily) AllValues() []ModelClusterPlanFamily {
-	return []ModelClusterPlanFamily{
-		ModelClusterPlanFamilyStandard,
-		ModelClusterPlanFamilyArchive,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ModelClusterPlanFamily) MarshalText() ([]byte, error) {
-	switch s {
-	case ModelClusterPlanFamilyStandard:
-		return []byte(s), nil
-	case ModelClusterPlanFamilyArchive:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ModelClusterPlanFamily) UnmarshalText(data []byte) error {
-	switch ModelClusterPlanFamily(data) {
-	case ModelClusterPlanFamilyStandard:
-		*s = ModelClusterPlanFamilyStandard
-		return nil
-	case ModelClusterPlanFamilyArchive:
-		*s = ModelClusterPlanFamilyArchive
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
+func (*ListPlansOK) listPlansRes() {}
 
 // Plan type enum.
 // Ref: #/components/schemas/model.PlanType
@@ -2111,252 +2290,250 @@ func (s *ModelReplicationConfigStatus) UnmarshalText(data []byte) error {
 
 // Destination bucket info.
 type ModelReplicationDestBucket struct {
-	Name      OptString                         `json:"name"`
-	ClusterID OptString                         `json:"cluster_id"`
-	Plan      OptModelReplicationDestBucketPlan `json:"plan"`
+	Name      string                         `json:"name"`
+	ClusterID string                         `json:"cluster_id"`
+	Plan      ModelReplicationDestBucketPlan `json:"plan"`
 }
 
 // GetName returns the value of Name.
-func (s *ModelReplicationDestBucket) GetName() OptString {
+func (s *ModelReplicationDestBucket) GetName() string {
 	return s.Name
 }
 
 // GetClusterID returns the value of ClusterID.
-func (s *ModelReplicationDestBucket) GetClusterID() OptString {
+func (s *ModelReplicationDestBucket) GetClusterID() string {
 	return s.ClusterID
 }
 
 // GetPlan returns the value of Plan.
-func (s *ModelReplicationDestBucket) GetPlan() OptModelReplicationDestBucketPlan {
+func (s *ModelReplicationDestBucket) GetPlan() ModelReplicationDestBucketPlan {
 	return s.Plan
 }
 
 // SetName sets the value of Name.
-func (s *ModelReplicationDestBucket) SetName(val OptString) {
+func (s *ModelReplicationDestBucket) SetName(val string) {
 	s.Name = val
 }
 
 // SetClusterID sets the value of ClusterID.
-func (s *ModelReplicationDestBucket) SetClusterID(val OptString) {
+func (s *ModelReplicationDestBucket) SetClusterID(val string) {
 	s.ClusterID = val
 }
 
 // SetPlan sets the value of Plan.
-func (s *ModelReplicationDestBucket) SetPlan(val OptModelReplicationDestBucketPlan) {
+func (s *ModelReplicationDestBucket) SetPlan(val ModelReplicationDestBucketPlan) {
 	s.Plan = val
 }
 
 type ModelReplicationDestBucketPlan struct {
-	Type             OptModelPlanType    `json:"type"`
-	ServiceClassPath OptServiceClassPath `json:"service_class_path"`
+	Type             ModelPlanType    `json:"type"`
+	ServiceClassPath ServiceClassPath `json:"service_class_path"`
 }
 
 // GetType returns the value of Type.
-func (s *ModelReplicationDestBucketPlan) GetType() OptModelPlanType {
+func (s *ModelReplicationDestBucketPlan) GetType() ModelPlanType {
 	return s.Type
 }
 
 // GetServiceClassPath returns the value of ServiceClassPath.
-func (s *ModelReplicationDestBucketPlan) GetServiceClassPath() OptServiceClassPath {
+func (s *ModelReplicationDestBucketPlan) GetServiceClassPath() ServiceClassPath {
 	return s.ServiceClassPath
 }
 
 // SetType sets the value of Type.
-func (s *ModelReplicationDestBucketPlan) SetType(val OptModelPlanType) {
+func (s *ModelReplicationDestBucketPlan) SetType(val ModelPlanType) {
 	s.Type = val
 }
 
 // SetServiceClassPath sets the value of ServiceClassPath.
-func (s *ModelReplicationDestBucketPlan) SetServiceClassPath(val OptServiceClassPath) {
+func (s *ModelReplicationDestBucketPlan) SetServiceClassPath(val ServiceClassPath) {
 	s.ServiceClassPath = val
 }
 
 // Source bucket info.
 type ModelReplicationSourceBucket struct {
-	Name      OptString                           `json:"name"`
-	ClusterID OptString                           `json:"cluster_id"`
-	Plan      OptModelReplicationSourceBucketPlan `json:"plan"`
+	Name      string                           `json:"name"`
+	ClusterID string                           `json:"cluster_id"`
+	Plan      ModelReplicationSourceBucketPlan `json:"plan"`
 }
 
 // GetName returns the value of Name.
-func (s *ModelReplicationSourceBucket) GetName() OptString {
+func (s *ModelReplicationSourceBucket) GetName() string {
 	return s.Name
 }
 
 // GetClusterID returns the value of ClusterID.
-func (s *ModelReplicationSourceBucket) GetClusterID() OptString {
+func (s *ModelReplicationSourceBucket) GetClusterID() string {
 	return s.ClusterID
 }
 
 // GetPlan returns the value of Plan.
-func (s *ModelReplicationSourceBucket) GetPlan() OptModelReplicationSourceBucketPlan {
+func (s *ModelReplicationSourceBucket) GetPlan() ModelReplicationSourceBucketPlan {
 	return s.Plan
 }
 
 // SetName sets the value of Name.
-func (s *ModelReplicationSourceBucket) SetName(val OptString) {
+func (s *ModelReplicationSourceBucket) SetName(val string) {
 	s.Name = val
 }
 
 // SetClusterID sets the value of ClusterID.
-func (s *ModelReplicationSourceBucket) SetClusterID(val OptString) {
+func (s *ModelReplicationSourceBucket) SetClusterID(val string) {
 	s.ClusterID = val
 }
 
 // SetPlan sets the value of Plan.
-func (s *ModelReplicationSourceBucket) SetPlan(val OptModelReplicationSourceBucketPlan) {
+func (s *ModelReplicationSourceBucket) SetPlan(val ModelReplicationSourceBucketPlan) {
 	s.Plan = val
 }
 
 type ModelReplicationSourceBucketPlan struct {
-	Type             OptModelPlanType    `json:"type"`
-	ServiceClassPath OptServiceClassPath `json:"service_class_path"`
+	Type             ModelPlanType    `json:"type"`
+	ServiceClassPath ServiceClassPath `json:"service_class_path"`
 }
 
 // GetType returns the value of Type.
-func (s *ModelReplicationSourceBucketPlan) GetType() OptModelPlanType {
+func (s *ModelReplicationSourceBucketPlan) GetType() ModelPlanType {
 	return s.Type
 }
 
 // GetServiceClassPath returns the value of ServiceClassPath.
-func (s *ModelReplicationSourceBucketPlan) GetServiceClassPath() OptServiceClassPath {
+func (s *ModelReplicationSourceBucketPlan) GetServiceClassPath() ServiceClassPath {
 	return s.ServiceClassPath
 }
 
 // SetType sets the value of Type.
-func (s *ModelReplicationSourceBucketPlan) SetType(val OptModelPlanType) {
+func (s *ModelReplicationSourceBucketPlan) SetType(val ModelPlanType) {
 	s.Type = val
 }
 
 // SetServiceClassPath sets the value of ServiceClassPath.
-func (s *ModelReplicationSourceBucketPlan) SetServiceClassPath(val OptServiceClassPath) {
+func (s *ModelReplicationSourceBucketPlan) SetServiceClassPath(val ServiceClassPath) {
 	s.ServiceClassPath = val
 }
 
-// NewOptAccessKeyID returns new OptAccessKeyID with value set to v.
-func NewOptAccessKeyID(v AccessKeyID) OptAccessKeyID {
-	return OptAccessKeyID{
+// NewNilDateTime returns new NilDateTime with value set to v.
+func NewNilDateTime(v time.Time) NilDateTime {
+	return NilDateTime{
 		Value: v,
-		Set:   true,
 	}
 }
 
-// OptAccessKeyID is optional AccessKeyID.
-type OptAccessKeyID struct {
-	Value AccessKeyID
-	Set   bool
-}
-
-// IsSet returns true if OptAccessKeyID was set.
-func (o OptAccessKeyID) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptAccessKeyID) Reset() {
-	var v AccessKeyID
-	o.Value = v
-	o.Set = false
+// NilDateTime is nullable time.Time.
+type NilDateTime struct {
+	Value time.Time
+	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *OptAccessKeyID) SetTo(v AccessKeyID) {
-	o.Set = true
+func (o *NilDateTime) SetTo(v time.Time) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilDateTime) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilDateTime) SetToNull() {
+	o.Null = true
+	var v time.Time
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptAccessKeyID) Get() (v AccessKeyID, ok bool) {
-	if !o.Set {
+func (o NilDateTime) Get() (v time.Time, ok bool) {
+	if o.Null {
 		return v, false
 	}
 	return o.Value, true
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptAccessKeyID) Or(d AccessKeyID) AccessKeyID {
+func (o NilDateTime) Or(d time.Time) time.Time {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptAccountData returns new OptAccountData with value set to v.
-func NewOptAccountData(v AccountData) OptAccountData {
-	return OptAccountData{
+// NewNilInt returns new NilInt with value set to v.
+func NewNilInt(v int) NilInt {
+	return NilInt{
 		Value: v,
-		Set:   true,
 	}
 }
 
-// OptAccountData is optional AccountData.
-type OptAccountData struct {
-	Value AccountData
-	Set   bool
-}
-
-// IsSet returns true if OptAccountData was set.
-func (o OptAccountData) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptAccountData) Reset() {
-	var v AccountData
-	o.Value = v
-	o.Set = false
+// NilInt is nullable int.
+type NilInt struct {
+	Value int
+	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *OptAccountData) SetTo(v AccountData) {
-	o.Set = true
+func (o *NilInt) SetTo(v int) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilInt) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilInt) SetToNull() {
+	o.Null = true
+	var v int
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptAccountData) Get() (v AccountData, ok bool) {
-	if !o.Set {
+func (o NilInt) Get() (v int, ok bool) {
+	if o.Null {
 		return v, false
 	}
 	return o.Value, true
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptAccountData) Or(d AccountData) AccountData {
+func (o NilInt) Or(d int) int {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptAccountKeyData returns new OptAccountKeyData with value set to v.
-func NewOptAccountKeyData(v AccountKeyData) OptAccountKeyData {
-	return OptAccountKeyData{
+// NewOptBucketListResponseBodyPlan returns new OptBucketListResponseBodyPlan with value set to v.
+func NewOptBucketListResponseBodyPlan(v BucketListResponseBodyPlan) OptBucketListResponseBodyPlan {
+	return OptBucketListResponseBodyPlan{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptAccountKeyData is optional AccountKeyData.
-type OptAccountKeyData struct {
-	Value AccountKeyData
+// OptBucketListResponseBodyPlan is optional BucketListResponseBodyPlan.
+type OptBucketListResponseBodyPlan struct {
+	Value BucketListResponseBodyPlan
 	Set   bool
 }
 
-// IsSet returns true if OptAccountKeyData was set.
-func (o OptAccountKeyData) IsSet() bool { return o.Set }
+// IsSet returns true if OptBucketListResponseBodyPlan was set.
+func (o OptBucketListResponseBodyPlan) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptAccountKeyData) Reset() {
-	var v AccountKeyData
+func (o *OptBucketListResponseBodyPlan) Reset() {
+	var v BucketListResponseBodyPlan
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptAccountKeyData) SetTo(v AccountKeyData) {
+func (o *OptBucketListResponseBodyPlan) SetTo(v BucketListResponseBodyPlan) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptAccountKeyData) Get() (v AccountKeyData, ok bool) {
+func (o OptBucketListResponseBodyPlan) Get() (v BucketListResponseBodyPlan, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -2364,559 +2541,7 @@ func (o OptAccountKeyData) Get() (v AccountKeyData, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptAccountKeyData) Or(d AccountKeyData) AccountKeyData {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBool returns new OptBool with value set to v.
-func NewOptBool(v bool) OptBool {
-	return OptBool{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBool is optional bool.
-type OptBool struct {
-	Value bool
-	Set   bool
-}
-
-// IsSet returns true if OptBool was set.
-func (o OptBool) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBool) Reset() {
-	var v bool
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBool) SetTo(v bool) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBool) Get() (v bool, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBool) Or(d bool) bool {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBucketBillingItemDetail returns new OptBucketBillingItemDetail with value set to v.
-func NewOptBucketBillingItemDetail(v BucketBillingItemDetail) OptBucketBillingItemDetail {
-	return OptBucketBillingItemDetail{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBucketBillingItemDetail is optional BucketBillingItemDetail.
-type OptBucketBillingItemDetail struct {
-	Value BucketBillingItemDetail
-	Set   bool
-}
-
-// IsSet returns true if OptBucketBillingItemDetail was set.
-func (o OptBucketBillingItemDetail) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBucketBillingItemDetail) Reset() {
-	var v BucketBillingItemDetail
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBucketBillingItemDetail) SetTo(v BucketBillingItemDetail) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBucketBillingItemDetail) Get() (v BucketBillingItemDetail, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBucketBillingItemDetail) Or(d BucketBillingItemDetail) BucketBillingItemDetail {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBucketListDataItemPlan returns new OptBucketListDataItemPlan with value set to v.
-func NewOptBucketListDataItemPlan(v BucketListDataItemPlan) OptBucketListDataItemPlan {
-	return OptBucketListDataItemPlan{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBucketListDataItemPlan is optional BucketListDataItemPlan.
-type OptBucketListDataItemPlan struct {
-	Value BucketListDataItemPlan
-	Set   bool
-}
-
-// IsSet returns true if OptBucketListDataItemPlan was set.
-func (o OptBucketListDataItemPlan) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBucketListDataItemPlan) Reset() {
-	var v BucketListDataItemPlan
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBucketListDataItemPlan) SetTo(v BucketListDataItemPlan) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBucketListDataItemPlan) Get() (v BucketListDataItemPlan, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBucketListDataItemPlan) Or(d BucketListDataItemPlan) BucketListDataItemPlan {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBucketName returns new OptBucketName with value set to v.
-func NewOptBucketName(v BucketName) OptBucketName {
-	return OptBucketName{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBucketName is optional BucketName.
-type OptBucketName struct {
-	Value BucketName
-	Set   bool
-}
-
-// IsSet returns true if OptBucketName was set.
-func (o OptBucketName) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBucketName) Reset() {
-	var v BucketName
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBucketName) SetTo(v BucketName) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBucketName) Get() (v BucketName, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBucketName) Or(d BucketName) BucketName {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBucketPenaltyData returns new OptBucketPenaltyData with value set to v.
-func NewOptBucketPenaltyData(v BucketPenaltyData) OptBucketPenaltyData {
-	return OptBucketPenaltyData{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBucketPenaltyData is optional BucketPenaltyData.
-type OptBucketPenaltyData struct {
-	Value BucketPenaltyData
-	Set   bool
-}
-
-// IsSet returns true if OptBucketPenaltyData was set.
-func (o OptBucketPenaltyData) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBucketPenaltyData) Reset() {
-	var v BucketPenaltyData
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBucketPenaltyData) SetTo(v BucketPenaltyData) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBucketPenaltyData) Get() (v BucketPenaltyData, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBucketPenaltyData) Or(d BucketPenaltyData) BucketPenaltyData {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBucketPenaltyDataAmountGibPerBucket returns new OptBucketPenaltyDataAmountGibPerBucket with value set to v.
-func NewOptBucketPenaltyDataAmountGibPerBucket(v BucketPenaltyDataAmountGibPerBucket) OptBucketPenaltyDataAmountGibPerBucket {
-	return OptBucketPenaltyDataAmountGibPerBucket{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBucketPenaltyDataAmountGibPerBucket is optional BucketPenaltyDataAmountGibPerBucket.
-type OptBucketPenaltyDataAmountGibPerBucket struct {
-	Value BucketPenaltyDataAmountGibPerBucket
-	Set   bool
-}
-
-// IsSet returns true if OptBucketPenaltyDataAmountGibPerBucket was set.
-func (o OptBucketPenaltyDataAmountGibPerBucket) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBucketPenaltyDataAmountGibPerBucket) Reset() {
-	var v BucketPenaltyDataAmountGibPerBucket
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBucketPenaltyDataAmountGibPerBucket) SetTo(v BucketPenaltyDataAmountGibPerBucket) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBucketPenaltyDataAmountGibPerBucket) Get() (v BucketPenaltyDataAmountGibPerBucket, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBucketPenaltyDataAmountGibPerBucket) Or(d BucketPenaltyDataAmountGibPerBucket) BucketPenaltyDataAmountGibPerBucket {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBucketPenaltyDataNumObjectsPerBucket returns new OptBucketPenaltyDataNumObjectsPerBucket with value set to v.
-func NewOptBucketPenaltyDataNumObjectsPerBucket(v BucketPenaltyDataNumObjectsPerBucket) OptBucketPenaltyDataNumObjectsPerBucket {
-	return OptBucketPenaltyDataNumObjectsPerBucket{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBucketPenaltyDataNumObjectsPerBucket is optional BucketPenaltyDataNumObjectsPerBucket.
-type OptBucketPenaltyDataNumObjectsPerBucket struct {
-	Value BucketPenaltyDataNumObjectsPerBucket
-	Set   bool
-}
-
-// IsSet returns true if OptBucketPenaltyDataNumObjectsPerBucket was set.
-func (o OptBucketPenaltyDataNumObjectsPerBucket) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBucketPenaltyDataNumObjectsPerBucket) Reset() {
-	var v BucketPenaltyDataNumObjectsPerBucket
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBucketPenaltyDataNumObjectsPerBucket) SetTo(v BucketPenaltyDataNumObjectsPerBucket) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBucketPenaltyDataNumObjectsPerBucket) Get() (v BucketPenaltyDataNumObjectsPerBucket, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBucketPenaltyDataNumObjectsPerBucket) Or(d BucketPenaltyDataNumObjectsPerBucket) BucketPenaltyDataNumObjectsPerBucket {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBucketQuotaData returns new OptBucketQuotaData with value set to v.
-func NewOptBucketQuotaData(v BucketQuotaData) OptBucketQuotaData {
-	return OptBucketQuotaData{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBucketQuotaData is optional BucketQuotaData.
-type OptBucketQuotaData struct {
-	Value BucketQuotaData
-	Set   bool
-}
-
-// IsSet returns true if OptBucketQuotaData was set.
-func (o OptBucketQuotaData) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBucketQuotaData) Reset() {
-	var v BucketQuotaData
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBucketQuotaData) SetTo(v BucketQuotaData) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBucketQuotaData) Get() (v BucketQuotaData, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBucketQuotaData) Or(d BucketQuotaData) BucketQuotaData {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBucketUsageData returns new OptBucketUsageData with value set to v.
-func NewOptBucketUsageData(v BucketUsageData) OptBucketUsageData {
-	return OptBucketUsageData{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBucketUsageData is optional BucketUsageData.
-type OptBucketUsageData struct {
-	Value BucketUsageData
-	Set   bool
-}
-
-// IsSet returns true if OptBucketUsageData was set.
-func (o OptBucketUsageData) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBucketUsageData) Reset() {
-	var v BucketUsageData
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBucketUsageData) SetTo(v BucketUsageData) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBucketUsageData) Get() (v BucketUsageData, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBucketUsageData) Or(d BucketUsageData) BucketUsageData {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCanRead returns new OptCanRead with value set to v.
-func NewOptCanRead(v CanRead) OptCanRead {
-	return OptCanRead{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCanRead is optional CanRead.
-type OptCanRead struct {
-	Value CanRead
-	Set   bool
-}
-
-// IsSet returns true if OptCanRead was set.
-func (o OptCanRead) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCanRead) Reset() {
-	var v CanRead
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCanRead) SetTo(v CanRead) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCanRead) Get() (v CanRead, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCanRead) Or(d CanRead) CanRead {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCanWrite returns new OptCanWrite with value set to v.
-func NewOptCanWrite(v CanWrite) OptCanWrite {
-	return OptCanWrite{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCanWrite is optional CanWrite.
-type OptCanWrite struct {
-	Value CanWrite
-	Set   bool
-}
-
-// IsSet returns true if OptCanWrite was set.
-func (o OptCanWrite) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCanWrite) Reset() {
-	var v CanWrite
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCanWrite) SetTo(v CanWrite) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCanWrite) Get() (v CanWrite, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCanWrite) Or(d CanWrite) CanWrite {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCode returns new OptCode with value set to v.
-func NewOptCode(v Code) OptCode {
-	return OptCode{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCode is optional Code.
-type OptCode struct {
-	Value Code
-	Set   bool
-}
-
-// IsSet returns true if OptCode was set.
-func (o OptCode) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCode) Reset() {
-	var v Code
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCode) SetTo(v Code) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCode) Get() (v Code, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCode) Or(d Code) Code {
+func (o OptBucketListResponseBodyPlan) Or(d BucketListResponseBodyPlan) BucketListResponseBodyPlan {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -2963,236 +2588,6 @@ func (o OptContractSummary) Get() (v ContractSummary, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptContractSummary) Or(d ContractSummary) ContractSummary {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptContractSummaryStatus returns new OptContractSummaryStatus with value set to v.
-func NewOptContractSummaryStatus(v ContractSummaryStatus) OptContractSummaryStatus {
-	return OptContractSummaryStatus{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptContractSummaryStatus is optional ContractSummaryStatus.
-type OptContractSummaryStatus struct {
-	Value ContractSummaryStatus
-	Set   bool
-}
-
-// IsSet returns true if OptContractSummaryStatus was set.
-func (o OptContractSummaryStatus) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptContractSummaryStatus) Reset() {
-	var v ContractSummaryStatus
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptContractSummaryStatus) SetTo(v ContractSummaryStatus) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptContractSummaryStatus) Get() (v ContractSummaryStatus, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptContractSummaryStatus) Or(d ContractSummaryStatus) ContractSummaryStatus {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCreatedAt returns new OptCreatedAt with value set to v.
-func NewOptCreatedAt(v CreatedAt) OptCreatedAt {
-	return OptCreatedAt{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreatedAt is optional CreatedAt.
-type OptCreatedAt struct {
-	Value CreatedAt
-	Set   bool
-}
-
-// IsSet returns true if OptCreatedAt was set.
-func (o OptCreatedAt) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreatedAt) Reset() {
-	var v CreatedAt
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreatedAt) SetTo(v CreatedAt) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreatedAt) Get() (v CreatedAt, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreatedAt) Or(d CreatedAt) CreatedAt {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptDate returns new OptDate with value set to v.
-func NewOptDate(v time.Time) OptDate {
-	return OptDate{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptDate is optional time.Time.
-type OptDate struct {
-	Value time.Time
-	Set   bool
-}
-
-// IsSet returns true if OptDate was set.
-func (o OptDate) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptDate) Reset() {
-	var v time.Time
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptDate) SetTo(v time.Time) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptDate) Get() (v time.Time, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptDate) Or(d time.Time) time.Time {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptDateTime returns new OptDateTime with value set to v.
-func NewOptDateTime(v time.Time) OptDateTime {
-	return OptDateTime{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptDateTime is optional time.Time.
-type OptDateTime struct {
-	Value time.Time
-	Set   bool
-}
-
-// IsSet returns true if OptDateTime was set.
-func (o OptDateTime) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptDateTime) Reset() {
-	var v time.Time
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptDateTime) SetTo(v time.Time) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptDateTime) Get() (v time.Time, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptDateTime) Or(d time.Time) time.Time {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptDisplayName returns new OptDisplayName with value set to v.
-func NewOptDisplayName(v DisplayName) OptDisplayName {
-	return OptDisplayName{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptDisplayName is optional DisplayName.
-type OptDisplayName struct {
-	Value DisplayName
-	Set   bool
-}
-
-// IsSet returns true if OptDisplayName was set.
-func (o OptDisplayName) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptDisplayName) Reset() {
-	var v DisplayName
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptDisplayName) SetTo(v DisplayName) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptDisplayName) Get() (v DisplayName, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptDisplayName) Or(d DisplayName) DisplayName {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -3377,6 +2772,52 @@ func (o OptError404Error) Get() (v Error404Error, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptError404Error) Or(d Error404Error) Error404Error {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptError405Error returns new OptError405Error with value set to v.
+func NewOptError405Error(v Error405Error) OptError405Error {
+	return OptError405Error{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptError405Error is optional Error405Error.
+type OptError405Error struct {
+	Value Error405Error
+	Set   bool
+}
+
+// IsSet returns true if OptError405Error was set.
+func (o OptError405Error) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptError405Error) Reset() {
+	var v Error405Error
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptError405Error) SetTo(v Error405Error) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptError405Error) Get() (v Error405Error, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptError405Error) Or(d Error405Error) Error405Error {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -3843,328 +3284,6 @@ func (o OptErrorsReason) Or(d ErrorsReason) ErrorsReason {
 	return d
 }
 
-// NewOptFloat32 returns new OptFloat32 with value set to v.
-func NewOptFloat32(v float32) OptFloat32 {
-	return OptFloat32{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptFloat32 is optional float32.
-type OptFloat32 struct {
-	Value float32
-	Set   bool
-}
-
-// IsSet returns true if OptFloat32 was set.
-func (o OptFloat32) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptFloat32) Reset() {
-	var v float32
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptFloat32) SetTo(v float32) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptFloat32) Get() (v float32, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptFloat32) Or(d float32) float32 {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptFloat64 returns new OptFloat64 with value set to v.
-func NewOptFloat64(v float64) OptFloat64 {
-	return OptFloat64{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptFloat64 is optional float64.
-type OptFloat64 struct {
-	Value float64
-	Set   bool
-}
-
-// IsSet returns true if OptFloat64 was set.
-func (o OptFloat64) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptFloat64) Reset() {
-	var v float64
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptFloat64) SetTo(v float64) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptFloat64) Get() (v float64, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptFloat64) Or(d float64) float64 {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptInt returns new OptInt with value set to v.
-func NewOptInt(v int) OptInt {
-	return OptInt{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptInt is optional int.
-type OptInt struct {
-	Value int
-	Set   bool
-}
-
-// IsSet returns true if OptInt was set.
-func (o OptInt) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptInt) Reset() {
-	var v int
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptInt) SetTo(v int) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptInt) Get() (v int, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptInt) Or(d int) int {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptModelBucket returns new OptModelBucket with value set to v.
-func NewOptModelBucket(v ModelBucket) OptModelBucket {
-	return OptModelBucket{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptModelBucket is optional ModelBucket.
-type OptModelBucket struct {
-	Value ModelBucket
-	Set   bool
-}
-
-// IsSet returns true if OptModelBucket was set.
-func (o OptModelBucket) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptModelBucket) Reset() {
-	var v ModelBucket
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptModelBucket) SetTo(v ModelBucket) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptModelBucket) Get() (v ModelBucket, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptModelBucket) Or(d ModelBucket) ModelBucket {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptModelBucketPlan returns new OptModelBucketPlan with value set to v.
-func NewOptModelBucketPlan(v ModelBucketPlan) OptModelBucketPlan {
-	return OptModelBucketPlan{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptModelBucketPlan is optional ModelBucketPlan.
-type OptModelBucketPlan struct {
-	Value ModelBucketPlan
-	Set   bool
-}
-
-// IsSet returns true if OptModelBucketPlan was set.
-func (o OptModelBucketPlan) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptModelBucketPlan) Reset() {
-	var v ModelBucketPlan
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptModelBucketPlan) SetTo(v ModelBucketPlan) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptModelBucketPlan) Get() (v ModelBucketPlan, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptModelBucketPlan) Or(d ModelBucketPlan) ModelBucketPlan {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptModelCluster returns new OptModelCluster with value set to v.
-func NewOptModelCluster(v ModelCluster) OptModelCluster {
-	return OptModelCluster{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptModelCluster is optional ModelCluster.
-type OptModelCluster struct {
-	Value ModelCluster
-	Set   bool
-}
-
-// IsSet returns true if OptModelCluster was set.
-func (o OptModelCluster) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptModelCluster) Reset() {
-	var v ModelCluster
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptModelCluster) SetTo(v ModelCluster) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptModelCluster) Get() (v ModelCluster, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptModelCluster) Or(d ModelCluster) ModelCluster {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptModelClusterPlanFamily returns new OptModelClusterPlanFamily with value set to v.
-func NewOptModelClusterPlanFamily(v ModelClusterPlanFamily) OptModelClusterPlanFamily {
-	return OptModelClusterPlanFamily{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptModelClusterPlanFamily is optional ModelClusterPlanFamily.
-type OptModelClusterPlanFamily struct {
-	Value ModelClusterPlanFamily
-	Set   bool
-}
-
-// IsSet returns true if OptModelClusterPlanFamily was set.
-func (o OptModelClusterPlanFamily) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptModelClusterPlanFamily) Reset() {
-	var v ModelClusterPlanFamily
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptModelClusterPlanFamily) SetTo(v ModelClusterPlanFamily) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptModelClusterPlanFamily) Get() (v ModelClusterPlanFamily, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptModelClusterPlanFamily) Or(d ModelClusterPlanFamily) ModelClusterPlanFamily {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptModelPlanType returns new OptModelPlanType with value set to v.
 func NewOptModelPlanType(v ModelPlanType) OptModelPlanType {
 	return OptModelPlanType{
@@ -4211,195 +3330,57 @@ func (o OptModelPlanType) Or(d ModelPlanType) ModelPlanType {
 	return d
 }
 
-// NewOptModelReplication returns new OptModelReplication with value set to v.
-func NewOptModelReplication(v ModelReplication) OptModelReplication {
-	return OptModelReplication{
+// NewOptNilHandlerCreateBucketRequestBodyPlan returns new OptNilHandlerCreateBucketRequestBodyPlan with value set to v.
+func NewOptNilHandlerCreateBucketRequestBodyPlan(v HandlerCreateBucketRequestBodyPlan) OptNilHandlerCreateBucketRequestBodyPlan {
+	return OptNilHandlerCreateBucketRequestBodyPlan{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptModelReplication is optional ModelReplication.
-type OptModelReplication struct {
-	Value ModelReplication
-	Set   bool
-}
-
-// IsSet returns true if OptModelReplication was set.
-func (o OptModelReplication) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptModelReplication) Reset() {
-	var v ModelReplication
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptModelReplication) SetTo(v ModelReplication) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptModelReplication) Get() (v ModelReplication, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptModelReplication) Or(d ModelReplication) ModelReplication {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptModelReplicationDestBucketPlan returns new OptModelReplicationDestBucketPlan with value set to v.
-func NewOptModelReplicationDestBucketPlan(v ModelReplicationDestBucketPlan) OptModelReplicationDestBucketPlan {
-	return OptModelReplicationDestBucketPlan{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptModelReplicationDestBucketPlan is optional ModelReplicationDestBucketPlan.
-type OptModelReplicationDestBucketPlan struct {
-	Value ModelReplicationDestBucketPlan
-	Set   bool
-}
-
-// IsSet returns true if OptModelReplicationDestBucketPlan was set.
-func (o OptModelReplicationDestBucketPlan) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptModelReplicationDestBucketPlan) Reset() {
-	var v ModelReplicationDestBucketPlan
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptModelReplicationDestBucketPlan) SetTo(v ModelReplicationDestBucketPlan) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptModelReplicationDestBucketPlan) Get() (v ModelReplicationDestBucketPlan, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptModelReplicationDestBucketPlan) Or(d ModelReplicationDestBucketPlan) ModelReplicationDestBucketPlan {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptModelReplicationSourceBucketPlan returns new OptModelReplicationSourceBucketPlan with value set to v.
-func NewOptModelReplicationSourceBucketPlan(v ModelReplicationSourceBucketPlan) OptModelReplicationSourceBucketPlan {
-	return OptModelReplicationSourceBucketPlan{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptModelReplicationSourceBucketPlan is optional ModelReplicationSourceBucketPlan.
-type OptModelReplicationSourceBucketPlan struct {
-	Value ModelReplicationSourceBucketPlan
-	Set   bool
-}
-
-// IsSet returns true if OptModelReplicationSourceBucketPlan was set.
-func (o OptModelReplicationSourceBucketPlan) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptModelReplicationSourceBucketPlan) Reset() {
-	var v ModelReplicationSourceBucketPlan
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptModelReplicationSourceBucketPlan) SetTo(v ModelReplicationSourceBucketPlan) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptModelReplicationSourceBucketPlan) Get() (v ModelReplicationSourceBucketPlan, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptModelReplicationSourceBucketPlan) Or(d ModelReplicationSourceBucketPlan) ModelReplicationSourceBucketPlan {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilDateTime returns new OptNilDateTime with value set to v.
-func NewOptNilDateTime(v time.Time) OptNilDateTime {
-	return OptNilDateTime{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilDateTime is optional nullable time.Time.
-type OptNilDateTime struct {
-	Value time.Time
+// OptNilHandlerCreateBucketRequestBodyPlan is optional nullable HandlerCreateBucketRequestBodyPlan.
+type OptNilHandlerCreateBucketRequestBodyPlan struct {
+	Value HandlerCreateBucketRequestBodyPlan
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilDateTime was set.
-func (o OptNilDateTime) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilHandlerCreateBucketRequestBodyPlan was set.
+func (o OptNilHandlerCreateBucketRequestBodyPlan) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilDateTime) Reset() {
-	var v time.Time
+func (o *OptNilHandlerCreateBucketRequestBodyPlan) Reset() {
+	var v HandlerCreateBucketRequestBodyPlan
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilDateTime) SetTo(v time.Time) {
+func (o *OptNilHandlerCreateBucketRequestBodyPlan) SetTo(v HandlerCreateBucketRequestBodyPlan) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o OptNilDateTime) IsNull() bool { return o.Null }
+func (o OptNilHandlerCreateBucketRequestBodyPlan) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *OptNilDateTime) SetToNull() {
+func (o *OptNilHandlerCreateBucketRequestBodyPlan) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v time.Time
+	var v HandlerCreateBucketRequestBodyPlan
 	o.Value = v
 }
 
 // IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilDateTime) IsEmpty() bool {
+func (o OptNilHandlerCreateBucketRequestBodyPlan) IsEmpty() bool {
 	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilDateTime) Get() (v time.Time, ok bool) {
+func (o OptNilHandlerCreateBucketRequestBodyPlan) Get() (v HandlerCreateBucketRequestBodyPlan, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -4410,441 +3391,7 @@ func (o OptNilDateTime) Get() (v time.Time, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilDateTime) Or(d time.Time) time.Time {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilHandlerPutBucketReqBodyPlan returns new OptNilHandlerPutBucketReqBodyPlan with value set to v.
-func NewOptNilHandlerPutBucketReqBodyPlan(v HandlerPutBucketReqBodyPlan) OptNilHandlerPutBucketReqBodyPlan {
-	return OptNilHandlerPutBucketReqBodyPlan{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilHandlerPutBucketReqBodyPlan is optional nullable HandlerPutBucketReqBodyPlan.
-type OptNilHandlerPutBucketReqBodyPlan struct {
-	Value HandlerPutBucketReqBodyPlan
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilHandlerPutBucketReqBodyPlan was set.
-func (o OptNilHandlerPutBucketReqBodyPlan) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilHandlerPutBucketReqBodyPlan) Reset() {
-	var v HandlerPutBucketReqBodyPlan
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilHandlerPutBucketReqBodyPlan) SetTo(v HandlerPutBucketReqBodyPlan) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilHandlerPutBucketReqBodyPlan) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilHandlerPutBucketReqBodyPlan) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v HandlerPutBucketReqBodyPlan
-	o.Value = v
-}
-
-// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilHandlerPutBucketReqBodyPlan) IsEmpty() bool {
-	return !o.Set && !o.Null
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilHandlerPutBucketReqBodyPlan) Get() (v HandlerPutBucketReqBodyPlan, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilHandlerPutBucketReqBodyPlan) Or(d HandlerPutBucketReqBodyPlan) HandlerPutBucketReqBodyPlan {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilInt returns new OptNilInt with value set to v.
-func NewOptNilInt(v int) OptNilInt {
-	return OptNilInt{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilInt is optional nullable int.
-type OptNilInt struct {
-	Value int
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilInt was set.
-func (o OptNilInt) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilInt) Reset() {
-	var v int
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilInt) SetTo(v int) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilInt) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilInt) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v int
-	o.Value = v
-}
-
-// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilInt) IsEmpty() bool {
-	return !o.Set && !o.Null
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilInt) Get() (v int, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilInt) Or(d int) int {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilPlanItemFee returns new OptNilPlanItemFee with value set to v.
-func NewOptNilPlanItemFee(v PlanItemFee) OptNilPlanItemFee {
-	return OptNilPlanItemFee{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilPlanItemFee is optional nullable PlanItemFee.
-type OptNilPlanItemFee struct {
-	Value PlanItemFee
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilPlanItemFee was set.
-func (o OptNilPlanItemFee) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilPlanItemFee) Reset() {
-	var v PlanItemFee
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilPlanItemFee) SetTo(v PlanItemFee) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilPlanItemFee) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilPlanItemFee) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v PlanItemFee
-	o.Value = v
-}
-
-// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilPlanItemFee) IsEmpty() bool {
-	return !o.Set && !o.Null
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilPlanItemFee) Get() (v PlanItemFee, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilPlanItemFee) Or(d PlanItemFee) PlanItemFee {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPermissionData returns new OptPermissionData with value set to v.
-func NewOptPermissionData(v PermissionData) OptPermissionData {
-	return OptPermissionData{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPermissionData is optional PermissionData.
-type OptPermissionData struct {
-	Value PermissionData
-	Set   bool
-}
-
-// IsSet returns true if OptPermissionData was set.
-func (o OptPermissionData) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPermissionData) Reset() {
-	var v PermissionData
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPermissionData) SetTo(v PermissionData) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPermissionData) Get() (v PermissionData, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPermissionData) Or(d PermissionData) PermissionData {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPermissionID returns new OptPermissionID with value set to v.
-func NewOptPermissionID(v PermissionID) OptPermissionID {
-	return OptPermissionID{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPermissionID is optional PermissionID.
-type OptPermissionID struct {
-	Value PermissionID
-	Set   bool
-}
-
-// IsSet returns true if OptPermissionID was set.
-func (o OptPermissionID) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPermissionID) Reset() {
-	var v PermissionID
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPermissionID) SetTo(v PermissionID) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPermissionID) Get() (v PermissionID, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPermissionID) Or(d PermissionID) PermissionID {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPermissionKeyData returns new OptPermissionKeyData with value set to v.
-func NewOptPermissionKeyData(v PermissionKeyData) OptPermissionKeyData {
-	return OptPermissionKeyData{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPermissionKeyData is optional PermissionKeyData.
-type OptPermissionKeyData struct {
-	Value PermissionKeyData
-	Set   bool
-}
-
-// IsSet returns true if OptPermissionKeyData was set.
-func (o OptPermissionKeyData) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPermissionKeyData) Reset() {
-	var v PermissionKeyData
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPermissionKeyData) SetTo(v PermissionKeyData) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPermissionKeyData) Get() (v PermissionKeyData, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPermissionKeyData) Or(d PermissionKeyData) PermissionKeyData {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPermissionKeyID returns new OptPermissionKeyID with value set to v.
-func NewOptPermissionKeyID(v PermissionKeyID) OptPermissionKeyID {
-	return OptPermissionKeyID{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPermissionKeyID is optional PermissionKeyID.
-type OptPermissionKeyID struct {
-	Value PermissionKeyID
-	Set   bool
-}
-
-// IsSet returns true if OptPermissionKeyID was set.
-func (o OptPermissionKeyID) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPermissionKeyID) Reset() {
-	var v PermissionKeyID
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPermissionKeyID) SetTo(v PermissionKeyID) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPermissionKeyID) Get() (v PermissionKeyID, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPermissionKeyID) Or(d PermissionKeyID) PermissionKeyID {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPermissionSecret returns new OptPermissionSecret with value set to v.
-func NewOptPermissionSecret(v PermissionSecret) OptPermissionSecret {
-	return OptPermissionSecret{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPermissionSecret is optional PermissionSecret.
-type OptPermissionSecret struct {
-	Value PermissionSecret
-	Set   bool
-}
-
-// IsSet returns true if OptPermissionSecret was set.
-func (o OptPermissionSecret) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPermissionSecret) Reset() {
-	var v PermissionSecret
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPermissionSecret) SetTo(v PermissionSecret) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPermissionSecret) Get() (v PermissionSecret, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPermissionSecret) Or(d PermissionSecret) PermissionSecret {
+func (o OptNilHandlerCreateBucketRequestBodyPlan) Or(d HandlerCreateBucketRequestBodyPlan) HandlerCreateBucketRequestBodyPlan {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -4897,144 +3444,6 @@ func (o OptPlanSummary) Or(d PlanSummary) PlanSummary {
 	return d
 }
 
-// NewOptQuotaData returns new OptQuotaData with value set to v.
-func NewOptQuotaData(v QuotaData) OptQuotaData {
-	return OptQuotaData{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptQuotaData is optional QuotaData.
-type OptQuotaData struct {
-	Value QuotaData
-	Set   bool
-}
-
-// IsSet returns true if OptQuotaData was set.
-func (o OptQuotaData) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptQuotaData) Reset() {
-	var v QuotaData
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptQuotaData) SetTo(v QuotaData) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptQuotaData) Get() (v QuotaData, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptQuotaData) Or(d QuotaData) QuotaData {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptResourceID returns new OptResourceID with value set to v.
-func NewOptResourceID(v ResourceID) OptResourceID {
-	return OptResourceID{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptResourceID is optional ResourceID.
-type OptResourceID struct {
-	Value ResourceID
-	Set   bool
-}
-
-// IsSet returns true if OptResourceID was set.
-func (o OptResourceID) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptResourceID) Reset() {
-	var v ResourceID
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptResourceID) SetTo(v ResourceID) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptResourceID) Get() (v ResourceID, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptResourceID) Or(d ResourceID) ResourceID {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptSecretAccessKey returns new OptSecretAccessKey with value set to v.
-func NewOptSecretAccessKey(v SecretAccessKey) OptSecretAccessKey {
-	return OptSecretAccessKey{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptSecretAccessKey is optional SecretAccessKey.
-type OptSecretAccessKey struct {
-	Value SecretAccessKey
-	Set   bool
-}
-
-// IsSet returns true if OptSecretAccessKey was set.
-func (o OptSecretAccessKey) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptSecretAccessKey) Reset() {
-	var v SecretAccessKey
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptSecretAccessKey) SetTo(v SecretAccessKey) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptSecretAccessKey) Get() (v SecretAccessKey, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptSecretAccessKey) Or(d SecretAccessKey) SecretAccessKey {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptServiceClassPath returns new OptServiceClassPath with value set to v.
 func NewOptServiceClassPath(v ServiceClassPath) OptServiceClassPath {
 	return OptServiceClassPath{
@@ -5081,207 +3490,69 @@ func (o OptServiceClassPath) Or(d ServiceClassPath) ServiceClassPath {
 	return d
 }
 
-// NewOptStatusData returns new OptStatusData with value set to v.
-func NewOptStatusData(v StatusData) OptStatusData {
-	return OptStatusData{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStatusData is optional StatusData.
-type OptStatusData struct {
-	Value StatusData
-	Set   bool
-}
-
-// IsSet returns true if OptStatusData was set.
-func (o OptStatusData) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptStatusData) Reset() {
-	var v StatusData
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStatusData) SetTo(v StatusData) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStatusData) Get() (v StatusData, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStatusData) Or(d StatusData) StatusData {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptStatusDataStatusCode returns new OptStatusDataStatusCode with value set to v.
-func NewOptStatusDataStatusCode(v StatusDataStatusCode) OptStatusDataStatusCode {
-	return OptStatusDataStatusCode{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStatusDataStatusCode is optional StatusDataStatusCode.
-type OptStatusDataStatusCode struct {
-	Value StatusDataStatusCode
-	Set   bool
-}
-
-// IsSet returns true if OptStatusDataStatusCode was set.
-func (o OptStatusDataStatusCode) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptStatusDataStatusCode) Reset() {
-	var v StatusDataStatusCode
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStatusDataStatusCode) SetTo(v StatusDataStatusCode) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStatusDataStatusCode) Get() (v StatusDataStatusCode, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStatusDataStatusCode) Or(d StatusDataStatusCode) StatusDataStatusCode {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptString returns new OptString with value set to v.
-func NewOptString(v string) OptString {
-	return OptString{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptString is optional string.
-type OptString struct {
-	Value string
-	Set   bool
-}
-
-// IsSet returns true if OptString was set.
-func (o OptString) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptString) Reset() {
-	var v string
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptString) SetTo(v string) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptString) Get() (v string, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptString) Or(d string) string {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // Permission.
 // Ref: #/components/schemas/Permission
 type Permission struct {
 	// Data type.
-	Data OptPermissionData `json:"data"`
+	Data PermissionData `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *Permission) GetData() OptPermissionData {
+func (s *Permission) GetData() PermissionData {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *Permission) SetData(val OptPermissionData) {
+func (s *Permission) SetData(val PermissionData) {
 	s.Data = val
 }
 
 func (*Permission) createPermissionRes() {}
-func (*Permission) getPermissionRes()    {}
+func (*Permission) readPermissionRes()   {}
 func (*Permission) updatePermissionRes() {}
 
 // Request body for bucket controls for Permission.
 // Ref: #/components/schemas/PermissionBucketControlsBody
 type PermissionBucketControlsBody struct {
-	DisplayName    OptDisplayName `json:"display_name"`
-	BucketControls BucketControls `json:"bucket_controls"`
+	DisplayName    DisplayName        `json:"display_name"`
+	BucketControls BucketControlsBody `json:"bucket_controls"`
 }
 
 // GetDisplayName returns the value of DisplayName.
-func (s *PermissionBucketControlsBody) GetDisplayName() OptDisplayName {
+func (s *PermissionBucketControlsBody) GetDisplayName() DisplayName {
 	return s.DisplayName
 }
 
 // GetBucketControls returns the value of BucketControls.
-func (s *PermissionBucketControlsBody) GetBucketControls() BucketControls {
+func (s *PermissionBucketControlsBody) GetBucketControls() BucketControlsBody {
 	return s.BucketControls
 }
 
 // SetDisplayName sets the value of DisplayName.
-func (s *PermissionBucketControlsBody) SetDisplayName(val OptDisplayName) {
+func (s *PermissionBucketControlsBody) SetDisplayName(val DisplayName) {
 	s.DisplayName = val
 }
 
 // SetBucketControls sets the value of BucketControls.
-func (s *PermissionBucketControlsBody) SetBucketControls(val BucketControls) {
+func (s *PermissionBucketControlsBody) SetBucketControls(val BucketControlsBody) {
 	s.BucketControls = val
 }
 
 // Data type.
 type PermissionData struct {
-	ID             OptPermissionID `json:"id"`
-	DisplayName    OptDisplayName  `json:"display_name"`
-	BucketControls BucketControls  `json:"bucket_controls"`
-	CreatedAt      OptCreatedAt    `json:"created_at"`
+	ID             PermissionID   `json:"id"`
+	DisplayName    DisplayName    `json:"display_name"`
+	BucketControls BucketControls `json:"bucket_controls"`
+	CreatedAt      CreatedAt      `json:"created_at"`
 }
 
 // GetID returns the value of ID.
-func (s *PermissionData) GetID() OptPermissionID {
+func (s *PermissionData) GetID() PermissionID {
 	return s.ID
 }
 
 // GetDisplayName returns the value of DisplayName.
-func (s *PermissionData) GetDisplayName() OptDisplayName {
+func (s *PermissionData) GetDisplayName() DisplayName {
 	return s.DisplayName
 }
 
@@ -5291,17 +3562,17 @@ func (s *PermissionData) GetBucketControls() BucketControls {
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *PermissionData) GetCreatedAt() OptCreatedAt {
+func (s *PermissionData) GetCreatedAt() CreatedAt {
 	return s.CreatedAt
 }
 
 // SetID sets the value of ID.
-func (s *PermissionData) SetID(val OptPermissionID) {
+func (s *PermissionData) SetID(val PermissionID) {
 	s.ID = val
 }
 
 // SetDisplayName sets the value of DisplayName.
-func (s *PermissionData) SetDisplayName(val OptDisplayName) {
+func (s *PermissionData) SetDisplayName(val DisplayName) {
 	s.DisplayName = val
 }
 
@@ -5311,127 +3582,79 @@ func (s *PermissionData) SetBucketControls(val BucketControls) {
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *PermissionData) SetCreatedAt(val OptCreatedAt) {
+func (s *PermissionData) SetCreatedAt(val CreatedAt) {
 	s.CreatedAt = val
 }
 
 type PermissionID int64
 
-// Permission Key.
-// Ref: #/components/schemas/PermissionKey
-type PermissionKey struct {
-	// Data type.
-	Data OptPermissionKeyData `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *PermissionKey) GetData() OptPermissionKeyData {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *PermissionKey) SetData(val OptPermissionKeyData) {
-	s.Data = val
-}
-
-func (*PermissionKey) createPermissionKeyRes() {}
-func (*PermissionKey) getPermissionKeyRes()    {}
-
-// Data type.
-type PermissionKeyData struct {
-	ID        OptPermissionKeyID  `json:"id"`
-	Secret    OptPermissionSecret `json:"secret"`
-	CreatedAt OptCreatedAt        `json:"created_at"`
+// Merged schema.
+// Ref: #/components/schemas/PermissionKeyCreateResponseBody
+type PermissionKeyCreateResponseBody struct {
+	ID        PermissionKeyID     `json:"id"`
+	Secret    PermissionKeySecret `json:"secret"`
+	CreatedAt CreatedAt           `json:"created_at"`
 }
 
 // GetID returns the value of ID.
-func (s *PermissionKeyData) GetID() OptPermissionKeyID {
+func (s *PermissionKeyCreateResponseBody) GetID() PermissionKeyID {
 	return s.ID
 }
 
 // GetSecret returns the value of Secret.
-func (s *PermissionKeyData) GetSecret() OptPermissionSecret {
+func (s *PermissionKeyCreateResponseBody) GetSecret() PermissionKeySecret {
 	return s.Secret
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *PermissionKeyData) GetCreatedAt() OptCreatedAt {
+func (s *PermissionKeyCreateResponseBody) GetCreatedAt() CreatedAt {
 	return s.CreatedAt
 }
 
 // SetID sets the value of ID.
-func (s *PermissionKeyData) SetID(val OptPermissionKeyID) {
+func (s *PermissionKeyCreateResponseBody) SetID(val PermissionKeyID) {
 	s.ID = val
 }
 
 // SetSecret sets the value of Secret.
-func (s *PermissionKeyData) SetSecret(val OptPermissionSecret) {
+func (s *PermissionKeyCreateResponseBody) SetSecret(val PermissionKeySecret) {
 	s.Secret = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *PermissionKeyData) SetCreatedAt(val OptCreatedAt) {
+func (s *PermissionKeyCreateResponseBody) SetCreatedAt(val CreatedAt) {
 	s.CreatedAt = val
 }
 
 type PermissionKeyID string
 
-// Permission Key.
-// Ref: #/components/schemas/PermissionKeys
-type PermissionKeys struct {
-	// Data type.
-	Data []PermissionKeysDataItem `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *PermissionKeys) GetData() []PermissionKeysDataItem {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *PermissionKeys) SetData(val []PermissionKeysDataItem) {
-	s.Data = val
-}
-
-func (*PermissionKeys) getPermissionKeysRes() {}
-
-type PermissionKeysDataItem struct {
-	ID        OptPermissionKeyID  `json:"id"`
-	Secret    OptPermissionSecret `json:"secret"`
-	CreatedAt OptCreatedAt        `json:"created_at"`
+// Ref: #/components/schemas/PermissionKeyReadResponseBody
+type PermissionKeyReadResponseBody struct {
+	ID        PermissionKeyID `json:"id"`
+	CreatedAt CreatedAt       `json:"created_at"`
 }
 
 // GetID returns the value of ID.
-func (s *PermissionKeysDataItem) GetID() OptPermissionKeyID {
+func (s *PermissionKeyReadResponseBody) GetID() PermissionKeyID {
 	return s.ID
 }
 
-// GetSecret returns the value of Secret.
-func (s *PermissionKeysDataItem) GetSecret() OptPermissionSecret {
-	return s.Secret
-}
-
 // GetCreatedAt returns the value of CreatedAt.
-func (s *PermissionKeysDataItem) GetCreatedAt() OptCreatedAt {
+func (s *PermissionKeyReadResponseBody) GetCreatedAt() CreatedAt {
 	return s.CreatedAt
 }
 
 // SetID sets the value of ID.
-func (s *PermissionKeysDataItem) SetID(val OptPermissionKeyID) {
+func (s *PermissionKeyReadResponseBody) SetID(val PermissionKeyID) {
 	s.ID = val
 }
 
-// SetSecret sets the value of Secret.
-func (s *PermissionKeysDataItem) SetSecret(val OptPermissionSecret) {
-	s.Secret = val
-}
-
 // SetCreatedAt sets the value of CreatedAt.
-func (s *PermissionKeysDataItem) SetCreatedAt(val OptCreatedAt) {
+func (s *PermissionKeyReadResponseBody) SetCreatedAt(val CreatedAt) {
 	s.CreatedAt = val
 }
 
-type PermissionSecret string
+type PermissionKeySecret string
 
 // Permission.
 // Ref: #/components/schemas/Permissions
@@ -5450,22 +3673,22 @@ func (s *Permissions) SetData(val []PermissionsDataItem) {
 	s.Data = val
 }
 
-func (*Permissions) getPermissionsRes() {}
+func (*Permissions) listPermissionsRes() {}
 
 type PermissionsDataItem struct {
-	ID             OptPermissionID `json:"id"`
-	DisplayName    OptDisplayName  `json:"display_name"`
-	BucketControls BucketControls  `json:"bucket_controls"`
-	CreatedAt      OptCreatedAt    `json:"created_at"`
+	ID             PermissionID   `json:"id"`
+	DisplayName    DisplayName    `json:"display_name"`
+	BucketControls BucketControls `json:"bucket_controls"`
+	CreatedAt      CreatedAt      `json:"created_at"`
 }
 
 // GetID returns the value of ID.
-func (s *PermissionsDataItem) GetID() OptPermissionID {
+func (s *PermissionsDataItem) GetID() PermissionID {
 	return s.ID
 }
 
 // GetDisplayName returns the value of DisplayName.
-func (s *PermissionsDataItem) GetDisplayName() OptDisplayName {
+func (s *PermissionsDataItem) GetDisplayName() DisplayName {
 	return s.DisplayName
 }
 
@@ -5475,17 +3698,17 @@ func (s *PermissionsDataItem) GetBucketControls() BucketControls {
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *PermissionsDataItem) GetCreatedAt() OptCreatedAt {
+func (s *PermissionsDataItem) GetCreatedAt() CreatedAt {
 	return s.CreatedAt
 }
 
 // SetID sets the value of ID.
-func (s *PermissionsDataItem) SetID(val OptPermissionID) {
+func (s *PermissionsDataItem) SetID(val PermissionID) {
 	s.ID = val
 }
 
 // SetDisplayName sets the value of DisplayName.
-func (s *PermissionsDataItem) SetDisplayName(val OptDisplayName) {
+func (s *PermissionsDataItem) SetDisplayName(val DisplayName) {
 	s.DisplayName = val
 }
 
@@ -5495,7 +3718,7 @@ func (s *PermissionsDataItem) SetBucketControls(val BucketControls) {
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *PermissionsDataItem) SetCreatedAt(val OptCreatedAt) {
+func (s *PermissionsDataItem) SetCreatedAt(val CreatedAt) {
 	s.CreatedAt = val
 }
 
@@ -5555,16 +3778,16 @@ func (s *PlanChangeReqBodyNewPlan) SetServiceClassPath(val ServiceClassPath) {
 type PlanChangeReqBodyPreviousContract struct {
 	// Current contract resource ID. This is for validation to avoid recontracting from an unexpected
 	// state.
-	ResourceID OptResourceID `json:"resource_id"`
+	ResourceID ResourceID `json:"resource_id"`
 }
 
 // GetResourceID returns the value of ResourceID.
-func (s *PlanChangeReqBodyPreviousContract) GetResourceID() OptResourceID {
+func (s *PlanChangeReqBodyPreviousContract) GetResourceID() ResourceID {
 	return s.ResourceID
 }
 
 // SetResourceID sets the value of ResourceID.
-func (s *PlanChangeReqBodyPreviousContract) SetResourceID(val OptResourceID) {
+func (s *PlanChangeReqBodyPreviousContract) SetResourceID(val ResourceID) {
 	s.ResourceID = val
 }
 
@@ -5607,334 +3830,365 @@ func (s *PlanChangeResBody) SetPlan(val OptPlanSummary) {
 
 // Ref: #/components/schemas/PlanItem
 type PlanItem struct {
-	ServiceClassPath OptServiceClassPath `json:"service_class_path"`
-	Type             OptModelPlanType    `json:"type"`
-	ClusterID        OptString           `json:"cluster_id"`
-	CapacityGib      OptInt              `json:"capacity_gib"`
+	ServiceClassPath ServiceClassPath `json:"service_class_path"`
+	Type             ModelPlanType    `json:"type"`
+	ClusterID        string           `json:"cluster_id"`
+	CapacityGib      int              `json:"capacity_gib"`
 	// Fee information (tax included).
-	Fee OptNilPlanItemFee `json:"fee"`
+	Fee PlanItemFee `json:"fee"`
 }
 
 // GetServiceClassPath returns the value of ServiceClassPath.
-func (s *PlanItem) GetServiceClassPath() OptServiceClassPath {
+func (s *PlanItem) GetServiceClassPath() ServiceClassPath {
 	return s.ServiceClassPath
 }
 
 // GetType returns the value of Type.
-func (s *PlanItem) GetType() OptModelPlanType {
+func (s *PlanItem) GetType() ModelPlanType {
 	return s.Type
 }
 
 // GetClusterID returns the value of ClusterID.
-func (s *PlanItem) GetClusterID() OptString {
+func (s *PlanItem) GetClusterID() string {
 	return s.ClusterID
 }
 
 // GetCapacityGib returns the value of CapacityGib.
-func (s *PlanItem) GetCapacityGib() OptInt {
+func (s *PlanItem) GetCapacityGib() int {
 	return s.CapacityGib
 }
 
 // GetFee returns the value of Fee.
-func (s *PlanItem) GetFee() OptNilPlanItemFee {
+func (s *PlanItem) GetFee() PlanItemFee {
 	return s.Fee
 }
 
 // SetServiceClassPath sets the value of ServiceClassPath.
-func (s *PlanItem) SetServiceClassPath(val OptServiceClassPath) {
+func (s *PlanItem) SetServiceClassPath(val ServiceClassPath) {
 	s.ServiceClassPath = val
 }
 
 // SetType sets the value of Type.
-func (s *PlanItem) SetType(val OptModelPlanType) {
+func (s *PlanItem) SetType(val ModelPlanType) {
 	s.Type = val
 }
 
 // SetClusterID sets the value of ClusterID.
-func (s *PlanItem) SetClusterID(val OptString) {
+func (s *PlanItem) SetClusterID(val string) {
 	s.ClusterID = val
 }
 
 // SetCapacityGib sets the value of CapacityGib.
-func (s *PlanItem) SetCapacityGib(val OptInt) {
+func (s *PlanItem) SetCapacityGib(val int) {
 	s.CapacityGib = val
 }
 
 // SetFee sets the value of Fee.
-func (s *PlanItem) SetFee(val OptNilPlanItemFee) {
+func (s *PlanItem) SetFee(val PlanItemFee) {
 	s.Fee = val
 }
 
 // Fee information (tax included).
 type PlanItemFee struct {
-	ForMonth OptInt `json:"for_month"`
-	Monthly  OptInt `json:"monthly"`
-	Daily    OptInt `json:"daily"`
-	Hourly   OptInt `json:"hourly"`
+	ForMonth int `json:"for_month"`
+	Monthly  int `json:"monthly"`
+	Daily    int `json:"daily"`
+	Hourly   int `json:"hourly"`
 }
 
 // GetForMonth returns the value of ForMonth.
-func (s *PlanItemFee) GetForMonth() OptInt {
+func (s *PlanItemFee) GetForMonth() int {
 	return s.ForMonth
 }
 
 // GetMonthly returns the value of Monthly.
-func (s *PlanItemFee) GetMonthly() OptInt {
+func (s *PlanItemFee) GetMonthly() int {
 	return s.Monthly
 }
 
 // GetDaily returns the value of Daily.
-func (s *PlanItemFee) GetDaily() OptInt {
+func (s *PlanItemFee) GetDaily() int {
 	return s.Daily
 }
 
 // GetHourly returns the value of Hourly.
-func (s *PlanItemFee) GetHourly() OptInt {
+func (s *PlanItemFee) GetHourly() int {
 	return s.Hourly
 }
 
 // SetForMonth sets the value of ForMonth.
-func (s *PlanItemFee) SetForMonth(val OptInt) {
+func (s *PlanItemFee) SetForMonth(val int) {
 	s.ForMonth = val
 }
 
 // SetMonthly sets the value of Monthly.
-func (s *PlanItemFee) SetMonthly(val OptInt) {
+func (s *PlanItemFee) SetMonthly(val int) {
 	s.Monthly = val
 }
 
 // SetDaily sets the value of Daily.
-func (s *PlanItemFee) SetDaily(val OptInt) {
+func (s *PlanItemFee) SetDaily(val int) {
 	s.Daily = val
 }
 
 // SetHourly sets the value of Hourly.
-func (s *PlanItemFee) SetHourly(val OptInt) {
+func (s *PlanItemFee) SetHourly(val int) {
 	s.Hourly = val
 }
 
 // Ref: #/components/schemas/PlanSummary
 type PlanSummary struct {
-	Type             OptModelPlanType    `json:"type"`
-	ServiceClassPath OptServiceClassPath `json:"service_class_path"`
+	Type             ModelPlanType    `json:"type"`
+	ServiceClassPath ServiceClassPath `json:"service_class_path"`
 	// Cluster ID to which this plan applies. In the response of /buckets/{name}/plan, this always matches
 	// bucket.cluster_id (redundant, read-only).
-	ClusterID OptString `json:"cluster_id"`
+	ClusterID string `json:"cluster_id"`
 	// Only archive is enabled (capacity resolved from the service class path).
-	CapacityGib OptNilInt `json:"capacity_gib"`
+	CapacityGib NilInt `json:"capacity_gib"`
 }
 
 // GetType returns the value of Type.
-func (s *PlanSummary) GetType() OptModelPlanType {
+func (s *PlanSummary) GetType() ModelPlanType {
 	return s.Type
 }
 
 // GetServiceClassPath returns the value of ServiceClassPath.
-func (s *PlanSummary) GetServiceClassPath() OptServiceClassPath {
+func (s *PlanSummary) GetServiceClassPath() ServiceClassPath {
 	return s.ServiceClassPath
 }
 
 // GetClusterID returns the value of ClusterID.
-func (s *PlanSummary) GetClusterID() OptString {
+func (s *PlanSummary) GetClusterID() string {
 	return s.ClusterID
 }
 
 // GetCapacityGib returns the value of CapacityGib.
-func (s *PlanSummary) GetCapacityGib() OptNilInt {
+func (s *PlanSummary) GetCapacityGib() NilInt {
 	return s.CapacityGib
 }
 
 // SetType sets the value of Type.
-func (s *PlanSummary) SetType(val OptModelPlanType) {
+func (s *PlanSummary) SetType(val ModelPlanType) {
 	s.Type = val
 }
 
 // SetServiceClassPath sets the value of ServiceClassPath.
-func (s *PlanSummary) SetServiceClassPath(val OptServiceClassPath) {
+func (s *PlanSummary) SetServiceClassPath(val ServiceClassPath) {
 	s.ServiceClassPath = val
 }
 
 // SetClusterID sets the value of ClusterID.
-func (s *PlanSummary) SetClusterID(val OptString) {
+func (s *PlanSummary) SetClusterID(val string) {
 	s.ClusterID = val
 }
 
 // SetCapacityGib sets the value of CapacityGib.
-func (s *PlanSummary) SetCapacityGib(val OptNilInt) {
+func (s *PlanSummary) SetCapacityGib(val NilInt) {
 	s.CapacityGib = val
 }
 
 // Ref: #/components/schemas/PlanWithContract
 type PlanWithContract struct {
-	Plan     OptPlanSummary     `json:"plan"`
-	Contract OptContractSummary `json:"contract"`
+	Plan     PlanSummary     `json:"plan"`
+	Contract ContractSummary `json:"contract"`
 }
 
 // GetPlan returns the value of Plan.
-func (s *PlanWithContract) GetPlan() OptPlanSummary {
+func (s *PlanWithContract) GetPlan() PlanSummary {
 	return s.Plan
 }
 
 // GetContract returns the value of Contract.
-func (s *PlanWithContract) GetContract() OptContractSummary {
+func (s *PlanWithContract) GetContract() ContractSummary {
 	return s.Contract
 }
 
 // SetPlan sets the value of Plan.
-func (s *PlanWithContract) SetPlan(val OptPlanSummary) {
+func (s *PlanWithContract) SetPlan(val PlanSummary) {
 	s.Plan = val
 }
 
 // SetContract sets the value of Contract.
-func (s *PlanWithContract) SetContract(val OptContractSummary) {
+func (s *PlanWithContract) SetContract(val ContractSummary) {
 	s.Contract = val
 }
-
-type PostBucketReplicationReq struct {
-	DestBucket string `json:"dest_bucket"`
-}
-
-// GetDestBucket returns the value of DestBucket.
-func (s *PostBucketReplicationReq) GetDestBucket() string {
-	return s.DestBucket
-}
-
-// SetDestBucket sets the value of DestBucket.
-func (s *PostBucketReplicationReq) SetDestBucket(val string) {
-	s.DestBucket = val
-}
-
-type PutBucketEncryptionOK struct {
-	Data HandlerEncryptionConfigRes `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *PutBucketEncryptionOK) GetData() HandlerEncryptionConfigRes {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *PutBucketEncryptionOK) SetData(val HandlerEncryptionConfigRes) {
-	s.Data = val
-}
-
-func (*PutBucketEncryptionOK) putBucketEncryptionRes() {}
-
-type PutBucketPlanOK struct {
-	Data PlanChangeResBody `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *PutBucketPlanOK) GetData() PlanChangeResBody {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *PutBucketPlanOK) SetData(val PlanChangeResBody) {
-	s.Data = val
-}
-
-func (*PutBucketPlanOK) putBucketPlanRes() {}
 
 // Quota.
 // Ref: #/components/schemas/Quota
 type Quota struct {
 	// Data type.
-	Data OptQuotaData `json:"data"`
+	Data QuotaData `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *Quota) GetData() OptQuotaData {
+func (s *Quota) GetData() QuotaData {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *Quota) SetData(val OptQuotaData) {
+func (s *Quota) SetData(val QuotaData) {
 	s.Data = val
 }
 
-func (*Quota) getQuotaRes() {}
+func (*Quota) readQuotaRes() {}
 
 // Data type.
 type QuotaData struct {
-	NumRootKeys             OptInt     `json:"num_root_keys"`
-	NumBuckets              OptInt     `json:"num_buckets"`
-	NumPermissions          OptInt     `json:"num_permissions"`
-	NumKeysPerPermission    OptInt     `json:"num_keys_per_permission"`
-	NumBucketsPerPermission OptInt     `json:"num_buckets_per_permission"`
-	NumObjectsPerBucket     OptInt     `json:"num_objects_per_bucket"`
-	AmountGibPerBucket      OptFloat32 `json:"amount_gib_per_bucket"`
+	NumRootKeys             int     `json:"num_root_keys"`
+	NumBuckets              int     `json:"num_buckets"`
+	NumPermissions          int     `json:"num_permissions"`
+	NumKeysPerPermission    int     `json:"num_keys_per_permission"`
+	NumBucketsPerPermission int     `json:"num_buckets_per_permission"`
+	NumObjectsPerBucket     int     `json:"num_objects_per_bucket"`
+	AmountGibPerBucket      float32 `json:"amount_gib_per_bucket"`
 }
 
 // GetNumRootKeys returns the value of NumRootKeys.
-func (s *QuotaData) GetNumRootKeys() OptInt {
+func (s *QuotaData) GetNumRootKeys() int {
 	return s.NumRootKeys
 }
 
 // GetNumBuckets returns the value of NumBuckets.
-func (s *QuotaData) GetNumBuckets() OptInt {
+func (s *QuotaData) GetNumBuckets() int {
 	return s.NumBuckets
 }
 
 // GetNumPermissions returns the value of NumPermissions.
-func (s *QuotaData) GetNumPermissions() OptInt {
+func (s *QuotaData) GetNumPermissions() int {
 	return s.NumPermissions
 }
 
 // GetNumKeysPerPermission returns the value of NumKeysPerPermission.
-func (s *QuotaData) GetNumKeysPerPermission() OptInt {
+func (s *QuotaData) GetNumKeysPerPermission() int {
 	return s.NumKeysPerPermission
 }
 
 // GetNumBucketsPerPermission returns the value of NumBucketsPerPermission.
-func (s *QuotaData) GetNumBucketsPerPermission() OptInt {
+func (s *QuotaData) GetNumBucketsPerPermission() int {
 	return s.NumBucketsPerPermission
 }
 
 // GetNumObjectsPerBucket returns the value of NumObjectsPerBucket.
-func (s *QuotaData) GetNumObjectsPerBucket() OptInt {
+func (s *QuotaData) GetNumObjectsPerBucket() int {
 	return s.NumObjectsPerBucket
 }
 
 // GetAmountGibPerBucket returns the value of AmountGibPerBucket.
-func (s *QuotaData) GetAmountGibPerBucket() OptFloat32 {
+func (s *QuotaData) GetAmountGibPerBucket() float32 {
 	return s.AmountGibPerBucket
 }
 
 // SetNumRootKeys sets the value of NumRootKeys.
-func (s *QuotaData) SetNumRootKeys(val OptInt) {
+func (s *QuotaData) SetNumRootKeys(val int) {
 	s.NumRootKeys = val
 }
 
 // SetNumBuckets sets the value of NumBuckets.
-func (s *QuotaData) SetNumBuckets(val OptInt) {
+func (s *QuotaData) SetNumBuckets(val int) {
 	s.NumBuckets = val
 }
 
 // SetNumPermissions sets the value of NumPermissions.
-func (s *QuotaData) SetNumPermissions(val OptInt) {
+func (s *QuotaData) SetNumPermissions(val int) {
 	s.NumPermissions = val
 }
 
 // SetNumKeysPerPermission sets the value of NumKeysPerPermission.
-func (s *QuotaData) SetNumKeysPerPermission(val OptInt) {
+func (s *QuotaData) SetNumKeysPerPermission(val int) {
 	s.NumKeysPerPermission = val
 }
 
 // SetNumBucketsPerPermission sets the value of NumBucketsPerPermission.
-func (s *QuotaData) SetNumBucketsPerPermission(val OptInt) {
+func (s *QuotaData) SetNumBucketsPerPermission(val int) {
 	s.NumBucketsPerPermission = val
 }
 
 // SetNumObjectsPerBucket sets the value of NumObjectsPerBucket.
-func (s *QuotaData) SetNumObjectsPerBucket(val OptInt) {
+func (s *QuotaData) SetNumObjectsPerBucket(val int) {
 	s.NumObjectsPerBucket = val
 }
 
 // SetAmountGibPerBucket sets the value of AmountGibPerBucket.
-func (s *QuotaData) SetAmountGibPerBucket(val OptFloat32) {
+func (s *QuotaData) SetAmountGibPerBucket(val float32) {
 	s.AmountGibPerBucket = val
 }
+
+// Root user access key.
+// Ref: #/components/schemas/readAccountKey
+type ReadAccountKey struct {
+	// Data type.
+	Data ReadAccountKeyData `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *ReadAccountKey) GetData() ReadAccountKeyData {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *ReadAccountKey) SetData(val ReadAccountKeyData) {
+	s.Data = val
+}
+
+func (*ReadAccountKey) readAccountKeyRes() {}
+
+// Data type.
+type ReadAccountKeyData struct {
+	ID        AccessKeyID `json:"id"`
+	CreatedAt CreatedAt   `json:"created_at"`
+}
+
+// GetID returns the value of ID.
+func (s *ReadAccountKeyData) GetID() AccessKeyID {
+	return s.ID
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *ReadAccountKeyData) GetCreatedAt() CreatedAt {
+	return s.CreatedAt
+}
+
+// SetID sets the value of ID.
+func (s *ReadAccountKeyData) SetID(val AccessKeyID) {
+	s.ID = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *ReadAccountKeyData) SetCreatedAt(val CreatedAt) {
+	s.CreatedAt = val
+}
+
+type ReadBucketEncryptionOK struct {
+	Data HandlerReadBucketEncryptionResponse `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *ReadBucketEncryptionOK) GetData() HandlerReadBucketEncryptionResponse {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *ReadBucketEncryptionOK) SetData(val HandlerReadBucketEncryptionResponse) {
+	s.Data = val
+}
+
+func (*ReadBucketEncryptionOK) readBucketEncryptionRes() {}
+
+type ReadBucketPlanOK struct {
+	Data PlanWithContract `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *ReadBucketPlanOK) GetData() PlanWithContract {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *ReadBucketPlanOK) SetData(val PlanWithContract) {
+	s.Data = val
+}
+
+func (*ReadBucketPlanOK) readBucketPlanRes() {}
 
 type ResourceID string
 
@@ -5946,90 +4200,122 @@ type ServiceClassPath string
 // Ref: #/components/schemas/Status
 type Status struct {
 	// Data type.
-	Data OptStatusData `json:"data"`
+	Data StatusData `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *Status) GetData() OptStatusData {
+func (s *Status) GetData() StatusData {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *Status) SetData(val OptStatusData) {
+func (s *Status) SetData(val StatusData) {
 	s.Data = val
 }
 
-func (*Status) getStatusRes() {}
+func (*Status) readStatusRes() {}
 
 // Data type.
 type StatusData struct {
-	AcceptNew  OptBool                 `json:"accept_new"`
-	Message    OptString               `json:"message"`
-	StartedAt  OptDateTime             `json:"started_at"`
-	StatusCode OptStatusDataStatusCode `json:"status_code"`
+	AcceptNew  bool                 `json:"accept_new"`
+	Message    string               `json:"message"`
+	StartedAt  time.Time            `json:"started_at"`
+	StatusCode StatusDataStatusCode `json:"status_code"`
 }
 
 // GetAcceptNew returns the value of AcceptNew.
-func (s *StatusData) GetAcceptNew() OptBool {
+func (s *StatusData) GetAcceptNew() bool {
 	return s.AcceptNew
 }
 
 // GetMessage returns the value of Message.
-func (s *StatusData) GetMessage() OptString {
+func (s *StatusData) GetMessage() string {
 	return s.Message
 }
 
 // GetStartedAt returns the value of StartedAt.
-func (s *StatusData) GetStartedAt() OptDateTime {
+func (s *StatusData) GetStartedAt() time.Time {
 	return s.StartedAt
 }
 
 // GetStatusCode returns the value of StatusCode.
-func (s *StatusData) GetStatusCode() OptStatusDataStatusCode {
+func (s *StatusData) GetStatusCode() StatusDataStatusCode {
 	return s.StatusCode
 }
 
 // SetAcceptNew sets the value of AcceptNew.
-func (s *StatusData) SetAcceptNew(val OptBool) {
+func (s *StatusData) SetAcceptNew(val bool) {
 	s.AcceptNew = val
 }
 
 // SetMessage sets the value of Message.
-func (s *StatusData) SetMessage(val OptString) {
+func (s *StatusData) SetMessage(val string) {
 	s.Message = val
 }
 
 // SetStartedAt sets the value of StartedAt.
-func (s *StatusData) SetStartedAt(val OptDateTime) {
+func (s *StatusData) SetStartedAt(val time.Time) {
 	s.StartedAt = val
 }
 
 // SetStatusCode sets the value of StatusCode.
-func (s *StatusData) SetStatusCode(val OptStatusDataStatusCode) {
+func (s *StatusData) SetStatusCode(val StatusDataStatusCode) {
 	s.StatusCode = val
 }
 
 type StatusDataStatusCode struct {
-	ID     OptInt    `json:"id"`
-	Status OptString `json:"status"`
+	ID     int    `json:"id"`
+	Status string `json:"status"`
 }
 
 // GetID returns the value of ID.
-func (s *StatusDataStatusCode) GetID() OptInt {
+func (s *StatusDataStatusCode) GetID() int {
 	return s.ID
 }
 
 // GetStatus returns the value of Status.
-func (s *StatusDataStatusCode) GetStatus() OptString {
+func (s *StatusDataStatusCode) GetStatus() string {
 	return s.Status
 }
 
 // SetID sets the value of ID.
-func (s *StatusDataStatusCode) SetID(val OptInt) {
+func (s *StatusDataStatusCode) SetID(val int) {
 	s.ID = val
 }
 
 // SetStatus sets the value of Status.
-func (s *StatusDataStatusCode) SetStatus(val OptString) {
+func (s *StatusDataStatusCode) SetStatus(val string) {
 	s.Status = val
 }
+
+type UpdateBucketEncryptionOK struct {
+	Data HandlerUpdateBucketEncryptionResponse `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *UpdateBucketEncryptionOK) GetData() HandlerUpdateBucketEncryptionResponse {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *UpdateBucketEncryptionOK) SetData(val HandlerUpdateBucketEncryptionResponse) {
+	s.Data = val
+}
+
+func (*UpdateBucketEncryptionOK) updateBucketEncryptionRes() {}
+
+type UpdateBucketPlanOK struct {
+	Data PlanChangeResBody `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *UpdateBucketPlanOK) GetData() PlanChangeResBody {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *UpdateBucketPlanOK) SetData(val PlanChangeResBody) {
+	s.Data = val
+}
+
+func (*UpdateBucketPlanOK) updateBucketPlanRes() {}

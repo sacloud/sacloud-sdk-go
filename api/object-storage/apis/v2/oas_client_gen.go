@@ -61,7 +61,19 @@ type Invoker interface {
 	// となります。.
 	//
 	// PUT /buckets/{name}
-	CreateBucket(ctx context.Context, request *HandlerPutBucketReqBody, params CreateBucketParams) (CreateBucketRes, error)
+	CreateBucket(ctx context.Context, request *HandlerCreateBucketRequestBody, params CreateBucketParams) (CreateBucketRes, error)
+	// CreateBucketReplication invokes createBucketReplication operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
+	// となります。.
+	//
+	// POST /buckets/{name}/replication
+	CreateBucketReplication(ctx context.Context, request *CreateBucketReplicationReq, params CreateBucketReplicationParams) (CreateBucketReplicationRes, error)
 	// CreatePermission invokes createPermission operation.
 	//
 	// アクセス先ベースURL:
@@ -184,35 +196,7 @@ type Invoker interface {
 	//
 	// DELETE /permissions/{id}/keys/{key_id}
 	DeletePermissionKey(ctx context.Context, params DeletePermissionKeyParams) (DeletePermissionKeyRes, error)
-	// GetAccount invokes getAccount operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /account
-	GetAccount(ctx context.Context) (GetAccountRes, error)
-	// GetAccountKey invokes getAccountKey operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /account/keys/{id}
-	GetAccountKey(ctx context.Context, params GetAccountKeyParams) (GetAccountKeyRes, error)
-	// GetAccountKeys invokes getAccountKeys operation.
+	// ListAccountKeys invokes listAccountKeys operation.
 	//
 	// アクセス先ベースURL:
 	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
@@ -225,22 +209,8 @@ type Invoker interface {
 	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
 	//
 	// GET /account/keys
-	GetAccountKeys(ctx context.Context) (GetAccountKeysRes, error)
-	// GetBucketEncryption invokes getBucketEncryption operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /buckets/{name}/encryption
-	GetBucketEncryption(ctx context.Context, params GetBucketEncryptionParams) (GetBucketEncryptionRes, error)
-	// GetBucketMetering invokes getBucketMetering operation.
+	ListAccountKeys(ctx context.Context) (ListAccountKeysRes, error)
+	// ListBucketMetering invokes listBucketMetering operation.
 	//
 	// アクセス先ベースURL:
 	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
@@ -257,50 +227,8 @@ type Invoker interface {
 	// また、指定した月においてバケットの使用が無かった場合でも、ゼロ埋めされたデータが返却されます。.
 	//
 	// GET /metering/buckets/{name}
-	GetBucketMetering(ctx context.Context, params GetBucketMeteringParams) (GetBucketMeteringRes, error)
-	// GetBucketPenalty invokes getBucketPenalty operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /buckets/{name}/penalty
-	GetBucketPenalty(ctx context.Context, params GetBucketPenaltyParams) (GetBucketPenaltyRes, error)
-	// GetBucketPlan invokes getBucketPlan operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /buckets/{name}/plan
-	GetBucketPlan(ctx context.Context, params GetBucketPlanParams) (GetBucketPlanRes, error)
-	// GetBucketQuota invokes getBucketQuota operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /buckets/{name}/quota
-	GetBucketQuota(ctx context.Context, params GetBucketQuotaParams) (GetBucketQuotaRes, error)
-	// GetBucketReplicableTargets invokes getBucketReplicableTargets operation.
+	ListBucketMetering(ctx context.Context, params ListBucketMeteringParams) (ListBucketMeteringRes, error)
+	// ListBucketReplicableTargets invokes listBucketReplicableTargets operation.
 	//
 	// アクセス先ベースURL:
 	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
@@ -311,155 +239,7 @@ type Invoker interface {
 	// となります。.
 	//
 	// GET /buckets/{name}/replicable-targets
-	GetBucketReplicableTargets(ctx context.Context, params GetBucketReplicableTargetsParams) (GetBucketReplicableTargetsRes, error)
-	// GetBucketReplication invokes getBucketReplication operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
-	// となります。.
-	//
-	// GET /buckets/{name}/replication
-	GetBucketReplication(ctx context.Context, params GetBucketReplicationParams) (GetBucketReplicationRes, error)
-	// GetBucketUsage invokes getBucketUsage operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /buckets/{name}/usage
-	GetBucketUsage(ctx context.Context, params GetBucketUsageParams) (GetBucketUsageRes, error)
-	// GetCluster invokes getCluster operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
-	// となります。.
-	//
-	// GET /clusters/{id}
-	GetCluster(ctx context.Context, params GetClusterParams) (GetClusterRes, error)
-	// GetClusters invokes getClusters operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
-	// となります。.
-	//
-	// GET /clusters
-	GetClusters(ctx context.Context) (GetClustersRes, error)
-	// GetPermission invokes getPermission operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /permissions/{id}
-	GetPermission(ctx context.Context, params GetPermissionParams) (GetPermissionRes, error)
-	// GetPermissionKey invokes getPermissionKey operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /permissions/{id}/keys/{key_id}
-	GetPermissionKey(ctx context.Context, params GetPermissionKeyParams) (GetPermissionKeyRes, error)
-	// GetPermissionKeys invokes getPermissionKeys operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /permissions/{id}/keys
-	GetPermissionKeys(ctx context.Context, params GetPermissionKeysParams) (GetPermissionKeysRes, error)
-	// GetPermissions invokes getPermissions operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /permissions
-	GetPermissions(ctx context.Context) (GetPermissionsRes, error)
-	// GetPlans invokes getPlans operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /plans
-	GetPlans(ctx context.Context) (GetPlansRes, error)
-	// GetQuota invokes getQuota operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /quota
-	GetQuota(ctx context.Context) (GetQuotaRes, error)
-	// GetStatus invokes getStatus operation.
-	//
-	// アクセス先ベースURL:
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-	//
-	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-	// となります。
-	//
-	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-	//
-	// GET /status
-	GetStatus(ctx context.Context) (GetStatusRes, error)
+	ListBucketReplicableTargets(ctx context.Context, params ListBucketReplicableTargetsParams) (ListBucketReplicableTargetsRes, error)
 	// ListBuckets invokes listBuckets operation.
 	//
 	// アクセス先ベースURL:
@@ -474,7 +254,7 @@ type Invoker interface {
 	//
 	// GET /buckets
 	ListBuckets(ctx context.Context) (ListBucketsRes, error)
-	// PostBucketReplication invokes postBucketReplication operation.
+	// ListClusters invokes listClusters operation.
 	//
 	// アクセス先ベースURL:
 	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
@@ -484,9 +264,229 @@ type Invoker interface {
 	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
 	// となります。.
 	//
-	// POST /buckets/{name}/replication
-	PostBucketReplication(ctx context.Context, request *PostBucketReplicationReq, params PostBucketReplicationParams) (PostBucketReplicationRes, error)
-	// PutBucketEncryption invokes putBucketEncryption operation.
+	// GET /clusters
+	ListClusters(ctx context.Context) (ListClustersRes, error)
+	// ListPermissionKeys invokes listPermissionKeys operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /permissions/{id}/keys
+	ListPermissionKeys(ctx context.Context, params ListPermissionKeysParams) (ListPermissionKeysRes, error)
+	// ListPermissions invokes listPermissions operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /permissions
+	ListPermissions(ctx context.Context) (ListPermissionsRes, error)
+	// ListPlans invokes listPlans operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /plans
+	ListPlans(ctx context.Context) (ListPlansRes, error)
+	// ReadAccount invokes readAccount operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /account
+	ReadAccount(ctx context.Context) (ReadAccountRes, error)
+	// ReadAccountKey invokes readAccountKey operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /account/keys/{id}
+	ReadAccountKey(ctx context.Context, params ReadAccountKeyParams) (ReadAccountKeyRes, error)
+	// ReadBucketEncryption invokes readBucketEncryption operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /buckets/{name}/encryption
+	ReadBucketEncryption(ctx context.Context, params ReadBucketEncryptionParams) (ReadBucketEncryptionRes, error)
+	// ReadBucketPenalty invokes readBucketPenalty operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /buckets/{name}/penalty
+	ReadBucketPenalty(ctx context.Context, params ReadBucketPenaltyParams) (ReadBucketPenaltyRes, error)
+	// ReadBucketPlan invokes readBucketPlan operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /buckets/{name}/plan
+	ReadBucketPlan(ctx context.Context, params ReadBucketPlanParams) (ReadBucketPlanRes, error)
+	// ReadBucketQuota invokes readBucketQuota operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /buckets/{name}/quota
+	ReadBucketQuota(ctx context.Context, params ReadBucketQuotaParams) (ReadBucketQuotaRes, error)
+	// ReadBucketReplication invokes readBucketReplication operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
+	// となります。.
+	//
+	// GET /buckets/{name}/replication
+	ReadBucketReplication(ctx context.Context, params ReadBucketReplicationParams) (ReadBucketReplicationRes, error)
+	// ReadBucketUsage invokes readBucketUsage operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /buckets/{name}/usage
+	ReadBucketUsage(ctx context.Context, params ReadBucketUsageParams) (ReadBucketUsageRes, error)
+	// ReadCluster invokes readCluster operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
+	// となります。.
+	//
+	// GET /clusters/{id}
+	ReadCluster(ctx context.Context, params ReadClusterParams) (ReadClusterRes, error)
+	// ReadPermission invokes readPermission operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /permissions/{id}
+	ReadPermission(ctx context.Context, params ReadPermissionParams) (ReadPermissionRes, error)
+	// ReadPermissionKey invokes readPermissionKey operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /permissions/{id}/keys/{key_id}
+	ReadPermissionKey(ctx context.Context, params ReadPermissionKeyParams) (ReadPermissionKeyRes, error)
+	// ReadQuota invokes readQuota operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /quota
+	ReadQuota(ctx context.Context) (ReadQuotaRes, error)
+	// ReadStatus invokes readStatus operation.
+	//
+	// アクセス先ベースURL:
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+	//
+	// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+	// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+	// となります。
+	//
+	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+	//
+	// GET /status
+	ReadStatus(ctx context.Context) (ReadStatusRes, error)
+	// UpdateBucketEncryption invokes updateBucketEncryption operation.
 	//
 	// アクセス先ベースURL:
 	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
@@ -499,8 +499,8 @@ type Invoker interface {
 	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
 	//
 	// PUT /buckets/{name}/encryption
-	PutBucketEncryption(ctx context.Context, request *HandlerEncryptionConfigReqBody, params PutBucketEncryptionParams) (PutBucketEncryptionRes, error)
-	// PutBucketPlan invokes putBucketPlan operation.
+	UpdateBucketEncryption(ctx context.Context, request *HandlerUpdateBucketEncryptionRequestBody, params UpdateBucketEncryptionParams) (UpdateBucketEncryptionRes, error)
+	// UpdateBucketPlan invokes updateBucketPlan operation.
 	//
 	// アクセス先ベースURL:
 	// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
@@ -513,7 +513,7 @@ type Invoker interface {
 	// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
 	//
 	// PUT /buckets/{name}/plan
-	PutBucketPlan(ctx context.Context, request *PlanChangeReqBody, params PutBucketPlanParams) (PutBucketPlanRes, error)
+	UpdateBucketPlan(ctx context.Context, request *PlanChangeReqBody, params UpdateBucketPlanParams) (UpdateBucketPlanRes, error)
 	// UpdatePermission invokes updatePermission operation.
 	//
 	// アクセス先ベースURL:
@@ -804,12 +804,12 @@ func (c *Client) sendCreateAccountKey(ctx context.Context) (res CreateAccountKey
 // となります。.
 //
 // PUT /buckets/{name}
-func (c *Client) CreateBucket(ctx context.Context, request *HandlerPutBucketReqBody, params CreateBucketParams) (CreateBucketRes, error) {
+func (c *Client) CreateBucket(ctx context.Context, request *HandlerCreateBucketRequestBody, params CreateBucketParams) (CreateBucketRes, error) {
 	res, err := c.sendCreateBucket(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateBucket(ctx context.Context, request *HandlerPutBucketReqBody, params CreateBucketParams) (res CreateBucketRes, err error) {
+func (c *Client) sendCreateBucket(ctx context.Context, request *HandlerCreateBucketRequestBody, params CreateBucketParams) (res CreateBucketRes, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -898,6 +898,110 @@ func (c *Client) sendCreateBucket(ctx context.Context, request *HandlerPutBucket
 	}()
 
 	result, err := decodeCreateBucketResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateBucketReplication invokes createBucketReplication operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
+// となります。.
+//
+// POST /buckets/{name}/replication
+func (c *Client) CreateBucketReplication(ctx context.Context, request *CreateBucketReplicationReq, params CreateBucketReplicationParams) (CreateBucketReplicationRes, error) {
+	res, err := c.sendCreateBucketReplication(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateBucketReplication(ctx context.Context, request *CreateBucketReplicationReq, params CreateBucketReplicationParams) (res CreateBucketReplicationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/buckets/"
+	{
+		// Encode "name" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "name",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.Name))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/replication"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateBucketReplicationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, CreateBucketReplicationOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateBucketReplicationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1032,7 +1136,7 @@ func (c *Client) sendCreatePermissionKey(ctx context.Context, params CreatePermi
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
+			return e.EncodeValue(conv.IntToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1625,7 +1729,7 @@ func (c *Client) sendDeletePermission(ctx context.Context, params DeletePermissi
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
+			return e.EncodeValue(conv.IntToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1727,7 +1831,7 @@ func (c *Client) sendDeletePermissionKey(ctx context.Context, params DeletePermi
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
+			return e.EncodeValue(conv.IntToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1817,193 +1921,7 @@ func (c *Client) sendDeletePermissionKey(ctx context.Context, params DeletePermi
 	return result, nil
 }
 
-// GetAccount invokes getAccount operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /account
-func (c *Client) GetAccount(ctx context.Context) (GetAccountRes, error) {
-	res, err := c.sendGetAccount(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetAccount(ctx context.Context) (res GetAccountRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/account"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetAccountOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAccountResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAccountKey invokes getAccountKey operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /account/keys/{id}
-func (c *Client) GetAccountKey(ctx context.Context, params GetAccountKeyParams) (GetAccountKeyRes, error) {
-	res, err := c.sendGetAccountKey(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAccountKey(ctx context.Context, params GetAccountKeyParams) (res GetAccountKeyRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/account/keys/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetAccountKeyOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAccountKeyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAccountKeys invokes getAccountKeys operation.
+// ListAccountKeys invokes listAccountKeys operation.
 //
 // アクセス先ベースURL:
 // `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
@@ -2016,12 +1934,12 @@ func (c *Client) sendGetAccountKey(ctx context.Context, params GetAccountKeyPara
 // なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
 //
 // GET /account/keys
-func (c *Client) GetAccountKeys(ctx context.Context) (GetAccountKeysRes, error) {
-	res, err := c.sendGetAccountKeys(ctx)
+func (c *Client) ListAccountKeys(ctx context.Context) (ListAccountKeysRes, error) {
+	res, err := c.sendListAccountKeys(ctx)
 	return res, err
 }
 
-func (c *Client) sendGetAccountKeys(ctx context.Context) (res GetAccountKeysRes, err error) {
+func (c *Client) sendListAccountKeys(ctx context.Context) (res ListAccountKeysRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -2038,7 +1956,7 @@ func (c *Client) sendGetAccountKeys(ctx context.Context) (res GetAccountKeysRes,
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, GetAccountKeysOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ListAccountKeysOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -2079,7 +1997,7 @@ func (c *Client) sendGetAccountKeys(ctx context.Context) (res GetAccountKeysRes,
 		_ = body.Close()
 	}()
 
-	result, err := decodeGetAccountKeysResponse(resp)
+	result, err := decodeListAccountKeysResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2087,110 +2005,7 @@ func (c *Client) sendGetAccountKeys(ctx context.Context) (res GetAccountKeysRes,
 	return result, nil
 }
 
-// GetBucketEncryption invokes getBucketEncryption operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /buckets/{name}/encryption
-func (c *Client) GetBucketEncryption(ctx context.Context, params GetBucketEncryptionParams) (GetBucketEncryptionRes, error) {
-	res, err := c.sendGetBucketEncryption(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetBucketEncryption(ctx context.Context, params GetBucketEncryptionParams) (res GetBucketEncryptionRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/buckets/"
-	{
-		// Encode "name" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "name",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.Name))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/encryption"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetBucketEncryptionOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetBucketEncryptionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetBucketMetering invokes getBucketMetering operation.
+// ListBucketMetering invokes listBucketMetering operation.
 //
 // アクセス先ベースURL:
 // `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
@@ -2207,12 +2022,12 @@ func (c *Client) sendGetBucketEncryption(ctx context.Context, params GetBucketEn
 // また、指定した月においてバケットの使用が無かった場合でも、ゼロ埋めされたデータが返却されます。.
 //
 // GET /metering/buckets/{name}
-func (c *Client) GetBucketMetering(ctx context.Context, params GetBucketMeteringParams) (GetBucketMeteringRes, error) {
-	res, err := c.sendGetBucketMetering(ctx, params)
+func (c *Client) ListBucketMetering(ctx context.Context, params ListBucketMeteringParams) (ListBucketMeteringRes, error) {
+	res, err := c.sendListBucketMetering(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetBucketMetering(ctx context.Context, params GetBucketMeteringParams) (res GetBucketMeteringRes, err error) {
+func (c *Client) sendListBucketMetering(ctx context.Context, params ListBucketMeteringParams) (res ListBucketMeteringRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -2281,7 +2096,7 @@ func (c *Client) sendGetBucketMetering(ctx context.Context, params GetBucketMete
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, GetBucketMeteringOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ListBucketMeteringOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -2322,7 +2137,7 @@ func (c *Client) sendGetBucketMetering(ctx context.Context, params GetBucketMete
 		_ = body.Close()
 	}()
 
-	result, err := decodeGetBucketMeteringResponse(resp)
+	result, err := decodeListBucketMeteringResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2330,325 +2145,7 @@ func (c *Client) sendGetBucketMetering(ctx context.Context, params GetBucketMete
 	return result, nil
 }
 
-// GetBucketPenalty invokes getBucketPenalty operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /buckets/{name}/penalty
-func (c *Client) GetBucketPenalty(ctx context.Context, params GetBucketPenaltyParams) (GetBucketPenaltyRes, error) {
-	res, err := c.sendGetBucketPenalty(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetBucketPenalty(ctx context.Context, params GetBucketPenaltyParams) (res GetBucketPenaltyRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/buckets/"
-	{
-		// Encode "name" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "name",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := string(params.Name); true {
-				return e.EncodeValue(conv.StringToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/penalty"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetBucketPenaltyOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetBucketPenaltyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetBucketPlan invokes getBucketPlan operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /buckets/{name}/plan
-func (c *Client) GetBucketPlan(ctx context.Context, params GetBucketPlanParams) (GetBucketPlanRes, error) {
-	res, err := c.sendGetBucketPlan(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetBucketPlan(ctx context.Context, params GetBucketPlanParams) (res GetBucketPlanRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/buckets/"
-	{
-		// Encode "name" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "name",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := string(params.Name); true {
-				return e.EncodeValue(conv.StringToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/plan"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetBucketPlanOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetBucketPlanResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetBucketQuota invokes getBucketQuota operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /buckets/{name}/quota
-func (c *Client) GetBucketQuota(ctx context.Context, params GetBucketQuotaParams) (GetBucketQuotaRes, error) {
-	res, err := c.sendGetBucketQuota(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetBucketQuota(ctx context.Context, params GetBucketQuotaParams) (res GetBucketQuotaRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/buckets/"
-	{
-		// Encode "name" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "name",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := string(params.Name); true {
-				return e.EncodeValue(conv.StringToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/quota"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetBucketQuotaOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetBucketQuotaResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetBucketReplicableTargets invokes getBucketReplicableTargets operation.
+// ListBucketReplicableTargets invokes listBucketReplicableTargets operation.
 //
 // アクセス先ベースURL:
 // `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
@@ -2659,12 +2156,12 @@ func (c *Client) sendGetBucketQuota(ctx context.Context, params GetBucketQuotaPa
 // となります。.
 //
 // GET /buckets/{name}/replicable-targets
-func (c *Client) GetBucketReplicableTargets(ctx context.Context, params GetBucketReplicableTargetsParams) (GetBucketReplicableTargetsRes, error) {
-	res, err := c.sendGetBucketReplicableTargets(ctx, params)
+func (c *Client) ListBucketReplicableTargets(ctx context.Context, params ListBucketReplicableTargetsParams) (ListBucketReplicableTargetsRes, error) {
+	res, err := c.sendListBucketReplicableTargets(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetBucketReplicableTargets(ctx context.Context, params GetBucketReplicableTargetsParams) (res GetBucketReplicableTargetsRes, err error) {
+func (c *Client) sendListBucketReplicableTargets(ctx context.Context, params ListBucketReplicableTargetsParams) (res ListBucketReplicableTargetsRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -2700,7 +2197,7 @@ func (c *Client) sendGetBucketReplicableTargets(ctx context.Context, params GetB
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, GetBucketReplicableTargetsOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ListBucketReplicableTargetsOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -2741,1058 +2238,7 @@ func (c *Client) sendGetBucketReplicableTargets(ctx context.Context, params GetB
 		_ = body.Close()
 	}()
 
-	result, err := decodeGetBucketReplicableTargetsResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetBucketReplication invokes getBucketReplication operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
-// となります。.
-//
-// GET /buckets/{name}/replication
-func (c *Client) GetBucketReplication(ctx context.Context, params GetBucketReplicationParams) (GetBucketReplicationRes, error) {
-	res, err := c.sendGetBucketReplication(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetBucketReplication(ctx context.Context, params GetBucketReplicationParams) (res GetBucketReplicationRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/buckets/"
-	{
-		// Encode "name" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "name",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.Name))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/replication"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetBucketReplicationOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetBucketReplicationResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetBucketUsage invokes getBucketUsage operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /buckets/{name}/usage
-func (c *Client) GetBucketUsage(ctx context.Context, params GetBucketUsageParams) (GetBucketUsageRes, error) {
-	res, err := c.sendGetBucketUsage(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetBucketUsage(ctx context.Context, params GetBucketUsageParams) (res GetBucketUsageRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/buckets/"
-	{
-		// Encode "name" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "name",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := string(params.Name); true {
-				return e.EncodeValue(conv.StringToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/usage"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetBucketUsageOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetBucketUsageResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetCluster invokes getCluster operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
-// となります。.
-//
-// GET /clusters/{id}
-func (c *Client) GetCluster(ctx context.Context, params GetClusterParams) (GetClusterRes, error) {
-	res, err := c.sendGetCluster(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetCluster(ctx context.Context, params GetClusterParams) (res GetClusterRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/clusters/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetClusterOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetClusterResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetClusters invokes getClusters operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
-// となります。.
-//
-// GET /clusters
-func (c *Client) GetClusters(ctx context.Context) (GetClustersRes, error) {
-	res, err := c.sendGetClusters(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetClusters(ctx context.Context) (res GetClustersRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/clusters"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetClustersOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetClustersResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetPermission invokes getPermission operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /permissions/{id}
-func (c *Client) GetPermission(ctx context.Context, params GetPermissionParams) (GetPermissionRes, error) {
-	res, err := c.sendGetPermission(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetPermission(ctx context.Context, params GetPermissionParams) (res GetPermissionRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/permissions/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetPermissionOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetPermissionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetPermissionKey invokes getPermissionKey operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /permissions/{id}/keys/{key_id}
-func (c *Client) GetPermissionKey(ctx context.Context, params GetPermissionKeyParams) (GetPermissionKeyRes, error) {
-	res, err := c.sendGetPermissionKey(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetPermissionKey(ctx context.Context, params GetPermissionKeyParams) (res GetPermissionKeyRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/permissions/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "key_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "key_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.KeyID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetPermissionKeyOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetPermissionKeyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetPermissionKeys invokes getPermissionKeys operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /permissions/{id}/keys
-func (c *Client) GetPermissionKeys(ctx context.Context, params GetPermissionKeysParams) (GetPermissionKeysRes, error) {
-	res, err := c.sendGetPermissionKeys(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetPermissionKeys(ctx context.Context, params GetPermissionKeysParams) (res GetPermissionKeysRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/permissions/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetPermissionKeysOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetPermissionKeysResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetPermissions invokes getPermissions operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /permissions
-func (c *Client) GetPermissions(ctx context.Context) (GetPermissionsRes, error) {
-	res, err := c.sendGetPermissions(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetPermissions(ctx context.Context) (res GetPermissionsRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/permissions"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetPermissionsOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetPermissionsResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetPlans invokes getPlans operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /plans
-func (c *Client) GetPlans(ctx context.Context) (GetPlansRes, error) {
-	res, err := c.sendGetPlans(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetPlans(ctx context.Context) (res GetPlansRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/plans"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetPlansOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetPlansResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetQuota invokes getQuota operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /quota
-func (c *Client) GetQuota(ctx context.Context) (GetQuotaRes, error) {
-	res, err := c.sendGetQuota(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetQuota(ctx context.Context) (res GetQuotaRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/quota"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetQuotaOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetQuotaResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetStatus invokes getStatus operation.
-//
-// アクセス先ベースURL:
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
-//
-// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
-// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
-// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
-// となります。
-//
-// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
-//
-// GET /status
-func (c *Client) GetStatus(ctx context.Context) (GetStatusRes, error) {
-	res, err := c.sendGetStatus(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetStatus(ctx context.Context) (res GetStatusRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/status"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetStatusOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetStatusResponse(resp)
+	result, err := decodeListBucketReplicableTargetsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -3884,7 +2330,7 @@ func (c *Client) sendListBuckets(ctx context.Context) (res ListBucketsRes, err e
 	return result, nil
 }
 
-// PostBucketReplication invokes postBucketReplication operation.
+// ListClusters invokes listClusters operation.
 //
 // アクセス先ベースURL:
 // `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
@@ -3894,44 +2340,22 @@ func (c *Client) sendListBuckets(ctx context.Context) (res ListBucketsRes, err e
 // `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
 // となります。.
 //
-// POST /buckets/{name}/replication
-func (c *Client) PostBucketReplication(ctx context.Context, request *PostBucketReplicationReq, params PostBucketReplicationParams) (PostBucketReplicationRes, error) {
-	res, err := c.sendPostBucketReplication(ctx, request, params)
+// GET /clusters
+func (c *Client) ListClusters(ctx context.Context) (ListClustersRes, error) {
+	res, err := c.sendListClusters(ctx)
 	return res, err
 }
 
-func (c *Client) sendPostBucketReplication(ctx context.Context, request *PostBucketReplicationReq, params PostBucketReplicationParams) (res PostBucketReplicationRes, err error) {
+func (c *Client) sendListClusters(ctx context.Context) (res ListClustersRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/buckets/"
-	{
-		// Encode "name" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "name",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.Name))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/replication"
+	var pathParts [1]string
+	pathParts[0] = "/clusters"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "POST", u)
+	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodePostBucketReplicationRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
 	}
 
 	{
@@ -3939,7 +2363,7 @@ func (c *Client) sendPostBucketReplication(ctx context.Context, request *PostBuc
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, PostBucketReplicationOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ListClustersOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -3980,7 +2404,7 @@ func (c *Client) sendPostBucketReplication(ctx context.Context, request *PostBuc
 		_ = body.Close()
 	}()
 
-	result, err := decodePostBucketReplicationResponse(resp)
+	result, err := decodeListClustersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -3988,7 +2412,1583 @@ func (c *Client) sendPostBucketReplication(ctx context.Context, request *PostBuc
 	return result, nil
 }
 
-// PutBucketEncryption invokes putBucketEncryption operation.
+// ListPermissionKeys invokes listPermissionKeys operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /permissions/{id}/keys
+func (c *Client) ListPermissionKeys(ctx context.Context, params ListPermissionKeysParams) (ListPermissionKeysRes, error) {
+	res, err := c.sendListPermissionKeys(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListPermissionKeys(ctx context.Context, params ListPermissionKeysParams) (res ListPermissionKeysRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/permissions/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.IntToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ListPermissionKeysOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListPermissionKeysResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListPermissions invokes listPermissions operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /permissions
+func (c *Client) ListPermissions(ctx context.Context) (ListPermissionsRes, error) {
+	res, err := c.sendListPermissions(ctx)
+	return res, err
+}
+
+func (c *Client) sendListPermissions(ctx context.Context) (res ListPermissionsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/permissions"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ListPermissionsOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListPermissionsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListPlans invokes listPlans operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /plans
+func (c *Client) ListPlans(ctx context.Context) (ListPlansRes, error) {
+	res, err := c.sendListPlans(ctx)
+	return res, err
+}
+
+func (c *Client) sendListPlans(ctx context.Context) (res ListPlansRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/plans"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ListPlansOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListPlansResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadAccount invokes readAccount operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /account
+func (c *Client) ReadAccount(ctx context.Context) (ReadAccountRes, error) {
+	res, err := c.sendReadAccount(ctx)
+	return res, err
+}
+
+func (c *Client) sendReadAccount(ctx context.Context) (res ReadAccountRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/account"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadAccountOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadAccountResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadAccountKey invokes readAccountKey operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /account/keys/{id}
+func (c *Client) ReadAccountKey(ctx context.Context, params ReadAccountKeyParams) (ReadAccountKeyRes, error) {
+	res, err := c.sendReadAccountKey(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadAccountKey(ctx context.Context, params ReadAccountKeyParams) (res ReadAccountKeyRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/account/keys/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadAccountKeyOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadAccountKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadBucketEncryption invokes readBucketEncryption operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /buckets/{name}/encryption
+func (c *Client) ReadBucketEncryption(ctx context.Context, params ReadBucketEncryptionParams) (ReadBucketEncryptionRes, error) {
+	res, err := c.sendReadBucketEncryption(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadBucketEncryption(ctx context.Context, params ReadBucketEncryptionParams) (res ReadBucketEncryptionRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/buckets/"
+	{
+		// Encode "name" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "name",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.Name))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/encryption"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadBucketEncryptionOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadBucketEncryptionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadBucketPenalty invokes readBucketPenalty operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /buckets/{name}/penalty
+func (c *Client) ReadBucketPenalty(ctx context.Context, params ReadBucketPenaltyParams) (ReadBucketPenaltyRes, error) {
+	res, err := c.sendReadBucketPenalty(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadBucketPenalty(ctx context.Context, params ReadBucketPenaltyParams) (res ReadBucketPenaltyRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/buckets/"
+	{
+		// Encode "name" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "name",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := string(params.Name); true {
+				return e.EncodeValue(conv.StringToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/penalty"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadBucketPenaltyOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadBucketPenaltyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadBucketPlan invokes readBucketPlan operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /buckets/{name}/plan
+func (c *Client) ReadBucketPlan(ctx context.Context, params ReadBucketPlanParams) (ReadBucketPlanRes, error) {
+	res, err := c.sendReadBucketPlan(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadBucketPlan(ctx context.Context, params ReadBucketPlanParams) (res ReadBucketPlanRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/buckets/"
+	{
+		// Encode "name" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "name",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := string(params.Name); true {
+				return e.EncodeValue(conv.StringToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/plan"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadBucketPlanOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadBucketPlanResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadBucketQuota invokes readBucketQuota operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /buckets/{name}/quota
+func (c *Client) ReadBucketQuota(ctx context.Context, params ReadBucketQuotaParams) (ReadBucketQuotaRes, error) {
+	res, err := c.sendReadBucketQuota(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadBucketQuota(ctx context.Context, params ReadBucketQuotaParams) (res ReadBucketQuotaRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/buckets/"
+	{
+		// Encode "name" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "name",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := string(params.Name); true {
+				return e.EncodeValue(conv.StringToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/quota"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadBucketQuotaOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadBucketQuotaResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadBucketReplication invokes readBucketReplication operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
+// となります。.
+//
+// GET /buckets/{name}/replication
+func (c *Client) ReadBucketReplication(ctx context.Context, params ReadBucketReplicationParams) (ReadBucketReplicationRes, error) {
+	res, err := c.sendReadBucketReplication(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadBucketReplication(ctx context.Context, params ReadBucketReplicationParams) (res ReadBucketReplicationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/buckets/"
+	{
+		// Encode "name" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "name",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.Name))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/replication"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadBucketReplicationOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadBucketReplicationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadBucketUsage invokes readBucketUsage operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /buckets/{name}/usage
+func (c *Client) ReadBucketUsage(ctx context.Context, params ReadBucketUsageParams) (ReadBucketUsageRes, error) {
+	res, err := c.sendReadBucketUsage(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadBucketUsage(ctx context.Context, params ReadBucketUsageParams) (res ReadBucketUsageRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/buckets/"
+	{
+		// Encode "name" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "name",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := string(params.Name); true {
+				return e.EncodeValue(conv.StringToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/usage"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadBucketUsageOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadBucketUsageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadCluster invokes readCluster operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/clusters` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1/clusters`
+// となります。.
+//
+// GET /clusters/{id}
+func (c *Client) ReadCluster(ctx context.Context, params ReadClusterParams) (ReadClusterRes, error) {
+	res, err := c.sendReadCluster(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadCluster(ctx context.Context, params ReadClusterParams) (res ReadClusterRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/clusters/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadClusterOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadClusterResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadPermission invokes readPermission operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /permissions/{id}
+func (c *Client) ReadPermission(ctx context.Context, params ReadPermissionParams) (ReadPermissionRes, error) {
+	res, err := c.sendReadPermission(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadPermission(ctx context.Context, params ReadPermissionParams) (res ReadPermissionRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/permissions/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.IntToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadPermissionOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadPermissionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadPermissionKey invokes readPermissionKey operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /permissions/{id}/keys/{key_id}
+func (c *Client) ReadPermissionKey(ctx context.Context, params ReadPermissionKeyParams) (ReadPermissionKeyRes, error) {
+	res, err := c.sendReadPermissionKey(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadPermissionKey(ctx context.Context, params ReadPermissionKeyParams) (res ReadPermissionKeyRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/permissions/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.IntToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "key_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "key_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.KeyID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadPermissionKeyOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadPermissionKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadQuota invokes readQuota operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /quota
+func (c *Client) ReadQuota(ctx context.Context) (ReadQuotaRes, error) {
+	res, err := c.sendReadQuota(ctx)
+	return res, err
+}
+
+func (c *Client) sendReadQuota(ctx context.Context) (res ReadQuotaRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/quota"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadQuotaOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadQuotaResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadStatus invokes readStatus operation.
+//
+// アクセス先ベースURL:
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
+//
+// 上記アクセス先ベースURLと右ペインのパスを組み合わせたものがアクセス先URLになります。
+// 例えば、右ペインのパスが `/account` の場合、アクセス先URLは、
+// `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/account`
+// となります。
+//
+// なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
+//
+// GET /status
+func (c *Client) ReadStatus(ctx context.Context) (ReadStatusRes, error) {
+	res, err := c.sendReadStatus(ctx)
+	return res, err
+}
+
+func (c *Client) sendReadStatus(ctx context.Context) (res ReadStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/status"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadStatusOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateBucketEncryption invokes updateBucketEncryption operation.
 //
 // アクセス先ベースURL:
 // `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
@@ -4001,12 +4001,12 @@ func (c *Client) sendPostBucketReplication(ctx context.Context, request *PostBuc
 // なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
 //
 // PUT /buckets/{name}/encryption
-func (c *Client) PutBucketEncryption(ctx context.Context, request *HandlerEncryptionConfigReqBody, params PutBucketEncryptionParams) (PutBucketEncryptionRes, error) {
-	res, err := c.sendPutBucketEncryption(ctx, request, params)
+func (c *Client) UpdateBucketEncryption(ctx context.Context, request *HandlerUpdateBucketEncryptionRequestBody, params UpdateBucketEncryptionParams) (UpdateBucketEncryptionRes, error) {
+	res, err := c.sendUpdateBucketEncryption(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendPutBucketEncryption(ctx context.Context, request *HandlerEncryptionConfigReqBody, params PutBucketEncryptionParams) (res PutBucketEncryptionRes, err error) {
+func (c *Client) sendUpdateBucketEncryption(ctx context.Context, request *HandlerUpdateBucketEncryptionRequestBody, params UpdateBucketEncryptionParams) (res UpdateBucketEncryptionRes, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -4045,7 +4045,7 @@ func (c *Client) sendPutBucketEncryption(ctx context.Context, request *HandlerEn
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodePutBucketEncryptionRequest(request, r); err != nil {
+	if err := encodeUpdateBucketEncryptionRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -4054,7 +4054,7 @@ func (c *Client) sendPutBucketEncryption(ctx context.Context, request *HandlerEn
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, PutBucketEncryptionOperation, r); {
+			switch err := c.securityBasicAuth(ctx, UpdateBucketEncryptionOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -4095,7 +4095,7 @@ func (c *Client) sendPutBucketEncryption(ctx context.Context, request *HandlerEn
 		_ = body.Close()
 	}()
 
-	result, err := decodePutBucketEncryptionResponse(resp)
+	result, err := decodeUpdateBucketEncryptionResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -4103,7 +4103,7 @@ func (c *Client) sendPutBucketEncryption(ctx context.Context, request *HandlerEn
 	return result, nil
 }
 
-// PutBucketPlan invokes putBucketPlan operation.
+// UpdateBucketPlan invokes updateBucketPlan operation.
 //
 // アクセス先ベースURL:
 // `https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/（サイト名）/v2/`
@@ -4116,12 +4116,12 @@ func (c *Client) sendPutBucketEncryption(ctx context.Context, request *HandlerEn
 // なお、サイト名の取得方法は「利用例＞接続先サイト一覧の取得」をご参考下さい。.
 //
 // PUT /buckets/{name}/plan
-func (c *Client) PutBucketPlan(ctx context.Context, request *PlanChangeReqBody, params PutBucketPlanParams) (PutBucketPlanRes, error) {
-	res, err := c.sendPutBucketPlan(ctx, request, params)
+func (c *Client) UpdateBucketPlan(ctx context.Context, request *PlanChangeReqBody, params UpdateBucketPlanParams) (UpdateBucketPlanRes, error) {
+	res, err := c.sendUpdateBucketPlan(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendPutBucketPlan(ctx context.Context, request *PlanChangeReqBody, params PutBucketPlanParams) (res PutBucketPlanRes, err error) {
+func (c *Client) sendUpdateBucketPlan(ctx context.Context, request *PlanChangeReqBody, params UpdateBucketPlanParams) (res UpdateBucketPlanRes, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -4163,7 +4163,7 @@ func (c *Client) sendPutBucketPlan(ctx context.Context, request *PlanChangeReqBo
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodePutBucketPlanRequest(request, r); err != nil {
+	if err := encodeUpdateBucketPlanRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -4172,7 +4172,7 @@ func (c *Client) sendPutBucketPlan(ctx context.Context, request *PlanChangeReqBo
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, PutBucketPlanOperation, r); {
+			switch err := c.securityBasicAuth(ctx, UpdateBucketPlanOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -4213,7 +4213,7 @@ func (c *Client) sendPutBucketPlan(ctx context.Context, request *PlanChangeReqBo
 		_ = body.Close()
 	}()
 
-	result, err := decodePutBucketPlanResponse(resp)
+	result, err := decodeUpdateBucketPlanResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -4315,7 +4315,7 @@ func (c *Client) sendUpdatePermission(ctx context.Context, request *PermissionBu
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
+			return e.EncodeValue(conv.IntToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}

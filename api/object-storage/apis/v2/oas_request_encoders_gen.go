@@ -11,7 +11,21 @@ import (
 )
 
 func encodeCreateBucketRequest(
-	req *HandlerPutBucketReqBody,
+	req *HandlerCreateBucketRequestBody,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateBucketReplicationRequest(
+	req *CreateBucketReplicationReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -38,8 +52,8 @@ func encodeCreatePermissionRequest(
 	return nil
 }
 
-func encodePostBucketReplicationRequest(
-	req *PostBucketReplicationReq,
+func encodeUpdateBucketEncryptionRequest(
+	req *HandlerUpdateBucketEncryptionRequestBody,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -52,21 +66,7 @@ func encodePostBucketReplicationRequest(
 	return nil
 }
 
-func encodePutBucketEncryptionRequest(
-	req *HandlerEncryptionConfigReqBody,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePutBucketPlanRequest(
+func encodeUpdateBucketPlanRequest(
 	req *PlanChangeReqBody,
 	r *http.Request,
 ) error {
