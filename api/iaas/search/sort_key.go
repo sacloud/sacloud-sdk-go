@@ -14,7 +14,10 @@
 
 package search
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // SortOrder ソート順
 type SortOrder int
@@ -58,4 +61,25 @@ func (k SortKey) MarshalJSON() ([]byte, error) {
 		s = "-" + k.Key
 	}
 	return json.Marshal(s)
+}
+
+// UnmarshalJSON キーの文字列表現("Name"、降順は"-Name")からのデコード
+func (k *SortKey) UnmarshalJSON(data []byte) error {
+	// null の場合は値を変更しない(encoding/json の規約に従う)
+	if string(data) == "null" {
+		return nil
+	}
+
+	var s string
+	if err := json.Unmarshal(data, &s); err != nil {
+		return fmt.Errorf("search: cannot unmarshal %s into SortKey (must be a string like \"Name\" or \"-Name\")", data)
+	}
+	if len(s) > 0 && s[0] == '-' {
+		k.Key = s[1:]
+		k.Order = SortDesc
+	} else {
+		k.Key = s
+		k.Order = SortAsc
+	}
+	return nil
 }
