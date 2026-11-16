@@ -19,7 +19,7 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hashicorp/go-retryablehttp v0.7.8
 	github.com/hashicorp/hc-install v0.10.0
-	github.com/hashicorp/terraform-exec v0.25.3
+	github.com/hashicorp/terraform-exec v0.26.0
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/jlaffaye/ftp v0.2.4
 	github.com/minio/minio-go/v7 v7.4.1
@@ -50,7 +50,7 @@ require (
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-hclog v1.6.3 // indirect
 	github.com/hashicorp/go-version v1.9.0 // indirect
-	github.com/hashicorp/terraform-json v0.28.0 // indirect
+	github.com/hashicorp/terraform-json v0.29.0 // indirect
 	github.com/hashicorp/terraform-plugin-go v0.31.0 // indirect
 	github.com/hashicorp/terraform-plugin-log v0.10.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
