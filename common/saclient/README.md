@@ -81,3 +81,24 @@ func yourLogic() error {
 	// ...
 }
 ```
+
+## Trusting a private CA
+
+When an API endpoint is served with a certificate signed by a private CA — for
+example a development mock server that generates its own self-signed
+certificate, or a corporate CA in front of a staging endpoint — tell the client
+to trust that CA. The configured CAs are added to (not replacing) the system
+roots, so the client keeps talking to normally-trusted endpoints too.
+
+```golang
+// from PEM bytes in memory
+client.SetWith(saclient.WithCACertPEM(pemBytes))
+
+// or from a file
+client.SetWith(saclient.WithCACertFile("/path/to/ca.pem"))
+```
+
+The same setting can be given as the `SAKURA_CACERT` environment variable, whose
+value is the path of a PEM file. The client reads and validates the file when
+its settings are populated, so a missing or broken file fails early.
+
