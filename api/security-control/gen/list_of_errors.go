@@ -69,7 +69,7 @@ func generate() error {
 	if err != nil {
 		return fmt.Errorf("format generated source: %w", err)
 	}
-	if err := os.WriteFile(outputFile, formatted, 0o644); err != nil {
+	if err := os.WriteFile(outputFile, formatted, 0o600); err != nil {
 		return fmt.Errorf("write %s: %w", outputFile, err)
 	}
 	return nil

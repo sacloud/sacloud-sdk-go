@@ -16,7 +16,6 @@ package workflows
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -140,7 +139,7 @@ func TestExecutionUnhandledResponse(t *testing.T) {
 			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 				w.Header().Set("Content-Type", "application/json")
 				w.WriteHeader(tt.status)
-				fmt.Fprint(w, `{"is_ok":false,"Message":"server message"}`)
+				_, _ = w.Write([]byte(`{"is_ok":false,"Message":"server message"}`))
 			}))
 			defer server.Close()
 
