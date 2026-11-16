@@ -57,9 +57,9 @@ func (op *activationOp) Create(ctx context.Context, servicePrincipalID string) (
 	case *v1.ProjectActivationCreateApplicationJSONTooManyRequests:
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	case *v1.UnexpectedErrorStatusCode:
-		return nil, NewAPIError(methodName, r.StatusCode, errors.New(r.Response.Detail.Value))
+		return nil, responseError(methodName, r)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, responseError(methodName, res)
 	}
 }
 
@@ -83,9 +83,9 @@ func (op *activationOp) Read(ctx context.Context) (*v1.ActivationOutput, error) 
 	case *v1.ProjectActivationReadApplicationJSONTooManyRequests:
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	case *v1.UnexpectedErrorStatusCode:
-		return nil, NewAPIError(methodName, r.StatusCode, errors.New(r.Response.Detail.Value))
+		return nil, responseError(methodName, r)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, responseError(methodName, res)
 	}
 }
 
@@ -114,8 +114,8 @@ func (op *activationOp) Update(ctx context.Context, servicePrincipalID string, i
 	case *v1.ProjectActivationUpdateApplicationJSONTooManyRequests:
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	case *v1.UnexpectedErrorStatusCode:
-		return nil, NewAPIError(methodName, r.StatusCode, errors.New(r.Response.Detail.Value))
+		return nil, responseError(methodName, r)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, responseError(methodName, res)
 	}
 }

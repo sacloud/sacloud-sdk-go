@@ -57,7 +57,7 @@ func (op *serviceOp) List(ctx context.Context) ([]v1.ServiceDetailResponse, erro
 		return nil, NewAPIError("Service.List", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Service.List", 0, nil)
+	return nil, NewAPIError("Service.List", 0, unknownError(res))
 }
 
 func (op *serviceOp) Create(ctx context.Context, request *v1.ServiceDetailRequest) (*v1.ServiceDetailRequest, error) {
@@ -79,7 +79,7 @@ func (op *serviceOp) Create(ctx context.Context, request *v1.ServiceDetailReques
 		return nil, NewAPIError("Service.Create", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Service.Create", 0, nil)
+	return nil, NewAPIError("Service.Create", 0, unknownError(res))
 }
 
 func (op *serviceOp) Read(ctx context.Context, id uuid.UUID) (*v1.ServiceDetailResponse, error) {
@@ -99,7 +99,7 @@ func (op *serviceOp) Read(ctx context.Context, id uuid.UUID) (*v1.ServiceDetailR
 		return nil, NewAPIError("Service.Read", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Service.Read", 0, nil)
+	return nil, NewAPIError("Service.Read", 0, unknownError(res))
 }
 
 func (op *serviceOp) Update(ctx context.Context, request *v1.ServiceDetail, id uuid.UUID) error {
@@ -119,7 +119,7 @@ func (op *serviceOp) Update(ctx context.Context, request *v1.ServiceDetail, id u
 		return NewAPIError("Service.Update", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Service.Update", 0, nil)
+	return NewAPIError("Service.Update", 0, unknownError(res))
 }
 
 func (op *serviceOp) Delete(ctx context.Context, id uuid.UUID) error {
@@ -141,5 +141,5 @@ func (op *serviceOp) Delete(ctx context.Context, id uuid.UUID) error {
 		return NewAPIError("Service.Delete", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Service.Delete", 0, nil)
+	return NewAPIError("Service.Delete", 0, unknownError(res))
 }

@@ -54,7 +54,7 @@ func (op *subscriptionOp) ListPlans(ctx context.Context) ([]v1.Plan, error) {
 		return nil, NewAPIError("Subscription.ListPlans", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Subscription.ListPlans", 0, nil)
+	return nil, NewAPIError("Subscription.ListPlans", 0, unknownError(res))
 }
 
 func (op *subscriptionOp) List(ctx context.Context) ([]v1.Subscription, error) {
@@ -72,7 +72,7 @@ func (op *subscriptionOp) List(ctx context.Context) ([]v1.Subscription, error) {
 		return nil, NewAPIError("Subscription.List", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Subscription.List", 0, nil)
+	return nil, NewAPIError("Subscription.List", 0, unknownError(res))
 }
 
 func (op *subscriptionOp) Create(ctx context.Context, id uuid.UUID, name string) error {
@@ -92,7 +92,7 @@ func (op *subscriptionOp) Create(ctx context.Context, id uuid.UUID, name string)
 		return NewAPIError("Subscription.Create", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Subscription.Create", 0, nil)
+	return NewAPIError("Subscription.Create", 0, unknownError(res))
 }
 
 func (op *subscriptionOp) Read(ctx context.Context, id uuid.UUID) (*v1.SubscriptionDetailResponse, error) {
@@ -110,7 +110,7 @@ func (op *subscriptionOp) Read(ctx context.Context, id uuid.UUID) (*v1.Subscript
 		return nil, NewAPIError("Subscription.Read", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Subscription.Read", 0, nil)
+	return nil, NewAPIError("Subscription.Read", 0, unknownError(res))
 }
 
 func (op *subscriptionOp) Update(ctx context.Context, id uuid.UUID, name string) error {
@@ -131,7 +131,7 @@ func (op *subscriptionOp) Update(ctx context.Context, id uuid.UUID, name string)
 		return NewAPIError("Subscription.Update", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Subscription.Update", 0, nil)
+	return NewAPIError("Subscription.Update", 0, unknownError(res))
 }
 
 func (op *subscriptionOp) Delete(ctx context.Context, id uuid.UUID) error {
@@ -151,5 +151,5 @@ func (op *subscriptionOp) Delete(ctx context.Context, id uuid.UUID) error {
 		return NewAPIError("Subscription.Delete", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Subscription.Delete", 0, nil)
+	return NewAPIError("Subscription.Delete", 0, unknownError(res))
 }

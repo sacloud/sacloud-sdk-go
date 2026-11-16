@@ -56,7 +56,7 @@ func (op *scheduleOp) List(ctx context.Context) ([]v1.CommonServiceItem, error) 
 	case *v1.ListCommonServiceItemsInternalServerError:
 		return nil, NewAPIError("Schedule.List", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Schedule.List", 0, nil)
+		return nil, NewAPIError("Schedule.List", 0, unknownError(p))
 	}
 }
 
@@ -78,7 +78,7 @@ func (op *scheduleOp) Read(ctx context.Context, id string) (*v1.CommonServiceIte
 	case *v1.ReadCommonServiceItemInternalServerError:
 		return nil, NewAPIError("Schedule.Read", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Schedule.Read", 0, nil)
+		return nil, NewAPIError("Schedule.Read", 0, unknownError(p))
 	}
 }
 
@@ -104,7 +104,7 @@ func (op *scheduleOp) Create(ctx context.Context, request v1.CreateCommonService
 	case *v1.CreateCommonServiceItemInternalServerError:
 		return nil, NewAPIError("Schedule.Create", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Schedule.Create", 0, nil)
+		return nil, NewAPIError("Schedule.Create", 0, unknownError(p))
 	}
 }
 
@@ -130,7 +130,7 @@ func (op *scheduleOp) Update(ctx context.Context, id string, request v1.UpdateCo
 	case *v1.UpdateCommonServiceItemInternalServerError:
 		return nil, NewAPIError("Schedule.Update", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Schedule.Update", 0, nil)
+		return nil, NewAPIError("Schedule.Update", 0, unknownError(p))
 	}
 }
 
@@ -152,6 +152,6 @@ func (op *scheduleOp) Delete(ctx context.Context, id string) error {
 	case *v1.DeleteCommonServiceItemInternalServerError:
 		return NewAPIError("Schedule.Delete", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Schedule.Delete", 0, nil)
+		return NewAPIError("Schedule.Delete", 0, unknownError(p))
 	}
 }

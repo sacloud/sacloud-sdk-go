@@ -51,7 +51,7 @@ func (op *instanceOp) GetVersion(ctx context.Context) (*v1.NosqlVersionsResponse
 	case *v1.ServerErrorResponse:
 		return nil, NewAPIError("Instance.GetVersion", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Instance.GetVersion", 0, nil)
+		return nil, NewAPIError("Instance.GetVersion", 0, unknownError(res))
 	}
 }
 
@@ -75,7 +75,7 @@ func (op *instanceOp) UpgradeVersion(ctx context.Context, version string) error 
 	case *v1.ServerErrorResponse:
 		return NewAPIError("Instance.UpgradeVersion", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Instance.UpgradeVersion", 0, nil)
+		return NewAPIError("Instance.UpgradeVersion", 0, unknownError(res))
 	}
 }
 
@@ -95,7 +95,7 @@ func (op *instanceOp) GetParameters(ctx context.Context) ([]v1.NosqlParameter, e
 	case *v1.ServerErrorResponse:
 		return nil, NewAPIError("Instance.GetParameters", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Instance.GetParameters", 0, nil)
+		return nil, NewAPIError("Instance.GetParameters", 0, unknownError(res))
 	}
 }
 
@@ -119,7 +119,7 @@ func (op *instanceOp) SetParameters(ctx context.Context, params []v1.NosqlParame
 	case *v1.ServerErrorResponse:
 		return NewAPIError("Instance.SetParameters", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Instance.SetParameters", 0, nil)
+		return NewAPIError("Instance.SetParameters", 0, unknownError(res))
 	}
 }
 
@@ -141,7 +141,7 @@ func (op *instanceOp) GetNodeHealth(ctx context.Context) (v1.NodeHealthNosqlStat
 	case *v1.ServerErrorResponse:
 		return v1.NodeHealthNosqlStatus(""), NewAPIError("Instance.GetNodeHealth", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return v1.NodeHealthNosqlStatus(""), NewAPIError("Instance.GetNodeHealth", 0, nil)
+		return v1.NodeHealthNosqlStatus(""), NewAPIError("Instance.GetNodeHealth", 0, unknownError(res))
 	}
 }
 
@@ -173,7 +173,7 @@ func (op *instanceOp) AddNodes(ctx context.Context, plan Plan, request v1.NosqlC
 	case *v1.ServerErrorResponse:
 		return nil, NewAPIError("Instance.AddNodes", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Instance.AddNodes", 0, nil)
+		return nil, NewAPIError("Instance.AddNodes", 0, unknownError(res))
 	}
 }
 
@@ -197,7 +197,7 @@ func (op *instanceOp) Recover(ctx context.Context) (string, error) {
 	case *v1.ServerErrorResponse:
 		return "", NewAPIError("Instance.Recover", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return "", NewAPIError("Instance.Recover", 0, nil)
+		return "", NewAPIError("Instance.Recover", 0, unknownError(res))
 	}
 }
 
@@ -223,7 +223,7 @@ func (op *instanceOp) Repair(ctx context.Context, repairType string) error {
 	case *v1.ServerErrorResponse:
 		return NewAPIError("Instance.Repair", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Instance.Repair", 0, nil)
+		return NewAPIError("Instance.Repair", 0, unknownError(res))
 	}
 }
 
@@ -247,7 +247,7 @@ func (op *instanceOp) Start(ctx context.Context) error {
 	case *v1.ServerErrorResponse:
 		return NewAPIError("Instance.Start", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Instance.Start", 0, nil)
+		return NewAPIError("Instance.Start", 0, unknownError(res))
 	}
 }
 
@@ -271,6 +271,6 @@ func (op *instanceOp) Stop(ctx context.Context) error {
 	case *v1.ServerErrorResponse:
 		return NewAPIError("Instance.Stop", 500, errors.New(p.ErrorMsg.Value))
 	default:
-		return NewAPIError("Instance.Stop", 0, nil)
+		return NewAPIError("Instance.Stop", 0, unknownError(res))
 	}
 }

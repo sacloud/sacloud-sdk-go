@@ -80,7 +80,7 @@ func (op *queueOp) Create(ctx context.Context, req queue.CreateQueueRequest) (*q
 	case *queue.CreateQueueInternalServerError:
 		return nil, NewAPIError("Queue.Create", 500, errors.New(r.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Queue.Create", 0, nil)
+		return nil, NewAPIError("Queue.Create", 0, unknownQueueError(r))
 	}
 }
 
@@ -100,7 +100,7 @@ func (op *queueOp) List(ctx context.Context) ([]queue.CommonServiceItem, error) 
 	case *queue.ListQueuesInternalServerError:
 		return nil, NewAPIError("Queue.List", 500, errors.New(r.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Queue.List", 0, nil)
+		return nil, NewAPIError("Queue.List", 0, unknownQueueError(r))
 	}
 }
 
@@ -122,7 +122,7 @@ func (op *queueOp) Read(ctx context.Context, id string) (*queue.CommonServiceIte
 	case *queue.ReadQueueInternalServerError:
 		return nil, NewAPIError("Queue.Read", 500, errors.New(r.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Queue.Read", 0, nil)
+		return nil, NewAPIError("Queue.Read", 0, unknownQueueError(r))
 	}
 }
 
@@ -144,7 +144,7 @@ func (op *queueOp) Config(ctx context.Context, id string, req queue.ConfigQueueR
 	case *queue.UpdateQueueInternalServerError:
 		return nil, NewAPIError("Queue.Config", 500, errors.New(r.ErrorMsg.Value))
 	default:
-		return nil, NewAPIError("Queue.Config", 0, nil)
+		return nil, NewAPIError("Queue.Config", 0, unknownQueueError(r))
 	}
 }
 
@@ -168,7 +168,7 @@ func (op *queueOp) Delete(ctx context.Context, id string) error {
 	case *queue.DeleteQueueInternalServerError:
 		return NewAPIError("Queue.Delete", 500, errors.New(r.ErrorMsg.Value))
 	default:
-		return NewAPIError("Queue.Delete", 0, nil)
+		return NewAPIError("Queue.Delete", 0, unknownQueueError(r))
 	}
 }
 
@@ -190,7 +190,7 @@ func (op *queueOp) CountMessages(ctx context.Context, id string) (int, error) {
 	case *queue.ReadMessageCountInternalServerError:
 		return 0, NewAPIError("Queue.CountMessages", 500, errors.New(r.ErrorMsg.Value))
 	default:
-		return 0, NewAPIError("Queue.CountMessages", 0, nil)
+		return 0, NewAPIError("Queue.CountMessages", 0, unknownQueueError(r))
 	}
 }
 
@@ -212,7 +212,7 @@ func (op *queueOp) RotateAPIKey(ctx context.Context, id string) (string, error) 
 	case *queue.RotateAPIKeyInternalServerError:
 		return "", NewAPIError("Queue.RotateAPIKey", 500, errors.New(r.ErrorMsg.Value))
 	default:
-		return "", NewAPIError("Queue.RotateAPIKey", 0, nil)
+		return "", NewAPIError("Queue.RotateAPIKey", 0, unknownQueueError(r))
 	}
 }
 
@@ -234,6 +234,6 @@ func (op *queueOp) ClearMessages(ctx context.Context, id string) error {
 	case *queue.ClearQueueInternalServerError:
 		return NewAPIError("Queue.ClearMessages", 500, errors.New(r.ErrorMsg.Value))
 	default:
-		return NewAPIError("Queue.ClearMessages", 0, nil)
+		return NewAPIError("Queue.ClearMessages", 0, unknownQueueError(r))
 	}
 }

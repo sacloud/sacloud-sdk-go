@@ -97,7 +97,7 @@ func (op *applicationOp) List(ctx context.Context, params *v1.ListApplicationsPa
 	case *v1.ListApplicationsInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }
 
@@ -125,7 +125,7 @@ func (op *applicationOp) Create(ctx context.Context, params *v1.CreateApplicatio
 	case *v1.CreateApplicationInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }
 
@@ -155,7 +155,7 @@ func (op *applicationOp) Update(ctx context.Context, id string, params *v1.Patch
 	case *v1.PatchApplicationInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }
 
@@ -179,7 +179,7 @@ func (op *applicationOp) Read(ctx context.Context, id string) (*v1.HandlerReadAp
 	case *v1.ReadApplicationInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }
 
@@ -203,7 +203,7 @@ func (op *applicationOp) Delete(ctx context.Context, id string) error {
 	case *v1.DeleteApplicationInternalServerError:
 		return apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return NewAPIError(methodName, 0, errors.New("unknown error"))
+		return unknownAPIError(methodName, result)
 	}
 }
 
@@ -227,6 +227,6 @@ func (op *applicationOp) ReadStatus(ctx context.Context, id string) (*v1.Handler
 	case *v1.ReadApplicationStatusInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }

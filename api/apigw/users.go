@@ -56,7 +56,7 @@ func (op *userOp) List(ctx context.Context) ([]v1.User, error) {
 		return nil, NewAPIError("User.List", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("User.List", 0, nil)
+	return nil, NewAPIError("User.List", 0, unknownError(res))
 }
 
 func (op *userOp) Create(ctx context.Context, request *v1.UserDetail) (*v1.UserDetail, error) {
@@ -76,7 +76,7 @@ func (op *userOp) Create(ctx context.Context, request *v1.UserDetail) (*v1.UserD
 		return nil, NewAPIError("User.Create", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("User.Create", 0, nil)
+	return nil, NewAPIError("User.Create", 0, unknownError(res))
 }
 
 func (op *userOp) Read(ctx context.Context, id uuid.UUID) (*v1.UserDetail, error) {
@@ -96,7 +96,7 @@ func (op *userOp) Read(ctx context.Context, id uuid.UUID) (*v1.UserDetail, error
 		return nil, NewAPIError("User.Read", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("User.Read", 0, nil)
+	return nil, NewAPIError("User.Read", 0, unknownError(res))
 }
 
 func (op *userOp) Update(ctx context.Context, request *v1.UserDetail, id uuid.UUID) error {
@@ -116,16 +116,27 @@ func (op *userOp) Update(ctx context.Context, request *v1.UserDetail, id uuid.UU
 		return NewAPIError("User.Update", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("User.Update", 0, nil)
+	return NewAPIError("User.Update", 0, unknownError(res))
 }
 
 func (op *userOp) Delete(ctx context.Context, id uuid.UUID) error {
-	_, err := op.client.DeleteUser(ctx, v1.DeleteUserParams{UserId: id})
+	res, err := op.client.DeleteUser(ctx, v1.DeleteUserParams{UserId: id})
 	if err != nil {
 		return NewAPIError("User.Delete", 0, err)
 	}
 
-	return nil
+	switch p := res.(type) {
+	case *v1.DeleteUserNoContent:
+		return nil
+	case *v1.DeleteUserBadRequest:
+		return NewAPIError("User.Delete", 400, errors.New(p.Message.Value))
+	case *v1.DeleteUserNotFound:
+		return NewAPIError("User.Delete", 404, errors.New(p.Message.Value))
+	case *v1.DeleteUserInternalServerError:
+		return NewAPIError("User.Delete", 500, errors.New(p.Message.Value))
+	}
+
+	return NewAPIError("User.Delete", 0, unknownError(res))
 }
 
 type UserExtraAPI interface {
@@ -161,7 +172,7 @@ func (op *userExtraOp) ListGroup(ctx context.Context) ([]v1.UserGroupDetail, err
 		return nil, NewAPIError("UserExtra.ListGroup", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("UserExtra.ListGroup", 0, nil)
+	return nil, NewAPIError("UserExtra.ListGroup", 0, unknownError(res))
 }
 
 func (op *userExtraOp) UpdateGroup(ctx context.Context, groupIdOrName string, isAssigned bool) error {
@@ -203,7 +214,7 @@ func (op *userExtraOp) UpdateGroup(ctx context.Context, groupIdOrName string, is
 		return NewAPIError("UserExtra.UpdateGroup", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("UserExtra.UpdateGroup", 0, nil)
+	return NewAPIError("UserExtra.UpdateGroup", 0, unknownError(res))
 }
 
 func (op *userExtraOp) ReadAuth(ctx context.Context) (*v1.UserAuthentication, error) {
@@ -223,7 +234,7 @@ func (op *userExtraOp) ReadAuth(ctx context.Context) (*v1.UserAuthentication, er
 		return nil, NewAPIError("UserExtra.ReadAuth", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("UserExtra.ReadAuth", 0, nil)
+	return nil, NewAPIError("UserExtra.ReadAuth", 0, unknownError(res))
 }
 
 func (op *userExtraOp) UpdateAuth(ctx context.Context, request v1.UserAuthentication) error {
@@ -244,5 +255,5 @@ func (op *userExtraOp) UpdateAuth(ctx context.Context, request v1.UserAuthentica
 		return NewAPIError("UserExtra.UpdateAuth", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("UserExtra.UpdateAuth", 0, nil)
+	return NewAPIError("UserExtra.UpdateAuth", 0, unknownError(res))
 }

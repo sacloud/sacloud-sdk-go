@@ -56,7 +56,7 @@ func (op *certificateOp) List(ctx context.Context) ([]v1.Certificate, error) {
 		return nil, NewAPIError("Certificate.List", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Certificate.List", 0, nil)
+	return nil, NewAPIError("Certificate.List", 0, unknownError(res))
 }
 
 func (op *certificateOp) Create(ctx context.Context, request *v1.Certificate) (*v1.Certificate, error) {
@@ -78,7 +78,7 @@ func (op *certificateOp) Create(ctx context.Context, request *v1.Certificate) (*
 		return nil, NewAPIError("Certificate.Create", 500, errors.New(p.Message.Value))
 	}
 
-	return nil, NewAPIError("Certificate.Create", 0, nil)
+	return nil, NewAPIError("Certificate.Create", 0, unknownError(res))
 }
 
 func (op *certificateOp) Update(ctx context.Context, request *v1.Certificate, id uuid.UUID) error {
@@ -102,7 +102,7 @@ func (op *certificateOp) Update(ctx context.Context, request *v1.Certificate, id
 		return NewAPIError("Certificate.Update", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Certificate.Update", 0, nil)
+	return NewAPIError("Certificate.Update", 0, unknownError(res))
 }
 
 func (op *certificateOp) Delete(ctx context.Context, id uuid.UUID) error {
@@ -124,5 +124,5 @@ func (op *certificateOp) Delete(ctx context.Context, id uuid.UUID) error {
 		return NewAPIError("Certificate.Delete", 500, errors.New(p.Message.Value))
 	}
 
-	return NewAPIError("Certificate.Delete", 0, nil)
+	return NewAPIError("Certificate.Delete", 0, unknownError(res))
 }

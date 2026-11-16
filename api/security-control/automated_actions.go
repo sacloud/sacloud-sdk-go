@@ -46,9 +46,9 @@ func (op *automatedActionsOp) List(ctx context.Context, params v1.AutomatedActio
 	case *v1.AutomatedActionsListApplicationJSONForbidden:
 		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
 	case *v1.UnexpectedErrorStatusCode:
-		return nil, NewAPIError(methodName, r.StatusCode, errors.New(r.Response.Detail.Value))
+		return nil, responseError(methodName, r)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, responseError(methodName, res)
 	}
 }
 
@@ -71,9 +71,9 @@ func (op *automatedActionsOp) Create(ctx context.Context, req *v1.AutomatedActio
 	case *v1.AutomatedActionsCreateApplicationJSONTooManyRequests:
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	case *v1.UnexpectedErrorStatusCode:
-		return nil, NewAPIError(methodName, r.StatusCode, errors.New(r.Response.Detail.Value))
+		return nil, responseError(methodName, r)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, responseError(methodName, res)
 	}
 }
 
@@ -97,9 +97,9 @@ func (op *automatedActionsOp) Read(ctx context.Context, id string) (*v1.Automate
 	case *v1.AutomatedActionsReadApplicationJSONTooManyRequests:
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	case *v1.UnexpectedErrorStatusCode:
-		return nil, NewAPIError(methodName, r.StatusCode, errors.New(r.Response.Detail.Value))
+		return nil, responseError(methodName, r)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, responseError(methodName, res)
 	}
 }
 
@@ -125,9 +125,9 @@ func (op *automatedActionsOp) Update(ctx context.Context, id string, req *v1.Aut
 	case *v1.AutomatedActionsUpdateApplicationJSONTooManyRequests:
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	case *v1.UnexpectedErrorStatusCode:
-		return nil, NewAPIError(methodName, r.StatusCode, errors.New(r.Response.Detail.Value))
+		return nil, responseError(methodName, r)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, responseError(methodName, res)
 	}
 }
 
@@ -149,8 +149,8 @@ func (op *automatedActionsOp) Delete(ctx context.Context, id string) error {
 	case *v1.AutomatedActionsDeleteApplicationJSONTooManyRequests:
 		return NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	case *v1.UnexpectedErrorStatusCode:
-		return NewAPIError(methodName, r.StatusCode, errors.New(r.Response.Detail.Value))
+		return responseError(methodName, r)
 	default:
-		return NewAPIError(methodName, 0, err)
+		return responseError(methodName, res)
 	}
 }

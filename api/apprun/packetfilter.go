@@ -66,7 +66,7 @@ func (op *packetFilterOp) Read(ctx context.Context, appId string) (*v1.HandlerRe
 	case *v1.ReadApplicationPacketFilterInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }
 
@@ -98,6 +98,6 @@ func (op *packetFilterOp) Update(ctx context.Context, appId string, params *v1.P
 	case *v1.PatchApplicationPacketFilterInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
+		return nil, unknownAPIError(methodName, result)
 	}
 }
