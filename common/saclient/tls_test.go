@@ -15,13 +15,22 @@
 package saclient_test
 
 import (
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"crypto/tls"
+	"crypto/x509"
+	"crypto/x509/pkix"
 	"encoding/pem"
 	"io"
+	"math/big"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 
 	. "github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/suite"
@@ -126,6 +135,75 @@ func (s *TLSTestSuite) TestCACertEnv() {
 	status, err := s.doGet(subject, svr)
 	s.NoError(err)
 	s.Equal(http.StatusOK, status)
+}
+
+// TestWithCACertPEMChain exercises the realistic CA setup end to end: a
+// self-signed CA issues a server certificate, the server presents that leaf
+// (with the CA in its chain), and a client trusting only the CA's PEM — as it
+// would when a development mock server emits its own CA — completes a real
+// HTTPS request. Without the CA the handshake fails.
+func (s *TLSTestSuite) TestWithCACertPEMChain() {
+	// A self-signed CA.
+	caKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	s.Require().NoError(err)
+	caTmpl := &x509.Certificate{
+		SerialNumber:          big.NewInt(1),
+		Subject:               pkix.Name{Organization: []string{"saclient-test"}, CommonName: "test CA"},
+		NotBefore:             time.Now().Add(-time.Hour),
+		NotAfter:              time.Now().Add(24 * time.Hour),
+		KeyUsage:              x509.KeyUsageCertSign | x509.KeyUsageCRLSign,
+		BasicConstraintsValid: true,
+		IsCA:                  true,
+	}
+	caDER, err := x509.CreateCertificate(rand.Reader, caTmpl, caTmpl, &caKey.PublicKey, caKey)
+	s.Require().NoError(err)
+	caCert, err := x509.ParseCertificate(caDER)
+	s.Require().NoError(err)
+	caPEM := pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: caDER})
+
+	// A server certificate for the httptest listener, signed by that CA.
+	leafKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	s.Require().NoError(err)
+	leafTmpl := &x509.Certificate{
+		SerialNumber:          big.NewInt(2),
+		Subject:               pkix.Name{Organization: []string{"saclient-test"}, CommonName: "localhost"},
+		NotBefore:             time.Now().Add(-time.Hour),
+		NotAfter:              time.Now().Add(24 * time.Hour),
+		KeyUsage:              x509.KeyUsageDigitalSignature,
+		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
+		BasicConstraintsValid: true,
+		DNSNames:              []string{"localhost"},
+		IPAddresses:           []net.IP{net.ParseIP("127.0.0.1"), net.ParseIP("::1")},
+	}
+	leafDER, err := x509.CreateCertificate(rand.Reader, leafTmpl, caCert, &leafKey.PublicKey, caKey)
+	s.Require().NoError(err)
+
+	svr := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}))
+	svr.TLS = &tls.Config{Certificates: []tls.Certificate{{
+		Certificate: [][]byte{leafDER, caDER}, // leaf followed by its issuer, as real servers serve
+		PrivateKey:  leafKey,
+	}}}
+	svr.StartTLS()
+	s.T().Cleanup(svr.Close)
+
+	// Trusting the CA PEM makes the HTTPS request succeed.
+	subject, err := s.client.DupWith(WithCACertPEM(caPEM))
+	s.Require().NoError(err)
+	s.Require().NoError(subject.SetEnviron(tlsDummyEnviron))
+	s.Require().NoError(subject.Populate())
+	status, err := s.doGet(subject, svr)
+	s.NoError(err)
+	s.Equal(http.StatusOK, status)
+
+	// Without the CA the handshake is rejected.
+	bare, err := s.client.DupWith()
+	s.Require().NoError(err)
+	s.Require().NoError(bare.SetEnviron(tlsDummyEnviron))
+	s.Require().NoError(bare.Populate())
+	_, err = s.doGet(bare, svr)
+	s.Error(err)
 }
 
 func (s *TLSTestSuite) TestCACertInvalidPEM() {
