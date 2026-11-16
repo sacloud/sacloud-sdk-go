@@ -864,6 +864,8 @@ func (p *parameter) populateCACertPEM(c *config) error {
 		return nil // just not set
 	}
 
+	// #nosec G304 -- reading the file named by the user's configuration (e.g.
+	// SAKURA_CA_CERT_PATH) is exactly what this setting means
 	b, err := os.ReadFile(v)
 	if err != nil {
 		return NewErrorf("cannot read CA certificate file: %v", err)

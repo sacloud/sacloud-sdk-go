@@ -67,7 +67,7 @@ func (s *TLSTestSuite) doGet(subject ClientAPI, svr *httptest.Server) (int, erro
 	if err != nil {
 		return 0, err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 	_, err = io.ReadAll(resp.Body)
 	s.Require().NoError(err)
 	return resp.StatusCode, nil
