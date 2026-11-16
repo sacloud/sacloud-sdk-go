@@ -92,10 +92,10 @@ roots, so the client keeps talking to normally-trusted endpoints too.
 
 ```golang
 // from PEM bytes in memory
-client.SetWith(saclient.WithCACertPEM(pemBytes))
+theClient.SetWith(saclient.WithCACertPEM(pemBytes))
 
 // or from a file
-client.SetWith(saclient.WithCACertPath("/path/to/ca.pem"))
+theClient.SetWith(saclient.WithCACertPath("/path/to/ca.pem"))
 ```
 
 The same settings are also available as environment variables, following the
