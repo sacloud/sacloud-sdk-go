@@ -11,8 +11,8 @@ import (
 )
 
 type SiteAPI interface {
-	List(ctx context.Context) ([]v2.ModelCluster, error)
-	Read(ctx context.Context, siteId string) (*v2.ModelCluster, error)
+	List(ctx context.Context) ([]v2.ClusterResponseBody, error)
+	Read(ctx context.Context, siteId string) (*v2.ClusterResponseBody, error)
 
 	ListPlans(ctx context.Context) ([]v2.PlanItem, error)
 }
@@ -32,14 +32,14 @@ func NewSiteWithPlansOp(fedClient *FedClient, siteClient *SiteClient) SiteAPI {
 	return &siteOp{fedClient: fedClient, siteClient: siteClient}
 }
 
-func (op *siteOp) List(ctx context.Context) ([]v2.ModelCluster, error) {
-	res, err := op.fedClient.client.GetClusters(ctx)
+func (op *siteOp) List(ctx context.Context) ([]v2.ClusterResponseBody, error) {
+	res, err := op.fedClient.client.ListClusters(ctx)
 	if err != nil {
 		return nil, NewAPIError("Site.List", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v2.HandlerListClustersRes:
+	case *v2.HandlerListClustersResponse:
 		return r.Data, nil
 	case *v2.Error401:
 		return nil, NewAPIError("Site.List", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
@@ -48,15 +48,15 @@ func (op *siteOp) List(ctx context.Context) ([]v2.ModelCluster, error) {
 	}
 }
 
-func (op *siteOp) Read(ctx context.Context, id string) (*v2.ModelCluster, error) {
-	res, err := op.fedClient.client.GetCluster(ctx, v2.GetClusterParams{ID: id})
+func (op *siteOp) Read(ctx context.Context, id string) (*v2.ClusterResponseBody, error) {
+	res, err := op.fedClient.client.ReadCluster(ctx, v2.ReadClusterParams{ID: id})
 	if err != nil {
 		return nil, NewAPIError("Site.Read", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v2.HandlerGetClusterRes:
-		return &r.Data.Value, nil
+	case *v2.HandlerReadClusterResponse:
+		return &r.Data, nil
 	case *v2.Error401:
 		return nil, NewAPIError("Site.Read", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	case *v2.Error404:
@@ -67,13 +67,13 @@ func (op *siteOp) Read(ctx context.Context, id string) (*v2.ModelCluster, error)
 }
 
 func (op *siteOp) ListPlans(ctx context.Context) ([]v2.PlanItem, error) {
-	res, err := op.siteClient.client.GetPlans(ctx)
+	res, err := op.siteClient.client.ListPlans(ctx)
 	if err != nil {
 		return nil, NewAPIError("Site.ListPlans", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v2.GetPlansOK:
+	case *v2.ListPlansOK:
 		return r.Data, nil
 	case *v2.Error401:
 		return nil, NewAPIError("Site.ListPlans", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))

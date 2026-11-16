@@ -35,9 +35,9 @@ func s3Client(t *testing.T, token, secret string) *minio.Client {
 		t.Fatal(err)
 	}
 
-	s3Client, err := minio.New(site.S3Endpoint.Value, &minio.Options{
+	s3Client, err := minio.New(site.S3Endpoint, &minio.Options{
 		Creds:        credentials.NewStaticV4(token, secret, ""),
-		Region:       site.Region.Value,
+		Region:       site.Region,
 		Secure:       true,
 		BucketLookup: minio.BucketLookupPath,
 	})
@@ -65,7 +65,7 @@ func TestAccSiteAndStatusAPI(t *testing.T) {
 	require.NotEmpty(t, sites)
 
 	// Read
-	site, err := siteOp.Read(ctx, sites[0].ID.Value)
+	site, err := siteOp.Read(ctx, sites[0].ID)
 	require.NoError(t, err)
 	require.NotEmpty(t, site)
 
@@ -142,20 +142,20 @@ func TestAccAccessToBucketObjectWithPermissionKey(t *testing.T) {
 	// Step2: バケットにアクセスできるパーミッション/アクセスキーの作成
 	permissionOp := objectstorage.NewPermissionOp(accTestSiteClient)
 	var permission *v2.PermissionData
-	var key *v2.PermissionKeyData
+	var key *v2.PermissionKeyCreateResponseBody
 	{
-		created, err := permissionOp.Create(ctx, bucketName, v2.BucketControls{
-			v2.BucketControlsItem{
-				BucketName: v2.NewOptBucketName(v2.BucketName(bucketName)),
-				CanRead:    v2.NewOptCanRead(true),
-				CanWrite:   v2.NewOptCanWrite(true),
+		created, err := permissionOp.Create(ctx, bucketName, v2.BucketControlsBody{
+			v2.BucketControlsBodyItem{
+				BucketName: v2.BucketName(bucketName),
+				CanRead:    true,
+				CanWrite:   true,
 			},
 		})
 		require.NoError(t, err)
 		require.NotEmpty(t, created)
 		permission = created
 
-		createdKey, err := permissionOp.CreateAccessKey(ctx, strconv.Itoa(int(permission.ID.Value)))
+		createdKey, err := permissionOp.CreateAccessKey(ctx, strconv.Itoa(int(permission.ID)))
 		require.NoError(t, err)
 		require.NotEmpty(t, createdKey)
 		key = createdKey
@@ -163,7 +163,7 @@ func TestAccAccessToBucketObjectWithPermissionKey(t *testing.T) {
 
 	// Step3: 作成したアクセスキーでバケットにアクセス
 	{
-		s3Client := s3Client(t, string(key.ID.Value), string(key.Secret.Value))
+		s3Client := s3Client(t, string(key.ID), string(key.Secret))
 
 		objectKey := "foobar"
 		objectBodyText := "body of s3://[bucket_name]/foobar"
@@ -189,8 +189,8 @@ func TestAccAccessToBucketObjectWithPermissionKey(t *testing.T) {
 	}
 
 	// Step4: クリーンアップ
-	require.NoError(t, permissionOp.DeleteAccessKey(ctx, strconv.Itoa(int(permission.ID.Value)), string(key.ID.Value)))
-	require.NoError(t, permissionOp.Delete(ctx, strconv.Itoa(int(permission.ID.Value))))
+	require.NoError(t, permissionOp.DeleteAccessKey(ctx, strconv.Itoa(int(permission.ID)), string(key.ID)))
+	require.NoError(t, permissionOp.Delete(ctx, strconv.Itoa(int(permission.ID))))
 	require.NoError(t, bucketOp.Delete(ctx, bucketName))
 }
 
@@ -240,7 +240,7 @@ func TestAccBucketExtraOperation(t *testing.T) {
 
 		enc, err := beOp.ReadEncryption(ctx)
 		require.NoError(t, err)
-		require.Equal(t, keyId, string(enc.KmsKeyID.Value))
+		require.Equal(t, keyId, string(enc.KmsKeyID))
 
 		err = beOp.DisableEncryption(ctx)
 		require.NoError(t, err)
@@ -254,8 +254,8 @@ func TestAccBucketExtraOperation(t *testing.T) {
 
 		rep, err := beOp.ReadReplication(ctx)
 		require.NoError(t, err)
-		require.Equal(t, tky, rep.DestBucket.ClusterID.Value)
-		require.Equal(t, bucketName2, rep.DestBucket.Name.Value)
+		require.Equal(t, tky, rep.DestBucket.ClusterID)
+		require.Equal(t, bucketName2, rep.DestBucket.Name)
 
 		err = beOp.DisableReplication(ctx)
 		require.NoError(t, err)
