@@ -902,11 +902,11 @@ func (s *BucketBillingItemDetail) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("from")
-		json.EncodeDate(e, s.From)
+		json.EncodeDateTime(e, s.From)
 	}
 	{
 		e.FieldStart("to")
-		json.EncodeDate(e, s.To)
+		json.EncodeDateTime(e, s.To)
 	}
 }
 
@@ -979,7 +979,7 @@ func (s *BucketBillingItemDetail) Decode(d *jx.Decoder) error {
 		case "from":
 			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
-				v, err := json.DecodeDate(d)
+				v, err := json.DecodeDateTime(d)
 				s.From = v
 				if err != nil {
 					return err
@@ -991,7 +991,7 @@ func (s *BucketBillingItemDetail) Decode(d *jx.Decoder) error {
 		case "to":
 			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
-				v, err := json.DecodeDate(d)
+				v, err := json.DecodeDateTime(d)
 				s.To = v
 				if err != nil {
 					return err

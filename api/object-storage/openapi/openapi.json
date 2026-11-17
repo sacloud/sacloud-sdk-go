@@ -3250,13 +3250,13 @@
           },
           "from": {
             "type": "string",
-            "format": "date",
+            "format": "date-time",
             "example": "2022-08-01",
             "description": "The first day of metering range"
           },
           "to": {
             "type": "string",
-            "format": "date",
+            "format": "date-time",
             "example": "2022-08-31",
             "description": "The last day of metering range"
           }
