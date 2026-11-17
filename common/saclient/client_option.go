@@ -209,6 +209,32 @@ func WithoutAPIRequestRateLimit() clientOption {
 	return withAPIRequestRateLimit(rateLimitWhiteOut)
 }
 
+// WithCACertPEM adds the given PEM-encoded certificate(s) to the set of root
+// CAs the client trusts, in addition to the system roots. Use it when an API
+// endpoint is served with a certificate signed by a private CA — for example
+// the self-signed certificate of a development mock server, or a corporate CA
+// of a staging endpoint. The same setting can also be given through the
+// SAKURA_CA_CERT environment variable. The PEM content is validated when the
+// client settings are populated.
+func WithCACertPEM(pemBytes []byte) clientOption {
+	return func(c *Client) error {
+		c.params.dynamic.caCertPEM.initialize(string(pemBytes))
+		return nil
+	}
+}
+
+// WithCACertPath reads PEM-encoded certificate(s) from the file and adds them
+// to the set of root CAs the client trusts (see WithCACertPEM). The same
+// setting can also be given through the SAKURA_CA_CERT_PATH environment
+// variable. The file is read and validated when the client settings are
+// populated.
+func WithCACertPath(path string) clientOption {
+	return func(c *Client) error {
+		c.params.dynamic.caCertPEMPath.initialize(path)
+		return nil
+	}
+}
+
 func withAPIRequestRateLimit(rate int64) clientOption {
 	return func(c *Client) error {
 		c.params.dynamic.apiRequestRateLimit.initialize(rate)

@@ -15,6 +15,8 @@
 package saclient
 
 import (
+	"crypto/tls"
+	"crypto/x509"
 	"iter"
 	"math"
 	"net/http"
@@ -60,6 +62,27 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 		Transport: http.DefaultTransport.(*http.Transport).Clone(),
 	}
 	h.Transport.(*http.Transport).IdleConnTimeout = 9.0 * time.Second
+
+	// Trust a custom root CA (e.g. a development mock server or a staging
+	// endpoint served with a private CA) in addition to the system roots.
+	// The httptest.Server path below uses its own preconfigured client and
+	// does not need this.
+	if certPEM, ok, err := obtainFromConfig[string](c, "CACertPEM").decompose(); err != nil {
+		return nil, err
+	} else if ok && len(certPEM) > 0 {
+		pool, err := x509.SystemCertPool()
+		if err != nil {
+			pool = x509.NewCertPool()
+		}
+		if !pool.AppendCertsFromPEM([]byte(certPEM)) {
+			return nil, NewErrorf("no certificate found in CA certificate PEM")
+		}
+		tr := h.Transport.(*http.Transport)
+		if tr.TLSClientConfig == nil {
+			tr.TLSClientConfig = &tls.Config{}
+		}
+		tr.TLSClientConfig.RootCAs = pool
+	}
 
 	t, ok, err := obtainFromConfig[time.Duration](c, "APIRequestTimeout").decompose()
 

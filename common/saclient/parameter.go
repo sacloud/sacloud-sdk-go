@@ -16,6 +16,7 @@ package saclient
 
 import (
 	"context"
+	"crypto/x509"
 	"errors"
 	"flag"
 	"fmt"
@@ -61,6 +62,8 @@ type storage struct {
 	middlewares            option[[]Middleware]
 	checkRetryFunc         option[retryablehttp.CheckRetry]
 	endpoints              option[map[string]string]
+	caCertPEM              option[string]
+	caCertPEMPath          option[string]
 
 	// Deprecated: this is to migrate from old client.
 	requestCustomizers option[[]saht.RequestCustomizer]
@@ -90,7 +93,7 @@ func (p *parameter) setEnviron(env []string) error {
 		return NewErrorf("nil parameter")
 	} else {
 		p.env = slices.Clone(env)
-		r := make([]error, 0, 44) // <- 44 is the # of `append` calls below
+		r := make([]error, 0, 46) // <- 46 is the # of `append` calls below
 		e := intoEnvmap(env)
 		s := &p.envp
 
@@ -119,6 +122,8 @@ func (p *parameter) setEnviron(env []string) error {
 		r = append(r, e.fetchInto("SAKURA_RATE_LIMIT", s.apiRequestRateLimit.fromEnv)) // <- intentional; not SAKURA_API_REQUEST_RATE_LIMIT
 		r = append(r, e.fetchInto("SAKURA_TRACE", s.traceMode.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_ACCEPT_LANGUAGE", s.acceptLanguage.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_CA_CERT", s.caCertPEM.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_CA_CERT_PATH", s.caCertPEMPath.fromEnv))
 
 		// SAKURA_ENDPOINTS_* variables
 		endpoints := make(map[string]string)
@@ -354,7 +359,7 @@ func (p *parameter) setOldOptions(opts ...*old.Options) error {
 
 func (p *parameter) populate(c *config) error {
 	// This is the mother-of-all populate function.
-	ret := make([]error, 0, 27) // <- 27 is the # of `append` calls below
+	ret := make([]error, 0, 28) // <- 28 is the # of `append` calls below
 
 	//nolint:gocritic
 	if p == nil {
@@ -403,6 +408,7 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateCheckRetryFunc(c))
 	ret = append(ret, p.populateRequestCustomizers(c))
 	ret = append(ret, p.populateEndpoints(c))
+	ret = append(ret, p.populateCACertPEM(c))
 
 	return errors.Join(ret...)
 }
@@ -834,6 +840,51 @@ func (p *parameter) populateEndpoints(c *config) error {
 	return c.set("Endpoints", normalizeEndpoints(merged))
 }
 
+// populateCACertPEM resolves the custom root CA the client should trust, in
+// addition to the system roots. Direct PEM text (set via WithCACertPEM or the
+// SAKURA_CA_CERT environment variable) takes precedence; otherwise the PEM file
+// named by CACertPEMPath (WithCACertPath or the SAKURA_CA_CERT_PATH environment
+// variable) is read. The content is validated here so a broken file fails at
+// Populate time.
+func (p *parameter) populateCACertPEM(c *config) error {
+	if v, ok, err := prioritizedParameterValue[string](p, c, "CACertPEM").decompose(); err != nil {
+		return err
+	} else if ok && v != "" {
+		if err := validateCACertPEM(v); err != nil {
+			return err
+		}
+		return c.set("CACertPEM", v)
+	}
+
+	v, ok, err := prioritizedParameterValue[string](p, c, "CACertPEMPath").decompose()
+	if err != nil {
+		return err
+	}
+	if !ok || v == "" {
+		return nil // just not set
+	}
+
+	// #nosec G304 -- reading the file named by the user's configuration (e.g.
+	// SAKURA_CA_CERT_PATH) is exactly what this setting means
+	b, err := os.ReadFile(v)
+	if err != nil {
+		return NewErrorf("cannot read CA certificate file: %v", err)
+	}
+	pemText := string(b)
+	if err := validateCACertPEM(pemText); err != nil {
+		return err
+	}
+	return c.set("CACertPEM", pemText)
+}
+
+func validateCACertPEM(pemText string) error {
+	pool := x509.NewCertPool()
+	if !pool.AppendCertsFromPEM([]byte(pemText)) {
+		return NewErrorf("no certificate found in CA certificate PEM")
+	}
+	return nil
+}
+
 func (p *parameter) populateString(c *config, key string) error {
 	v, ok, err := prioritizedParameterValue[string](p, c, key).decompose()
 
@@ -1195,6 +1246,12 @@ func (s *storage) get(k string) (any, bool) {
 
 	case "Endpoints":
 		return s.endpoints.Get()
+
+	case "CACertPEM":
+		return s.caCertPEM.Get()
+
+	case "CACertPEMPath":
+		return s.caCertPEMPath.Get()
 
 	default:
 		panic("unknown key: " + k)
