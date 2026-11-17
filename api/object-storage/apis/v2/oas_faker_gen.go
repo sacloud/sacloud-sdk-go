@@ -1276,6 +1276,11 @@ func (s *NilInt) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *NilPlanItemFee) SetFake() {
+	s.Null = true
+}
+
+// SetFake set fake values.
 func (s *OptBucketListResponseBodyPlan) SetFake() {
 	var elem BucketListResponseBodyPlan
 	{

@@ -2911,6 +2911,7 @@
           },
           "fee": {
             "type": "object",
+            "nullable": true,
             "required": [
               "for_month",
               "monthly",

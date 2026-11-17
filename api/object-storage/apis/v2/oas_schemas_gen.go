@@ -2516,6 +2516,51 @@ func (o NilInt) Or(d int) int {
 	return d
 }
 
+// NewNilPlanItemFee returns new NilPlanItemFee with value set to v.
+func NewNilPlanItemFee(v PlanItemFee) NilPlanItemFee {
+	return NilPlanItemFee{
+		Value: v,
+	}
+}
+
+// NilPlanItemFee is nullable PlanItemFee.
+type NilPlanItemFee struct {
+	Value PlanItemFee
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilPlanItemFee) SetTo(v PlanItemFee) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilPlanItemFee) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilPlanItemFee) SetToNull() {
+	o.Null = true
+	var v PlanItemFee
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilPlanItemFee) Get() (v PlanItemFee, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilPlanItemFee) Or(d PlanItemFee) PlanItemFee {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptBucketListResponseBodyPlan returns new OptBucketListResponseBodyPlan with value set to v.
 func NewOptBucketListResponseBodyPlan(v BucketListResponseBodyPlan) OptBucketListResponseBodyPlan {
 	return OptBucketListResponseBodyPlan{
@@ -3849,7 +3894,7 @@ type PlanItem struct {
 	ClusterID        string           `json:"cluster_id"`
 	CapacityGib      int              `json:"capacity_gib"`
 	// Fee information (tax included).
-	Fee PlanItemFee `json:"fee"`
+	Fee NilPlanItemFee `json:"fee"`
 }
 
 // GetServiceClassPath returns the value of ServiceClassPath.
@@ -3873,7 +3918,7 @@ func (s *PlanItem) GetCapacityGib() int {
 }
 
 // GetFee returns the value of Fee.
-func (s *PlanItem) GetFee() PlanItemFee {
+func (s *PlanItem) GetFee() NilPlanItemFee {
 	return s.Fee
 }
 
@@ -3898,7 +3943,7 @@ func (s *PlanItem) SetCapacityGib(val int) {
 }
 
 // SetFee sets the value of Fee.
-func (s *PlanItem) SetFee(val PlanItemFee) {
+func (s *PlanItem) SetFee(val NilPlanItemFee) {
 	s.Fee = val
 }
 
