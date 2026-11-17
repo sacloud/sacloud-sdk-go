@@ -405,7 +405,7 @@ func (s *BucketResponseBodyPlan) SetFake() {
 
 // SetFake set fake values.
 func (s *BucketResponseBodyPlanType) SetFake() {
-	*s = BucketResponseBodyPlanTypeStandard
+	*s = BucketResponseBodyPlanTypeEmpty
 }
 
 // SetFake set fake values.
@@ -1167,7 +1167,7 @@ func (s *ListPlansOK) SetFake() {
 
 // SetFake set fake values.
 func (s *ModelPlanType) SetFake() {
-	*s = ModelPlanTypeStandard
+	*s = ModelPlanTypeEmpty
 }
 
 // SetFake set fake values.

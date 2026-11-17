@@ -740,6 +740,7 @@ func (s *BucketResponseBodyPlan) SetServiceClassPath(val string) {
 type BucketResponseBodyPlanType string
 
 const (
+	BucketResponseBodyPlanTypeEmpty    BucketResponseBodyPlanType = ""
 	BucketResponseBodyPlanTypeStandard BucketResponseBodyPlanType = "standard"
 	BucketResponseBodyPlanTypeArchive  BucketResponseBodyPlanType = "archive"
 )
@@ -747,6 +748,7 @@ const (
 // AllValues returns all BucketResponseBodyPlanType values.
 func (BucketResponseBodyPlanType) AllValues() []BucketResponseBodyPlanType {
 	return []BucketResponseBodyPlanType{
+		BucketResponseBodyPlanTypeEmpty,
 		BucketResponseBodyPlanTypeStandard,
 		BucketResponseBodyPlanTypeArchive,
 	}
@@ -755,6 +757,8 @@ func (BucketResponseBodyPlanType) AllValues() []BucketResponseBodyPlanType {
 // MarshalText implements encoding.TextMarshaler.
 func (s BucketResponseBodyPlanType) MarshalText() ([]byte, error) {
 	switch s {
+	case BucketResponseBodyPlanTypeEmpty:
+		return []byte(s), nil
 	case BucketResponseBodyPlanTypeStandard:
 		return []byte(s), nil
 	case BucketResponseBodyPlanTypeArchive:
@@ -767,6 +771,9 @@ func (s BucketResponseBodyPlanType) MarshalText() ([]byte, error) {
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *BucketResponseBodyPlanType) UnmarshalText(data []byte) error {
 	switch BucketResponseBodyPlanType(data) {
+	case BucketResponseBodyPlanTypeEmpty:
+		*s = BucketResponseBodyPlanTypeEmpty
+		return nil
 	case BucketResponseBodyPlanTypeStandard:
 		*s = BucketResponseBodyPlanTypeStandard
 		return nil
@@ -2157,6 +2164,7 @@ func (*ListPlansOK) listPlansRes() {}
 type ModelPlanType string
 
 const (
+	ModelPlanTypeEmpty    ModelPlanType = ""
 	ModelPlanTypeStandard ModelPlanType = "standard"
 	ModelPlanTypeArchive  ModelPlanType = "archive"
 )
@@ -2164,6 +2172,7 @@ const (
 // AllValues returns all ModelPlanType values.
 func (ModelPlanType) AllValues() []ModelPlanType {
 	return []ModelPlanType{
+		ModelPlanTypeEmpty,
 		ModelPlanTypeStandard,
 		ModelPlanTypeArchive,
 	}
@@ -2172,6 +2181,8 @@ func (ModelPlanType) AllValues() []ModelPlanType {
 // MarshalText implements encoding.TextMarshaler.
 func (s ModelPlanType) MarshalText() ([]byte, error) {
 	switch s {
+	case ModelPlanTypeEmpty:
+		return []byte(s), nil
 	case ModelPlanTypeStandard:
 		return []byte(s), nil
 	case ModelPlanTypeArchive:
@@ -2184,6 +2195,9 @@ func (s ModelPlanType) MarshalText() ([]byte, error) {
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *ModelPlanType) UnmarshalText(data []byte) error {
 	switch ModelPlanType(data) {
+	case ModelPlanTypeEmpty:
+		*s = ModelPlanTypeEmpty
+		return nil
 	case ModelPlanTypeStandard:
 		*s = ModelPlanTypeStandard
 		return nil

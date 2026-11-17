@@ -468,6 +468,24 @@ func (s *BucketListResponseBodyPlan) Validate() error {
 			Error: err,
 		})
 	}
+	if err := func() error {
+		if value, ok := s.ServiceClassPath.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "service_class_path",
+			Error: err,
+		})
+	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
@@ -660,6 +678,29 @@ func (s *BucketResponseBodyPlan) Validate() error {
 			Error: err,
 		})
 	}
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:     0,
+			MinLengthSet:  true,
+			MaxLength:     0,
+			MaxLengthSet:  false,
+			Email:         false,
+			Hostname:      false,
+			Regex:         nil,
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
+		}).Validate(string(s.ServiceClassPath)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "service_class_path",
+			Error: err,
+		})
+	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
@@ -668,6 +709,8 @@ func (s *BucketResponseBodyPlan) Validate() error {
 
 func (s BucketResponseBodyPlanType) Validate() error {
 	switch s {
+	case "":
+		return nil
 	case "standard":
 		return nil
 	case "archive":
@@ -927,6 +970,24 @@ func (s *HandlerCreateBucketRequestBodyPlan) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.ServiceClassPath.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "service_class_path",
 			Error: err,
 		})
 	}
@@ -1362,6 +1423,8 @@ func (s *ListPlansOK) Validate() error {
 
 func (s ModelPlanType) Validate() error {
 	switch s {
+	case "":
+		return nil
 	case "standard":
 		return nil
 	case "archive":
@@ -1467,6 +1530,17 @@ func (s *ModelReplicationDestBucketPlan) Validate() error {
 			Error: err,
 		})
 	}
+	if err := func() error {
+		if err := s.ServiceClassPath.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "service_class_path",
+			Error: err,
+		})
+	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
@@ -1510,6 +1584,17 @@ func (s *ModelReplicationSourceBucketPlan) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.ServiceClassPath.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "service_class_path",
 			Error: err,
 		})
 	}
@@ -1832,6 +1917,17 @@ func (s *PlanChangeReqBodyNewPlan) Validate() error {
 			Error: err,
 		})
 	}
+	if err := func() error {
+		if err := s.ServiceClassPath.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "service_class_path",
+			Error: err,
+		})
+	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
@@ -1934,6 +2030,17 @@ func (s *PlanItem) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
+		if err := s.ServiceClassPath.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "service_class_path",
+			Error: err,
+		})
+	}
+	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
 			return err
 		}
@@ -1964,6 +2071,17 @@ func (s *PlanSummary) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.ServiceClassPath.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "service_class_path",
 			Error: err,
 		})
 	}
@@ -2175,6 +2293,26 @@ func (s SecretAccessKey) Validate() error {
 		Email:         false,
 		Hostname:      false,
 		Regex:         regexMap["^[\\w\\d\\/+=]{1,40}$"],
+		MinNumeric:    0,
+		MinNumericSet: false,
+		MaxNumeric:    0,
+		MaxNumericSet: false,
+	}).Validate(string(alias)); err != nil {
+		return errors.Wrap(err, "string")
+	}
+	return nil
+}
+
+func (s ServiceClassPath) Validate() error {
+	alias := (string)(s)
+	if err := (validate.String{
+		MinLength:     0,
+		MinLengthSet:  true,
+		MaxLength:     0,
+		MaxLengthSet:  false,
+		Email:         false,
+		Hostname:      false,
+		Regex:         nil,
 		MinNumeric:    0,
 		MinNumericSet: false,
 		MaxNumeric:    0,

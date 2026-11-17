@@ -2590,6 +2590,8 @@ func (s *BucketResponseBodyPlanType) Decode(d *jx.Decoder) error {
 	}
 	// Try to use constant string.
 	switch BucketResponseBodyPlanType(v) {
+	case BucketResponseBodyPlanTypeEmpty:
+		*s = BucketResponseBodyPlanTypeEmpty
 	case BucketResponseBodyPlanTypeStandard:
 		*s = BucketResponseBodyPlanTypeStandard
 	case BucketResponseBodyPlanTypeArchive:
@@ -7122,6 +7124,8 @@ func (s *ModelPlanType) Decode(d *jx.Decoder) error {
 	}
 	// Try to use constant string.
 	switch ModelPlanType(v) {
+	case ModelPlanTypeEmpty:
+		*s = ModelPlanTypeEmpty
 	case ModelPlanTypeStandard:
 		*s = ModelPlanTypeStandard
 	case ModelPlanTypeArchive:

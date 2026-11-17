@@ -2628,6 +2628,7 @@
         "type": "string",
         "description": "Plan type enum",
         "enum": [
+          "",
           "standard",
           "archive"
         ],
@@ -2942,6 +2943,7 @@
       },
       "ServiceClassPath": {
         "type": "string",
+        "minLength": 0,
         "description": "Plan identifier (service class path). Attributes such as capacity are resolved by the server based on this value.",
         "example": "objectstorage/arc02/bucket/2t"
       },
