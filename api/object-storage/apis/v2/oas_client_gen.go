@@ -2065,7 +2065,7 @@ func (c *Client) sendListBucketMetering(ctx context.Context, params ListBucketMe
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeValue(conv.DateToString(params.From))
+			return e.EncodeValue(conv.StringToString(params.From))
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -2079,7 +2079,7 @@ func (c *Client) sendListBucketMetering(ctx context.Context, params ListBucketMe
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeValue(conv.DateToString(params.To))
+			return e.EncodeValue(conv.StringToString(params.To))
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}

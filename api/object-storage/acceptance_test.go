@@ -144,9 +144,8 @@ func TestAccBucketHandling(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, quota)
 
-	now := time.Now()
-	monthStart := time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
-	metering, err := objectstorage.NewSiteStatusOp(accTestSiteClient).ReadBucketMetering(ctx, bucketName, monthStart, monthStart)
+	now := time.Now().Format("2006-01")
+	metering, err := objectstorage.NewSiteStatusOp(accTestSiteClient).ReadBucketMetering(ctx, bucketName, now, now)
 	require.NoError(t, err)
 	require.NotNil(t, metering)
 

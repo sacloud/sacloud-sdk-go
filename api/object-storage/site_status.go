@@ -6,7 +6,6 @@ package objectstorage
 import (
 	"context"
 	"errors"
-	"time"
 
 	v2 "github.com/sacloud/sacloud-sdk-go/api/object-storage/apis/v2"
 )
@@ -14,7 +13,7 @@ import (
 type SiteStatusAPI interface {
 	Read(ctx context.Context) (*v2.StatusData, error)
 	ReadQuota(ctx context.Context) (*v2.QuotaData, error)
-	ReadBucketMetering(ctx context.Context, bucketName string, from, to time.Time) ([]v2.BucketBillingItem, error)
+	ReadBucketMetering(ctx context.Context, bucketName string, from, to string) ([]v2.BucketBillingItem, error)
 }
 
 var _ SiteStatusAPI = (*siteStatusOp)(nil)
@@ -63,7 +62,7 @@ func (op *siteStatusOp) ReadQuota(ctx context.Context) (*v2.QuotaData, error) {
 	}
 }
 
-func (op *siteStatusOp) ReadBucketMetering(ctx context.Context, bucketName string, from, to time.Time) ([]v2.BucketBillingItem, error) {
+func (op *siteStatusOp) ReadBucketMetering(ctx context.Context, bucketName string, from, to string) ([]v2.BucketBillingItem, error) {
 	res, err := op.client.client.ListBucketMetering(ctx, v2.ListBucketMeteringParams{Name: v2.BucketName(bucketName), From: from, To: to})
 	if err != nil {
 		return nil, NewAPIError("SiteStatus.ReadBucketMetering", 0, err)
