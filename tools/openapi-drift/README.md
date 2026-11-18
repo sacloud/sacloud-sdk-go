@@ -25,6 +25,11 @@ SecretManager share a combined portal specification, so path and
 component-set comparisons are skipped for those packages; matching component
 definitions are still compared.
 
+The Monitoring Suite source configuration excludes
+`application/x-www-form-urlencoded` and `multipart/form-data` from
+`requestBody.content` comparisons, matching the documented OpenAPI generation
+cleanup. Other request body content types remain part of the comparison.
+
 Treat the output as a review aid, not proof that a local definition is stale.
 Some local definitions intentionally include compatibility fixes, and
 formatting or documentation differences can also appear.

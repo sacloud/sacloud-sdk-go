@@ -15,11 +15,13 @@ import (
 
 func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 	tests := []struct {
-		name       string
-		version    string
-		paths      string
-		wantCounts string
-		wantRow    string
+		name                          string
+		version                       string
+		localPaths                    string
+		paths                         string
+		ignoreRequestBodyContentTypes []string
+		wantCounts                    string
+		wantRow                       string
 	}{
 		{
 			name:       "identical",
@@ -49,6 +51,30 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 			wantCounts: "version differences: 1; APIs with structural differences: 1.",
 			wantRow:    "| Test API | 1.0.0 | 1.1.0 | :x: | 1 |",
 		},
+		{
+			name:       "ignores configured request body content types",
+			version:    "1.0.0",
+			localPaths: `{"/resource":{"post":{}}}`,
+			paths:      `{"/resource":{"post":{"requestBody":{"content":{"application/x-www-form-urlencoded":{},"multipart/form-data":{}}}}}}`,
+			ignoreRequestBodyContentTypes: []string{
+				"application/x-www-form-urlencoded",
+				"multipart/form-data",
+			},
+			wantCounts: "version differences: 0; APIs with structural differences: 0.",
+			wantRow:    "| Test API | 1.0.0 | 1.0.0 | :white_check_mark: | 0 |",
+		},
+		{
+			name:       "compares other request body content types",
+			version:    "1.0.0",
+			localPaths: `{"/resource":{"post":{"requestBody":{"content":{"application/json":{"schema":{"type":"string"}}}}}}}`,
+			paths:      `{"/resource":{"post":{"requestBody":{"content":{"application/json":{"schema":{"type":"integer"}},"application/x-www-form-urlencoded":{},"multipart/form-data":{}}}}}}`,
+			ignoreRequestBodyContentTypes: []string{
+				"application/x-www-form-urlencoded",
+				"multipart/form-data",
+			},
+			wantCounts: "version differences: 0; APIs with structural differences: 1.",
+			wantRow:    "| Test API | 1.0.0 | 1.0.0 | :warning: | 1 |",
+		},
 	}
 
 	for _, tt := range tests {
@@ -61,7 +87,11 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 			defer server.Close()
 
 			config := manifest{
-				Sources:  []source{{ID: "test", URL: server.URL}},
+				Sources: []source{{
+					ID:                            "test",
+					URL:                           server.URL,
+					IgnoreRequestBodyContentTypes: tt.ignoreRequestBodyContentTypes,
+				}},
 				Packages: []apiSpec{{Name: "Test API", Local: "local.json", Source: "test"}},
 			}
 			encoded, err := json.Marshal(config)
@@ -71,9 +101,13 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 			if err := os.MkdirAll(filepath.Dir(manifestPath), 0o755); err != nil {
 				t.Fatal(err)
 			}
+			localPaths := tt.localPaths
+			if localPaths == "" {
+				localPaths = "{}"
+			}
 			for filename, content := range map[string][]byte{
 				manifestPath: encoded,
-				"local.json": []byte(`{"openapi":"3.0.0","info":{"version":"1.0.0"},"paths":{}}`),
+				"local.json": []byte(`{"openapi":"3.0.0","info":{"version":"1.0.0"},"paths":` + localPaths + `}`),
 				"summary.md": nil,
 			} {
 				if err := os.WriteFile(filename, content, 0o644); err != nil {

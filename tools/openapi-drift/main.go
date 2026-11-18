@@ -24,8 +24,9 @@ type manifest struct {
 }
 
 type source struct {
-	ID  string `json:"id"`
-	URL string `json:"url"`
+	ID                            string   `json:"id"`
+	URL                           string   `json:"url"`
+	IgnoreRequestBodyContentTypes []string `json:"ignoreRequestBodyContentTypes,omitempty"`
 }
 
 type apiSpec struct {
@@ -89,6 +90,7 @@ func run() error {
 		if err != nil {
 			return fmt.Errorf("parse upstream spec %s: %w", src.ID, err)
 		}
+		removeRequestBodyContentTypes(doc, src.IgnoreRequestBodyContentTypes)
 		sources[src.ID] = src
 		documents[src.ID] = doc
 	}
@@ -108,6 +110,7 @@ func run() error {
 		if err != nil {
 			return fmt.Errorf("parse local spec %s: %w", pkg.Local, err)
 		}
+		removeRequestBodyContentTypes(local, sources[pkg.Source].IgnoreRequestBodyContentTypes)
 
 		var diff differences
 		localVersion := nestedString(local, "info", "version")
@@ -228,6 +231,51 @@ func nestedString(root map[string]any, keys ...string) string {
 	}
 	result, _ := current.(string)
 	return result
+}
+
+func removeRequestBodyContentTypes(doc map[string]any, contentTypes []string) {
+	if len(contentTypes) == 0 {
+		return
+	}
+
+	paths := nestedMap(doc, "paths")
+	for _, pathItemValue := range paths {
+		pathItem, ok := pathItemValue.(map[string]any)
+		if !ok {
+			continue
+		}
+		for _, method := range [...]string{"get", "put", "post", "delete", "options", "head", "patch", "trace"} {
+			operation, ok := pathItem[method].(map[string]any)
+			if !ok {
+				continue
+			}
+			requestBody, ok := operation["requestBody"].(map[string]any)
+			if !ok {
+				continue
+			}
+			content, ok := requestBody["content"].(map[string]any)
+			if !ok {
+				continue
+			}
+
+			removed := false
+			for _, contentType := range contentTypes {
+				if _, exists := content[contentType]; exists {
+					delete(content, contentType)
+					removed = true
+				}
+			}
+			if !removed {
+				continue
+			}
+			if len(content) == 0 {
+				delete(requestBody, "content")
+			}
+			if len(requestBody) == 0 {
+				delete(operation, "requestBody")
+			}
+		}
+	}
 }
 
 func objectKeys(m map[string]any) []string {

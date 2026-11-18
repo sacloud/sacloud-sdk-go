@@ -6,7 +6,11 @@
     },
     {
       "id": "monitoring-suite",
-      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/monitoring-suite-api.yaml"
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/monitoring-suite-api.yaml",
+      "ignoreRequestBodyContentTypes": [
+        "application/x-www-form-urlencoded",
+        "multipart/form-data"
+      ]
     },
     {
       "id": "simplemq-message",
