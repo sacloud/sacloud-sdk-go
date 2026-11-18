@@ -2,12 +2,14 @@
 
 package v1
 
-import (
-	"time"
-)
-
 // CreateBucketParams is parameters of createBucket operation.
 type CreateBucketParams struct {
+	// バケット名.
+	Name string
+}
+
+// CreateBucketReplicationParams is parameters of createBucketReplication operation.
+type CreateBucketReplicationParams struct {
 	// バケット名.
 	Name string
 }
@@ -15,7 +17,7 @@ type CreateBucketParams struct {
 // CreatePermissionKeyParams is parameters of createPermissionKey operation.
 type CreatePermissionKeyParams struct {
 	// パーミッションID.
-	ID string
+	ID int
 }
 
 // DeleteAccountKeyParams is parameters of deleteAccountKey operation.
@@ -45,115 +47,109 @@ type DeleteBucketReplicationParams struct {
 // DeletePermissionParams is parameters of deletePermission operation.
 type DeletePermissionParams struct {
 	// パーミッションID.
-	ID string
+	ID int
 }
 
 // DeletePermissionKeyParams is parameters of deletePermissionKey operation.
 type DeletePermissionKeyParams struct {
 	// パーミッションID.
-	ID string
+	ID int
 	// パーミッションが保有するアクセスキーID.
 	KeyID string
 }
 
-// GetAccountKeyParams is parameters of getAccountKey operation.
-type GetAccountKeyParams struct {
+// ListBucketMeteringParams is parameters of listBucketMetering operation.
+type ListBucketMeteringParams struct {
+	// バケット名.
+	Name BucketName
+	// 範囲の開始月.
+	From string
+	// 範囲の終了月.
+	To string
+}
+
+// ListBucketReplicableTargetsParams is parameters of listBucketReplicableTargets operation.
+type ListBucketReplicableTargetsParams struct {
+	// バケット名.
+	Name string
+}
+
+// ListPermissionKeysParams is parameters of listPermissionKeys operation.
+type ListPermissionKeysParams struct {
+	// パーミッションID.
+	ID int
+}
+
+// ReadAccountKeyParams is parameters of readAccountKey operation.
+type ReadAccountKeyParams struct {
 	// アクセスキーID.
 	ID string
 }
 
-// GetBucketEncryptionParams is parameters of getBucketEncryption operation.
-type GetBucketEncryptionParams struct {
+// ReadBucketEncryptionParams is parameters of readBucketEncryption operation.
+type ReadBucketEncryptionParams struct {
 	// バケット名.
 	Name string
 }
 
-// GetBucketMeteringParams is parameters of getBucketMetering operation.
-type GetBucketMeteringParams struct {
-	// バケット名.
-	Name BucketName
-	// 範囲の開始月.
-	From time.Time
-	// 範囲の終了月.
-	To time.Time
-}
-
-// GetBucketPenaltyParams is parameters of getBucketPenalty operation.
-type GetBucketPenaltyParams struct {
+// ReadBucketPenaltyParams is parameters of readBucketPenalty operation.
+type ReadBucketPenaltyParams struct {
 	// バケット名.
 	Name BucketName
 }
 
-// GetBucketPlanParams is parameters of getBucketPlan operation.
-type GetBucketPlanParams struct {
+// ReadBucketPlanParams is parameters of readBucketPlan operation.
+type ReadBucketPlanParams struct {
 	// バケット名.
 	Name BucketName
 }
 
-// GetBucketQuotaParams is parameters of getBucketQuota operation.
-type GetBucketQuotaParams struct {
+// ReadBucketQuotaParams is parameters of readBucketQuota operation.
+type ReadBucketQuotaParams struct {
 	// バケット名.
 	Name BucketName
 }
 
-// GetBucketReplicableTargetsParams is parameters of getBucketReplicableTargets operation.
-type GetBucketReplicableTargetsParams struct {
+// ReadBucketReplicationParams is parameters of readBucketReplication operation.
+type ReadBucketReplicationParams struct {
 	// バケット名.
 	Name string
 }
 
-// GetBucketReplicationParams is parameters of getBucketReplication operation.
-type GetBucketReplicationParams struct {
-	// バケット名.
-	Name string
-}
-
-// GetBucketUsageParams is parameters of getBucketUsage operation.
-type GetBucketUsageParams struct {
+// ReadBucketUsageParams is parameters of readBucketUsage operation.
+type ReadBucketUsageParams struct {
 	// バケット名.
 	Name BucketName
 }
 
-// GetClusterParams is parameters of getCluster operation.
-type GetClusterParams struct {
+// ReadClusterParams is parameters of readCluster operation.
+type ReadClusterParams struct {
 	// サイトID.
 	ID string
 }
 
-// GetPermissionParams is parameters of getPermission operation.
-type GetPermissionParams struct {
+// ReadPermissionParams is parameters of readPermission operation.
+type ReadPermissionParams struct {
 	// パーミッションID.
-	ID string
+	ID int
 }
 
-// GetPermissionKeyParams is parameters of getPermissionKey operation.
-type GetPermissionKeyParams struct {
+// ReadPermissionKeyParams is parameters of readPermissionKey operation.
+type ReadPermissionKeyParams struct {
 	// パーミッションID.
-	ID string
+	ID int
 	// パーミッションが保有するアクセスキーID.
 	KeyID string
 }
 
-// GetPermissionKeysParams is parameters of getPermissionKeys operation.
-type GetPermissionKeysParams struct {
-	// パーミッションID.
-	ID string
-}
-
-// PostBucketReplicationParams is parameters of postBucketReplication operation.
-type PostBucketReplicationParams struct {
+// UpdateBucketEncryptionParams is parameters of updateBucketEncryption operation.
+type UpdateBucketEncryptionParams struct {
 	// バケット名.
 	Name string
 }
 
-// PutBucketEncryptionParams is parameters of putBucketEncryption operation.
-type PutBucketEncryptionParams struct {
-	// バケット名.
-	Name string
-}
-
-// PutBucketPlanParams is parameters of putBucketPlan operation.
-type PutBucketPlanParams struct {
+// UpdateBucketPlanParams is parameters of updateBucketPlan operation.
+type UpdateBucketPlanParams struct {
 	// バケット名.
 	Name BucketName
 }
@@ -161,5 +157,5 @@ type PutBucketPlanParams struct {
 // UpdatePermissionParams is parameters of updatePermission operation.
 type UpdatePermissionParams struct {
 	// パーミッションID.
-	ID string
+	ID int
 }

@@ -12,8 +12,8 @@ import (
 )
 
 type BucketAPI interface {
-	List(ctx context.Context) ([]v2.BucketListDataItem, error)
-	Create(ctx context.Context, params *BucketCreateParams) (*v2.ModelBucket, error)
+	List(ctx context.Context) ([]v2.BucketListResponseBody, error)
+	Create(ctx context.Context, params *BucketCreateParams) (*v2.BucketResponseBody, error)
 	Delete(ctx context.Context, bucketName string) error
 }
 
@@ -28,14 +28,14 @@ func NewBucketOp(fedClient *FedClient, siteClient *SiteClient) BucketAPI {
 	return &bucketOp{fedClient: fedClient, siteClient: siteClient}
 }
 
-func (op *bucketOp) List(ctx context.Context) ([]v2.BucketListDataItem, error) {
+func (op *bucketOp) List(ctx context.Context) ([]v2.BucketListResponseBody, error) {
 	res, err := op.siteClient.client.ListBuckets(ctx)
 	if err != nil {
 		return nil, NewAPIError("Buckets.List", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v2.BucketList:
+	case *v2.HandlerListBucketsResponse:
 		return r.Data, nil
 	case *v2.Error401:
 		return nil, NewAPIError("Buckets.List", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
@@ -50,19 +50,19 @@ type BucketCreateParams struct {
 	Plan   string
 }
 
-func createRequest(params *BucketCreateParams) *v2.HandlerPutBucketReqBody {
-	res := &v2.HandlerPutBucketReqBody{
+func createRequest(params *BucketCreateParams) *v2.HandlerCreateBucketRequestBody {
+	res := &v2.HandlerCreateBucketRequestBody{
 		ClusterID: params.SiteId,
 	}
 
 	switch params.SiteId {
 	case "isk01", "tky01":
-		res.Plan = v2.NewOptNilHandlerPutBucketReqBodyPlan(v2.HandlerPutBucketReqBodyPlan{
+		res.Plan = v2.NewOptNilHandlerCreateBucketRequestBodyPlan(v2.HandlerCreateBucketRequestBodyPlan{
 			Type:             v2.NewOptModelPlanType(v2.ModelPlanType("standard")),
 			ServiceClassPath: v2.NewOptServiceClassPath(v2.ServiceClassPath(fmt.Sprintf("objectstorage/%s/bucket", params.SiteId))),
 		})
 	case "arc02":
-		res.Plan = v2.NewOptNilHandlerPutBucketReqBodyPlan(v2.HandlerPutBucketReqBodyPlan{
+		res.Plan = v2.NewOptNilHandlerCreateBucketRequestBodyPlan(v2.HandlerCreateBucketRequestBodyPlan{
 			Type:             v2.NewOptModelPlanType(v2.ModelPlanType("archive")),
 			ServiceClassPath: v2.NewOptServiceClassPath(v2.ServiceClassPath(fmt.Sprintf("objectstorage/%s/bucket/%s", params.SiteId, params.Plan))),
 		})
@@ -71,15 +71,15 @@ func createRequest(params *BucketCreateParams) *v2.HandlerPutBucketReqBody {
 	return res
 }
 
-func (op *bucketOp) Create(ctx context.Context, params *BucketCreateParams) (*v2.ModelBucket, error) {
+func (op *bucketOp) Create(ctx context.Context, params *BucketCreateParams) (*v2.BucketResponseBody, error) {
 	res, err := op.fedClient.client.CreateBucket(ctx, createRequest(params), v2.CreateBucketParams{Name: params.Bucket})
 	if err != nil {
 		return nil, NewAPIError("Buckets.Create", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v2.HandlerPutBucketRes:
-		return &r.Data.Value, nil
+	case *v2.HandlerCreateBucketResponse:
+		return &r.Data, nil
 	case *v2.Error400:
 		return nil, NewAPIError("Buckets.Create", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	case *v2.Error404:
@@ -110,7 +110,7 @@ func (op *bucketOp) Delete(ctx context.Context, bucketName string) error {
 }
 
 type BucketExtraAPI interface {
-	ReadEncryption(ctx context.Context) (*v2.HandlerEncryptionConfigRes, error)
+	ReadEncryption(ctx context.Context) (*v2.HandlerReadBucketEncryptionResponse, error)
 	EnableEncryption(ctx context.Context, KMSKeyID string) error
 	DisableEncryption(ctx context.Context) error
 
@@ -135,14 +135,14 @@ func NewBucketExtraOp(siteClient *SiteClient, fedClient *FedClient, bucket strin
 	return &bucketExtraOp{siteClient: siteClient, fedClient: fedClient, bucket: bucket}
 }
 
-func (op *bucketExtraOp) ReadEncryption(ctx context.Context) (*v2.HandlerEncryptionConfigRes, error) {
-	res, err := op.siteClient.client.GetBucketEncryption(ctx, v2.GetBucketEncryptionParams{Name: op.bucket})
+func (op *bucketExtraOp) ReadEncryption(ctx context.Context) (*v2.HandlerReadBucketEncryptionResponse, error) {
+	res, err := op.siteClient.client.ReadBucketEncryption(ctx, v2.ReadBucketEncryptionParams{Name: op.bucket})
 	if err != nil {
 		return nil, NewAPIError("BucketExtra.ReadEncryption", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v2.GetBucketEncryptionOK:
+	case *v2.ReadBucketEncryptionOK:
 		return &r.Data, nil
 	case *v2.Error404:
 		return nil, NewAPIError("BucketExtra.ReadEncryption", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
@@ -152,15 +152,15 @@ func (op *bucketExtraOp) ReadEncryption(ctx context.Context) (*v2.HandlerEncrypt
 }
 
 func (op *bucketExtraOp) EnableEncryption(ctx context.Context, keyId string) error {
-	res, err := op.siteClient.client.PutBucketEncryption(ctx, &v2.HandlerEncryptionConfigReqBody{
+	res, err := op.siteClient.client.UpdateBucketEncryption(ctx, &v2.HandlerUpdateBucketEncryptionRequestBody{
 		KmsKeyID: v2.ResourceID(keyId),
-	}, v2.PutBucketEncryptionParams{Name: op.bucket})
+	}, v2.UpdateBucketEncryptionParams{Name: op.bucket})
 	if err != nil {
 		return NewAPIError("BucketExtra.EnableEncryption", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v2.PutBucketEncryptionOK:
+	case *v2.UpdateBucketEncryptionOK:
 		return nil
 	case *v2.Error400:
 		return NewAPIError("BucketExtra.EnableEncryption", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
@@ -188,14 +188,14 @@ func (op *bucketExtraOp) DisableEncryption(ctx context.Context) error {
 }
 
 func (op *bucketExtraOp) ReadReplication(ctx context.Context) (*v2.ModelReplication, error) {
-	res, err := op.fedClient.client.GetBucketReplication(ctx, v2.GetBucketReplicationParams{Name: op.bucket})
+	res, err := op.fedClient.client.ReadBucketReplication(ctx, v2.ReadBucketReplicationParams{Name: op.bucket})
 	if err != nil {
 		return nil, NewAPIError("BucketExtra.ReadReplication", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v2.HandlerGetReplicationRes:
-		return &r.Data.Value, nil
+	case *v2.HandlerReadBucketReplicationResponse:
+		return &r.Data, nil
 	case *v2.Error401:
 		return nil, NewAPIError("BucketExtra.ReadReplication", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	case *v2.Error404:
@@ -206,16 +206,16 @@ func (op *bucketExtraOp) ReadReplication(ctx context.Context) (*v2.ModelReplicat
 }
 
 func (op *bucketExtraOp) EnableReplication(ctx context.Context, targetBucket string) (*v2.ModelReplication, error) {
-	res, err := op.fedClient.client.PostBucketReplication(ctx, &v2.PostBucketReplicationReq{
+	res, err := op.fedClient.client.CreateBucketReplication(ctx, &v2.CreateBucketReplicationReq{
 		DestBucket: targetBucket,
-	}, v2.PostBucketReplicationParams{Name: op.bucket})
+	}, v2.CreateBucketReplicationParams{Name: op.bucket})
 	if err != nil {
 		return nil, NewAPIError("BucketExtra.EnableReplication", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v2.HandlerPostReplicationRes:
-		return &r.Data.Value, nil
+	case *v2.HandlerCreateBucketReplicationResponse:
+		return &r.Data, nil
 	case *v2.Error400:
 		return nil, NewAPIError("BucketExtra.EnableReplication", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	case *v2.Error401:
@@ -246,14 +246,14 @@ func (op *bucketExtraOp) DisableReplication(ctx context.Context) error {
 }
 
 func (op *bucketExtraOp) ReadPenalty(ctx context.Context) (*v2.BucketPenaltyData, error) {
-	res, err := op.siteClient.client.GetBucketPenalty(ctx, v2.GetBucketPenaltyParams{Name: v2.BucketName(op.bucket)})
+	res, err := op.siteClient.client.ReadBucketPenalty(ctx, v2.ReadBucketPenaltyParams{Name: v2.BucketName(op.bucket)})
 	if err != nil {
 		return nil, NewAPIError("BucketExtra.ReadPenalty", 0, err)
 	}
 
 	switch r := res.(type) {
 	case *v2.BucketPenalty:
-		return &r.Data.Value, nil
+		return &r.Data, nil
 	case *v2.Error401:
 		return nil, NewAPIError("BucketExtra.ReadPenalty", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	case *v2.Error404:
@@ -264,14 +264,14 @@ func (op *bucketExtraOp) ReadPenalty(ctx context.Context) (*v2.BucketPenaltyData
 }
 
 func (op *bucketExtraOp) ReadUsage(ctx context.Context) (*v2.BucketUsageData, error) {
-	res, err := op.siteClient.client.GetBucketUsage(ctx, v2.GetBucketUsageParams{Name: v2.BucketName(op.bucket)})
+	res, err := op.siteClient.client.ReadBucketUsage(ctx, v2.ReadBucketUsageParams{Name: v2.BucketName(op.bucket)})
 	if err != nil {
 		return nil, NewAPIError("BucketExtra.ReadUsage", 0, err)
 	}
 
 	switch r := res.(type) {
 	case *v2.BucketUsage:
-		return &r.Data.Value, nil
+		return &r.Data, nil
 	case *v2.Error401:
 		return nil, NewAPIError("BucketExtra.ReadUsage", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	case *v2.Error404:
@@ -282,14 +282,14 @@ func (op *bucketExtraOp) ReadUsage(ctx context.Context) (*v2.BucketUsageData, er
 }
 
 func (op *bucketExtraOp) ReadQuota(ctx context.Context) (*v2.BucketQuotaData, error) {
-	res, err := op.siteClient.client.GetBucketQuota(ctx, v2.GetBucketQuotaParams{Name: v2.BucketName(op.bucket)})
+	res, err := op.siteClient.client.ReadBucketQuota(ctx, v2.ReadBucketQuotaParams{Name: v2.BucketName(op.bucket)})
 	if err != nil {
 		return nil, NewAPIError("BucketExtra.ReadQuota", 0, err)
 	}
 
 	switch r := res.(type) {
 	case *v2.BucketQuota:
-		return &r.Data.Value, nil
+		return &r.Data, nil
 	case *v2.Error401:
 		return nil, NewAPIError("BucketExtra.ReadQuota", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	case *v2.Error404:

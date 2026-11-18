@@ -44,6 +44,11 @@ func NewAPIError(method string, code int, err error) *Error {
 func unknownError(method string, res any) *Error {
 	var status int
 	var message string
+	var detail interface {
+		GetCode() v2.OptErrorCode
+		GetMessage() v2.OptErrorMessage
+	}
+	var ok bool
 
 	switch res := res.(type) {
 	case *v2.ErrorDefaultStatusCode:
@@ -53,33 +58,46 @@ func unknownError(method string, res any) *Error {
 				message = string(msg)
 			}
 		}
+		return NewAPIError(method, status, errors.New(message))
 
-	// v2.ErrorXXX types
-	case interface {
-		GetError() interface {
-			Get() (interface {
-				GetCode() v2.OptErrorCode
-				GetMessage() v2.OptErrorMessage
-			}, bool)
-		}
-	}:
-		err, ok := res.GetError().Get()
-		if !ok {
-			return NewAPIError(method, 0, fmt.Errorf("got null: %#+v", res))
-		}
-
-		if code, ok := err.GetCode().Get(); ok {
-			status = int(code)
-		}
-
-		if msg, ok := err.GetMessage().Get(); ok {
-			message = string(msg)
-		}
+	case *v2.Error400:
+		d, s := res.GetError().Get()
+		detail, ok = &d, s
+	case *v2.Error401:
+		d, s := res.GetError().Get()
+		detail, ok = &d, s
+	case *v2.Error403:
+		d, s := res.GetError().Get()
+		detail, ok = &d, s
+	case *v2.Error404:
+		d, s := res.GetError().Get()
+		detail, ok = &d, s
+	case *v2.Error405:
+		d, s := res.GetError().Get()
+		detail, ok = &d, s
+	case *v2.Error409:
+		d, s := res.GetError().Get()
+		detail, ok = &d, s
+	case *v2.ErrorDefault:
+		d, s := res.GetError().Get()
+		detail, ok = &d, s
 
 	default:
 		// :FIXME: unintentional info leakage could happen in the error message
 		// but don't know what to do otherwise.
-		message = fmt.Sprintf("unexpected error type: %#+v", res)
+		return NewAPIError(method, 0, fmt.Errorf("unexpected error type: %#+v", res))
+	}
+
+	if !ok {
+		return NewAPIError(method, 0, fmt.Errorf("got null: %#+v", res))
+	}
+
+	if code, ok := detail.GetCode().Get(); ok {
+		status = int(code)
+	}
+
+	if msg, ok := detail.GetMessage().Get(); ok {
+		message = string(msg)
 	}
 
 	return NewAPIError(method, status, errors.New(message))

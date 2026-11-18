@@ -6,7 +6,6 @@ package objectstorage
 import (
 	"context"
 	"errors"
-	"time"
 
 	v2 "github.com/sacloud/sacloud-sdk-go/api/object-storage/apis/v2"
 )
@@ -14,7 +13,7 @@ import (
 type SiteStatusAPI interface {
 	Read(ctx context.Context) (*v2.StatusData, error)
 	ReadQuota(ctx context.Context) (*v2.QuotaData, error)
-	ReadBucketMetering(ctx context.Context, bucketName string, from, to time.Time) ([]v2.BucketBillingItem, error)
+	ReadBucketMetering(ctx context.Context, bucketName string, from, to string) ([]v2.BucketBillingItem, error)
 }
 
 var _ SiteStatusAPI = (*siteStatusOp)(nil)
@@ -28,14 +27,14 @@ func NewSiteStatusOp(client *SiteClient) SiteStatusAPI {
 }
 
 func (op *siteStatusOp) Read(ctx context.Context) (*v2.StatusData, error) {
-	res, err := op.client.client.GetStatus(ctx)
+	res, err := op.client.client.ReadStatus(ctx)
 	if err != nil {
 		return nil, NewAPIError("SiteStatus.Read", 0, err)
 	}
 
 	switch r := res.(type) {
 	case *v2.Status:
-		return &r.Data.Value, nil
+		return &r.Data, nil
 	case *v2.Error401:
 		return nil, NewAPIError("SiteStatus.Read", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	case *v2.ErrorDefaultStatusCode:
@@ -46,14 +45,14 @@ func (op *siteStatusOp) Read(ctx context.Context) (*v2.StatusData, error) {
 }
 
 func (op *siteStatusOp) ReadQuota(ctx context.Context) (*v2.QuotaData, error) {
-	res, err := op.client.client.GetQuota(ctx)
+	res, err := op.client.client.ReadQuota(ctx)
 	if err != nil {
 		return nil, NewAPIError("SiteStatus.ReadQuota", 0, err)
 	}
 
 	switch r := res.(type) {
 	case *v2.Quota:
-		return &r.Data.Value, nil
+		return &r.Data, nil
 	case *v2.Error401:
 		return nil, NewAPIError("SiteStatus.ReadQuota", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
 	case *v2.ErrorDefaultStatusCode:
@@ -63,14 +62,14 @@ func (op *siteStatusOp) ReadQuota(ctx context.Context) (*v2.QuotaData, error) {
 	}
 }
 
-func (op *siteStatusOp) ReadBucketMetering(ctx context.Context, bucketName string, from, to time.Time) ([]v2.BucketBillingItem, error) {
-	res, err := op.client.client.GetBucketMetering(ctx, v2.GetBucketMeteringParams{Name: v2.BucketName(bucketName), From: from, To: to})
+func (op *siteStatusOp) ReadBucketMetering(ctx context.Context, bucketName string, from, to string) ([]v2.BucketBillingItem, error) {
+	res, err := op.client.client.ListBucketMetering(ctx, v2.ListBucketMeteringParams{Name: v2.BucketName(bucketName), From: from, To: to})
 	if err != nil {
 		return nil, NewAPIError("SiteStatus.ReadBucketMetering", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v2.GetBucketMeteringOK:
+	case *v2.ListBucketMeteringOK:
 		return r.Data, nil
 	case *v2.Error400:
 		return nil, NewAPIError("SiteStatus.ReadBucketMetering", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))

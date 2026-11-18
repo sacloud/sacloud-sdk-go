@@ -30,7 +30,7 @@ func Example_siteAPI() {
 		panic(err)
 	}
 
-	fmt.Println(sites[0].DisplayName.Value)
+	fmt.Println(sites[0].DisplayName)
 	// output:
 	// 石狩第1サイト
 }
@@ -50,7 +50,7 @@ func Example_bucketAPI() {
 	if err != nil {
 		panic(err)
 	}
-	siteId := sites[0].ID.Value
+	siteId := sites[0].ID
 	siteClient, err := objectstorage.NewSiteClient(&theClient, siteId)
 	if err != nil {
 		panic(err)
@@ -74,7 +74,7 @@ func Example_bucketAPI() {
 		}
 	}()
 
-	fmt.Println(bucket.Name.Value)
+	fmt.Println(bucket.Name)
 	// output:
 	// your-bucket-from-api-go
 }
@@ -94,7 +94,7 @@ func Example_accountAPI() {
 	if err != nil {
 		panic(err)
 	}
-	siteId := sites[0].ID.Value
+	siteId := sites[0].ID
 	siteClient, err := objectstorage.NewSiteClient(&theClient, siteId)
 	if err != nil {
 		panic(err)
@@ -124,12 +124,12 @@ func Example_accountAPI() {
 
 	// アクセスキーの削除
 	defer func() {
-		if err := accountOp.DeleteAccessKey(ctx, string(accessKey.ID.Value)); err != nil {
+		if err := accountOp.DeleteAccessKey(ctx, string(accessKey.ID)); err != nil {
 			panic(err)
 		}
 	}()
 
-	fmt.Printf("AccountCode: %t, Secret: %t", len(account.Code.Value) > 0, len(accessKey.Secret.Value) > 0)
+	fmt.Printf("AccountCode: %t, Secret: %t", len(account.Code) > 0, len(accessKey.Secret) > 0)
 	// output:
 	// AccountCode: true, Secret: true
 }
@@ -149,7 +149,7 @@ func Example_permissionAPI() {
 	if err != nil {
 		panic(err)
 	}
-	siteId := sites[0].ID.Value
+	siteId := sites[0].ID
 	siteClient, err := objectstorage.NewSiteClient(&theClient, siteId)
 	if err != nil {
 		panic(err)
@@ -157,11 +157,11 @@ func Example_permissionAPI() {
 
 	// パーミッションの作成
 	permissionOp := objectstorage.NewPermissionOp(siteClient)
-	permission, err := permissionOp.Create(ctx, "foobar", v2.BucketControls{
-		v2.BucketControlsItem{
-			BucketName: v2.NewOptBucketName("bucket1"),
-			CanRead:    v2.NewOptCanRead(true),
-			CanWrite:   v2.NewOptCanWrite(true),
+	permission, err := permissionOp.Create(ctx, "foobar", v2.BucketControlsBody{
+		v2.BucketControlsBodyItem{
+			BucketName: "bucket1",
+			CanRead:    true,
+			CanWrite:   true,
 		},
 	})
 	if err != nil {
@@ -169,22 +169,22 @@ func Example_permissionAPI() {
 	}
 
 	// アクセスキーの作成
-	accessKey, err := permissionOp.CreateAccessKey(ctx, strconv.Itoa(int(permission.ID.Value)))
+	accessKey, err := permissionOp.CreateAccessKey(ctx, strconv.Itoa(int(permission.ID)))
 	if err != nil {
 		panic(err)
 	}
 
 	// パーミッション/アクセスキーの削除
 	defer func() {
-		if err := permissionOp.DeleteAccessKey(ctx, strconv.Itoa(int(permission.ID.Value)), string(accessKey.ID.Value)); err != nil {
+		if err := permissionOp.DeleteAccessKey(ctx, strconv.Itoa(int(permission.ID)), string(accessKey.ID)); err != nil {
 			panic(err)
 		}
-		if err := permissionOp.Delete(ctx, strconv.Itoa(int(permission.ID.Value))); err != nil {
+		if err := permissionOp.Delete(ctx, strconv.Itoa(int(permission.ID))); err != nil {
 			panic(err)
 		}
 	}()
 
-	fmt.Printf("Permission: %s, Secret: %t", permission.DisplayName.Value, len(accessKey.Secret.Value) > 0)
+	fmt.Printf("Permission: %s, Secret: %t", permission.DisplayName, len(accessKey.Secret) > 0)
 	// output:
 	// Permission: foobar, Secret: true
 }
@@ -204,7 +204,7 @@ func Example_siteStatusAPI() {
 	if err != nil {
 		panic(err)
 	}
-	siteId := sites[0].ID.Value
+	siteId := sites[0].ID
 	siteClient, err := objectstorage.NewSiteClient(&theClient, siteId)
 	if err != nil {
 		panic(err)
@@ -217,7 +217,7 @@ func Example_siteStatusAPI() {
 		panic(err)
 	}
 
-	fmt.Println(status.StatusCode.Value.Status.Value)
+	fmt.Println(status.StatusCode.Status)
 	// output:
 	// ok
 }

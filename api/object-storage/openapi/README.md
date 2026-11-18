@@ -2,75 +2,65 @@
 
 https://manual.sakura.ad.jp/api/cloud/objectstorage/
 
-現状はv1.5.0を利用しています。それに加えてobject-storage-api-goでは、公開されている定義の不具合を解消するため下記の変更を加えています。
+現状はv1.7.0を利用しています。それに加えてobject-storage-api-goでは、公開されている定義の不具合を解消するため下記の変更を加えています。
 
 ```diff
---- openapi.json	2026-02-02 14:00:41
-+++ openapi/openapi.json	2026-02-03 11:29:02
-@@ -2710,6 +2710,7 @@
+--- /openapi.json   2026-11-13 10:13:09.128183350 +0900
++++ api/object-storage/openapi/openapi.json     2026-11-17 17:16:38.584969981 +0900
+@@ -2160,7 +2160,6 @@
+             "name": "from",
+             "schema": {
+               "type": "string",
+-              "format": "date",
+               "example": "2022-03"
+             },
+             "description": "範囲の開始月",
+@@ -2171,7 +2170,6 @@
+             "name": "to",
+             "schema": {
+               "type": "string",
+-              "format": "date",
+               "example": "2022-08"
+             },
+             "description": "範囲の終了月",
+@@ -2628,6 +2626,7 @@
+         "type": "string",
+         "description": "Plan type enum",
+         "enum": [
++          "",
+           "standard",
+           "archive"
+         ],
+@@ -2912,6 +2911,7 @@
+           },
            "fee": {
              "type": "object",
-             "description": "Fee information (tax included)",
 +            "nullable": true,
-             "properties": {
-               "for_month": {
-                 "type": "integer",
-@@ -2827,7 +2828,8 @@
-                 "type": "object",
-                 "properties": {
-                   "val": {
--                    "type": "integer",
-+                    "type": "number",
-+                    "format": "float",
-                     "example": 10002495
-                   },
-                   "quota": {
-@@ -2981,6 +2983,11 @@
-         "type": "integer",
-         "format": "int64",
-         "example": 123
-+      },
-+      "PermissionKeyID": {
-+        "description": "Permission Key ID",
-+        "type": "string",
-+        "example": "AKIAIOSFODNN7EXAMPLE"
+             "required": [
+               "for_month",
+               "monthly",
+@@ -2942,6 +2942,7 @@
        },
-       "ResourceID": {
-         "description": "Resource ID",
-@@ -2991,7 +2998,6 @@
-       "Code": {
-         "description": "Code",
+       "ServiceClassPath": {
          "type": "string",
--        "pattern": "^[\\w@]+$",
-         "example": "abc01234@foo@isk01"
++        "minLength": 0,
+         "description": "Plan identifier (service class path). Attributes such as capacity are resolved by the server based on this value.",
+         "example": "objectstorage/arc02/bucket/2t"
        },
-       "CreatedAt": {
-@@ -3003,7 +3009,7 @@
-       "BucketName": {
-         "description": "バケット名",
-         "type": "string",
--        "pattern": "^[a-zA-Z][a-zA-Z0-9]{2,}",
-+        "pattern": "^[a-zA-Z][a-zA-Z0-9\\-]{2,}",
-         "example": "Abcdefg1235-"
-       },
-       "CanRead": {
-@@ -3279,7 +3285,7 @@
-                 "id": {
-                   "allOf": [
-                     {
--                      "$ref": "#/components/schemas/PermissionID"
-+                      "$ref": "#/components/schemas/PermissionKeyID"
-                     }
-                   ]
-                 },
-@@ -3313,7 +3319,7 @@
-               "id": {
-                 "allOf": [
-                   {
--                    "$ref": "#/components/schemas/PermissionID"
-+                    "$ref": "#/components/schemas/PermissionKeyID"
-                   }
-                 ]
-               },
-
+@@ -3250,13 +3251,13 @@
+           },
+           "from": {
+             "type": "string",
+-            "format": "date",
++            "format": "date-time",
+             "example": "2022-08-01",
+             "description": "The first day of metering range"
+           },
+           "to": {
+             "type": "string",
+-            "format": "date",
++            "format": "date-time",
+             "example": "2022-08-31",
+             "description": "The last day of metering range"
+           }
 ```
