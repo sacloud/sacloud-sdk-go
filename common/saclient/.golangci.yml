@@ -16,7 +16,6 @@ linters:
     - govet
     - ineffassign
     - misspell
-    - nakedret
     - nolintlint
     - unconvert
     - unused
@@ -43,6 +42,7 @@ formatters:
   #  - godox
   #  - goerr113
   #  - lll
+  #  - nakedret
   #  - prealloc
   #  - revive
   #  - stylecheck

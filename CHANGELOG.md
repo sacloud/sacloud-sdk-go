@@ -1,5 +1,28 @@
 # Changelog
 
+## [v0.7.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.6.0...v0.7.0) - 2026-11-17
+
+### 🚀 New Features
+- api/addon: openapi.json 1.2.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/342
+- apprun-dedicated: return summary types from List by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/344
+### ✨ Ordinary Updates
+- internal/services: get rid of xstrings by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/316
+- Add Networking Suite interface connection ID by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/328
+- api/apigw: better failure message by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/336
+- api/apprun-dedicated: fix type mismatch by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/335
+- api/*: don't ignore unknown errors by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/339
+- SortKey の unmarshal json を実装する by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/349
+- common/saclient: in-process token cache by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/333
+- fix: database update でマスク済みパスワードを送らない by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/325
+- client ca cert support by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/347
+### 📦 Dependency Updates
+- go: bump github.com/go-playground/validator/v10 from 10.30.5 to 10.30.6 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/330
+- go: bump github.com/hashicorp/terraform-exec from 0.25.3 to 0.26.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/331
+- ci: bump Songmu/tagpr from 1.21.3 to 1.22.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/338
+- ci: bump github/codeql-action/upload-sarif from 4.39.1 to 4.39.3 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/341
+- go: bump github.com/sacloud/sacloud-sdk-go from 0.5.0 to 0.6.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/351
+- go: bump github.com/gofrs/flock from 0.13.1 to 0.13.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/346
+
 ## [v0.6.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.5.0...v0.6.0) - 2026-11-09
 
 ### 🚀 New Features
