@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.7.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.7.0...v0.7.1) - 2026-11-19
+
+### ✨ Ordinary Updates
+- tools/openapi-drift: exclude `application/x-www-form-urlencoded` etc. by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/352
+- api/simple-notification: allow nil for `Tags` by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/355
+
 ## [v0.7.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.6.0...v0.7.0) - 2026-11-17
 
 ### 🚀 New Features
