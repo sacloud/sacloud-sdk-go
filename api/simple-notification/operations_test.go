@@ -68,81 +68,91 @@ func TestServiceItemRequests(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			for _, operation := range []string{"create", "update", "update without settings"} {
-				t.Run(operation, func(t *testing.T) {
-					called := false
-					server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-						called = true
-						var body struct {
-							Item struct {
-								Provider struct {
-									Class        string `json:"Class"`
-									ServiceClass string `json:"ServiceClass"`
-								} `json:"Provider"`
-								ServiceClass string          `json:"ServiceClass"`
-								Settings     json.RawMessage `json:"Settings"`
-								Tags         json.RawMessage `json:"Tags"`
-							} `json:"CommonServiceItem"`
-						}
-						if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-							t.Error(err)
-							w.WriteHeader(http.StatusBadRequest)
-							return
-						}
-						assert.JSONEq(t, `[]`, string(body.Item.Tags))
-						if operation == "update without settings" {
-							assert.Empty(t, body.Item.Settings)
-						} else {
-							assert.JSONEq(t, tt.settings, string(body.Item.Settings))
-						}
-						w.Header().Set("Content-Type", "application/json")
-						if operation == "create" {
-							assert.Equal(t, http.MethodPost, r.Method)
-							assert.Equal(t, "/commonserviceitem", r.URL.Path)
-							assert.Equal(t, tt.class, body.Item.Provider.Class)
-							assert.Equal(t, "cloud/"+tt.class+"/2", body.Item.ServiceClass)
-							if tt.name == "group" {
-								assert.Equal(t, "cloud/saknotice", body.Item.Provider.ServiceClass)
+				for _, tags := range []struct {
+					name  string
+					value []string
+					want  string
+				}{
+					{name: "nil tags", want: `[]`},
+					{name: "empty tags", value: []string{}, want: `[]`},
+					{name: "populated tags", value: []string{"tag1", "tag2"}, want: `["tag1","tag2"]`},
+				} {
+					t.Run(operation+"/"+tags.name, func(t *testing.T) {
+						called := false
+						server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+							called = true
+							var body struct {
+								Item struct {
+									Provider struct {
+										Class        string `json:"Class"`
+										ServiceClass string `json:"ServiceClass"`
+									} `json:"Provider"`
+									ServiceClass string          `json:"ServiceClass"`
+									Settings     json.RawMessage `json:"Settings"`
+									Tags         json.RawMessage `json:"Tags"`
+								} `json:"CommonServiceItem"`
 							}
-							w.WriteHeader(http.StatusCreated)
-						} else {
-							assert.Equal(t, http.MethodPut, r.Method)
-							assert.Equal(t, "/commonserviceitem/123", r.URL.Path)
-						}
-						_, _ = w.Write([]byte(`{"CommonServiceItem":{"ID":"123","Name":"test","Description":"","Settings":` +
-							tt.settings + `,"CreatedAt":"2026-10-19T00:00:00Z","ModifiedAt":"2026-10-19T00:00:00Z",` +
-							`"Provider":{"Class":"` + tt.class + `"},"Icon":null,"Tags":[]}}`))
-					}))
-					defer server.Close()
-					client, err := v1.NewClient(server.URL, v1.WithClient(server.Client()))
-					require.NoError(t, err)
+							if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+								t.Error(err)
+								w.WriteHeader(http.StatusBadRequest)
+								return
+							}
+							assert.JSONEq(t, tags.want, string(body.Item.Tags))
+							if operation == "update without settings" {
+								assert.Empty(t, body.Item.Settings)
+							} else {
+								assert.JSONEq(t, tt.settings, string(body.Item.Settings))
+							}
+							w.Header().Set("Content-Type", "application/json")
+							if operation == "create" {
+								assert.Equal(t, http.MethodPost, r.Method)
+								assert.Equal(t, "/commonserviceitem", r.URL.Path)
+								assert.Equal(t, tt.class, body.Item.Provider.Class)
+								assert.Equal(t, "cloud/"+tt.class+"/2", body.Item.ServiceClass)
+								if tt.name == "group" {
+									assert.Equal(t, "cloud/saknotice", body.Item.Provider.ServiceClass)
+								}
+								w.WriteHeader(http.StatusCreated)
+							} else {
+								assert.Equal(t, http.MethodPut, r.Method)
+								assert.Equal(t, "/commonserviceitem/123", r.URL.Path)
+							}
+							_, _ = w.Write([]byte(`{"CommonServiceItem":{"ID":"123","Name":"test","Description":"","Settings":` +
+								tt.settings + `,"CreatedAt":"2026-10-19T00:00:00Z","ModifiedAt":"2026-10-19T00:00:00Z",` +
+								`"Provider":{"Class":"` + tt.class + `"},"Icon":null,"Tags":[]}}`))
+						}))
+						defer server.Close()
+						client, err := v1.NewClient(server.URL, v1.WithClient(server.Client()))
+						require.NoError(t, err)
 
-					if operation == "create" {
-						var settings v1.PostCommonServiceItemRequestCommonServiceItemSettings
-						require.NoError(t, json.Unmarshal([]byte(tt.settings), &settings))
-						settings.Type = "" // The facade selects the request variant.
-						err = tt.create(t.Context(), client, v1.PostCommonServiceItemRequest{
-							CommonServiceItem: v1.PostCommonServiceItemRequestCommonServiceItem{
-								Name: "test", Tags: []string{}, Icon: v1.NilCommonServiceItemIcon{Null: true},
-								Settings: settings,
-							},
-						})
-					} else {
-						var settings v1.OptPutCommonServiceItemRequestCommonServiceItemSettings
-						if operation == "update" {
-							require.NoError(t, json.Unmarshal([]byte(tt.settings), &settings.Value))
-							settings.Set = true
-							settings.Value.Type = ""
+						if operation == "create" {
+							var settings v1.PostCommonServiceItemRequestCommonServiceItemSettings
+							require.NoError(t, json.Unmarshal([]byte(tt.settings), &settings))
+							settings.Type = "" // The facade selects the request variant.
+							err = tt.create(t.Context(), client, v1.PostCommonServiceItemRequest{
+								CommonServiceItem: v1.PostCommonServiceItemRequestCommonServiceItem{
+									Name: "test", Tags: tags.value, Icon: v1.NilCommonServiceItemIcon{Null: true},
+									Settings: settings,
+								},
+							})
+						} else {
+							var settings v1.OptPutCommonServiceItemRequestCommonServiceItemSettings
+							if operation == "update" {
+								require.NoError(t, json.Unmarshal([]byte(tt.settings), &settings.Value))
+								settings.Set = true
+								settings.Value.Type = ""
+							}
+							err = tt.update(t.Context(), client, v1.PutCommonServiceItemRequest{
+								CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
+									Name: "test", Tags: tags.value, Icon: v1.NilCommonServiceItemIcon{Null: true},
+									Settings: settings,
+								},
+							})
 						}
-						err = tt.update(t.Context(), client, v1.PutCommonServiceItemRequest{
-							CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
-								Name: "test", Tags: []string{}, Icon: v1.NilCommonServiceItemIcon{Null: true},
-								Settings: settings,
-							},
-						})
-					}
-					require.NoError(t, err)
-					require.True(t, called)
-				})
+						require.NoError(t, err)
+						require.True(t, called)
+					})
+				}
 			}
 		})
 	}
