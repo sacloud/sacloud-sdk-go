@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.7.2](https://github.com/sacloud/sacloud-sdk-go/compare/v0.7.1...v0.7.2) - 2026-11-19
+
+### ✨ Ordinary Updates
+- api/addon: ResourceGroupResource has "url" by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/358
+
 ## [v0.7.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.7.0...v0.7.1) - 2026-11-19
 
 ### ✨ Ordinary Updates
