@@ -64,7 +64,7 @@ func TestOpFULL(t *testing.T) {
 	id := ""
 
 	result := t.Run("Create", func(t *testing.T) {
-		request := v1.ModelsApplianceApplianceCreateRequest{
+		request := v1.ModelsApplianceCreateServiceEndpointGatewayRequest{
 			Appliance: v1.ModelsApplianceApplianceCreateBody{
 				Remark: v1.ModelsRemarkApplianceCreateRemark{
 					Switch: v1.ModelsRemarkSwitchRemark{
@@ -231,7 +231,7 @@ func TestOpFULL(t *testing.T) {
 			},
 		}
 
-		request := v1.ModelsApplianceApplianceUpdateRequest{
+		request := v1.ModelsApplianceUpdateServiceEndpointGatewayRequest{
 			Appliance: v1.ModelsApplianceApplianceUpdateBody{
 				Settings: settings,
 			},
