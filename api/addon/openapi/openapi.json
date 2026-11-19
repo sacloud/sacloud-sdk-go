@@ -2862,6 +2862,11 @@
           },
           "data": {
             "$ref": "#/components/schemas/ResourceGroupData"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "readOnly": true
           }
         },
         "additionalProperties": false
