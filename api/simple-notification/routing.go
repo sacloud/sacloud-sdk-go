@@ -57,6 +57,9 @@ func (o *RoutingOp) List(ctx context.Context) (*v1.ListCommonServiceItemsRespons
 
 func (o *RoutingOp) Create(ctx context.Context, request v1.PostCommonServiceItemRequest) (*v1.CreateCommonServiceItemCreated, error) {
 	const methodName = "Routing.Create"
+	if request.CommonServiceItem.Tags == nil {
+		request.CommonServiceItem.Tags = make([]string, 0)
+	}
 	request.CommonServiceItem.ServiceClass = v1.PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticerouting2
 	request.CommonServiceItem.Provider.Class = v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting
 	request.CommonServiceItem.Settings.Type = v1.CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings
@@ -86,6 +89,9 @@ func (o *RoutingOp) Read(ctx context.Context, id string) (*v1.ReadCommonServiceI
 
 func (o *RoutingOp) Update(ctx context.Context, id string, request v1.PutCommonServiceItemRequest) (*v1.UpdateCommonServiceItemOK, error) {
 	const methodName = "Routing.Update"
+	if request.CommonServiceItem.Tags == nil {
+		request.CommonServiceItem.Tags = []string{}
+	}
 	request.CommonServiceItem.Settings.Value.Type = v1.CommonServiceItemRoutingSettingsPutCommonServiceItemRequestCommonServiceItemSettings
 
 	res, err := o.client.UpdateCommonServiceItem(ctx, v1.NewOptPutCommonServiceItemRequest(request), v1.UpdateCommonServiceItemParams{ID: id})
