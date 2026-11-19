@@ -1,8 +1,8 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.1.0",
   "info": {
     "title": "Service Endpoint Gateway API",
-    "version": "1.1.0",
+    "version": "1.2.2",
     "contact": {
       "name": "SAKURA internet Inc.",
       "url": "https://www.sakura.ad.jp/"
@@ -29,7 +29,7 @@
   "paths": {
     "/appliance": {
       "get": {
-        "operationId": "seg_list",
+        "operationId": "listServiceEndpointGateways",
         "summary": "サービスエンドポイントゲートウェイ一覧取得API",
         "description": "サービスエンドポイントゲートウェイの一覧を取得します。",
         "parameters": [],
@@ -39,7 +39,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Models.Appliance.ApplianceListResponseBody"
+                  "$ref": "#/components/schemas/Models.Appliance.ListServiceEndpointGatewaysResponseBody"
                 }
               }
             }
@@ -60,7 +60,7 @@
         ]
       },
       "post": {
-        "operationId": "seg_create",
+        "operationId": "createServiceEndpointGateway",
         "summary": "サービスエンドポイントゲートウェイ作成API",
         "description": "指定したサービスエンドポイントゲートウェイを作成します。",
         "parameters": [],
@@ -70,7 +70,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Models.Appliance.ApplianceCreateResponseBody"
+                  "$ref": "#/components/schemas/Models.Appliance.CreateServiceEndpointGatewayResponseBody"
                 }
               }
             }
@@ -94,7 +94,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Models.Appliance.ApplianceCreateRequest"
+                "$ref": "#/components/schemas/Models.Appliance.CreateServiceEndpointGatewayRequest"
               }
             }
           }
@@ -103,7 +103,7 @@
     },
     "/appliance/{applianceID}": {
       "get": {
-        "operationId": "seg_get",
+        "operationId": "readServiceEndpointGateway",
         "summary": "サービスエンドポイントゲートウェイ取得API",
         "description": "指定したサービスエンドポイントゲートウェイの情報を取得します。",
         "parameters": [
@@ -122,7 +122,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Models.Appliance.ApplianceGetResponseBody"
+                  "$ref": "#/components/schemas/Models.Appliance.ReadServiceEndpointGatewayResponseBody"
                 }
               }
             }
@@ -143,7 +143,7 @@
         ]
       },
       "put": {
-        "operationId": "seg_update",
+        "operationId": "updateServiceEndpointGateway",
         "summary": "サービスエンドポイントゲートウェイ更新API",
         "description": "指定したサービスエンドポイントゲートウェイの情報を更新します。\n\n更新後には、別途「サービスエンドポイントゲートウェイ適用API」を呼び出して設定を反映する必要があります。",
         "parameters": [
@@ -162,7 +162,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Models.Appliance.ApplianceGetResponseBody"
+                  "$ref": "#/components/schemas/Models.Appliance.ReadServiceEndpointGatewayResponseBody"
                 }
               }
             }
@@ -186,14 +186,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Models.Appliance.ApplianceUpdateRequest"
+                "$ref": "#/components/schemas/Models.Appliance.UpdateServiceEndpointGatewayRequest"
               }
             }
           }
         }
       },
       "delete": {
-        "operationId": "seg_delete",
+        "operationId": "deleteServiceEndpointGateway",
         "summary": "サービスエンドポイントゲートウェイ削除API",
         "description": "指定したサービスエンドポイントゲートウェイを削除します。",
         "parameters": [
@@ -212,7 +212,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Models.Appliance.ApplianceGetResponseBody"
+                  "$ref": "#/components/schemas/Models.Appliance.ReadServiceEndpointGatewayResponseBody"
                 }
               }
             }
@@ -235,7 +235,7 @@
     },
     "/appliance/{applianceID}/config": {
       "put": {
-        "operationId": "seg_apply",
+        "operationId": "applyServiceEndpointGatewayConfig",
         "summary": "サービスエンドポイントゲートウェイ適用API",
         "description": "指定したサービスエンドポイントゲートウェイの情報を適用します。",
         "parameters": [
@@ -250,11 +250,11 @@
         ],
         "responses": {
           "200": {
-            "description": "The request has succeeded.",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Models.Appliance.ApplianceApplyResponse"
+                  "$ref": "#/components/schemas/Models.Appliance.ApplianceApplyResponseBody"
                 }
               }
             }
@@ -278,7 +278,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Models.Appliance.ApplianceUpdateRequest"
+                "$ref": "#/components/schemas/Models.Appliance.UpdateServiceEndpointGatewayRequest"
               }
             }
           }
@@ -287,7 +287,7 @@
     },
     "/appliance/{applianceID}/interface/{interfaceID}": {
       "get": {
-        "operationId": "segInterface_getInterface",
+        "operationId": "readServiceEndpointGatewayInterface",
         "summary": "サービスエンドポイントゲートウェイインターフェース情報取得API",
         "description": "指定したサービスエンドポイントゲートウェイのインターフェース情報を取得します。",
         "parameters": [
@@ -314,7 +314,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Models.Appliance.ApplianceGetInterfaceResponseBody"
+                  "$ref": "#/components/schemas/Models.Appliance.ReadServiceEndpointGatewayInterfaceResponseBody"
                 }
               }
             }
@@ -337,7 +337,7 @@
     },
     "/appliance/{applianceID}/power": {
       "get": {
-        "operationId": "segStatus_getPowerStatus",
+        "operationId": "readServiceEndpointGatewayPowerStatus",
         "summary": "サービスエンドポイントゲートウェイ起動状態取得API",
         "description": "指定したサービスエンドポイントゲートウェイの起動状態を取得します。",
         "parameters": [
@@ -356,7 +356,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Models.Power.ApplianceGetPowerStatusResponseBody"
+                  "$ref": "#/components/schemas/Models.Power.ReadServiceEndpointGatewayPowerStatusResponseBody"
                 }
               }
             }
@@ -377,7 +377,7 @@
         ]
       },
       "put": {
-        "operationId": "segStatus_updatePowerStatus",
+        "operationId": "powerOnServiceEndpointGateway",
         "summary": "サービスエンドポイントゲートウェイ起動API",
         "description": "指定したサービスエンドポイントゲートウェイを起動します。",
         "parameters": [
@@ -396,7 +396,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Models.Power.ApplianceUpdatePowerStatusResponseBody"
+                  "$ref": "#/components/schemas/Models.Power.UpdateServiceEndpointGatewayPowerStatusResponseBody"
                 }
               }
             }
@@ -417,7 +417,7 @@
         ]
       },
       "delete": {
-        "operationId": "segStatus_deletePowerStatus",
+        "operationId": "powerOffServiceEndpointGateway",
         "summary": "サービスエンドポイントゲートウェイ停止API",
         "description": "指定したサービスエンドポイントゲートウェイを停止します。",
         "parameters": [
@@ -436,7 +436,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Models.Power.ApplianceUpdatePowerStatusResponseBody"
+                  "$ref": "#/components/schemas/Models.Power.UpdateServiceEndpointGatewayPowerStatusResponseBody"
                 }
               }
             }
@@ -469,7 +469,7 @@
     },
     "/appliance/{applianceID}/reset": {
       "put": {
-        "operationId": "segStatus_resetPowerStatus",
+        "operationId": "resetServiceEndpointGateway",
         "summary": "サービスエンドポイントゲートウェイ起動状態リセットAPI",
         "description": "指定したサービスエンドポイントゲートウェイの起動状態をリセットします。",
         "parameters": [
@@ -488,7 +488,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Models.Power.ApplianceUpdatePowerStatusResponseBody"
+                  "$ref": "#/components/schemas/Models.Power.UpdateServiceEndpointGatewayPowerStatusResponseBody"
                 }
               }
             }
@@ -562,28 +562,36 @@
             "description": "プラン情報"
           },
           "Settings": {
-            "type": "object",
-            "allOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/Models.Settings.ApplianceSettings"
+              },
+              {
+                "type": "null"
               }
             ],
-            "nullable": true,
             "description": "設定情報"
           },
           "SettingsHash": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "設定情報のハッシュ値"
           },
           "Remark": {
-            "type": "object",
-            "allOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/Models.Remark.ApplianceRemark"
+              },
+              {
+                "type": "null"
               }
             ],
-            "nullable": true,
             "description": "備考情報"
           },
           "Availability": {
@@ -604,13 +612,14 @@
             "description": "インスタンス情報"
           },
           "Disk": {
-            "type": "object",
-            "allOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/Models.Disk.Disk"
+              },
+              {
+                "type": "null"
               }
             ],
-            "nullable": true,
             "description": "ディスク情報"
           },
           "ServiceClass": {
@@ -630,7 +639,7 @@
             "description": "作成日時"
           },
           "Icon": {
-            "nullable": true,
+            "type": "null",
             "description": "アイコン情報"
           },
           "Switch": {
@@ -650,14 +659,12 @@
           },
           "Tags": {
             "type": "array",
-            "items": {
-              "type": "string"
-            },
+            "prefixItems": [],
             "description": "タグ情報"
           }
         }
       },
-      "Models.Appliance.ApplianceApplyResponse": {
+      "Models.Appliance.ApplianceApplyResponseBody": {
         "type": "object",
         "required": [
           "Success",
@@ -684,8 +691,14 @@
                 "description": "レスポンスのステータスコード"
               },
               "Cause": {
-                "type": "string",
-                "nullable": true,
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
                 "description": "レスポンスの原因"
               }
             },
@@ -696,15 +709,33 @@
             "description": "レスポンスヘッダー情報"
           },
           "Out": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "出力情報"
           },
           "is_ok": {
             "type": "boolean",
             "description": "操作結果"
           }
-        }
+        },
+        "examples": [
+          {
+            "Success": true,
+            "ReturnCode": 0,
+            "ResponseHeaders": {
+              "Status": "Ok",
+              "Cause": null
+            },
+            "Out": null,
+            "is_ok": true
+          }
+        ]
       },
       "Models.Appliance.ApplianceCreateBody": {
         "type": "object",
@@ -739,7 +770,23 @@
           }
         }
       },
-      "Models.Appliance.ApplianceCreateRequest": {
+      "Models.Appliance.ApplianceUpdateBody": {
+        "type": "object",
+        "required": [
+          "Settings"
+        ],
+        "properties": {
+          "Settings": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Models.Settings.ApplianceSettings"
+              }
+            ],
+            "description": "設定情報"
+          }
+        }
+      },
+      "Models.Appliance.CreateServiceEndpointGatewayRequest": {
         "type": "object",
         "required": [
           "Appliance"
@@ -749,29 +796,31 @@
             "$ref": "#/components/schemas/Models.Appliance.ApplianceCreateBody"
           }
         },
-        "example": {
-          "Appliance": {
-            "Class": "serviceendpointgateway",
-            "Plan": {
-              "ID": 1
-            },
-            "Remark": {
-              "Switch": {
-                "ID": "123456789012"
+        "examples": [
+          {
+            "Appliance": {
+              "Class": "serviceendpointgateway",
+              "Plan": {
+                "ID": 1
               },
-              "Network": {
-                "NetworkMaskLen": 24
-              },
-              "Servers": [
-                {
-                  "IPAddress": "192.0.2.15"
-                }
-              ]
+              "Remark": {
+                "Switch": {
+                  "ID": "123456789012"
+                },
+                "Network": {
+                  "NetworkMaskLen": 24
+                },
+                "Servers": [
+                  {
+                    "IPAddress": "192.0.2.15"
+                  }
+                ]
+              }
             }
           }
-        }
+        ]
       },
-      "Models.Appliance.ApplianceCreateResponseBody": {
+      "Models.Appliance.CreateServiceEndpointGatewayResponseBody": {
         "type": "object",
         "required": [
           "Appliance",
@@ -791,269 +840,82 @@
             "description": "操作結果"
           }
         },
-        "example": {
-          "Appliance": {
-            "ID": "123456789012",
-            "Class": "serviceendpointgateway",
-            "Name": "Service Endpoint Gateway (123456789012)",
-            "Description": "",
-            "Plan": {
-              "ID": 1
-            },
-            "Settings": null,
-            "SettingsHash": null,
-            "Remark": {
-              "Switch": {
-                "ID": "123456789012"
-              },
-              "Network": {
-                "NetworkMaskLen": 24
-              },
-              "Servers": [
-                {
-                  "IPAddress": "192.0.2.15"
-                }
-              ],
-              "Zone": {
-                "ID": "21001"
-              }
-            },
-            "Availability": "migrating",
-            "Instance": {
-              "Status": null,
-              "StatusChangedAt": null,
-              "Host": {
-                "Name": null,
-                "InfoURL": null
-              },
-              "Hosts": []
-            },
-            "Disk": {
-              "EncryptionAlgorithm": null,
-              "EncryptionKey": {
-                "KMSKeyID": null
-              },
-              "DedicatedStorageContract": {
-                "ID": null
-              }
-            },
-            "ServiceClass": "cloud/appliance/serviceendpointgateway/1",
-            "Generation": 100,
-            "CreatedAt": "2026-02-09T23:40:29+09:00",
-            "Icon": null,
-            "Switch": {
+        "examples": [
+          {
+            "Appliance": {
               "ID": "123456789012",
-              "Name": "Switch",
-              "Internet": {
-                "BandWidthMbps": null
+              "Class": "serviceendpointgateway",
+              "Name": "Service Endpoint Gateway (123456789012)",
+              "Description": "",
+              "Plan": {
+                "ID": 1
               },
-              "Scope": "user",
-              "Availability": "available",
-              "Zone": {
-                "ID": 21001,
-                "Name": "tk1a",
-                "Region": {
-                  "ID": 210,
-                  "Name": "東京"
-                }
-              }
-            },
-            "Interfaces": [],
-            "Tags": []
-          },
-          "is_ok": true
-        }
-      },
-      "Models.Appliance.ApplianceGetInterfaceResponseBody": {
-        "type": "object",
-        "required": [
-          "Interface",
-          "is_ok"
-        ],
-        "properties": {
-          "Interface": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Models.Network.SimpleInterface"
-              }
-            ],
-            "description": "サービスエンドポイントゲートウェイのインターフェース情報"
-          },
-          "is_ok": {
-            "type": "boolean",
-            "description": "操作結果"
-          }
-        },
-        "example": {
-          "Interface": {
-            "IPAddress": "203.0.113.100",
-            "UserIPAddress": null,
-            "Switch": {
-              "Scope": "shared"
-            }
-          },
-          "is_ok": true
-        }
-      },
-      "Models.Appliance.ApplianceGetResponseBody": {
-        "type": "object",
-        "required": [
-          "Appliance",
-          "is_ok"
-        ],
-        "properties": {
-          "Appliance": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Models.Appliance.Appliance"
-              }
-            ],
-            "description": "サービスエンドポイントゲートウェイ情報"
-          },
-          "is_ok": {
-            "type": "boolean",
-            "description": "操作結果"
-          }
-        },
-        "example": {
-          "Appliance": {
-            "ID": "123456789012",
-            "Class": "serviceendpointgateway",
-            "Name": "Service Endpoint Gateway (123456789012)",
-            "Description": "",
-            "Plan": {
-              "ID": 1
-            },
-            "Settings": {
-              "ServiceEndpointGateway": {
-                "EnabledServices": [
+              "Settings": null,
+              "SettingsHash": null,
+              "Remark": {
+                "Switch": {
+                  "ID": "123456789012"
+                },
+                "Network": {
+                  "NetworkMaskLen": 24
+                },
+                "Servers": [
                   {
-                    "Type": "ObjectStorage",
-                    "Config": {
-                      "Endpoints": [
-                        "s3.isk01.sakurastorage.jp"
-                      ]
-                    }
-                  },
-                  {
-                    "Type": "AppRunDedicatedControlPlane",
-                    "Config": {
-                      "Mode": "Managed"
-                    }
+                    "IPAddress": "192.0.2.15"
                   }
                 ],
-                "MonitoringSuite": {
-                  "Enabled": "True"
+                "Zone": {
+                  "ID": "21001"
+                }
+              },
+              "Availability": "migrating",
+              "Instance": {
+                "Status": null,
+                "StatusChangedAt": null,
+                "Host": {
+                  "Name": null,
+                  "InfoURL": null
                 },
-                "DNSForwarding": {
-                  "Enabled": "True",
-                  "PrivateHostedZone": "internal.example.com",
-                  "UpstreamDNS1": "ns1.gslbN.sakura.ne.jp",
-                  "UpstreamDNS2": "ns2.gslbN.sakura.ne.jp"
+                "Hosts": []
+              },
+              "Disk": {
+                "EncryptionAlgorithm": null,
+                "EncryptionKey": {
+                  "KMSKeyID": null
+                },
+                "DedicatedStorageContract": {
+                  "ID": null
                 }
-              }
-            },
-            "SettingsHash": "abcdef1234567890abcdef1234567890",
-            "Remark": {
+              },
+              "ServiceClass": "cloud/appliance/serviceendpointgateway/1",
+              "Generation": 100,
+              "CreatedAt": "2026-02-09T23:40:29+09:00",
+              "Icon": null,
               "Switch": {
-                "ID": "123456789012"
-              },
-              "Network": {
-                "NetworkMaskLen": 24
-              },
-              "Servers": [
-                {
-                  "IPAddress": "192.0.2.15"
-                }
-              ],
-              "Zone": {
-                "ID": "21001"
-              }
-            },
-            "Availability": "available",
-            "Instance": {
-              "Status": "up",
-              "StatusChangedAt": "2024-01-01T00:00:00+09:00",
-              "Host": {
-                "Name": "sac-tk1a-sv001",
-                "InfoURL": ""
-              },
-              "Hosts": [
-                {
-                  "Name": "sac-tk1a-sv001",
-                  "InfoURL": ""
-                }
-              ]
-            },
-            "Disk": {
-              "EncryptionAlgorithm": "none",
-              "EncryptionKey": null,
-              "DedicatedStorageContract": null
-            },
-            "ServiceClass": "cloud/appliance/serviceendpointgateway/1",
-            "Generation": 100,
-            "CreatedAt": "2024-01-01T00:00:00+09:00",
-            "Icon": null,
-            "Switch": {
-              "ID": "123456789012",
-              "Name": "Switch1",
-              "Internet": null,
-              "Scope": "user",
-              "Availability": "available",
-              "Zone": {
-                "ID": 21001,
-                "Name": "tk1a",
-                "Region": {
-                  "ID": 210,
-                  "Name": "東京"
-                }
-              }
-            },
-            "Interfaces": [
-              {
-                "IPAddress": "203.0.113.100",
-                "UserIPAddress": null,
-                "HostName": null,
-                "Switch": {
-                  "ID": "123456789012",
-                  "Name": "Switch",
-                  "Scope": "shared",
-                  "Subnet": {
-                    "NetworkAddress": "203.0.113.0",
-                    "NetworkMaskLen": 24,
-                    "DefaultRoute": "203.0.113.1",
-                    "Internet": {
-                      "BandWidthMbps": 100
-                    }
-                  },
-                  "UserSubnet": {
-                    "DefaultRoute": "203.0.113.1",
-                    "NetworkMaskLen": 24
+                "ID": "123456789012",
+                "Name": "Switch",
+                "Internet": {
+                  "BandWidthMbps": null
+                },
+                "Scope": "user",
+                "Availability": "available",
+                "Zone": {
+                  "ID": 21001,
+                  "Name": "tk1a",
+                  "Region": {
+                    "ID": 210,
+                    "Name": "東京"
                   }
                 }
               },
-              {
-                "IPAddress": null,
-                "UserIPAddress": "192.0.2.15",
-                "HostName": null,
-                "Switch": {
-                  "ID": "123456789012",
-                  "Name": "SwitchForSEG",
-                  "Scope": "user",
-                  "Subnet": null,
-                  "UserSubnet": {
-                    "DefaultRoute": "192.0.2.1",
-                    "NetworkMaskLen": 24
-                  }
-                }
-              }
-            ],
-            "Tags": []
-          },
-          "is_ok": true
-        }
+              "Interfaces": [],
+              "Tags": []
+            },
+            "is_ok": true
+          }
+        ]
       },
-      "Models.Appliance.ApplianceListResponseBody": {
+      "Models.Appliance.ListServiceEndpointGatewaysResponseBody": {
         "type": "object",
         "required": [
           "From",
@@ -1090,12 +952,207 @@
             "description": "操作結果"
           }
         },
-        "example": {
-          "From": 0,
-          "Count": 1,
-          "Total": 1,
-          "Appliances": [
-            {
+        "examples": [
+          {
+            "From": 0,
+            "Count": 1,
+            "Total": 1,
+            "Appliances": [
+              {
+                "ID": "123456789012",
+                "Class": "serviceendpointgateway",
+                "Name": "Service Endpoint Gateway (123456789012)",
+                "Description": "",
+                "Plan": {
+                  "ID": 1
+                },
+                "Settings": {
+                  "ServiceEndpointGateway": {
+                    "EnabledServices": [
+                      {
+                        "Type": "ObjectStorage",
+                        "Config": {
+                          "Endpoints": [
+                            "s3.isk01.sakurastorage.jp"
+                          ]
+                        }
+                      },
+                      {
+                        "Type": "AppRunDedicatedControlPlane",
+                        "Config": {
+                          "Mode": "Managed"
+                        }
+                      }
+                    ],
+                    "MonitoringSuite": {
+                      "Enabled": "True"
+                    },
+                    "DNSForwarding": {
+                      "Enabled": "True",
+                      "PrivateHostedZone": "internal.example.com",
+                      "UpstreamDNS1": "ns1.gslbN.sakura.ne.jp",
+                      "UpstreamDNS2": "ns2.gslbN.sakura.ne.jp"
+                    }
+                  }
+                },
+                "SettingsHash": "abcdef1234567890abcdef1234567890",
+                "Remark": {
+                  "Switch": {
+                    "ID": "123456789012"
+                  },
+                  "Network": {
+                    "NetworkMaskLen": 24
+                  },
+                  "Servers": [
+                    {
+                      "IPAddress": "192.0.2.15"
+                    }
+                  ],
+                  "Zone": {
+                    "ID": "21001"
+                  }
+                },
+                "Availability": "available",
+                "Instance": {
+                  "Status": "up",
+                  "StatusChangedAt": "2024-01-01T00:00:00+09:00",
+                  "Host": {
+                    "Name": "sac-tk1a-sv001",
+                    "InfoURL": ""
+                  },
+                  "Hosts": [
+                    {
+                      "Name": "sac-tk1a-sv001",
+                      "InfoURL": ""
+                    }
+                  ]
+                },
+                "Disk": {
+                  "EncryptionAlgorithm": "none",
+                  "EncryptionKey": null,
+                  "DedicatedStorageContract": null
+                },
+                "ServiceClass": "cloud/appliance/serviceendpointgateway/1",
+                "Generation": 100,
+                "CreatedAt": "2024-01-01T00:00:00+09:00",
+                "Icon": null,
+                "Switch": {
+                  "ID": "123456789012",
+                  "Name": "Switch1",
+                  "Internet": null,
+                  "Scope": "user",
+                  "Availability": "available",
+                  "Zone": {
+                    "ID": 21001,
+                    "Name": "tk1a",
+                    "Region": {
+                      "ID": 210,
+                      "Name": "東京"
+                    }
+                  }
+                },
+                "Interfaces": [
+                  {
+                    "IPAddress": "203.0.113.100",
+                    "UserIPAddress": null,
+                    "HostName": null,
+                    "Switch": {
+                      "ID": "123456789012",
+                      "Name": "Switch",
+                      "Scope": "shared",
+                      "Subnet": {
+                        "NetworkAddress": "203.0.113.0",
+                        "NetworkMaskLen": 24,
+                        "DefaultRoute": "203.0.113.1",
+                        "Internet": {
+                          "BandWidthMbps": 100
+                        }
+                      },
+                      "UserSubnet": {
+                        "DefaultRoute": "203.0.113.1",
+                        "NetworkMaskLen": 24
+                      }
+                    }
+                  },
+                  {
+                    "IPAddress": null,
+                    "UserIPAddress": "192.0.2.15",
+                    "HostName": null,
+                    "Switch": {
+                      "ID": "123456789012",
+                      "Name": "SwitchForSEG",
+                      "Scope": "user",
+                      "Subnet": null,
+                      "UserSubnet": {
+                        "DefaultRoute": "192.0.2.1",
+                        "NetworkMaskLen": 24
+                      }
+                    }
+                  }
+                ],
+                "Tags": []
+              }
+            ],
+            "is_ok": true
+          }
+        ]
+      },
+      "Models.Appliance.ReadServiceEndpointGatewayInterfaceResponseBody": {
+        "type": "object",
+        "required": [
+          "Interface",
+          "is_ok"
+        ],
+        "properties": {
+          "Interface": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Models.Network.SimpleInterface"
+              }
+            ],
+            "description": "サービスエンドポイントゲートウェイのインターフェース情報"
+          },
+          "is_ok": {
+            "type": "boolean",
+            "description": "操作結果"
+          }
+        },
+        "examples": [
+          {
+            "Interface": {
+              "IPAddress": "203.0.113.100",
+              "UserIPAddress": null,
+              "Switch": {
+                "Scope": "shared"
+              }
+            },
+            "is_ok": true
+          }
+        ]
+      },
+      "Models.Appliance.ReadServiceEndpointGatewayResponseBody": {
+        "type": "object",
+        "required": [
+          "Appliance",
+          "is_ok"
+        ],
+        "properties": {
+          "Appliance": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Models.Appliance.Appliance"
+              }
+            ],
+            "description": "サービスエンドポイントゲートウェイ情報"
+          },
+          "is_ok": {
+            "type": "boolean",
+            "description": "操作結果"
+          }
+        },
+        "examples": [
+          {
+            "Appliance": {
               "ID": "123456789012",
               "Class": "serviceendpointgateway",
               "Name": "Service Endpoint Gateway (123456789012)",
@@ -1228,28 +1285,12 @@
                 }
               ],
               "Tags": []
-            }
-          ],
-          "is_ok": true
-        }
-      },
-      "Models.Appliance.ApplianceUpdateBody": {
-        "type": "object",
-        "required": [
-          "Settings"
-        ],
-        "properties": {
-          "Settings": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Models.Settings.ApplianceSettings"
-              }
-            ],
-            "description": "設定情報"
+            },
+            "is_ok": true
           }
-        }
+        ]
       },
-      "Models.Appliance.ApplianceUpdateRequest": {
+      "Models.Appliance.UpdateServiceEndpointGatewayRequest": {
         "type": "object",
         "required": [
           "Appliance"
@@ -1259,39 +1300,41 @@
             "$ref": "#/components/schemas/Models.Appliance.ApplianceUpdateBody"
           }
         },
-        "example": {
-          "Appliance": {
-            "Settings": {
-              "ServiceEndpointGateway": {
-                "EnabledServices": [
-                  {
-                    "Type": "ObjectStorage",
-                    "Config": {
-                      "Endpoints": [
-                        "s3.isk01.sakurastorage.jp"
-                      ]
+        "examples": [
+          {
+            "Appliance": {
+              "Settings": {
+                "ServiceEndpointGateway": {
+                  "EnabledServices": [
+                    {
+                      "Type": "ObjectStorage",
+                      "Config": {
+                        "Endpoints": [
+                          "s3.isk01.sakurastorage.jp"
+                        ]
+                      }
+                    },
+                    {
+                      "Type": "AppRunDedicatedControlPlane",
+                      "Config": {
+                        "Mode": "Managed"
+                      }
                     }
+                  ],
+                  "MonitoringSuite": {
+                    "Enabled": "True"
                   },
-                  {
-                    "Type": "AppRunDedicatedControlPlane",
-                    "Config": {
-                      "Mode": "Managed"
-                    }
+                  "DNSForwarding": {
+                    "Enabled": "True",
+                    "PrivateHostedZone": "internal.example.com",
+                    "UpstreamDNS1": "ns1.gslbN.sakura.ne.jp",
+                    "UpstreamDNS2": "ns2.gslbN.sakura.ne.jp"
                   }
-                ],
-                "MonitoringSuite": {
-                  "Enabled": "True"
-                },
-                "DNSForwarding": {
-                  "Enabled": "True",
-                  "PrivateHostedZone": "internal.example.com",
-                  "UpstreamDNS1": "ns1.gslbN.sakura.ne.jp",
-                  "UpstreamDNS2": "ns2.gslbN.sakura.ne.jp"
                 }
               }
             }
           }
-        }
+        ]
       },
       "Models.Common.DefaultErrorResponseBody": {
         "type": "object",
@@ -1320,8 +1363,14 @@
         ],
         "properties": {
           "ID": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "契約ID"
           }
         }
@@ -1335,28 +1384,36 @@
         ],
         "properties": {
           "EncryptionAlgorithm": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "暗号化アルゴリズム"
           },
           "EncryptionKey": {
-            "type": "object",
-            "allOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/Models.Disk.EncryptionKey"
+              },
+              {
+                "type": "null"
               }
             ],
-            "nullable": true,
             "description": "暗号化キー情報"
           },
           "DedicatedStorageContract": {
-            "type": "object",
-            "allOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/Models.Disk.DedicatedStorageContract"
+              },
+              {
+                "type": "null"
               }
             ],
-            "nullable": true,
             "description": "専用ストレージ契約情報"
           }
         }
@@ -1368,8 +1425,14 @@
         ],
         "properties": {
           "KMSKeyID": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "KMSキーID"
           }
         }
@@ -1382,13 +1445,25 @@
         ],
         "properties": {
           "Name": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "ホスト名"
           },
           "InfoURL": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "ホスト情報のURL"
           }
         }
@@ -1397,28 +1472,41 @@
         "type": "object",
         "properties": {
           "Status": {
-            "type": "string",
-            "enum": [
-              "up",
-              "down",
-              "cleaning"
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "up",
+                  "down",
+                  "cleaning"
+                ]
+              },
+              {
+                "type": "null"
+              }
             ],
-            "nullable": true,
             "description": "インスタンスの稼働状態"
           },
           "StatusChangedAt": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "状態変更日時"
           },
           "Host": {
-            "type": "object",
-            "allOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/Models.Instance.HostInfo"
+              },
+              {
+                "type": "null"
               }
             ],
-            "nullable": true,
             "description": "ホスト情報"
           },
           "Hosts": {
@@ -1457,18 +1545,36 @@
         ],
         "properties": {
           "IPAddress": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "IPアドレス"
           },
           "UserIPAddress": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "ユーザーIPアドレス"
           },
           "HostName": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "ホスト名"
           },
           "Switch": {
@@ -1508,23 +1614,25 @@
             "description": "スイッチのスコープ"
           },
           "Subnet": {
-            "type": "object",
-            "allOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/Models.Network.Subnet"
+              },
+              {
+                "type": "null"
               }
             ],
-            "nullable": true,
             "description": "サブネット情報"
           },
           "UserSubnet": {
-            "type": "object",
-            "allOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/Models.Network.UserSubnet"
+              },
+              {
+                "type": "null"
               }
             ],
-            "nullable": true,
             "description": "ユーザーサブネット情報"
           }
         }
@@ -1536,9 +1644,15 @@
         ],
         "properties": {
           "BandWidthMbps": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "integer",
+                "format": "int32"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "帯域幅（Mbps）"
           }
         }
@@ -1570,13 +1684,25 @@
         ],
         "properties": {
           "IPAddress": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "IPアドレス"
           },
           "UserIPAddress": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "ユーザーIPアドレス"
           },
           "Switch": {
@@ -1617,8 +1743,14 @@
             "description": "ネットマスク長"
           },
           "DefaultRoute": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "デフォルトルート"
           },
           "Internet": {
@@ -1651,13 +1783,14 @@
             "description": "スイッチ名"
           },
           "Internet": {
-            "type": "object",
-            "allOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/Models.Network.InternetInfo"
+              },
+              {
+                "type": "null"
               }
             ],
-            "nullable": true,
             "description": "インターネット接続情報"
           },
           "Scope": {
@@ -1694,8 +1827,14 @@
         ],
         "properties": {
           "DefaultRoute": {
-            "type": "string",
-            "nullable": true,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "デフォルトルート"
           },
           "NetworkMaskLen": {
@@ -1759,7 +1898,7 @@
           }
         }
       },
-      "Models.Power.ApplianceGetPowerStatusResponseBody": {
+      "Models.Power.ReadServiceEndpointGatewayPowerStatusResponseBody": {
         "type": "object",
         "required": [
           "Instance",
@@ -1779,14 +1918,16 @@
             "description": "操作結果"
           }
         },
-        "example": {
-          "Instance": {
-            "Status": "up"
-          },
-          "is_ok": true
-        }
+        "examples": [
+          {
+            "Instance": {
+              "Status": "up"
+            },
+            "is_ok": true
+          }
+        ]
       },
-      "Models.Power.ApplianceUpdatePowerStatusResponseBody": {
+      "Models.Power.UpdateServiceEndpointGatewayPowerStatusResponseBody": {
         "type": "object",
         "required": [
           "Success",
@@ -1808,10 +1949,12 @@
             "description": "操作結果"
           }
         },
-        "example": {
-          "Success": true,
-          "is_ok": true
-        }
+        "examples": [
+          {
+            "Success": true,
+            "is_ok": true
+          }
+        ]
       },
       "Models.Remark.ApplianceCreateRemark": {
         "type": "object",
@@ -1998,7 +2141,7 @@
               "SimpleAI",
               "AppRunDedicatedControlPlane"
             ],
-            "description": "接続先マネージドサービス\n\n| Type | 説明 |\n|---|---|\n| ObjectStorage | オブジェクトストレージ |\n| ContainerRegistry | コンテナレジストリ |\n| MonitoringSuite | モニタリングスイート |\n| AppRunDedicatedControlPlane | AppRun専有型コントロールプレーン |"
+            "description": "接続先マネージドサービス\n\n| Type | 説明 |\n|---|---|\n| ObjectStorage | オブジェクトストレージ |\n| ContainerRegistry | コンテナレジストリ |\n| MonitoringSuite | モニタリングスイート |\n| AIEngine | AI Engine |\n| SimpleAI | シンプルAI |\n| AppRunDedicatedControlPlane | AppRun専有型コントロールプレーン |"
           },
           "Config": {
             "allOf": [
@@ -2034,7 +2177,7 @@
             "items": {
               "type": "string"
             },
-            "description": "### ObjectStorage Type\nエンドポイントは以下に限定されます。\n\n| 名前 | エンドポイント |\n|---|---|\n| 石狩第1サイト | `s3.isk01.sakurastorage.jp` |\n| 東京第1サイト | `s3.tky01.sakurastorage.jp` |\n| 東京第1サイト（アーカイブプラン） | `s3.arc02.sakurastorage.jp` |\n\n### ContainerRegistry Type\nsakuracr.jp のサブドメインを指定してください。\n\n### MonitoringSuite Type\nモニタリングスイートのログストレージ・メトリクスストレージのエンドポイントを指定してください。\n\n| ストレージ | エンドポイントの形式 |\n|---|---|\n| ログストレージ | `[0-9]{12}.logs.monitoring.global.api.sacloud.jp` |\n| メトリクスストレージ | `[0-9]{12}.metrics.monitoring.global.api.sacloud.jp` |\n\n### AIEngine Type\nエンドポイントは以下に限定されます。\n\n- api.ai.sakura.ad.jp\n\n### AppRunDedicatedControlPlane Type\nエンドポイントは指定できません。"
+            "description": "### ObjectStorage Type\nエンドポイントは以下に限定されます。\n\n| 名前 | エンドポイント |\n|---|---|\n| 石狩第1サイト | `s3.isk01.sakurastorage.jp` |\n| 東京第1サイト | `s3.tky01.sakurastorage.jp` |\n| 東京第1サイト（アーカイブプラン） | `s3.arc02.sakurastorage.jp` |\n\n### ContainerRegistry Type\nsakuracr.jp のサブドメインを指定してください。\n\n### MonitoringSuite Type\nモニタリングスイートのログストレージ・メトリクスストレージのエンドポイントを指定してください。\n\n| ストレージ | エンドポイントの形式 |\n|---|---|\n| ログストレージ | `[0-9]{12}.logs.monitoring.global.api.sacloud.jp` |\n| メトリクスストレージ | `[0-9]{12}.metrics.monitoring.global.api.sacloud.jp` |\n\n### AIEngine Type\nエンドポイントは以下に限定されます。\n\n- api.ai.sakura.ad.jp\n\n### SimpleAI Type\nエンドポイントは以下に限定されます。\n\n- simpleai.is1.api.sacloud.jp\n\n### AppRunDedicatedControlPlane Type\nエンドポイントは指定できません。"
           },
           "Mode": {
             "type": "string",
@@ -2112,3 +2255,4 @@
     }
   ]
 }
+

@@ -40,7 +40,7 @@ func Example() {
 	ctx := context.Background()
 
 	// create request
-	createRequest := v1.ModelsApplianceApplianceCreateRequest{
+	createRequest := v1.ModelsApplianceCreateServiceEndpointGatewayRequest{
 		Appliance: v1.ModelsApplianceApplianceCreateBody{
 			Remark: v1.ModelsRemarkApplianceCreateRemark{
 				Switch: v1.ModelsRemarkSwitchRemark{
@@ -80,7 +80,7 @@ func Example() {
 	fmt.Println(listed)
 
 	// update request
-	updateRequest := v1.ModelsApplianceApplianceUpdateRequest{
+	updateRequest := v1.ModelsApplianceUpdateServiceEndpointGatewayRequest{
 		Appliance: v1.ModelsApplianceApplianceUpdateBody{
 			Settings: v1.ModelsSettingsApplianceSettings{
 				ServiceEndpointGateway: v1.ModelsSettingsServiceEndpointGatewaySettings{

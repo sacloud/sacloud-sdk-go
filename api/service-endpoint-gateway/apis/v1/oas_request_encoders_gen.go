@@ -10,8 +10,8 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 )
 
-func encodeSegApplyRequest(
-	req OptModelsApplianceApplianceUpdateRequest,
+func encodeApplyServiceEndpointGatewayConfigRequest(
+	req OptModelsApplianceUpdateServiceEndpointGatewayRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -30,8 +30,8 @@ func encodeSegApplyRequest(
 	return nil
 }
 
-func encodeSegCreateRequest(
-	req *ModelsApplianceApplianceCreateRequest,
+func encodeCreateServiceEndpointGatewayRequest(
+	req *ModelsApplianceCreateServiceEndpointGatewayRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -44,7 +44,7 @@ func encodeSegCreateRequest(
 	return nil
 }
 
-func encodeSegStatusDeletePowerStatusRequest(
+func encodePowerOffServiceEndpointGatewayRequest(
 	req OptModelsPowerApplianceDeletePowerStatusRequest,
 	r *http.Request,
 ) error {
@@ -64,8 +64,8 @@ func encodeSegStatusDeletePowerStatusRequest(
 	return nil
 }
 
-func encodeSegUpdateRequest(
-	req *ModelsApplianceApplianceUpdateRequest,
+func encodeUpdateServiceEndpointGatewayRequest(
+	req *ModelsApplianceUpdateServiceEndpointGatewayRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

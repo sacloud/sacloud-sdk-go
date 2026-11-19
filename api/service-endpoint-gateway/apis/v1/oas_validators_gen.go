@@ -238,7 +238,39 @@ func (s ModelsApplianceApplianceCreateBodyClass) Validate() error {
 	}
 }
 
-func (s *ModelsApplianceApplianceCreateRequest) Validate() error {
+func (s ModelsApplianceApplianceServiceClass) Validate() error {
+	switch s {
+	case "cloud/appliance/serviceendpointgateway/1":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *ModelsApplianceApplianceUpdateBody) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Settings.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "Settings",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *ModelsApplianceCreateServiceEndpointGatewayRequest) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -261,7 +293,7 @@ func (s *ModelsApplianceApplianceCreateRequest) Validate() error {
 	return nil
 }
 
-func (s *ModelsApplianceApplianceCreateResponseBody) Validate() error {
+func (s *ModelsApplianceCreateServiceEndpointGatewayResponseBody) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -284,53 +316,7 @@ func (s *ModelsApplianceApplianceCreateResponseBody) Validate() error {
 	return nil
 }
 
-func (s *ModelsApplianceApplianceGetInterfaceResponseBody) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Interface.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "Interface",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *ModelsApplianceApplianceGetResponseBody) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Appliance.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "Appliance",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *ModelsApplianceApplianceListResponseBody) Validate() error {
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -370,29 +356,20 @@ func (s *ModelsApplianceApplianceListResponseBody) Validate() error {
 	return nil
 }
 
-func (s ModelsApplianceApplianceServiceClass) Validate() error {
-	switch s {
-	case "cloud/appliance/serviceendpointgateway/1":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *ModelsApplianceApplianceUpdateBody) Validate() error {
+func (s *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.Settings.Validate(); err != nil {
+		if err := s.Interface.Validate(); err != nil {
 			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "Settings",
+			Name:  "Interface",
 			Error: err,
 		})
 	}
@@ -402,7 +379,30 @@ func (s *ModelsApplianceApplianceUpdateBody) Validate() error {
 	return nil
 }
 
-func (s *ModelsApplianceApplianceUpdateRequest) Validate() error {
+func (s *ModelsApplianceReadServiceEndpointGatewayResponseBody) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Appliance.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "Appliance",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *ModelsApplianceUpdateServiceEndpointGatewayRequest) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -706,7 +706,7 @@ func (s ModelsPlanPlanID) Validate() error {
 	}
 }
 
-func (s *ModelsPowerApplianceGetPowerStatusResponseBody) Validate() error {
+func (s *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}

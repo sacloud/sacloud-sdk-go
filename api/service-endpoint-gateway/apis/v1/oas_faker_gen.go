@@ -2,6 +2,10 @@
 
 package v1
 
+import (
+	"github.com/go-faster/jx"
+)
+
 // SetFake set fake values.
 func (s *ModelsApplianceAppliance) SetFake() {
 	{
@@ -76,7 +80,7 @@ func (s *ModelsApplianceAppliance) SetFake() {
 	}
 	{
 		{
-			s.Icon = []byte("null")
+			s.Icon = struct{}{}
 		}
 	}
 	{
@@ -100,9 +104,9 @@ func (s *ModelsApplianceAppliance) SetFake() {
 		{
 			s.Tags = nil
 			for i := 0; i < 0; i++ {
-				var elem string
+				var elem jx.Raw
 				{
-					elem = "string"
+					elem = []byte("null")
 				}
 				s.Tags = append(s.Tags, elem)
 			}
@@ -111,7 +115,7 @@ func (s *ModelsApplianceAppliance) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ModelsApplianceApplianceApplyResponse) SetFake() {
+func (s *ModelsApplianceApplianceApplyResponseBody) SetFake() {
 	{
 		{
 			s.Success = true
@@ -140,7 +144,7 @@ func (s *ModelsApplianceApplianceApplyResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) SetFake() {
+func (s *ModelsApplianceApplianceApplyResponseBodyResponseHeaders) SetFake() {
 	{
 		{
 			s.Status = "string"
@@ -188,7 +192,21 @@ func (s *ModelsApplianceApplianceCreateBodyClass) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ModelsApplianceApplianceCreateRequest) SetFake() {
+func (s *ModelsApplianceApplianceServiceClass) SetFake() {
+	*s = ModelsApplianceApplianceServiceClassCloudApplianceServiceendpointgateway1
+}
+
+// SetFake set fake values.
+func (s *ModelsApplianceApplianceUpdateBody) SetFake() {
+	{
+		{
+			s.Settings.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ModelsApplianceCreateServiceEndpointGatewayRequest) SetFake() {
 	{
 		{
 			s.Appliance.SetFake()
@@ -197,35 +215,7 @@ func (s *ModelsApplianceApplianceCreateRequest) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ModelsApplianceApplianceCreateResponseBody) SetFake() {
-	{
-		{
-			s.Appliance.SetFake()
-		}
-	}
-	{
-		{
-			s.IsOk = true
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ModelsApplianceApplianceGetInterfaceResponseBody) SetFake() {
-	{
-		{
-			s.Interface.SetFake()
-		}
-	}
-	{
-		{
-			s.IsOk = true
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ModelsApplianceApplianceGetResponseBody) SetFake() {
+func (s *ModelsApplianceCreateServiceEndpointGatewayResponseBody) SetFake() {
 	{
 		{
 			s.Appliance.SetFake()
@@ -239,7 +229,7 @@ func (s *ModelsApplianceApplianceGetResponseBody) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ModelsApplianceApplianceListResponseBody) SetFake() {
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) SetFake() {
 	{
 		{
 			s.From = int32(0)
@@ -275,21 +265,35 @@ func (s *ModelsApplianceApplianceListResponseBody) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ModelsApplianceApplianceServiceClass) SetFake() {
-	*s = ModelsApplianceApplianceServiceClassCloudApplianceServiceendpointgateway1
-}
-
-// SetFake set fake values.
-func (s *ModelsApplianceApplianceUpdateBody) SetFake() {
+func (s *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) SetFake() {
 	{
 		{
-			s.Settings.SetFake()
+			s.Interface.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *ModelsApplianceApplianceUpdateRequest) SetFake() {
+func (s *ModelsApplianceReadServiceEndpointGatewayResponseBody) SetFake() {
+	{
+		{
+			s.Appliance.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ModelsApplianceUpdateServiceEndpointGatewayRequest) SetFake() {
 	{
 		{
 			s.Appliance.SetFake()
@@ -666,7 +670,7 @@ func (s *ModelsPowerApplianceDeletePowerStatusRequest) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ModelsPowerApplianceGetPowerStatusResponseBody) SetFake() {
+func (s *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) SetFake() {
 	{
 		{
 			s.Instance.SetFake()
@@ -680,7 +684,7 @@ func (s *ModelsPowerApplianceGetPowerStatusResponseBody) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) SetFake() {
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody) SetFake() {
 	{
 		{
 			s.Success.SetFake()
@@ -694,7 +698,7 @@ func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) SetFake() {
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) SetFake() {
 	var variant bool
 
 	{
@@ -979,8 +983,8 @@ func (s *OptBool) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptModelsApplianceApplianceUpdateRequest) SetFake() {
-	var elem ModelsApplianceApplianceUpdateRequest
+func (s *OptModelsApplianceUpdateServiceEndpointGatewayRequest) SetFake() {
+	var elem ModelsApplianceUpdateServiceEndpointGatewayRequest
 	{
 		elem.SetFake()
 	}

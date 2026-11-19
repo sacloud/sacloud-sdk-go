@@ -77,10 +77,9 @@ func (s *ModelsApplianceAppliance) encodeFields(e *jx.Encoder) {
 		e.Str(s.CreatedAt)
 	}
 	{
-		if len(s.Icon) != 0 {
-			e.FieldStart("Icon")
-			e.Raw(s.Icon)
-		}
+		_ = s.Icon
+		e.FieldStart("Icon")
+		e.Null()
 	}
 	{
 		e.FieldStart("Switch")
@@ -98,7 +97,9 @@ func (s *ModelsApplianceAppliance) encodeFields(e *jx.Encoder) {
 		e.FieldStart("Tags")
 		e.ArrStart()
 		for _, elem := range s.Tags {
-			e.Str(elem)
+			if len(elem) != 0 {
+				e.Raw(elem)
+			}
 		}
 		e.ArrEnd()
 	}
@@ -287,9 +288,7 @@ func (s *ModelsApplianceAppliance) Decode(d *jx.Decoder) error {
 		case "Icon":
 			requiredBitSet[1] |= 1 << 6
 			if err := func() error {
-				v, err := d.RawAppend(nil)
-				s.Icon = jx.Raw(v)
-				if err != nil {
+				if err := d.Null(); err != nil {
 					return err
 				}
 				return nil
@@ -327,11 +326,11 @@ func (s *ModelsApplianceAppliance) Decode(d *jx.Decoder) error {
 		case "Tags":
 			requiredBitSet[2] |= 1 << 1
 			if err := func() error {
-				s.Tags = make([]string, 0)
+				s.Tags = make([]jx.Raw, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem string
-					v, err := d.Str()
-					elem = string(v)
+					var elem jx.Raw
+					v, err := d.RawAppend(nil)
+					elem = jx.Raw(v)
 					if err != nil {
 						return err
 					}
@@ -403,14 +402,14 @@ func (s *ModelsApplianceAppliance) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *ModelsApplianceApplianceApplyResponse) Encode(e *jx.Encoder) {
+func (s *ModelsApplianceApplianceApplyResponseBody) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *ModelsApplianceApplianceApplyResponse) encodeFields(e *jx.Encoder) {
+func (s *ModelsApplianceApplianceApplyResponseBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("Success")
 		e.Bool(s.Success)
@@ -433,7 +432,7 @@ func (s *ModelsApplianceApplianceApplyResponse) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfModelsApplianceApplianceApplyResponse = [5]string{
+var jsonFieldsNameOfModelsApplianceApplianceApplyResponseBody = [5]string{
 	0: "Success",
 	1: "ReturnCode",
 	2: "ResponseHeaders",
@@ -441,10 +440,10 @@ var jsonFieldsNameOfModelsApplianceApplianceApplyResponse = [5]string{
 	4: "is_ok",
 }
 
-// Decode decodes ModelsApplianceApplianceApplyResponse from json.
-func (s *ModelsApplianceApplianceApplyResponse) Decode(d *jx.Decoder) error {
+// Decode decodes ModelsApplianceApplianceApplyResponseBody from json.
+func (s *ModelsApplianceApplianceApplyResponseBody) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ModelsApplianceApplianceApplyResponse to nil")
+		return errors.New("invalid: unable to decode ModelsApplianceApplianceApplyResponseBody to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -511,7 +510,7 @@ func (s *ModelsApplianceApplianceApplyResponse) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode ModelsApplianceApplianceApplyResponse")
+		return errors.Wrap(err, "decode ModelsApplianceApplianceApplyResponseBody")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -528,8 +527,8 @@ func (s *ModelsApplianceApplianceApplyResponse) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfModelsApplianceApplianceApplyResponse) {
-					name = jsonFieldsNameOfModelsApplianceApplianceApplyResponse[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfModelsApplianceApplianceApplyResponseBody) {
+					name = jsonFieldsNameOfModelsApplianceApplianceApplyResponseBody[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -550,27 +549,27 @@ func (s *ModelsApplianceApplianceApplyResponse) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *ModelsApplianceApplianceApplyResponse) MarshalJSON() ([]byte, error) {
+func (s *ModelsApplianceApplianceApplyResponseBody) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ModelsApplianceApplianceApplyResponse) UnmarshalJSON(data []byte) error {
+func (s *ModelsApplianceApplianceApplyResponseBody) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) Encode(e *jx.Encoder) {
+func (s *ModelsApplianceApplianceApplyResponseBodyResponseHeaders) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) encodeFields(e *jx.Encoder) {
+func (s *ModelsApplianceApplianceApplyResponseBodyResponseHeaders) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("Status")
 		e.Str(s.Status)
@@ -581,15 +580,15 @@ func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) encodeFields(e *j
 	}
 }
 
-var jsonFieldsNameOfModelsApplianceApplianceApplyResponseResponseHeaders = [2]string{
+var jsonFieldsNameOfModelsApplianceApplianceApplyResponseBodyResponseHeaders = [2]string{
 	0: "Status",
 	1: "Cause",
 }
 
-// Decode decodes ModelsApplianceApplianceApplyResponseResponseHeaders from json.
-func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) Decode(d *jx.Decoder) error {
+// Decode decodes ModelsApplianceApplianceApplyResponseBodyResponseHeaders from json.
+func (s *ModelsApplianceApplianceApplyResponseBodyResponseHeaders) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ModelsApplianceApplianceApplyResponseResponseHeaders to nil")
+		return errors.New("invalid: unable to decode ModelsApplianceApplianceApplyResponseBodyResponseHeaders to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -622,7 +621,7 @@ func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) Decode(d *jx.Deco
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode ModelsApplianceApplianceApplyResponseResponseHeaders")
+		return errors.Wrap(err, "decode ModelsApplianceApplianceApplyResponseBodyResponseHeaders")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -639,8 +638,8 @@ func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) Decode(d *jx.Deco
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfModelsApplianceApplianceApplyResponseResponseHeaders) {
-					name = jsonFieldsNameOfModelsApplianceApplianceApplyResponseResponseHeaders[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfModelsApplianceApplianceApplyResponseBodyResponseHeaders) {
+					name = jsonFieldsNameOfModelsApplianceApplianceApplyResponseBodyResponseHeaders[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -661,14 +660,14 @@ func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) Decode(d *jx.Deco
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) MarshalJSON() ([]byte, error) {
+func (s *ModelsApplianceApplianceApplyResponseBodyResponseHeaders) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) UnmarshalJSON(data []byte) error {
+func (s *ModelsApplianceApplianceApplyResponseBodyResponseHeaders) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -915,607 +914,6 @@ func (s *ModelsApplianceApplianceCreateBodyClass) UnmarshalJSON(data []byte) err
 	return s.Decode(d)
 }
 
-// Encode implements json.Marshaler.
-func (s *ModelsApplianceApplianceCreateRequest) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *ModelsApplianceApplianceCreateRequest) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("Appliance")
-		s.Appliance.Encode(e)
-	}
-}
-
-var jsonFieldsNameOfModelsApplianceApplianceCreateRequest = [1]string{
-	0: "Appliance",
-}
-
-// Decode decodes ModelsApplianceApplianceCreateRequest from json.
-func (s *ModelsApplianceApplianceCreateRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode ModelsApplianceApplianceCreateRequest to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "Appliance":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.Appliance.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Appliance\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode ModelsApplianceApplianceCreateRequest")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000001,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfModelsApplianceApplianceCreateRequest) {
-					name = jsonFieldsNameOfModelsApplianceApplianceCreateRequest[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *ModelsApplianceApplianceCreateRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ModelsApplianceApplianceCreateRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *ModelsApplianceApplianceCreateResponseBody) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *ModelsApplianceApplianceCreateResponseBody) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("Appliance")
-		s.Appliance.Encode(e)
-	}
-	{
-		e.FieldStart("is_ok")
-		e.Bool(s.IsOk)
-	}
-}
-
-var jsonFieldsNameOfModelsApplianceApplianceCreateResponseBody = [2]string{
-	0: "Appliance",
-	1: "is_ok",
-}
-
-// Decode decodes ModelsApplianceApplianceCreateResponseBody from json.
-func (s *ModelsApplianceApplianceCreateResponseBody) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode ModelsApplianceApplianceCreateResponseBody to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "Appliance":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.Appliance.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Appliance\"")
-			}
-		case "is_ok":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Bool()
-				s.IsOk = bool(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_ok\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode ModelsApplianceApplianceCreateResponseBody")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000011,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfModelsApplianceApplianceCreateResponseBody) {
-					name = jsonFieldsNameOfModelsApplianceApplianceCreateResponseBody[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *ModelsApplianceApplianceCreateResponseBody) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ModelsApplianceApplianceCreateResponseBody) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *ModelsApplianceApplianceGetInterfaceResponseBody) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *ModelsApplianceApplianceGetInterfaceResponseBody) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("Interface")
-		s.Interface.Encode(e)
-	}
-	{
-		e.FieldStart("is_ok")
-		e.Bool(s.IsOk)
-	}
-}
-
-var jsonFieldsNameOfModelsApplianceApplianceGetInterfaceResponseBody = [2]string{
-	0: "Interface",
-	1: "is_ok",
-}
-
-// Decode decodes ModelsApplianceApplianceGetInterfaceResponseBody from json.
-func (s *ModelsApplianceApplianceGetInterfaceResponseBody) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode ModelsApplianceApplianceGetInterfaceResponseBody to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "Interface":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.Interface.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Interface\"")
-			}
-		case "is_ok":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Bool()
-				s.IsOk = bool(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_ok\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode ModelsApplianceApplianceGetInterfaceResponseBody")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000011,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfModelsApplianceApplianceGetInterfaceResponseBody) {
-					name = jsonFieldsNameOfModelsApplianceApplianceGetInterfaceResponseBody[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *ModelsApplianceApplianceGetInterfaceResponseBody) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ModelsApplianceApplianceGetInterfaceResponseBody) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *ModelsApplianceApplianceGetResponseBody) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *ModelsApplianceApplianceGetResponseBody) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("Appliance")
-		s.Appliance.Encode(e)
-	}
-	{
-		e.FieldStart("is_ok")
-		e.Bool(s.IsOk)
-	}
-}
-
-var jsonFieldsNameOfModelsApplianceApplianceGetResponseBody = [2]string{
-	0: "Appliance",
-	1: "is_ok",
-}
-
-// Decode decodes ModelsApplianceApplianceGetResponseBody from json.
-func (s *ModelsApplianceApplianceGetResponseBody) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode ModelsApplianceApplianceGetResponseBody to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "Appliance":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.Appliance.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Appliance\"")
-			}
-		case "is_ok":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Bool()
-				s.IsOk = bool(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_ok\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode ModelsApplianceApplianceGetResponseBody")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000011,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfModelsApplianceApplianceGetResponseBody) {
-					name = jsonFieldsNameOfModelsApplianceApplianceGetResponseBody[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *ModelsApplianceApplianceGetResponseBody) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ModelsApplianceApplianceGetResponseBody) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *ModelsApplianceApplianceListResponseBody) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *ModelsApplianceApplianceListResponseBody) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("From")
-		e.Int32(s.From)
-	}
-	{
-		e.FieldStart("Count")
-		e.Int32(s.Count)
-	}
-	{
-		e.FieldStart("Total")
-		e.Int32(s.Total)
-	}
-	{
-		e.FieldStart("Appliances")
-		e.ArrStart()
-		for _, elem := range s.Appliances {
-			elem.Encode(e)
-		}
-		e.ArrEnd()
-	}
-	{
-		e.FieldStart("is_ok")
-		e.Bool(s.IsOk)
-	}
-}
-
-var jsonFieldsNameOfModelsApplianceApplianceListResponseBody = [5]string{
-	0: "From",
-	1: "Count",
-	2: "Total",
-	3: "Appliances",
-	4: "is_ok",
-}
-
-// Decode decodes ModelsApplianceApplianceListResponseBody from json.
-func (s *ModelsApplianceApplianceListResponseBody) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode ModelsApplianceApplianceListResponseBody to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "From":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Int32()
-				s.From = int32(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"From\"")
-			}
-		case "Count":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Int32()
-				s.Count = int32(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Count\"")
-			}
-		case "Total":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				v, err := d.Int32()
-				s.Total = int32(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Total\"")
-			}
-		case "Appliances":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				s.Appliances = make([]ModelsApplianceAppliance, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem ModelsApplianceAppliance
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Appliances = append(s.Appliances, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Appliances\"")
-			}
-		case "is_ok":
-			requiredBitSet[0] |= 1 << 4
-			if err := func() error {
-				v, err := d.Bool()
-				s.IsOk = bool(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_ok\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode ModelsApplianceApplianceListResponseBody")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00011111,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfModelsApplianceApplianceListResponseBody) {
-					name = jsonFieldsNameOfModelsApplianceApplianceListResponseBody[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *ModelsApplianceApplianceListResponseBody) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ModelsApplianceApplianceListResponseBody) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
 // Encode encodes ModelsApplianceApplianceServiceClass as json.
 func (s ModelsApplianceApplianceServiceClass) Encode(e *jx.Encoder) {
 	e.Str(string(s))
@@ -1649,28 +1047,28 @@ func (s *ModelsApplianceApplianceUpdateBody) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *ModelsApplianceApplianceUpdateRequest) Encode(e *jx.Encoder) {
+func (s *ModelsApplianceCreateServiceEndpointGatewayRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *ModelsApplianceApplianceUpdateRequest) encodeFields(e *jx.Encoder) {
+func (s *ModelsApplianceCreateServiceEndpointGatewayRequest) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("Appliance")
 		s.Appliance.Encode(e)
 	}
 }
 
-var jsonFieldsNameOfModelsApplianceApplianceUpdateRequest = [1]string{
+var jsonFieldsNameOfModelsApplianceCreateServiceEndpointGatewayRequest = [1]string{
 	0: "Appliance",
 }
 
-// Decode decodes ModelsApplianceApplianceUpdateRequest from json.
-func (s *ModelsApplianceApplianceUpdateRequest) Decode(d *jx.Decoder) error {
+// Decode decodes ModelsApplianceCreateServiceEndpointGatewayRequest from json.
+func (s *ModelsApplianceCreateServiceEndpointGatewayRequest) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ModelsApplianceApplianceUpdateRequest to nil")
+		return errors.New("invalid: unable to decode ModelsApplianceCreateServiceEndpointGatewayRequest to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -1691,7 +1089,7 @@ func (s *ModelsApplianceApplianceUpdateRequest) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode ModelsApplianceApplianceUpdateRequest")
+		return errors.Wrap(err, "decode ModelsApplianceCreateServiceEndpointGatewayRequest")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -1708,8 +1106,8 @@ func (s *ModelsApplianceApplianceUpdateRequest) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfModelsApplianceApplianceUpdateRequest) {
-					name = jsonFieldsNameOfModelsApplianceApplianceUpdateRequest[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfModelsApplianceCreateServiceEndpointGatewayRequest) {
+					name = jsonFieldsNameOfModelsApplianceCreateServiceEndpointGatewayRequest[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -1730,14 +1128,615 @@ func (s *ModelsApplianceApplianceUpdateRequest) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *ModelsApplianceApplianceUpdateRequest) MarshalJSON() ([]byte, error) {
+func (s *ModelsApplianceCreateServiceEndpointGatewayRequest) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ModelsApplianceApplianceUpdateRequest) UnmarshalJSON(data []byte) error {
+func (s *ModelsApplianceCreateServiceEndpointGatewayRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ModelsApplianceCreateServiceEndpointGatewayResponseBody) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ModelsApplianceCreateServiceEndpointGatewayResponseBody) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Appliance")
+		s.Appliance.Encode(e)
+	}
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+}
+
+var jsonFieldsNameOfModelsApplianceCreateServiceEndpointGatewayResponseBody = [2]string{
+	0: "Appliance",
+	1: "is_ok",
+}
+
+// Decode decodes ModelsApplianceCreateServiceEndpointGatewayResponseBody from json.
+func (s *ModelsApplianceCreateServiceEndpointGatewayResponseBody) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ModelsApplianceCreateServiceEndpointGatewayResponseBody to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Appliance":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Appliance.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Appliance\"")
+			}
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ModelsApplianceCreateServiceEndpointGatewayResponseBody")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfModelsApplianceCreateServiceEndpointGatewayResponseBody) {
+					name = jsonFieldsNameOfModelsApplianceCreateServiceEndpointGatewayResponseBody[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ModelsApplianceCreateServiceEndpointGatewayResponseBody) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ModelsApplianceCreateServiceEndpointGatewayResponseBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("From")
+		e.Int32(s.From)
+	}
+	{
+		e.FieldStart("Count")
+		e.Int32(s.Count)
+	}
+	{
+		e.FieldStart("Total")
+		e.Int32(s.Total)
+	}
+	{
+		e.FieldStart("Appliances")
+		e.ArrStart()
+		for _, elem := range s.Appliances {
+			elem.Encode(e)
+		}
+		e.ArrEnd()
+	}
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+}
+
+var jsonFieldsNameOfModelsApplianceListServiceEndpointGatewaysResponseBody = [5]string{
+	0: "From",
+	1: "Count",
+	2: "Total",
+	3: "Appliances",
+	4: "is_ok",
+}
+
+// Decode decodes ModelsApplianceListServiceEndpointGatewaysResponseBody from json.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ModelsApplianceListServiceEndpointGatewaysResponseBody to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "From":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Int32()
+				s.From = int32(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"From\"")
+			}
+		case "Count":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Int32()
+				s.Count = int32(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Count\"")
+			}
+		case "Total":
+			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				v, err := d.Int32()
+				s.Total = int32(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Total\"")
+			}
+		case "Appliances":
+			requiredBitSet[0] |= 1 << 3
+			if err := func() error {
+				s.Appliances = make([]ModelsApplianceAppliance, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem ModelsApplianceAppliance
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Appliances = append(s.Appliances, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Appliances\"")
+			}
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 4
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ModelsApplianceListServiceEndpointGatewaysResponseBody")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00011111,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfModelsApplianceListServiceEndpointGatewaysResponseBody) {
+					name = jsonFieldsNameOfModelsApplianceListServiceEndpointGatewaysResponseBody[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Interface")
+		s.Interface.Encode(e)
+	}
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+}
+
+var jsonFieldsNameOfModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody = [2]string{
+	0: "Interface",
+	1: "is_ok",
+}
+
+// Decode decodes ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody from json.
+func (s *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Interface":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Interface.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Interface\"")
+			}
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) {
+					name = jsonFieldsNameOfModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ModelsApplianceReadServiceEndpointGatewayResponseBody) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ModelsApplianceReadServiceEndpointGatewayResponseBody) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Appliance")
+		s.Appliance.Encode(e)
+	}
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+}
+
+var jsonFieldsNameOfModelsApplianceReadServiceEndpointGatewayResponseBody = [2]string{
+	0: "Appliance",
+	1: "is_ok",
+}
+
+// Decode decodes ModelsApplianceReadServiceEndpointGatewayResponseBody from json.
+func (s *ModelsApplianceReadServiceEndpointGatewayResponseBody) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ModelsApplianceReadServiceEndpointGatewayResponseBody to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Appliance":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Appliance.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Appliance\"")
+			}
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ModelsApplianceReadServiceEndpointGatewayResponseBody")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfModelsApplianceReadServiceEndpointGatewayResponseBody) {
+					name = jsonFieldsNameOfModelsApplianceReadServiceEndpointGatewayResponseBody[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ModelsApplianceReadServiceEndpointGatewayResponseBody) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ModelsApplianceReadServiceEndpointGatewayResponseBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ModelsApplianceUpdateServiceEndpointGatewayRequest) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ModelsApplianceUpdateServiceEndpointGatewayRequest) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Appliance")
+		s.Appliance.Encode(e)
+	}
+}
+
+var jsonFieldsNameOfModelsApplianceUpdateServiceEndpointGatewayRequest = [1]string{
+	0: "Appliance",
+}
+
+// Decode decodes ModelsApplianceUpdateServiceEndpointGatewayRequest from json.
+func (s *ModelsApplianceUpdateServiceEndpointGatewayRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ModelsApplianceUpdateServiceEndpointGatewayRequest to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Appliance":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Appliance.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Appliance\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ModelsApplianceUpdateServiceEndpointGatewayRequest")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfModelsApplianceUpdateServiceEndpointGatewayRequest) {
+					name = jsonFieldsNameOfModelsApplianceUpdateServiceEndpointGatewayRequest[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ModelsApplianceUpdateServiceEndpointGatewayRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ModelsApplianceUpdateServiceEndpointGatewayRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -4257,14 +4256,14 @@ func (s *ModelsPowerApplianceDeletePowerStatusRequest) UnmarshalJSON(data []byte
 }
 
 // Encode implements json.Marshaler.
-func (s *ModelsPowerApplianceGetPowerStatusResponseBody) Encode(e *jx.Encoder) {
+func (s *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *ModelsPowerApplianceGetPowerStatusResponseBody) encodeFields(e *jx.Encoder) {
+func (s *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("Instance")
 		s.Instance.Encode(e)
@@ -4275,15 +4274,15 @@ func (s *ModelsPowerApplianceGetPowerStatusResponseBody) encodeFields(e *jx.Enco
 	}
 }
 
-var jsonFieldsNameOfModelsPowerApplianceGetPowerStatusResponseBody = [2]string{
+var jsonFieldsNameOfModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody = [2]string{
 	0: "Instance",
 	1: "is_ok",
 }
 
-// Decode decodes ModelsPowerApplianceGetPowerStatusResponseBody from json.
-func (s *ModelsPowerApplianceGetPowerStatusResponseBody) Decode(d *jx.Decoder) error {
+// Decode decodes ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody from json.
+func (s *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ModelsPowerApplianceGetPowerStatusResponseBody to nil")
+		return errors.New("invalid: unable to decode ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -4316,7 +4315,7 @@ func (s *ModelsPowerApplianceGetPowerStatusResponseBody) Decode(d *jx.Decoder) e
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode ModelsPowerApplianceGetPowerStatusResponseBody")
+		return errors.Wrap(err, "decode ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -4333,8 +4332,8 @@ func (s *ModelsPowerApplianceGetPowerStatusResponseBody) Decode(d *jx.Decoder) e
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfModelsPowerApplianceGetPowerStatusResponseBody) {
-					name = jsonFieldsNameOfModelsPowerApplianceGetPowerStatusResponseBody[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) {
+					name = jsonFieldsNameOfModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -4355,27 +4354,27 @@ func (s *ModelsPowerApplianceGetPowerStatusResponseBody) Decode(d *jx.Decoder) e
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *ModelsPowerApplianceGetPowerStatusResponseBody) MarshalJSON() ([]byte, error) {
+func (s *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ModelsPowerApplianceGetPowerStatusResponseBody) UnmarshalJSON(data []byte) error {
+func (s *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) Encode(e *jx.Encoder) {
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) encodeFields(e *jx.Encoder) {
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("Success")
 		s.Success.Encode(e)
@@ -4386,15 +4385,15 @@ func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) encodeFields(e *jx.E
 	}
 }
 
-var jsonFieldsNameOfModelsPowerApplianceUpdatePowerStatusResponseBody = [2]string{
+var jsonFieldsNameOfModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody = [2]string{
 	0: "Success",
 	1: "is_ok",
 }
 
-// Decode decodes ModelsPowerApplianceUpdatePowerStatusResponseBody from json.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) Decode(d *jx.Decoder) error {
+// Decode decodes ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody from json.
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ModelsPowerApplianceUpdatePowerStatusResponseBody to nil")
+		return errors.New("invalid: unable to decode ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -4427,7 +4426,7 @@ func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) Decode(d *jx.Decoder
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode ModelsPowerApplianceUpdatePowerStatusResponseBody")
+		return errors.Wrap(err, "decode ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -4444,8 +4443,8 @@ func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) Decode(d *jx.Decoder
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfModelsPowerApplianceUpdatePowerStatusResponseBody) {
-					name = jsonFieldsNameOfModelsPowerApplianceUpdatePowerStatusResponseBody[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody) {
+					name = jsonFieldsNameOfModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -4466,32 +4465,32 @@ func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) Decode(d *jx.Decoder
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) MarshalJSON() ([]byte, error) {
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) UnmarshalJSON(data []byte) error {
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess as json.
-func (s ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) Encode(e *jx.Encoder) {
+// Encode encodes ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess as json.
+func (s ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case BoolModelsPowerApplianceUpdatePowerStatusResponseBodySuccess:
+	case BoolModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess:
 		e.Bool(s.Bool)
-	case StringModelsPowerApplianceUpdatePowerStatusResponseBodySuccess:
+	case StringModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess:
 		e.Str(s.String)
 	}
 }
 
-// Decode decodes ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess from json.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) Decode(d *jx.Decoder) error {
+// Decode decodes ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess from json.
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess to nil")
+		return errors.New("invalid: unable to decode ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess to nil")
 	}
 	// Sum type type_discriminator.
 	switch t := d.Next(); t {
@@ -4501,14 +4500,14 @@ func (s *ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) Decode(d *jx.
 		if err != nil {
 			return err
 		}
-		s.Type = BoolModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
+		s.Type = BoolModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess
 	case jx.String:
 		v, err := d.Str()
 		s.String = string(v)
 		if err != nil {
 			return err
 		}
-		s.Type = StringModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
+		s.Type = StringModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess
 	default:
 		return errors.Errorf("unexpected json type %q", t)
 	}
@@ -4516,14 +4515,14 @@ func (s *ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) Decode(d *jx.
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) MarshalJSON() ([]byte, error) {
+func (s ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) UnmarshalJSON(data []byte) error {
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -6521,18 +6520,18 @@ func (s *OptBool) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes ModelsApplianceApplianceUpdateRequest as json.
-func (o OptModelsApplianceApplianceUpdateRequest) Encode(e *jx.Encoder) {
+// Encode encodes ModelsApplianceUpdateServiceEndpointGatewayRequest as json.
+func (o OptModelsApplianceUpdateServiceEndpointGatewayRequest) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
 	o.Value.Encode(e)
 }
 
-// Decode decodes ModelsApplianceApplianceUpdateRequest from json.
-func (o *OptModelsApplianceApplianceUpdateRequest) Decode(d *jx.Decoder) error {
+// Decode decodes ModelsApplianceUpdateServiceEndpointGatewayRequest from json.
+func (o *OptModelsApplianceUpdateServiceEndpointGatewayRequest) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptModelsApplianceApplianceUpdateRequest to nil")
+		return errors.New("invalid: unable to decode OptModelsApplianceUpdateServiceEndpointGatewayRequest to nil")
 	}
 	o.Set = true
 	if err := o.Value.Decode(d); err != nil {
@@ -6542,14 +6541,14 @@ func (o *OptModelsApplianceApplianceUpdateRequest) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptModelsApplianceApplianceUpdateRequest) MarshalJSON() ([]byte, error) {
+func (s OptModelsApplianceUpdateServiceEndpointGatewayRequest) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptModelsApplianceApplianceUpdateRequest) UnmarshalJSON(data []byte) error {
+func (s *OptModelsApplianceUpdateServiceEndpointGatewayRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

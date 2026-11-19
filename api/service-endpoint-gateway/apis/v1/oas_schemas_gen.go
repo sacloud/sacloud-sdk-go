@@ -43,13 +43,13 @@ type ModelsApplianceAppliance struct {
 	// 作成日時.
 	CreatedAt string `json:"CreatedAt"`
 	// アイコン情報.
-	Icon jx.Raw `json:"Icon"`
+	Icon struct{} `json:"Icon"`
 	// 接続先スイッチ情報.
 	Switch ModelsNetworkSwitch `json:"Switch"`
 	// インターフェース情報.
 	Interfaces []ModelsNetworkInterface `json:"Interfaces"`
 	// タグ情報.
-	Tags []string `json:"Tags"`
+	Tags []jx.Raw `json:"Tags"`
 }
 
 // GetID returns the value of ID.
@@ -123,7 +123,7 @@ func (s *ModelsApplianceAppliance) GetCreatedAt() string {
 }
 
 // GetIcon returns the value of Icon.
-func (s *ModelsApplianceAppliance) GetIcon() jx.Raw {
+func (s *ModelsApplianceAppliance) GetIcon() struct{} {
 	return s.Icon
 }
 
@@ -138,7 +138,7 @@ func (s *ModelsApplianceAppliance) GetInterfaces() []ModelsNetworkInterface {
 }
 
 // GetTags returns the value of Tags.
-func (s *ModelsApplianceAppliance) GetTags() []string {
+func (s *ModelsApplianceAppliance) GetTags() []jx.Raw {
 	return s.Tags
 }
 
@@ -213,7 +213,7 @@ func (s *ModelsApplianceAppliance) SetCreatedAt(val string) {
 }
 
 // SetIcon sets the value of Icon.
-func (s *ModelsApplianceAppliance) SetIcon(val jx.Raw) {
+func (s *ModelsApplianceAppliance) SetIcon(val struct{}) {
 	s.Icon = val
 }
 
@@ -228,18 +228,18 @@ func (s *ModelsApplianceAppliance) SetInterfaces(val []ModelsNetworkInterface) {
 }
 
 // SetTags sets the value of Tags.
-func (s *ModelsApplianceAppliance) SetTags(val []string) {
+func (s *ModelsApplianceAppliance) SetTags(val []jx.Raw) {
 	s.Tags = val
 }
 
-// Ref: #/components/schemas/Models.Appliance.ApplianceApplyResponse
-type ModelsApplianceApplianceApplyResponse struct {
+// Ref: #/components/schemas/Models.Appliance.ApplianceApplyResponseBody
+type ModelsApplianceApplianceApplyResponseBody struct {
 	// Apply結果.
 	Success bool `json:"Success"`
 	// 実行時のリターンコード.
 	ReturnCode int32 `json:"ReturnCode"`
 	// レスポンスヘッダー情報.
-	ResponseHeaders ModelsApplianceApplianceApplyResponseResponseHeaders `json:"ResponseHeaders"`
+	ResponseHeaders ModelsApplianceApplianceApplyResponseBodyResponseHeaders `json:"ResponseHeaders"`
 	// 出力情報.
 	Out NilString `json:"Out"`
 	// 操作結果.
@@ -247,57 +247,57 @@ type ModelsApplianceApplianceApplyResponse struct {
 }
 
 // GetSuccess returns the value of Success.
-func (s *ModelsApplianceApplianceApplyResponse) GetSuccess() bool {
+func (s *ModelsApplianceApplianceApplyResponseBody) GetSuccess() bool {
 	return s.Success
 }
 
 // GetReturnCode returns the value of ReturnCode.
-func (s *ModelsApplianceApplianceApplyResponse) GetReturnCode() int32 {
+func (s *ModelsApplianceApplianceApplyResponseBody) GetReturnCode() int32 {
 	return s.ReturnCode
 }
 
 // GetResponseHeaders returns the value of ResponseHeaders.
-func (s *ModelsApplianceApplianceApplyResponse) GetResponseHeaders() ModelsApplianceApplianceApplyResponseResponseHeaders {
+func (s *ModelsApplianceApplianceApplyResponseBody) GetResponseHeaders() ModelsApplianceApplianceApplyResponseBodyResponseHeaders {
 	return s.ResponseHeaders
 }
 
 // GetOut returns the value of Out.
-func (s *ModelsApplianceApplianceApplyResponse) GetOut() NilString {
+func (s *ModelsApplianceApplianceApplyResponseBody) GetOut() NilString {
 	return s.Out
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ModelsApplianceApplianceApplyResponse) GetIsOk() bool {
+func (s *ModelsApplianceApplianceApplyResponseBody) GetIsOk() bool {
 	return s.IsOk
 }
 
 // SetSuccess sets the value of Success.
-func (s *ModelsApplianceApplianceApplyResponse) SetSuccess(val bool) {
+func (s *ModelsApplianceApplianceApplyResponseBody) SetSuccess(val bool) {
 	s.Success = val
 }
 
 // SetReturnCode sets the value of ReturnCode.
-func (s *ModelsApplianceApplianceApplyResponse) SetReturnCode(val int32) {
+func (s *ModelsApplianceApplianceApplyResponseBody) SetReturnCode(val int32) {
 	s.ReturnCode = val
 }
 
 // SetResponseHeaders sets the value of ResponseHeaders.
-func (s *ModelsApplianceApplianceApplyResponse) SetResponseHeaders(val ModelsApplianceApplianceApplyResponseResponseHeaders) {
+func (s *ModelsApplianceApplianceApplyResponseBody) SetResponseHeaders(val ModelsApplianceApplianceApplyResponseBodyResponseHeaders) {
 	s.ResponseHeaders = val
 }
 
 // SetOut sets the value of Out.
-func (s *ModelsApplianceApplianceApplyResponse) SetOut(val NilString) {
+func (s *ModelsApplianceApplianceApplyResponseBody) SetOut(val NilString) {
 	s.Out = val
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ModelsApplianceApplianceApplyResponse) SetIsOk(val bool) {
+func (s *ModelsApplianceApplianceApplyResponseBody) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // レスポンスヘッダー情報.
-type ModelsApplianceApplianceApplyResponseResponseHeaders struct {
+type ModelsApplianceApplianceApplyResponseBodyResponseHeaders struct {
 	// レスポンスのステータスコード.
 	Status string `json:"Status"`
 	// レスポンスの原因.
@@ -305,22 +305,22 @@ type ModelsApplianceApplianceApplyResponseResponseHeaders struct {
 }
 
 // GetStatus returns the value of Status.
-func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) GetStatus() string {
+func (s *ModelsApplianceApplianceApplyResponseBodyResponseHeaders) GetStatus() string {
 	return s.Status
 }
 
 // GetCause returns the value of Cause.
-func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) GetCause() NilString {
+func (s *ModelsApplianceApplianceApplyResponseBodyResponseHeaders) GetCause() NilString {
 	return s.Cause
 }
 
 // SetStatus sets the value of Status.
-func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) SetStatus(val string) {
+func (s *ModelsApplianceApplianceApplyResponseBodyResponseHeaders) SetStatus(val string) {
 	s.Status = val
 }
 
 // SetCause sets the value of Cause.
-func (s *ModelsApplianceApplianceApplyResponseResponseHeaders) SetCause(val NilString) {
+func (s *ModelsApplianceApplianceApplyResponseBodyResponseHeaders) SetCause(val NilString) {
 	s.Cause = val
 }
 
@@ -483,169 +483,6 @@ func (s *ModelsApplianceApplianceCreateBodyClass) UnmarshalText(data []byte) err
 	}
 }
 
-// Ref: #/components/schemas/Models.Appliance.ApplianceCreateRequest
-type ModelsApplianceApplianceCreateRequest struct {
-	Appliance ModelsApplianceApplianceCreateBody `json:"Appliance"`
-}
-
-// GetAppliance returns the value of Appliance.
-func (s *ModelsApplianceApplianceCreateRequest) GetAppliance() ModelsApplianceApplianceCreateBody {
-	return s.Appliance
-}
-
-// SetAppliance sets the value of Appliance.
-func (s *ModelsApplianceApplianceCreateRequest) SetAppliance(val ModelsApplianceApplianceCreateBody) {
-	s.Appliance = val
-}
-
-// Ref: #/components/schemas/Models.Appliance.ApplianceCreateResponseBody
-type ModelsApplianceApplianceCreateResponseBody struct {
-	// サービスエンドポイントゲートウェイ情報.
-	Appliance ModelsApplianceAppliance `json:"Appliance"`
-	// 操作結果.
-	IsOk bool `json:"is_ok"`
-}
-
-// GetAppliance returns the value of Appliance.
-func (s *ModelsApplianceApplianceCreateResponseBody) GetAppliance() ModelsApplianceAppliance {
-	return s.Appliance
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ModelsApplianceApplianceCreateResponseBody) GetIsOk() bool {
-	return s.IsOk
-}
-
-// SetAppliance sets the value of Appliance.
-func (s *ModelsApplianceApplianceCreateResponseBody) SetAppliance(val ModelsApplianceAppliance) {
-	s.Appliance = val
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ModelsApplianceApplianceCreateResponseBody) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// Ref: #/components/schemas/Models.Appliance.ApplianceGetInterfaceResponseBody
-type ModelsApplianceApplianceGetInterfaceResponseBody struct {
-	// サービスエンドポイントゲートウェイのインターフェース情報.
-	Interface ModelsNetworkSimpleInterface `json:"Interface"`
-	// 操作結果.
-	IsOk bool `json:"is_ok"`
-}
-
-// GetInterface returns the value of Interface.
-func (s *ModelsApplianceApplianceGetInterfaceResponseBody) GetInterface() ModelsNetworkSimpleInterface {
-	return s.Interface
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ModelsApplianceApplianceGetInterfaceResponseBody) GetIsOk() bool {
-	return s.IsOk
-}
-
-// SetInterface sets the value of Interface.
-func (s *ModelsApplianceApplianceGetInterfaceResponseBody) SetInterface(val ModelsNetworkSimpleInterface) {
-	s.Interface = val
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ModelsApplianceApplianceGetInterfaceResponseBody) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// Ref: #/components/schemas/Models.Appliance.ApplianceGetResponseBody
-type ModelsApplianceApplianceGetResponseBody struct {
-	// サービスエンドポイントゲートウェイ情報.
-	Appliance ModelsApplianceAppliance `json:"Appliance"`
-	// 操作結果.
-	IsOk bool `json:"is_ok"`
-}
-
-// GetAppliance returns the value of Appliance.
-func (s *ModelsApplianceApplianceGetResponseBody) GetAppliance() ModelsApplianceAppliance {
-	return s.Appliance
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ModelsApplianceApplianceGetResponseBody) GetIsOk() bool {
-	return s.IsOk
-}
-
-// SetAppliance sets the value of Appliance.
-func (s *ModelsApplianceApplianceGetResponseBody) SetAppliance(val ModelsApplianceAppliance) {
-	s.Appliance = val
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ModelsApplianceApplianceGetResponseBody) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// Ref: #/components/schemas/Models.Appliance.ApplianceListResponseBody
-type ModelsApplianceApplianceListResponseBody struct {
-	// 取得開始位置.
-	From int32 `json:"From"`
-	// 取得件数.
-	Count int32 `json:"Count"`
-	// 総件数.
-	Total int32 `json:"Total"`
-	// サービスエンドポイントゲートウェイ情報一覧.
-	Appliances []ModelsApplianceAppliance `json:"Appliances"`
-	// 操作結果.
-	IsOk bool `json:"is_ok"`
-}
-
-// GetFrom returns the value of From.
-func (s *ModelsApplianceApplianceListResponseBody) GetFrom() int32 {
-	return s.From
-}
-
-// GetCount returns the value of Count.
-func (s *ModelsApplianceApplianceListResponseBody) GetCount() int32 {
-	return s.Count
-}
-
-// GetTotal returns the value of Total.
-func (s *ModelsApplianceApplianceListResponseBody) GetTotal() int32 {
-	return s.Total
-}
-
-// GetAppliances returns the value of Appliances.
-func (s *ModelsApplianceApplianceListResponseBody) GetAppliances() []ModelsApplianceAppliance {
-	return s.Appliances
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ModelsApplianceApplianceListResponseBody) GetIsOk() bool {
-	return s.IsOk
-}
-
-// SetFrom sets the value of From.
-func (s *ModelsApplianceApplianceListResponseBody) SetFrom(val int32) {
-	s.From = val
-}
-
-// SetCount sets the value of Count.
-func (s *ModelsApplianceApplianceListResponseBody) SetCount(val int32) {
-	s.Count = val
-}
-
-// SetTotal sets the value of Total.
-func (s *ModelsApplianceApplianceListResponseBody) SetTotal(val int32) {
-	s.Total = val
-}
-
-// SetAppliances sets the value of Appliances.
-func (s *ModelsApplianceApplianceListResponseBody) SetAppliances(val []ModelsApplianceAppliance) {
-	s.Appliances = val
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ModelsApplianceApplianceListResponseBody) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
 // サービスクラス.
 type ModelsApplianceApplianceServiceClass string
 
@@ -697,18 +534,181 @@ func (s *ModelsApplianceApplianceUpdateBody) SetSettings(val ModelsSettingsAppli
 	s.Settings = val
 }
 
-// Ref: #/components/schemas/Models.Appliance.ApplianceUpdateRequest
-type ModelsApplianceApplianceUpdateRequest struct {
-	Appliance ModelsApplianceApplianceUpdateBody `json:"Appliance"`
+// Ref: #/components/schemas/Models.Appliance.CreateServiceEndpointGatewayRequest
+type ModelsApplianceCreateServiceEndpointGatewayRequest struct {
+	Appliance ModelsApplianceApplianceCreateBody `json:"Appliance"`
 }
 
 // GetAppliance returns the value of Appliance.
-func (s *ModelsApplianceApplianceUpdateRequest) GetAppliance() ModelsApplianceApplianceUpdateBody {
+func (s *ModelsApplianceCreateServiceEndpointGatewayRequest) GetAppliance() ModelsApplianceApplianceCreateBody {
 	return s.Appliance
 }
 
 // SetAppliance sets the value of Appliance.
-func (s *ModelsApplianceApplianceUpdateRequest) SetAppliance(val ModelsApplianceApplianceUpdateBody) {
+func (s *ModelsApplianceCreateServiceEndpointGatewayRequest) SetAppliance(val ModelsApplianceApplianceCreateBody) {
+	s.Appliance = val
+}
+
+// Ref: #/components/schemas/Models.Appliance.CreateServiceEndpointGatewayResponseBody
+type ModelsApplianceCreateServiceEndpointGatewayResponseBody struct {
+	// サービスエンドポイントゲートウェイ情報.
+	Appliance ModelsApplianceAppliance `json:"Appliance"`
+	// 操作結果.
+	IsOk bool `json:"is_ok"`
+}
+
+// GetAppliance returns the value of Appliance.
+func (s *ModelsApplianceCreateServiceEndpointGatewayResponseBody) GetAppliance() ModelsApplianceAppliance {
+	return s.Appliance
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ModelsApplianceCreateServiceEndpointGatewayResponseBody) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetAppliance sets the value of Appliance.
+func (s *ModelsApplianceCreateServiceEndpointGatewayResponseBody) SetAppliance(val ModelsApplianceAppliance) {
+	s.Appliance = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ModelsApplianceCreateServiceEndpointGatewayResponseBody) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/Models.Appliance.ListServiceEndpointGatewaysResponseBody
+type ModelsApplianceListServiceEndpointGatewaysResponseBody struct {
+	// 取得開始位置.
+	From int32 `json:"From"`
+	// 取得件数.
+	Count int32 `json:"Count"`
+	// 総件数.
+	Total int32 `json:"Total"`
+	// サービスエンドポイントゲートウェイ情報一覧.
+	Appliances []ModelsApplianceAppliance `json:"Appliances"`
+	// 操作結果.
+	IsOk bool `json:"is_ok"`
+}
+
+// GetFrom returns the value of From.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) GetFrom() int32 {
+	return s.From
+}
+
+// GetCount returns the value of Count.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) GetCount() int32 {
+	return s.Count
+}
+
+// GetTotal returns the value of Total.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) GetTotal() int32 {
+	return s.Total
+}
+
+// GetAppliances returns the value of Appliances.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) GetAppliances() []ModelsApplianceAppliance {
+	return s.Appliances
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetFrom sets the value of From.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) SetFrom(val int32) {
+	s.From = val
+}
+
+// SetCount sets the value of Count.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) SetCount(val int32) {
+	s.Count = val
+}
+
+// SetTotal sets the value of Total.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) SetTotal(val int32) {
+	s.Total = val
+}
+
+// SetAppliances sets the value of Appliances.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) SetAppliances(val []ModelsApplianceAppliance) {
+	s.Appliances = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ModelsApplianceListServiceEndpointGatewaysResponseBody) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/Models.Appliance.ReadServiceEndpointGatewayInterfaceResponseBody
+type ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody struct {
+	// サービスエンドポイントゲートウェイのインターフェース情報.
+	Interface ModelsNetworkSimpleInterface `json:"Interface"`
+	// 操作結果.
+	IsOk bool `json:"is_ok"`
+}
+
+// GetInterface returns the value of Interface.
+func (s *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) GetInterface() ModelsNetworkSimpleInterface {
+	return s.Interface
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetInterface sets the value of Interface.
+func (s *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) SetInterface(val ModelsNetworkSimpleInterface) {
+	s.Interface = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/Models.Appliance.ReadServiceEndpointGatewayResponseBody
+type ModelsApplianceReadServiceEndpointGatewayResponseBody struct {
+	// サービスエンドポイントゲートウェイ情報.
+	Appliance ModelsApplianceAppliance `json:"Appliance"`
+	// 操作結果.
+	IsOk bool `json:"is_ok"`
+}
+
+// GetAppliance returns the value of Appliance.
+func (s *ModelsApplianceReadServiceEndpointGatewayResponseBody) GetAppliance() ModelsApplianceAppliance {
+	return s.Appliance
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ModelsApplianceReadServiceEndpointGatewayResponseBody) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetAppliance sets the value of Appliance.
+func (s *ModelsApplianceReadServiceEndpointGatewayResponseBody) SetAppliance(val ModelsApplianceAppliance) {
+	s.Appliance = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ModelsApplianceReadServiceEndpointGatewayResponseBody) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/Models.Appliance.UpdateServiceEndpointGatewayRequest
+type ModelsApplianceUpdateServiceEndpointGatewayRequest struct {
+	Appliance ModelsApplianceApplianceUpdateBody `json:"Appliance"`
+}
+
+// GetAppliance returns the value of Appliance.
+func (s *ModelsApplianceUpdateServiceEndpointGatewayRequest) GetAppliance() ModelsApplianceApplianceUpdateBody {
+	return s.Appliance
+}
+
+// SetAppliance sets the value of Appliance.
+func (s *ModelsApplianceUpdateServiceEndpointGatewayRequest) SetAppliance(val ModelsApplianceApplianceUpdateBody) {
 	s.Appliance = val
 }
 
@@ -1014,7 +1014,6 @@ func (s *ModelsInstanceInstanceForPowerStatus) UnmarshalText(data []byte) error 
 	}
 }
 
-// インスタンスの稼働状態.
 type ModelsInstanceInstanceStatus string
 
 const (
@@ -1707,8 +1706,8 @@ func (s *ModelsPowerApplianceDeletePowerStatusRequest) SetForce(val bool) {
 	s.Force = val
 }
 
-// Ref: #/components/schemas/Models.Power.ApplianceGetPowerStatusResponseBody
-type ModelsPowerApplianceGetPowerStatusResponseBody struct {
+// Ref: #/components/schemas/Models.Power.ReadServiceEndpointGatewayPowerStatusResponseBody
+type ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody struct {
 	// サービスエンドポイントゲートウェイの稼働状態情報.
 	Instance ModelsInstanceInstanceForPower `json:"Instance"`
 	// 操作結果.
@@ -1716,117 +1715,117 @@ type ModelsPowerApplianceGetPowerStatusResponseBody struct {
 }
 
 // GetInstance returns the value of Instance.
-func (s *ModelsPowerApplianceGetPowerStatusResponseBody) GetInstance() ModelsInstanceInstanceForPower {
+func (s *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) GetInstance() ModelsInstanceInstanceForPower {
 	return s.Instance
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ModelsPowerApplianceGetPowerStatusResponseBody) GetIsOk() bool {
+func (s *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) GetIsOk() bool {
 	return s.IsOk
 }
 
 // SetInstance sets the value of Instance.
-func (s *ModelsPowerApplianceGetPowerStatusResponseBody) SetInstance(val ModelsInstanceInstanceForPower) {
+func (s *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) SetInstance(val ModelsInstanceInstanceForPower) {
 	s.Instance = val
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ModelsPowerApplianceGetPowerStatusResponseBody) SetIsOk(val bool) {
+func (s *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
-// Ref: #/components/schemas/Models.Power.ApplianceUpdatePowerStatusResponseBody
-type ModelsPowerApplianceUpdatePowerStatusResponseBody struct {
-	Success ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess `json:"Success"`
+// Ref: #/components/schemas/Models.Power.UpdateServiceEndpointGatewayPowerStatusResponseBody
+type ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody struct {
+	Success ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess `json:"Success"`
 	// 操作結果.
 	IsOk bool `json:"is_ok"`
 }
 
 // GetSuccess returns the value of Success.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) GetSuccess() ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess {
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody) GetSuccess() ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess {
 	return s.Success
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) GetIsOk() bool {
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody) GetIsOk() bool {
 	return s.IsOk
 }
 
 // SetSuccess sets the value of Success.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) SetSuccess(val ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) {
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody) SetSuccess(val ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) {
 	s.Success = val
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) SetIsOk(val bool) {
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
-// ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess represents sum type.
-type ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess struct {
+// ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess represents sum type.
+type ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess struct {
 	// Type selects the active sum variant, switch on this field.
-	Type   ModelsPowerApplianceUpdatePowerStatusResponseBodySuccessType
+	Type   ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccessType
 	Bool   bool
 	String string
 }
 
-// ModelsPowerApplianceUpdatePowerStatusResponseBodySuccessType is oneOf type of ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess.
-type ModelsPowerApplianceUpdatePowerStatusResponseBodySuccessType string
+// ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccessType is oneOf type of ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess.
+type ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccessType string
 
-// Possible values for ModelsPowerApplianceUpdatePowerStatusResponseBodySuccessType.
+// Possible values for ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccessType.
 const (
-	BoolModelsPowerApplianceUpdatePowerStatusResponseBodySuccess   ModelsPowerApplianceUpdatePowerStatusResponseBodySuccessType = "bool"
-	StringModelsPowerApplianceUpdatePowerStatusResponseBodySuccess ModelsPowerApplianceUpdatePowerStatusResponseBodySuccessType = "string"
+	BoolModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess   ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccessType = "bool"
+	StringModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccessType = "string"
 )
 
-// IsBool reports whether ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess is bool.
-func (s ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) IsBool() bool {
-	return s.Type == BoolModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
+// IsBool reports whether ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess is bool.
+func (s ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) IsBool() bool {
+	return s.Type == BoolModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess
 }
 
-// IsString reports whether ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess is string.
-func (s ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) IsString() bool {
-	return s.Type == StringModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
+// IsString reports whether ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess is string.
+func (s ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) IsString() bool {
+	return s.Type == StringModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess
 }
 
-// SetBool sets ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess to bool.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) SetBool(v bool) {
-	s.Type = BoolModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
+// SetBool sets ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess to bool.
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) SetBool(v bool) {
+	s.Type = BoolModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess
 	s.Bool = v
 }
 
-// GetBool returns bool and true boolean if ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess is bool.
-func (s ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) GetBool() (v bool, ok bool) {
+// GetBool returns bool and true boolean if ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess is bool.
+func (s ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) GetBool() (v bool, ok bool) {
 	if !s.IsBool() {
 		return v, false
 	}
 	return s.Bool, true
 }
 
-// NewBoolModelsPowerApplianceUpdatePowerStatusResponseBodySuccess returns new ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess from bool.
-func NewBoolModelsPowerApplianceUpdatePowerStatusResponseBodySuccess(v bool) ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess {
-	var s ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
+// NewBoolModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess returns new ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess from bool.
+func NewBoolModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess(v bool) ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess {
+	var s ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess
 	s.SetBool(v)
 	return s
 }
 
-// SetString sets ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess to string.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) SetString(v string) {
-	s.Type = StringModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
+// SetString sets ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess to string.
+func (s *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) SetString(v string) {
+	s.Type = StringModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess
 	s.String = v
 }
 
-// GetString returns string and true boolean if ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess is string.
-func (s ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) GetString() (v string, ok bool) {
+// GetString returns string and true boolean if ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess is string.
+func (s ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess) GetString() (v string, ok bool) {
 	if !s.IsString() {
 		return v, false
 	}
 	return s.String, true
 }
 
-// NewStringModelsPowerApplianceUpdatePowerStatusResponseBodySuccess returns new ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess from string.
-func NewStringModelsPowerApplianceUpdatePowerStatusResponseBodySuccess(v string) ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess {
-	var s ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
+// NewStringModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess returns new ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess from string.
+func NewStringModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess(v string) ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess {
+	var s ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess
 	s.SetString(v)
 	return s
 }
@@ -2117,6 +2116,8 @@ type ModelsSettingsEnabledService struct {
 	// 	ObjectStorage               | オブジェクトストレージ
 	// 	ContainerRegistry           | コンテナレジストリ
 	// 	MonitoringSuite             | モニタリングスイート
+	// 	AIEngine                    | AI Engine
+	// 	SimpleAI                    | シンプルAI
 	// 	AppRunDedicatedControlPlane | AppRun専有型コントロールプレーン
 	Type ModelsSettingsEnabledServiceType `json:"Type"`
 	// 接続先マネージドサービスの設定.
@@ -2150,6 +2151,8 @@ func (s *ModelsSettingsEnabledService) SetConfig(val ModelsSettingsServiceConfig
 //	ObjectStorage               | オブジェクトストレージ
 //	ContainerRegistry           | コンテナレジストリ
 //	MonitoringSuite             | モニタリングスイート
+//	AIEngine                    | AI Engine
+//	SimpleAI                    | シンプルAI
 //	AppRunDedicatedControlPlane | AppRun専有型コントロールプレーン
 type ModelsSettingsEnabledServiceType string
 
@@ -2308,6 +2311,12 @@ type ModelsSettingsServiceConfig struct {
 	// エンドポイントは以下に限定されます。
 	//
 	//  - api.ai.sakura.ad.jp
+	//
+	// # SimpleAI Type
+	//
+	// エンドポイントは以下に限定されます。
+	//
+	//  - simpleai.is1.api.sacloud.jp
 	//
 	// # AppRunDedicatedControlPlane Type
 	//
@@ -2919,38 +2928,38 @@ func (o OptBool) Or(d bool) bool {
 	return d
 }
 
-// NewOptModelsApplianceApplianceUpdateRequest returns new OptModelsApplianceApplianceUpdateRequest with value set to v.
-func NewOptModelsApplianceApplianceUpdateRequest(v ModelsApplianceApplianceUpdateRequest) OptModelsApplianceApplianceUpdateRequest {
-	return OptModelsApplianceApplianceUpdateRequest{
+// NewOptModelsApplianceUpdateServiceEndpointGatewayRequest returns new OptModelsApplianceUpdateServiceEndpointGatewayRequest with value set to v.
+func NewOptModelsApplianceUpdateServiceEndpointGatewayRequest(v ModelsApplianceUpdateServiceEndpointGatewayRequest) OptModelsApplianceUpdateServiceEndpointGatewayRequest {
+	return OptModelsApplianceUpdateServiceEndpointGatewayRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptModelsApplianceApplianceUpdateRequest is optional ModelsApplianceApplianceUpdateRequest.
-type OptModelsApplianceApplianceUpdateRequest struct {
-	Value ModelsApplianceApplianceUpdateRequest
+// OptModelsApplianceUpdateServiceEndpointGatewayRequest is optional ModelsApplianceUpdateServiceEndpointGatewayRequest.
+type OptModelsApplianceUpdateServiceEndpointGatewayRequest struct {
+	Value ModelsApplianceUpdateServiceEndpointGatewayRequest
 	Set   bool
 }
 
-// IsSet returns true if OptModelsApplianceApplianceUpdateRequest was set.
-func (o OptModelsApplianceApplianceUpdateRequest) IsSet() bool { return o.Set }
+// IsSet returns true if OptModelsApplianceUpdateServiceEndpointGatewayRequest was set.
+func (o OptModelsApplianceUpdateServiceEndpointGatewayRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptModelsApplianceApplianceUpdateRequest) Reset() {
-	var v ModelsApplianceApplianceUpdateRequest
+func (o *OptModelsApplianceUpdateServiceEndpointGatewayRequest) Reset() {
+	var v ModelsApplianceUpdateServiceEndpointGatewayRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptModelsApplianceApplianceUpdateRequest) SetTo(v ModelsApplianceApplianceUpdateRequest) {
+func (o *OptModelsApplianceUpdateServiceEndpointGatewayRequest) SetTo(v ModelsApplianceUpdateServiceEndpointGatewayRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptModelsApplianceApplianceUpdateRequest) Get() (v ModelsApplianceApplianceUpdateRequest, ok bool) {
+func (o OptModelsApplianceUpdateServiceEndpointGatewayRequest) Get() (v ModelsApplianceUpdateServiceEndpointGatewayRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -2958,7 +2967,7 @@ func (o OptModelsApplianceApplianceUpdateRequest) Get() (v ModelsApplianceApplia
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptModelsApplianceApplianceUpdateRequest) Or(d ModelsApplianceApplianceUpdateRequest) ModelsApplianceApplianceUpdateRequest {
+func (o OptModelsApplianceUpdateServiceEndpointGatewayRequest) Or(d ModelsApplianceUpdateServiceEndpointGatewayRequest) ModelsApplianceUpdateServiceEndpointGatewayRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
