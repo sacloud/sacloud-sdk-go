@@ -21,74 +21,74 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
-	// SegApply invokes seg_apply operation.
+	// ApplyServiceEndpointGatewayConfig invokes applyServiceEndpointGatewayConfig operation.
 	//
 	// 指定したサービスエンドポイントゲートウェイの情報を適用します。.
 	//
 	// PUT /appliance/{applianceID}/config
-	SegApply(ctx context.Context, request OptModelsApplianceApplianceUpdateRequest, params SegApplyParams) (*ModelsApplianceApplianceApplyResponse, error)
-	// SegCreate invokes seg_create operation.
+	ApplyServiceEndpointGatewayConfig(ctx context.Context, request OptModelsApplianceUpdateServiceEndpointGatewayRequest, params ApplyServiceEndpointGatewayConfigParams) (*ModelsApplianceApplianceApplyResponseBody, error)
+	// CreateServiceEndpointGateway invokes createServiceEndpointGateway operation.
 	//
 	// 指定したサービスエンドポイントゲートウェイを作成します。.
 	//
 	// POST /appliance
-	SegCreate(ctx context.Context, request *ModelsApplianceApplianceCreateRequest) (*ModelsApplianceApplianceCreateResponseBody, error)
-	// SegDelete invokes seg_delete operation.
+	CreateServiceEndpointGateway(ctx context.Context, request *ModelsApplianceCreateServiceEndpointGatewayRequest) (*ModelsApplianceCreateServiceEndpointGatewayResponseBody, error)
+	// DeleteServiceEndpointGateway invokes deleteServiceEndpointGateway operation.
 	//
 	// 指定したサービスエンドポイントゲートウェイを削除します。.
 	//
 	// DELETE /appliance/{applianceID}
-	SegDelete(ctx context.Context, params SegDeleteParams) (*ModelsApplianceApplianceGetResponseBody, error)
-	// SegGet invokes seg_get operation.
-	//
-	// 指定したサービスエンドポイントゲートウェイの情報を取得します。.
-	//
-	// GET /appliance/{applianceID}
-	SegGet(ctx context.Context, params SegGetParams) (*ModelsApplianceApplianceGetResponseBody, error)
-	// SegInterfaceGetInterface invokes segInterface_getInterface operation.
-	//
-	// 指定したサービスエンドポイントゲートウェイのインターフェース情報を取得します。.
-	//
-	// GET /appliance/{applianceID}/interface/{interfaceID}
-	SegInterfaceGetInterface(ctx context.Context, params SegInterfaceGetInterfaceParams) (*ModelsApplianceApplianceGetInterfaceResponseBody, error)
-	// SegList invokes seg_list operation.
+	DeleteServiceEndpointGateway(ctx context.Context, params DeleteServiceEndpointGatewayParams) (*ModelsApplianceReadServiceEndpointGatewayResponseBody, error)
+	// ListServiceEndpointGateways invokes listServiceEndpointGateways operation.
 	//
 	// サービスエンドポイントゲートウェイの一覧を取得します。.
 	//
 	// GET /appliance
-	SegList(ctx context.Context) (*ModelsApplianceApplianceListResponseBody, error)
-	// SegStatusDeletePowerStatus invokes segStatus_deletePowerStatus operation.
+	ListServiceEndpointGateways(ctx context.Context) (*ModelsApplianceListServiceEndpointGatewaysResponseBody, error)
+	// PowerOffServiceEndpointGateway invokes powerOffServiceEndpointGateway operation.
 	//
 	// 指定したサービスエンドポイントゲートウェイを停止します。.
 	//
 	// DELETE /appliance/{applianceID}/power
-	SegStatusDeletePowerStatus(ctx context.Context, request OptModelsPowerApplianceDeletePowerStatusRequest, params SegStatusDeletePowerStatusParams) (*ModelsPowerApplianceUpdatePowerStatusResponseBody, error)
-	// SegStatusGetPowerStatus invokes segStatus_getPowerStatus operation.
-	//
-	// 指定したサービスエンドポイントゲートウェイの起動状態を取得します。.
-	//
-	// GET /appliance/{applianceID}/power
-	SegStatusGetPowerStatus(ctx context.Context, params SegStatusGetPowerStatusParams) (*ModelsPowerApplianceGetPowerStatusResponseBody, error)
-	// SegStatusResetPowerStatus invokes segStatus_resetPowerStatus operation.
-	//
-	// 指定したサービスエンドポイントゲートウェイの起動状態をリセットします。.
-	//
-	// PUT /appliance/{applianceID}/reset
-	SegStatusResetPowerStatus(ctx context.Context, params SegStatusResetPowerStatusParams) (*ModelsPowerApplianceUpdatePowerStatusResponseBody, error)
-	// SegStatusUpdatePowerStatus invokes segStatus_updatePowerStatus operation.
+	PowerOffServiceEndpointGateway(ctx context.Context, request OptModelsPowerApplianceDeletePowerStatusRequest, params PowerOffServiceEndpointGatewayParams) (*ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, error)
+	// PowerOnServiceEndpointGateway invokes powerOnServiceEndpointGateway operation.
 	//
 	// 指定したサービスエンドポイントゲートウェイを起動します。.
 	//
 	// PUT /appliance/{applianceID}/power
-	SegStatusUpdatePowerStatus(ctx context.Context, params SegStatusUpdatePowerStatusParams) (*ModelsPowerApplianceUpdatePowerStatusResponseBody, error)
-	// SegUpdate invokes seg_update operation.
+	PowerOnServiceEndpointGateway(ctx context.Context, params PowerOnServiceEndpointGatewayParams) (*ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, error)
+	// ReadServiceEndpointGateway invokes readServiceEndpointGateway operation.
+	//
+	// 指定したサービスエンドポイントゲートウェイの情報を取得します。.
+	//
+	// GET /appliance/{applianceID}
+	ReadServiceEndpointGateway(ctx context.Context, params ReadServiceEndpointGatewayParams) (*ModelsApplianceReadServiceEndpointGatewayResponseBody, error)
+	// ReadServiceEndpointGatewayInterface invokes readServiceEndpointGatewayInterface operation.
+	//
+	// 指定したサービスエンドポイントゲートウェイのインターフェース情報を取得します。.
+	//
+	// GET /appliance/{applianceID}/interface/{interfaceID}
+	ReadServiceEndpointGatewayInterface(ctx context.Context, params ReadServiceEndpointGatewayInterfaceParams) (*ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody, error)
+	// ReadServiceEndpointGatewayPowerStatus invokes readServiceEndpointGatewayPowerStatus operation.
+	//
+	// 指定したサービスエンドポイントゲートウェイの起動状態を取得します。.
+	//
+	// GET /appliance/{applianceID}/power
+	ReadServiceEndpointGatewayPowerStatus(ctx context.Context, params ReadServiceEndpointGatewayPowerStatusParams) (*ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody, error)
+	// ResetServiceEndpointGateway invokes resetServiceEndpointGateway operation.
+	//
+	// 指定したサービスエンドポイントゲートウェイの起動状態をリセットします。.
+	//
+	// PUT /appliance/{applianceID}/reset
+	ResetServiceEndpointGateway(ctx context.Context, params ResetServiceEndpointGatewayParams) (*ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, error)
+	// UpdateServiceEndpointGateway invokes updateServiceEndpointGateway operation.
 	//
 	// 指定したサービスエンドポイントゲートウェイの情報を更新します。
 	//
 	// 更新後には、別途「サービスエンドポイントゲートウェイ適用API」を呼び出して設定を反映する必要があります。.
 	//
 	// PUT /appliance/{applianceID}
-	SegUpdate(ctx context.Context, request *ModelsApplianceApplianceUpdateRequest, params SegUpdateParams) (*ModelsApplianceApplianceGetResponseBody, error)
+	UpdateServiceEndpointGateway(ctx context.Context, request *ModelsApplianceUpdateServiceEndpointGatewayRequest, params UpdateServiceEndpointGatewayParams) (*ModelsApplianceReadServiceEndpointGatewayResponseBody, error)
 }
 
 // Client implements OAS client.
@@ -130,17 +130,17 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
-// SegApply invokes seg_apply operation.
+// ApplyServiceEndpointGatewayConfig invokes applyServiceEndpointGatewayConfig operation.
 //
 // 指定したサービスエンドポイントゲートウェイの情報を適用します。.
 //
 // PUT /appliance/{applianceID}/config
-func (c *Client) SegApply(ctx context.Context, request OptModelsApplianceApplianceUpdateRequest, params SegApplyParams) (*ModelsApplianceApplianceApplyResponse, error) {
-	res, err := c.sendSegApply(ctx, request, params)
+func (c *Client) ApplyServiceEndpointGatewayConfig(ctx context.Context, request OptModelsApplianceUpdateServiceEndpointGatewayRequest, params ApplyServiceEndpointGatewayConfigParams) (*ModelsApplianceApplianceApplyResponseBody, error) {
+	res, err := c.sendApplyServiceEndpointGatewayConfig(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendSegApply(ctx context.Context, request OptModelsApplianceApplianceUpdateRequest, params SegApplyParams) (res *ModelsApplianceApplianceApplyResponse, err error) {
+func (c *Client) sendApplyServiceEndpointGatewayConfig(ctx context.Context, request OptModelsApplianceUpdateServiceEndpointGatewayRequest, params ApplyServiceEndpointGatewayConfigParams) (res *ModelsApplianceApplianceApplyResponseBody, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -186,7 +186,7 @@ func (c *Client) sendSegApply(ctx context.Context, request OptModelsApplianceApp
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeSegApplyRequest(request, r); err != nil {
+	if err := encodeApplyServiceEndpointGatewayConfigRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -203,7 +203,7 @@ func (c *Client) sendSegApply(ctx context.Context, request OptModelsApplianceApp
 		_ = body.Close()
 	}()
 
-	result, err := decodeSegApplyResponse(resp)
+	result, err := decodeApplyServiceEndpointGatewayConfigResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -211,17 +211,17 @@ func (c *Client) sendSegApply(ctx context.Context, request OptModelsApplianceApp
 	return result, nil
 }
 
-// SegCreate invokes seg_create operation.
+// CreateServiceEndpointGateway invokes createServiceEndpointGateway operation.
 //
 // 指定したサービスエンドポイントゲートウェイを作成します。.
 //
 // POST /appliance
-func (c *Client) SegCreate(ctx context.Context, request *ModelsApplianceApplianceCreateRequest) (*ModelsApplianceApplianceCreateResponseBody, error) {
-	res, err := c.sendSegCreate(ctx, request)
+func (c *Client) CreateServiceEndpointGateway(ctx context.Context, request *ModelsApplianceCreateServiceEndpointGatewayRequest) (*ModelsApplianceCreateServiceEndpointGatewayResponseBody, error) {
+	res, err := c.sendCreateServiceEndpointGateway(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendSegCreate(ctx context.Context, request *ModelsApplianceApplianceCreateRequest) (res *ModelsApplianceApplianceCreateResponseBody, err error) {
+func (c *Client) sendCreateServiceEndpointGateway(ctx context.Context, request *ModelsApplianceCreateServiceEndpointGatewayRequest) (res *ModelsApplianceCreateServiceEndpointGatewayResponseBody, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -241,7 +241,7 @@ func (c *Client) sendSegCreate(ctx context.Context, request *ModelsApplianceAppl
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeSegCreateRequest(request, r); err != nil {
+	if err := encodeCreateServiceEndpointGatewayRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -258,7 +258,7 @@ func (c *Client) sendSegCreate(ctx context.Context, request *ModelsApplianceAppl
 		_ = body.Close()
 	}()
 
-	result, err := decodeSegCreateResponse(resp)
+	result, err := decodeCreateServiceEndpointGatewayResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -266,17 +266,17 @@ func (c *Client) sendSegCreate(ctx context.Context, request *ModelsApplianceAppl
 	return result, nil
 }
 
-// SegDelete invokes seg_delete operation.
+// DeleteServiceEndpointGateway invokes deleteServiceEndpointGateway operation.
 //
 // 指定したサービスエンドポイントゲートウェイを削除します。.
 //
 // DELETE /appliance/{applianceID}
-func (c *Client) SegDelete(ctx context.Context, params SegDeleteParams) (*ModelsApplianceApplianceGetResponseBody, error) {
-	res, err := c.sendSegDelete(ctx, params)
+func (c *Client) DeleteServiceEndpointGateway(ctx context.Context, params DeleteServiceEndpointGatewayParams) (*ModelsApplianceReadServiceEndpointGatewayResponseBody, error) {
+	res, err := c.sendDeleteServiceEndpointGateway(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendSegDelete(ctx context.Context, params SegDeleteParams) (res *ModelsApplianceApplianceGetResponseBody, err error) {
+func (c *Client) sendDeleteServiceEndpointGateway(ctx context.Context, params DeleteServiceEndpointGatewayParams) (res *ModelsApplianceReadServiceEndpointGatewayResponseBody, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -319,7 +319,7 @@ func (c *Client) sendSegDelete(ctx context.Context, params SegDeleteParams) (res
 		_ = body.Close()
 	}()
 
-	result, err := decodeSegDeleteResponse(resp)
+	result, err := decodeDeleteServiceEndpointGatewayResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -327,17 +327,187 @@ func (c *Client) sendSegDelete(ctx context.Context, params SegDeleteParams) (res
 	return result, nil
 }
 
-// SegGet invokes seg_get operation.
+// ListServiceEndpointGateways invokes listServiceEndpointGateways operation.
+//
+// サービスエンドポイントゲートウェイの一覧を取得します。.
+//
+// GET /appliance
+func (c *Client) ListServiceEndpointGateways(ctx context.Context) (*ModelsApplianceListServiceEndpointGatewaysResponseBody, error) {
+	res, err := c.sendListServiceEndpointGateways(ctx)
+	return res, err
+}
+
+func (c *Client) sendListServiceEndpointGateways(ctx context.Context) (res *ModelsApplianceListServiceEndpointGatewaysResponseBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/appliance"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListServiceEndpointGatewaysResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PowerOffServiceEndpointGateway invokes powerOffServiceEndpointGateway operation.
+//
+// 指定したサービスエンドポイントゲートウェイを停止します。.
+//
+// DELETE /appliance/{applianceID}/power
+func (c *Client) PowerOffServiceEndpointGateway(ctx context.Context, request OptModelsPowerApplianceDeletePowerStatusRequest, params PowerOffServiceEndpointGatewayParams) (*ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, error) {
+	res, err := c.sendPowerOffServiceEndpointGateway(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPowerOffServiceEndpointGateway(ctx context.Context, request OptModelsPowerApplianceDeletePowerStatusRequest, params PowerOffServiceEndpointGatewayParams) (res *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/power"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePowerOffServiceEndpointGatewayRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePowerOffServiceEndpointGatewayResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PowerOnServiceEndpointGateway invokes powerOnServiceEndpointGateway operation.
+//
+// 指定したサービスエンドポイントゲートウェイを起動します。.
+//
+// PUT /appliance/{applianceID}/power
+func (c *Client) PowerOnServiceEndpointGateway(ctx context.Context, params PowerOnServiceEndpointGatewayParams) (*ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, error) {
+	res, err := c.sendPowerOnServiceEndpointGateway(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendPowerOnServiceEndpointGateway(ctx context.Context, params PowerOnServiceEndpointGatewayParams) (res *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/power"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePowerOnServiceEndpointGatewayResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadServiceEndpointGateway invokes readServiceEndpointGateway operation.
 //
 // 指定したサービスエンドポイントゲートウェイの情報を取得します。.
 //
 // GET /appliance/{applianceID}
-func (c *Client) SegGet(ctx context.Context, params SegGetParams) (*ModelsApplianceApplianceGetResponseBody, error) {
-	res, err := c.sendSegGet(ctx, params)
+func (c *Client) ReadServiceEndpointGateway(ctx context.Context, params ReadServiceEndpointGatewayParams) (*ModelsApplianceReadServiceEndpointGatewayResponseBody, error) {
+	res, err := c.sendReadServiceEndpointGateway(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendSegGet(ctx context.Context, params SegGetParams) (res *ModelsApplianceApplianceGetResponseBody, err error) {
+func (c *Client) sendReadServiceEndpointGateway(ctx context.Context, params ReadServiceEndpointGatewayParams) (res *ModelsApplianceReadServiceEndpointGatewayResponseBody, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -380,7 +550,7 @@ func (c *Client) sendSegGet(ctx context.Context, params SegGetParams) (res *Mode
 		_ = body.Close()
 	}()
 
-	result, err := decodeSegGetResponse(resp)
+	result, err := decodeReadServiceEndpointGatewayResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -388,17 +558,17 @@ func (c *Client) sendSegGet(ctx context.Context, params SegGetParams) (res *Mode
 	return result, nil
 }
 
-// SegInterfaceGetInterface invokes segInterface_getInterface operation.
+// ReadServiceEndpointGatewayInterface invokes readServiceEndpointGatewayInterface operation.
 //
 // 指定したサービスエンドポイントゲートウェイのインターフェース情報を取得します。.
 //
 // GET /appliance/{applianceID}/interface/{interfaceID}
-func (c *Client) SegInterfaceGetInterface(ctx context.Context, params SegInterfaceGetInterfaceParams) (*ModelsApplianceApplianceGetInterfaceResponseBody, error) {
-	res, err := c.sendSegInterfaceGetInterface(ctx, params)
+func (c *Client) ReadServiceEndpointGatewayInterface(ctx context.Context, params ReadServiceEndpointGatewayInterfaceParams) (*ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody, error) {
+	res, err := c.sendReadServiceEndpointGatewayInterface(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendSegInterfaceGetInterface(ctx context.Context, params SegInterfaceGetInterfaceParams) (res *ModelsApplianceApplianceGetInterfaceResponseBody, err error) {
+func (c *Client) sendReadServiceEndpointGatewayInterface(ctx context.Context, params ReadServiceEndpointGatewayInterfaceParams) (res *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [4]string
@@ -460,7 +630,7 @@ func (c *Client) sendSegInterfaceGetInterface(ctx context.Context, params SegInt
 		_ = body.Close()
 	}()
 
-	result, err := decodeSegInterfaceGetInterfaceResponse(resp)
+	result, err := decodeReadServiceEndpointGatewayInterfaceResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -468,125 +638,17 @@ func (c *Client) sendSegInterfaceGetInterface(ctx context.Context, params SegInt
 	return result, nil
 }
 
-// SegList invokes seg_list operation.
-//
-// サービスエンドポイントゲートウェイの一覧を取得します。.
-//
-// GET /appliance
-func (c *Client) SegList(ctx context.Context) (*ModelsApplianceApplianceListResponseBody, error) {
-	res, err := c.sendSegList(ctx)
-	return res, err
-}
-
-func (c *Client) sendSegList(ctx context.Context) (res *ModelsApplianceApplianceListResponseBody, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/appliance"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeSegListResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// SegStatusDeletePowerStatus invokes segStatus_deletePowerStatus operation.
-//
-// 指定したサービスエンドポイントゲートウェイを停止します。.
-//
-// DELETE /appliance/{applianceID}/power
-func (c *Client) SegStatusDeletePowerStatus(ctx context.Context, request OptModelsPowerApplianceDeletePowerStatusRequest, params SegStatusDeletePowerStatusParams) (*ModelsPowerApplianceUpdatePowerStatusResponseBody, error) {
-	res, err := c.sendSegStatusDeletePowerStatus(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendSegStatusDeletePowerStatus(ctx context.Context, request OptModelsPowerApplianceDeletePowerStatusRequest, params SegStatusDeletePowerStatusParams) (res *ModelsPowerApplianceUpdatePowerStatusResponseBody, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/power"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeSegStatusDeletePowerStatusRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeSegStatusDeletePowerStatusResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// SegStatusGetPowerStatus invokes segStatus_getPowerStatus operation.
+// ReadServiceEndpointGatewayPowerStatus invokes readServiceEndpointGatewayPowerStatus operation.
 //
 // 指定したサービスエンドポイントゲートウェイの起動状態を取得します。.
 //
 // GET /appliance/{applianceID}/power
-func (c *Client) SegStatusGetPowerStatus(ctx context.Context, params SegStatusGetPowerStatusParams) (*ModelsPowerApplianceGetPowerStatusResponseBody, error) {
-	res, err := c.sendSegStatusGetPowerStatus(ctx, params)
+func (c *Client) ReadServiceEndpointGatewayPowerStatus(ctx context.Context, params ReadServiceEndpointGatewayPowerStatusParams) (*ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody, error) {
+	res, err := c.sendReadServiceEndpointGatewayPowerStatus(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendSegStatusGetPowerStatus(ctx context.Context, params SegStatusGetPowerStatusParams) (res *ModelsPowerApplianceGetPowerStatusResponseBody, err error) {
+func (c *Client) sendReadServiceEndpointGatewayPowerStatus(ctx context.Context, params ReadServiceEndpointGatewayPowerStatusParams) (res *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -630,7 +692,7 @@ func (c *Client) sendSegStatusGetPowerStatus(ctx context.Context, params SegStat
 		_ = body.Close()
 	}()
 
-	result, err := decodeSegStatusGetPowerStatusResponse(resp)
+	result, err := decodeReadServiceEndpointGatewayPowerStatusResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -638,17 +700,17 @@ func (c *Client) sendSegStatusGetPowerStatus(ctx context.Context, params SegStat
 	return result, nil
 }
 
-// SegStatusResetPowerStatus invokes segStatus_resetPowerStatus operation.
+// ResetServiceEndpointGateway invokes resetServiceEndpointGateway operation.
 //
 // 指定したサービスエンドポイントゲートウェイの起動状態をリセットします。.
 //
 // PUT /appliance/{applianceID}/reset
-func (c *Client) SegStatusResetPowerStatus(ctx context.Context, params SegStatusResetPowerStatusParams) (*ModelsPowerApplianceUpdatePowerStatusResponseBody, error) {
-	res, err := c.sendSegStatusResetPowerStatus(ctx, params)
+func (c *Client) ResetServiceEndpointGateway(ctx context.Context, params ResetServiceEndpointGatewayParams) (*ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, error) {
+	res, err := c.sendResetServiceEndpointGateway(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendSegStatusResetPowerStatus(ctx context.Context, params SegStatusResetPowerStatusParams) (res *ModelsPowerApplianceUpdatePowerStatusResponseBody, err error) {
+func (c *Client) sendResetServiceEndpointGateway(ctx context.Context, params ResetServiceEndpointGatewayParams) (res *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -692,7 +754,7 @@ func (c *Client) sendSegStatusResetPowerStatus(ctx context.Context, params SegSt
 		_ = body.Close()
 	}()
 
-	result, err := decodeSegStatusResetPowerStatusResponse(resp)
+	result, err := decodeResetServiceEndpointGatewayResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -700,81 +762,19 @@ func (c *Client) sendSegStatusResetPowerStatus(ctx context.Context, params SegSt
 	return result, nil
 }
 
-// SegStatusUpdatePowerStatus invokes segStatus_updatePowerStatus operation.
-//
-// 指定したサービスエンドポイントゲートウェイを起動します。.
-//
-// PUT /appliance/{applianceID}/power
-func (c *Client) SegStatusUpdatePowerStatus(ctx context.Context, params SegStatusUpdatePowerStatusParams) (*ModelsPowerApplianceUpdatePowerStatusResponseBody, error) {
-	res, err := c.sendSegStatusUpdatePowerStatus(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendSegStatusUpdatePowerStatus(ctx context.Context, params SegStatusUpdatePowerStatusParams) (res *ModelsPowerApplianceUpdatePowerStatusResponseBody, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/power"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeSegStatusUpdatePowerStatusResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// SegUpdate invokes seg_update operation.
+// UpdateServiceEndpointGateway invokes updateServiceEndpointGateway operation.
 //
 // 指定したサービスエンドポイントゲートウェイの情報を更新します。
 //
 // 更新後には、別途「サービスエンドポイントゲートウェイ適用API」を呼び出して設定を反映する必要があります。.
 //
 // PUT /appliance/{applianceID}
-func (c *Client) SegUpdate(ctx context.Context, request *ModelsApplianceApplianceUpdateRequest, params SegUpdateParams) (*ModelsApplianceApplianceGetResponseBody, error) {
-	res, err := c.sendSegUpdate(ctx, request, params)
+func (c *Client) UpdateServiceEndpointGateway(ctx context.Context, request *ModelsApplianceUpdateServiceEndpointGatewayRequest, params UpdateServiceEndpointGatewayParams) (*ModelsApplianceReadServiceEndpointGatewayResponseBody, error) {
+	res, err := c.sendUpdateServiceEndpointGateway(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendSegUpdate(ctx context.Context, request *ModelsApplianceApplianceUpdateRequest, params SegUpdateParams) (res *ModelsApplianceApplianceGetResponseBody, err error) {
+func (c *Client) sendUpdateServiceEndpointGateway(ctx context.Context, request *ModelsApplianceUpdateServiceEndpointGatewayRequest, params UpdateServiceEndpointGatewayParams) (res *ModelsApplianceReadServiceEndpointGatewayResponseBody, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -812,7 +812,7 @@ func (c *Client) sendSegUpdate(ctx context.Context, request *ModelsApplianceAppl
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeSegUpdateRequest(request, r); err != nil {
+	if err := encodeUpdateServiceEndpointGatewayRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -829,7 +829,7 @@ func (c *Client) sendSegUpdate(ctx context.Context, request *ModelsApplianceAppl
 		_ = body.Close()
 	}()
 
-	result, err := decodeSegUpdateResponse(resp)
+	result, err := decodeUpdateServiceEndpointGatewayResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
