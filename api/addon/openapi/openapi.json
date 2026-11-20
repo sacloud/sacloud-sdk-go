@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "version": "1.2.0",
+    "version": "1.2.0+patched@sdk",
     "title": "Add-on APIドキュメント",
     "description": "---\n\n「Add-on」が提供するAPIの利用方法とサンプルを公開しております。\n\n# 基本的な使い方\n\n## APIキーの発行\n\nAPIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。  \nAPIキーは「ユーザーID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n\n|   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |\n|------------|------------------------------|--------------------------------------|\n| ユーザーID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n\n<div class=\"warning\">\n  <b>操作マニュアル</b><br />\n  <ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n</div>\n\n## APIエンドポイント\nhttps://secure.sakura.ad.jp/cloud/api/addon/1.0/\n\n---\n",
     "contact": {
