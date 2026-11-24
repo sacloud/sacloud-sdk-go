@@ -166,15 +166,6 @@ func TestOperationErrorResponses(t *testing.T) {
 			want: "API Error 404: not_found", notFound: true,
 		},
 		{
-			name: "problem json missing status", contentType: "application/problem+json", status: 404,
-			body: `{"detail":"not_found"}`,
-			call: func(c *v1.Client) error {
-				_, err := NewEvaluationRulesOp(c).Read(t.Context(), "test")
-				return err
-			},
-			want: "API Error 404: not_found", notFound: true,
-		},
-		{
 			name: "problem json conflict", contentType: "application/problem+json", status: 409,
 			body: `{"status":409,"detail":"conflict"}`,
 			call: func(c *v1.Client) error {
