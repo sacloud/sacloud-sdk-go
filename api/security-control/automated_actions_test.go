@@ -26,7 +26,7 @@ func TestAutomatedActionsAPI(t *testing.T) {
 	require.NoError(t, err)
 
 	aaOp := securitycontrol.NewAutomatedActionsOp(client)
-	list, err := aaOp.List(ctx, v1.AutomatedActionsListParams{PageSize: v1.NewOptInt(10)})
+	list, err := aaOp.List(ctx, v1.ListAutomatedActionsParams{PageSize: v1.NewOptInt(10)})
 	require.NoError(t, err)
 	require.NotNil(t, list)
 
@@ -90,7 +90,7 @@ func TestAutomatedActionsAPI(t *testing.T) {
 	assert.Equal(t, `event.evaluationResult.status == "REJECTED"`, respUpdate.ExecutionCondition)
 
 	// List
-	respList, err := aaOp.List(ctx, v1.AutomatedActionsListParams{PageSize: v1.NewOptInt(10)})
+	respList, err := aaOp.List(ctx, v1.ListAutomatedActionsParams{PageSize: v1.NewOptInt(10)})
 	require.NoError(t, err)
 	require.NotNil(t, respList)
 	assert.Equal(t, len(list.Items)+1, len(respList.Items))

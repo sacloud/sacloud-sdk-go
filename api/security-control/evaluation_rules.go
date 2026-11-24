@@ -6,13 +6,12 @@ package securitycontrol
 import (
 	"context"
 	"errors"
-	"net/http"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/security-control/apis/v1"
 )
 
 type EvaluationRulesAPI interface {
-	List(ctx context.Context, parameter v1.EvaluationRulesListParams) (*v1.EvaluationRulesListOK, error)
+	List(ctx context.Context, parameter v1.ListEvaluationRulesParams) (*v1.ListEvaluationRulesOK, error)
 	Read(ctx context.Context, id string) (*v1.EvaluationRule, error)
 	Update(ctx context.Context, id string, req *v1.EvaluationRuleInput) (*v1.EvaluationRule, error)
 }
@@ -27,27 +26,36 @@ func NewEvaluationRulesOp(client *v1.Client) EvaluationRulesAPI {
 	return &evaluationRuleOp{client: client}
 }
 
-func (op *evaluationRuleOp) List(ctx context.Context, params v1.EvaluationRulesListParams) (*v1.EvaluationRulesListOK, error) {
+func (op *evaluationRuleOp) List(ctx context.Context, params v1.ListEvaluationRulesParams) (*v1.ListEvaluationRulesOK, error) {
 	const methodName = "EvaluationRules.List"
 
-	res, err := op.client.EvaluationRulesList(ctx, params)
+	res, err := op.client.ListEvaluationRules(ctx, params)
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v1.EvaluationRulesListOK:
+	case *v1.ListEvaluationRulesOK:
 		return r, nil
-	case *v1.EvaluationRulesListApplicationJSONBadRequest:
+	case *v1.ListEvaluationRulesApplicationJSONBadRequest:
 		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
-	case *v1.EvaluationRulesListApplicationJSONUnauthorized:
+	case *v1.ListEvaluationRulesApplicationProblemJSONBadRequest:
 		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
-	case *v1.EvaluationRulesListApplicationJSONForbidden:
+	case *v1.ListEvaluationRulesApplicationJSONUnauthorized:
 		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
-	case *v1.EvaluationRulesListApplicationJSONNotFound:
+	case *v1.ListEvaluationRulesApplicationProblemJSONUnauthorized:
 		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
-	case *v1.EvaluationRulesListApplicationJSONTooManyRequests:
-		// TODO: Handle RetryAfter field
+	case *v1.ListEvaluationRulesApplicationJSONForbidden:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.ListEvaluationRulesApplicationProblemJSONForbidden:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.ListEvaluationRulesApplicationJSONNotFound:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.ListEvaluationRulesApplicationProblemJSONNotFound:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.ListEvaluationRulesApplicationJSONTooManyRequests:
+		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
+	case *v1.ListEvaluationRulesApplicationProblemJSONTooManyRequests:
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	case *v1.UnexpectedErrorStatusCode:
 		return nil, responseError(methodName, r)
@@ -59,7 +67,7 @@ func (op *evaluationRuleOp) List(ctx context.Context, params v1.EvaluationRulesL
 func (op *evaluationRuleOp) Read(ctx context.Context, id string) (*v1.EvaluationRule, error) {
 	const methodName = "EvaluationRules.Read"
 
-	res, err := op.client.EvaluationRulesRead(ctx, v1.EvaluationRulesReadParams{EvaluationRuleId: v1.EvaluationRuleID(id)})
+	res, err := op.client.ReadEvaluationRule(ctx, v1.ReadEvaluationRuleParams{EvaluationRuleId: v1.EvaluationRuleID(id)})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
@@ -67,11 +75,21 @@ func (op *evaluationRuleOp) Read(ctx context.Context, id string) (*v1.Evaluation
 	switch r := res.(type) {
 	case *v1.EvaluationRule:
 		return r, nil
-	case *v1.EvaluationRulesReadApplicationJSONNotFound:
+	case *v1.ReadEvaluationRuleApplicationJSONUnauthorized:
 		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
-	case *v1.EvaluationRulesReadApplicationJSONForbidden:
+	case *v1.ReadEvaluationRuleApplicationProblemJSONUnauthorized:
 		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
-	case *v1.EvaluationRulesReadApplicationJSONTooManyRequests:
+	case *v1.ReadEvaluationRuleApplicationJSONForbidden:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.ReadEvaluationRuleApplicationProblemJSONForbidden:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.ReadEvaluationRuleApplicationJSONNotFound:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.ReadEvaluationRuleApplicationProblemJSONNotFound:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.ReadEvaluationRuleApplicationJSONTooManyRequests:
+		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
+	case *v1.ReadEvaluationRuleApplicationProblemJSONTooManyRequests:
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	default:
 		return nil, responseError(methodName, res)
@@ -81,7 +99,7 @@ func (op *evaluationRuleOp) Read(ctx context.Context, id string) (*v1.Evaluation
 func (op *evaluationRuleOp) Update(ctx context.Context, id string, req *v1.EvaluationRuleInput) (*v1.EvaluationRule, error) {
 	const methodName = "EvaluationRules.Update"
 
-	res, err := op.client.EvaluationRulesUpdate(ctx, req, v1.EvaluationRulesUpdateParams{EvaluationRuleId: v1.EvaluationRuleID(id)})
+	res, err := op.client.UpdateEvaluationRule(ctx, req, v1.UpdateEvaluationRuleParams{EvaluationRuleId: v1.EvaluationRuleID(id)})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
@@ -89,15 +107,25 @@ func (op *evaluationRuleOp) Update(ctx context.Context, id string, req *v1.Evalu
 	switch r := res.(type) {
 	case *v1.EvaluationRule:
 		return r, nil
-	case *v1.EvaluationRulesUpdateApplicationJSONBadRequest:
-		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(string(r.Detail.Value)))
-	case *v1.EvaluationRulesUpdateApplicationJSONUnauthorized:
-		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(string(r.Detail.Value)))
-	case *v1.EvaluationRulesUpdateApplicationJSONForbidden:
-		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(string(r.Detail.Value)))
-	case *v1.EvaluationRulesUpdateApplicationJSONNotFound:
-		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(string(r.Detail.Value)))
-	case *v1.EvaluationRulesUpdateApplicationJSONTooManyRequests:
+	case *v1.UpdateEvaluationRuleApplicationJSONBadRequest:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.UpdateEvaluationRuleApplicationProblemJSONBadRequest:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.UpdateEvaluationRuleApplicationJSONUnauthorized:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.UpdateEvaluationRuleApplicationProblemJSONUnauthorized:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.UpdateEvaluationRuleApplicationJSONForbidden:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.UpdateEvaluationRuleApplicationProblemJSONForbidden:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.UpdateEvaluationRuleApplicationJSONNotFound:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.UpdateEvaluationRuleApplicationProblemJSONNotFound:
+		return nil, NewAPIError(methodName, int(r.Status.Value), errors.New(string(r.Detail.Value)))
+	case *v1.UpdateEvaluationRuleApplicationJSONTooManyRequests:
+		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
+	case *v1.UpdateEvaluationRuleApplicationProblemJSONTooManyRequests:
 		return nil, NewAPIError(methodName, int(r.Response.Status.Value), errors.New(string(r.Response.Detail.Value)))
 	default:
 		return nil, responseError(methodName, res)

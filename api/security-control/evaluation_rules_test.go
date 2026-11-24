@@ -24,7 +24,7 @@ func TestEvaluationRulesAPI(t *testing.T) {
 	require.NoError(t, err)
 
 	erOp := securitycontrol.NewEvaluationRulesOp(client)
-	rules, err := erOp.List(ctx, v1.EvaluationRulesListParams{PageSize: v1.NewOptInt(10)})
+	rules, err := erOp.List(ctx, v1.ListEvaluationRulesParams{PageSize: v1.NewOptInt(10)})
 	require.NoError(t, err)
 	require.NotNil(t, rules)
 	assert.NotEmpty(t, rules.Items)

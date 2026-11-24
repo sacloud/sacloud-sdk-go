@@ -82,7 +82,7 @@ func TestResponseError(t *testing.T) {
 	}{
 		{
 			name: "problem json",
-			response: (*v1.EvaluationRulesReadApplicationProblemJSONNotFound)(&v1.NotFound{
+			response: (*v1.ReadEvaluationRuleApplicationProblemJSONNotFound)(&v1.NotFound{
 				Status: v1.NewOptNotFoundStatus(v1.NotFoundStatus404),
 				Detail: v1.NewOptNotFoundDetail(v1.NotFoundDetailNotFound),
 			}),
@@ -91,7 +91,7 @@ func TestResponseError(t *testing.T) {
 		},
 		{
 			name: "missing detail",
-			response: (*v1.EvaluationRulesReadApplicationProblemJSONNotFound)(&v1.NotFound{
+			response: (*v1.ReadEvaluationRuleApplicationProblemJSONNotFound)(&v1.NotFound{
 				Status: v1.NewOptNotFoundStatus(v1.NotFoundStatus404),
 			}),
 			want:     "API Error 404: API error response missing detail",
@@ -99,7 +99,7 @@ func TestResponseError(t *testing.T) {
 		},
 		{
 			name: "missing status",
-			response: (*v1.EvaluationRulesReadApplicationProblemJSONNotFound)(&v1.NotFound{
+			response: (*v1.ReadEvaluationRuleApplicationProblemJSONNotFound)(&v1.NotFound{
 				Detail: v1.NewOptNotFoundDetail(v1.NotFoundDetailNotFound),
 			}),
 			want:     "API Error 404: not_found",
@@ -112,8 +112,8 @@ func TestResponseError(t *testing.T) {
 		},
 		{
 			name:     "nil typed response",
-			response: (*v1.EvaluationRulesReadApplicationProblemJSONNotFound)(nil),
-			want:     "nil API error response *v1.EvaluationRulesReadApplicationProblemJSONNotFound",
+			response: (*v1.ReadEvaluationRuleApplicationProblemJSONNotFound)(nil),
+			want:     "nil API error response *v1.ReadEvaluationRuleApplicationProblemJSONNotFound",
 		},
 		{
 			name:     "nil unexpected response",
