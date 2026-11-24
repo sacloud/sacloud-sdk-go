@@ -319,350 +319,6 @@ func (s *AutomatedActionOutput) Validate() error {
 	return nil
 }
 
-func (s *AutomatedActionsCreateApplicationJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsCreateApplicationJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsCreateApplicationJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsCreateApplicationJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsCreateApplicationProblemJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsCreateApplicationProblemJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsCreateApplicationProblemJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsCreateApplicationProblemJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsDeleteApplicationJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsDeleteApplicationJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsDeleteApplicationJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsDeleteApplicationProblemJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsDeleteApplicationProblemJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsDeleteApplicationProblemJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsListApplicationJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsListApplicationJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsListApplicationJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsListApplicationProblemJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsListApplicationProblemJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsListApplicationProblemJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsListOK) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.Items == nil {
-			return errors.New("nil is invalid value")
-		}
-		var failures []validate.FieldError
-		for i, elem := range s.Items {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "items",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *AutomatedActionsReadApplicationJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsReadApplicationJSONNotFound) Validate() error {
-	alias := (*NotFound)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsReadApplicationJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsReadApplicationJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsReadApplicationProblemJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsReadApplicationProblemJSONNotFound) Validate() error {
-	alias := (*NotFound)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsReadApplicationProblemJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsReadApplicationProblemJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsUpdateApplicationJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsUpdateApplicationJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsUpdateApplicationJSONNotFound) Validate() error {
-	alias := (*NotFound)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsUpdateApplicationJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsUpdateApplicationJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsUpdateApplicationProblemJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsUpdateApplicationProblemJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsUpdateApplicationProblemJSONNotFound) Validate() error {
-	alias := (*NotFound)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsUpdateApplicationProblemJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *AutomatedActionsUpdateApplicationProblemJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (s *BadRequest) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -795,6 +451,150 @@ func (s ConflictStatus) Validate() error {
 	}
 }
 
+func (s *CreateActivationApplicationJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateActivationApplicationJSONConflict) Validate() error {
+	alias := (*Conflict)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateActivationApplicationJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateActivationApplicationJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateActivationApplicationJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateActivationApplicationProblemJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateActivationApplicationProblemJSONConflict) Validate() error {
+	alias := (*Conflict)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateActivationApplicationProblemJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateActivationApplicationProblemJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateActivationApplicationProblemJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateAutomatedActionApplicationJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateAutomatedActionApplicationJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateAutomatedActionApplicationJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateAutomatedActionApplicationJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateAutomatedActionApplicationProblemJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateAutomatedActionApplicationProblemJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateAutomatedActionApplicationProblemJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CreateAutomatedActionApplicationProblemJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *DbaEncryptionEnabled) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -857,6 +657,54 @@ func (s DbaNoPublicIPEvaluationRuleId) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+
+func (s *DeleteAutomatedActionApplicationJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *DeleteAutomatedActionApplicationJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *DeleteAutomatedActionApplicationJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *DeleteAutomatedActionApplicationProblemJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *DeleteAutomatedActionApplicationProblemJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *DeleteAutomatedActionApplicationProblemJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *DiskEncryptionEnabled) Validate() error {
@@ -1115,270 +963,6 @@ func (s EvaluationRuleUnionSum) Validate() error {
 	}
 }
 
-func (s *EvaluationRulesListApplicationJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesListApplicationJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesListApplicationJSONNotFound) Validate() error {
-	alias := (*NotFound)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesListApplicationJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesListApplicationJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesListApplicationProblemJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesListApplicationProblemJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesListApplicationProblemJSONNotFound) Validate() error {
-	alias := (*NotFound)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesListApplicationProblemJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesListApplicationProblemJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesListOK) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.Items == nil {
-			return errors.New("nil is invalid value")
-		}
-		var failures []validate.FieldError
-		for i, elem := range s.Items {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "items",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *EvaluationRulesReadApplicationJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesReadApplicationJSONNotFound) Validate() error {
-	alias := (*NotFound)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesReadApplicationJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesReadApplicationJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesReadApplicationProblemJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesReadApplicationProblemJSONNotFound) Validate() error {
-	alias := (*NotFound)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesReadApplicationProblemJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesReadApplicationProblemJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesUpdateApplicationJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesUpdateApplicationJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesUpdateApplicationJSONNotFound) Validate() error {
-	alias := (*NotFound)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesUpdateApplicationJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesUpdateApplicationJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesUpdateApplicationProblemJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesUpdateApplicationProblemJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesUpdateApplicationProblemJSONNotFound) Validate() error {
-	alias := (*NotFound)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesUpdateApplicationProblemJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *EvaluationRulesUpdateApplicationProblemJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (s *Forbidden) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -1475,6 +1059,214 @@ func (s IAMMemberOperationDetectedEvaluationRuleId) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+
+func (s *ListAutomatedActionsApplicationJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListAutomatedActionsApplicationJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListAutomatedActionsApplicationJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListAutomatedActionsApplicationProblemJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListAutomatedActionsApplicationProblemJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListAutomatedActionsApplicationProblemJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListAutomatedActionsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Items == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Items {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "items",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *ListEvaluationRulesApplicationJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListEvaluationRulesApplicationJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListEvaluationRulesApplicationJSONNotFound) Validate() error {
+	alias := (*NotFound)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListEvaluationRulesApplicationJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListEvaluationRulesApplicationJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListEvaluationRulesApplicationProblemJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListEvaluationRulesApplicationProblemJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListEvaluationRulesApplicationProblemJSONNotFound) Validate() error {
+	alias := (*NotFound)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListEvaluationRulesApplicationProblemJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListEvaluationRulesApplicationProblemJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ListEvaluationRulesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Items == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Items {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "items",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *NoSQLEncryptionEnabled) Validate() error {
@@ -1639,23 +1431,7 @@ func (s ObjectStorageBucketEncryptionEnabledEvaluationRuleId) Validate() error {
 	}
 }
 
-func (s *ProjectActivationCreateApplicationJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationCreateApplicationJSONConflict) Validate() error {
-	alias := (*Conflict)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationCreateApplicationJSONForbidden) Validate() error {
+func (s *ReadActivationApplicationJSONForbidden) Validate() error {
 	alias := (*Forbidden)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1663,71 +1439,7 @@ func (s *ProjectActivationCreateApplicationJSONForbidden) Validate() error {
 	return nil
 }
 
-func (s *ProjectActivationCreateApplicationJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationCreateApplicationJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationCreateApplicationProblemJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationCreateApplicationProblemJSONConflict) Validate() error {
-	alias := (*Conflict)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationCreateApplicationProblemJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationCreateApplicationProblemJSONTooManyRequests) Validate() error {
-	alias := (*TooManyRequestsHeaders)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationCreateApplicationProblemJSONUnauthorized) Validate() error {
-	alias := (*Unauthorized)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationReadApplicationJSONForbidden) Validate() error {
-	alias := (*Forbidden)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationReadApplicationJSONNotFound) Validate() error {
+func (s *ReadActivationApplicationJSONNotFound) Validate() error {
 	alias := (*NotFound)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1735,7 +1447,7 @@ func (s *ProjectActivationReadApplicationJSONNotFound) Validate() error {
 	return nil
 }
 
-func (s *ProjectActivationReadApplicationJSONTooManyRequests) Validate() error {
+func (s *ReadActivationApplicationJSONTooManyRequests) Validate() error {
 	alias := (*TooManyRequestsHeaders)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1743,7 +1455,7 @@ func (s *ProjectActivationReadApplicationJSONTooManyRequests) Validate() error {
 	return nil
 }
 
-func (s *ProjectActivationReadApplicationJSONUnauthorized) Validate() error {
+func (s *ReadActivationApplicationJSONUnauthorized) Validate() error {
 	alias := (*Unauthorized)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1751,7 +1463,7 @@ func (s *ProjectActivationReadApplicationJSONUnauthorized) Validate() error {
 	return nil
 }
 
-func (s *ProjectActivationReadApplicationProblemJSONForbidden) Validate() error {
+func (s *ReadActivationApplicationProblemJSONForbidden) Validate() error {
 	alias := (*Forbidden)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1759,7 +1471,7 @@ func (s *ProjectActivationReadApplicationProblemJSONForbidden) Validate() error 
 	return nil
 }
 
-func (s *ProjectActivationReadApplicationProblemJSONNotFound) Validate() error {
+func (s *ReadActivationApplicationProblemJSONNotFound) Validate() error {
 	alias := (*NotFound)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1767,7 +1479,7 @@ func (s *ProjectActivationReadApplicationProblemJSONNotFound) Validate() error {
 	return nil
 }
 
-func (s *ProjectActivationReadApplicationProblemJSONTooManyRequests) Validate() error {
+func (s *ReadActivationApplicationProblemJSONTooManyRequests) Validate() error {
 	alias := (*TooManyRequestsHeaders)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1775,7 +1487,7 @@ func (s *ProjectActivationReadApplicationProblemJSONTooManyRequests) Validate() 
 	return nil
 }
 
-func (s *ProjectActivationReadApplicationProblemJSONUnauthorized) Validate() error {
+func (s *ReadActivationApplicationProblemJSONUnauthorized) Validate() error {
 	alias := (*Unauthorized)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1783,15 +1495,7 @@ func (s *ProjectActivationReadApplicationProblemJSONUnauthorized) Validate() err
 	return nil
 }
 
-func (s *ProjectActivationUpdateApplicationJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationUpdateApplicationJSONForbidden) Validate() error {
+func (s *ReadAutomatedActionApplicationJSONForbidden) Validate() error {
 	alias := (*Forbidden)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1799,7 +1503,7 @@ func (s *ProjectActivationUpdateApplicationJSONForbidden) Validate() error {
 	return nil
 }
 
-func (s *ProjectActivationUpdateApplicationJSONNotFound) Validate() error {
+func (s *ReadAutomatedActionApplicationJSONNotFound) Validate() error {
 	alias := (*NotFound)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1807,7 +1511,7 @@ func (s *ProjectActivationUpdateApplicationJSONNotFound) Validate() error {
 	return nil
 }
 
-func (s *ProjectActivationUpdateApplicationJSONTooManyRequests) Validate() error {
+func (s *ReadAutomatedActionApplicationJSONTooManyRequests) Validate() error {
 	alias := (*TooManyRequestsHeaders)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1815,7 +1519,7 @@ func (s *ProjectActivationUpdateApplicationJSONTooManyRequests) Validate() error
 	return nil
 }
 
-func (s *ProjectActivationUpdateApplicationJSONUnauthorized) Validate() error {
+func (s *ReadAutomatedActionApplicationJSONUnauthorized) Validate() error {
 	alias := (*Unauthorized)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1823,15 +1527,7 @@ func (s *ProjectActivationUpdateApplicationJSONUnauthorized) Validate() error {
 	return nil
 }
 
-func (s *ProjectActivationUpdateApplicationProblemJSONBadRequest) Validate() error {
-	alias := (*BadRequest)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ProjectActivationUpdateApplicationProblemJSONForbidden) Validate() error {
+func (s *ReadAutomatedActionApplicationProblemJSONForbidden) Validate() error {
 	alias := (*Forbidden)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1839,7 +1535,7 @@ func (s *ProjectActivationUpdateApplicationProblemJSONForbidden) Validate() erro
 	return nil
 }
 
-func (s *ProjectActivationUpdateApplicationProblemJSONNotFound) Validate() error {
+func (s *ReadAutomatedActionApplicationProblemJSONNotFound) Validate() error {
 	alias := (*NotFound)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1847,7 +1543,7 @@ func (s *ProjectActivationUpdateApplicationProblemJSONNotFound) Validate() error
 	return nil
 }
 
-func (s *ProjectActivationUpdateApplicationProblemJSONTooManyRequests) Validate() error {
+func (s *ReadAutomatedActionApplicationProblemJSONTooManyRequests) Validate() error {
 	alias := (*TooManyRequestsHeaders)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -1855,7 +1551,71 @@ func (s *ProjectActivationUpdateApplicationProblemJSONTooManyRequests) Validate(
 	return nil
 }
 
-func (s *ProjectActivationUpdateApplicationProblemJSONUnauthorized) Validate() error {
+func (s *ReadAutomatedActionApplicationProblemJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ReadEvaluationRuleApplicationJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ReadEvaluationRuleApplicationJSONNotFound) Validate() error {
+	alias := (*NotFound)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ReadEvaluationRuleApplicationJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ReadEvaluationRuleApplicationJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ReadEvaluationRuleApplicationProblemJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ReadEvaluationRuleApplicationProblemJSONNotFound) Validate() error {
+	alias := (*NotFound)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ReadEvaluationRuleApplicationProblemJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ReadEvaluationRuleApplicationProblemJSONUnauthorized) Validate() error {
 	alias := (*Unauthorized)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -2048,4 +1808,244 @@ func (s UnauthorizedStatus) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+
+func (s *UpdateActivationApplicationJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateActivationApplicationJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateActivationApplicationJSONNotFound) Validate() error {
+	alias := (*NotFound)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateActivationApplicationJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateActivationApplicationJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateActivationApplicationProblemJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateActivationApplicationProblemJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateActivationApplicationProblemJSONNotFound) Validate() error {
+	alias := (*NotFound)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateActivationApplicationProblemJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateActivationApplicationProblemJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateAutomatedActionApplicationJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateAutomatedActionApplicationJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateAutomatedActionApplicationJSONNotFound) Validate() error {
+	alias := (*NotFound)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateAutomatedActionApplicationJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateAutomatedActionApplicationJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateAutomatedActionApplicationProblemJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateAutomatedActionApplicationProblemJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateAutomatedActionApplicationProblemJSONNotFound) Validate() error {
+	alias := (*NotFound)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateAutomatedActionApplicationProblemJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateAutomatedActionApplicationProblemJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateEvaluationRuleApplicationJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateEvaluationRuleApplicationJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateEvaluationRuleApplicationJSONNotFound) Validate() error {
+	alias := (*NotFound)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateEvaluationRuleApplicationJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateEvaluationRuleApplicationJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateEvaluationRuleApplicationProblemJSONBadRequest) Validate() error {
+	alias := (*BadRequest)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateEvaluationRuleApplicationProblemJSONForbidden) Validate() error {
+	alias := (*Forbidden)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateEvaluationRuleApplicationProblemJSONNotFound) Validate() error {
+	alias := (*NotFound)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateEvaluationRuleApplicationProblemJSONTooManyRequests) Validate() error {
+	alias := (*TooManyRequestsHeaders)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UpdateEvaluationRuleApplicationProblemJSONUnauthorized) Validate() error {
+	alias := (*Unauthorized)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
 }

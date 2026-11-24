@@ -85,7 +85,8 @@ func (s *ActionDefinitionSimpleNotificationActionType) UnmarshalText(data []byte
 
 // ActionDefinitionSum represents sum type.
 type ActionDefinitionSum struct {
-	Type                               ActionDefinitionSumType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                               ActionDefinitionSumType
 	ActionDefinitionSimpleNotification ActionDefinitionSimpleNotification
 	ActionDefinitionWorkflows          ActionDefinitionWorkflows
 }
@@ -229,6 +230,7 @@ func (s *ActivationCreateInput) SetServicePrincipalId(val string) {
 }
 
 // 現在のプロジェクトにおける「セキュリティコントロール」有効化状態を返すレスポンスボディ。
+//
 // 基本情報に加えて、システム内部で定義された追加情報を含む。.
 // Ref: #/components/schemas/ActivationOutput
 type ActivationOutput struct {
@@ -270,9 +272,9 @@ func (s *ActivationOutput) SetAutomatedActionLimit(val int) {
 	s.AutomatedActionLimit = val
 }
 
-func (*ActivationOutput) projectActivationCreateRes() {}
-func (*ActivationOutput) projectActivationReadRes()   {}
-func (*ActivationOutput) projectActivationUpdateRes() {}
+func (*ActivationOutput) createActivationRes() {}
+func (*ActivationOutput) readActivationRes()   {}
+func (*ActivationOutput) updateActivationRes() {}
 
 // 有効化状態更新時のリクエストボディ.
 // Ref: #/components/schemas/ActivationUpdateInput
@@ -651,6 +653,7 @@ func (s *AutomatedActionInput) SetIsEnabled(val bool) {
 }
 
 // 自動アクションの現在の状態を取得するためのレスポンスボディ。
+//
 // 基本情報に加えて、識別子や作成日時など、システムによって付与される情報を含む。.
 // Ref: #/components/schemas/AutomatedActionOutput
 type AutomatedActionOutput struct {
@@ -742,497 +745,9 @@ func (s *AutomatedActionOutput) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
-func (*AutomatedActionOutput) automatedActionsCreateRes() {}
-func (*AutomatedActionOutput) automatedActionsReadRes()   {}
-func (*AutomatedActionOutput) automatedActionsUpdateRes() {}
-
-type AutomatedActionsCreateApplicationJSONBadRequest BadRequest
-
-func (*AutomatedActionsCreateApplicationJSONBadRequest) automatedActionsCreateRes() {}
-
-type AutomatedActionsCreateApplicationJSONForbidden Forbidden
-
-func (*AutomatedActionsCreateApplicationJSONForbidden) automatedActionsCreateRes() {}
-
-type AutomatedActionsCreateApplicationJSONTooManyRequests TooManyRequestsHeaders
-
-func (*AutomatedActionsCreateApplicationJSONTooManyRequests) automatedActionsCreateRes() {}
-
-type AutomatedActionsCreateApplicationJSONUnauthorized Unauthorized
-
-func (*AutomatedActionsCreateApplicationJSONUnauthorized) automatedActionsCreateRes() {}
-
-type AutomatedActionsCreateApplicationProblemJSONBadRequest BadRequest
-
-func (*AutomatedActionsCreateApplicationProblemJSONBadRequest) automatedActionsCreateRes() {}
-
-type AutomatedActionsCreateApplicationProblemJSONForbidden Forbidden
-
-func (*AutomatedActionsCreateApplicationProblemJSONForbidden) automatedActionsCreateRes() {}
-
-type AutomatedActionsCreateApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
-
-func (*AutomatedActionsCreateApplicationProblemJSONTooManyRequests) automatedActionsCreateRes() {}
-
-type AutomatedActionsCreateApplicationProblemJSONUnauthorized Unauthorized
-
-func (*AutomatedActionsCreateApplicationProblemJSONUnauthorized) automatedActionsCreateRes() {}
-
-// AutomatedActionsCreateTooManyRequestsRetryAfter represents sum type.
-type AutomatedActionsCreateTooManyRequestsRetryAfter struct {
-	Type                AutomatedActionsCreateTooManyRequestsRetryAfterType // switch on this field
-	ClientDelaySeconds  ClientDelaySeconds
-	ClientRetryDateTime ClientRetryDateTime
-}
-
-// AutomatedActionsCreateTooManyRequestsRetryAfterType is oneOf type of AutomatedActionsCreateTooManyRequestsRetryAfter.
-type AutomatedActionsCreateTooManyRequestsRetryAfterType string
-
-// Possible values for AutomatedActionsCreateTooManyRequestsRetryAfterType.
-const (
-	ClientDelaySecondsAutomatedActionsCreateTooManyRequestsRetryAfter  AutomatedActionsCreateTooManyRequestsRetryAfterType = "ClientDelaySeconds"
-	ClientRetryDateTimeAutomatedActionsCreateTooManyRequestsRetryAfter AutomatedActionsCreateTooManyRequestsRetryAfterType = "ClientRetryDateTime"
-)
-
-// IsClientDelaySeconds reports whether AutomatedActionsCreateTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s AutomatedActionsCreateTooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
-	return s.Type == ClientDelaySecondsAutomatedActionsCreateTooManyRequestsRetryAfter
-}
-
-// IsClientRetryDateTime reports whether AutomatedActionsCreateTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s AutomatedActionsCreateTooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
-	return s.Type == ClientRetryDateTimeAutomatedActionsCreateTooManyRequestsRetryAfter
-}
-
-// SetClientDelaySeconds sets AutomatedActionsCreateTooManyRequestsRetryAfter to ClientDelaySeconds.
-func (s *AutomatedActionsCreateTooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
-	s.Type = ClientDelaySecondsAutomatedActionsCreateTooManyRequestsRetryAfter
-	s.ClientDelaySeconds = v
-}
-
-// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if AutomatedActionsCreateTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s AutomatedActionsCreateTooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
-	if !s.IsClientDelaySeconds() {
-		return v, false
-	}
-	return s.ClientDelaySeconds, true
-}
-
-// NewClientDelaySecondsAutomatedActionsCreateTooManyRequestsRetryAfter returns new AutomatedActionsCreateTooManyRequestsRetryAfter from ClientDelaySeconds.
-func NewClientDelaySecondsAutomatedActionsCreateTooManyRequestsRetryAfter(v ClientDelaySeconds) AutomatedActionsCreateTooManyRequestsRetryAfter {
-	var s AutomatedActionsCreateTooManyRequestsRetryAfter
-	s.SetClientDelaySeconds(v)
-	return s
-}
-
-// SetClientRetryDateTime sets AutomatedActionsCreateTooManyRequestsRetryAfter to ClientRetryDateTime.
-func (s *AutomatedActionsCreateTooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
-	s.Type = ClientRetryDateTimeAutomatedActionsCreateTooManyRequestsRetryAfter
-	s.ClientRetryDateTime = v
-}
-
-// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if AutomatedActionsCreateTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s AutomatedActionsCreateTooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
-	if !s.IsClientRetryDateTime() {
-		return v, false
-	}
-	return s.ClientRetryDateTime, true
-}
-
-// NewClientRetryDateTimeAutomatedActionsCreateTooManyRequestsRetryAfter returns new AutomatedActionsCreateTooManyRequestsRetryAfter from ClientRetryDateTime.
-func NewClientRetryDateTimeAutomatedActionsCreateTooManyRequestsRetryAfter(v ClientRetryDateTime) AutomatedActionsCreateTooManyRequestsRetryAfter {
-	var s AutomatedActionsCreateTooManyRequestsRetryAfter
-	s.SetClientRetryDateTime(v)
-	return s
-}
-
-type AutomatedActionsDeleteApplicationJSONForbidden Forbidden
-
-func (*AutomatedActionsDeleteApplicationJSONForbidden) automatedActionsDeleteRes() {}
-
-type AutomatedActionsDeleteApplicationJSONTooManyRequests TooManyRequestsHeaders
-
-func (*AutomatedActionsDeleteApplicationJSONTooManyRequests) automatedActionsDeleteRes() {}
-
-type AutomatedActionsDeleteApplicationJSONUnauthorized Unauthorized
-
-func (*AutomatedActionsDeleteApplicationJSONUnauthorized) automatedActionsDeleteRes() {}
-
-type AutomatedActionsDeleteApplicationProblemJSONForbidden Forbidden
-
-func (*AutomatedActionsDeleteApplicationProblemJSONForbidden) automatedActionsDeleteRes() {}
-
-type AutomatedActionsDeleteApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
-
-func (*AutomatedActionsDeleteApplicationProblemJSONTooManyRequests) automatedActionsDeleteRes() {}
-
-type AutomatedActionsDeleteApplicationProblemJSONUnauthorized Unauthorized
-
-func (*AutomatedActionsDeleteApplicationProblemJSONUnauthorized) automatedActionsDeleteRes() {}
-
-// AutomatedActionsDeleteNoContent is response for AutomatedActionsDelete operation.
-type AutomatedActionsDeleteNoContent struct{}
-
-func (*AutomatedActionsDeleteNoContent) automatedActionsDeleteRes() {}
-
-// AutomatedActionsDeleteTooManyRequestsRetryAfter represents sum type.
-type AutomatedActionsDeleteTooManyRequestsRetryAfter struct {
-	Type                AutomatedActionsDeleteTooManyRequestsRetryAfterType // switch on this field
-	ClientDelaySeconds  ClientDelaySeconds
-	ClientRetryDateTime ClientRetryDateTime
-}
-
-// AutomatedActionsDeleteTooManyRequestsRetryAfterType is oneOf type of AutomatedActionsDeleteTooManyRequestsRetryAfter.
-type AutomatedActionsDeleteTooManyRequestsRetryAfterType string
-
-// Possible values for AutomatedActionsDeleteTooManyRequestsRetryAfterType.
-const (
-	ClientDelaySecondsAutomatedActionsDeleteTooManyRequestsRetryAfter  AutomatedActionsDeleteTooManyRequestsRetryAfterType = "ClientDelaySeconds"
-	ClientRetryDateTimeAutomatedActionsDeleteTooManyRequestsRetryAfter AutomatedActionsDeleteTooManyRequestsRetryAfterType = "ClientRetryDateTime"
-)
-
-// IsClientDelaySeconds reports whether AutomatedActionsDeleteTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s AutomatedActionsDeleteTooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
-	return s.Type == ClientDelaySecondsAutomatedActionsDeleteTooManyRequestsRetryAfter
-}
-
-// IsClientRetryDateTime reports whether AutomatedActionsDeleteTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s AutomatedActionsDeleteTooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
-	return s.Type == ClientRetryDateTimeAutomatedActionsDeleteTooManyRequestsRetryAfter
-}
-
-// SetClientDelaySeconds sets AutomatedActionsDeleteTooManyRequestsRetryAfter to ClientDelaySeconds.
-func (s *AutomatedActionsDeleteTooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
-	s.Type = ClientDelaySecondsAutomatedActionsDeleteTooManyRequestsRetryAfter
-	s.ClientDelaySeconds = v
-}
-
-// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if AutomatedActionsDeleteTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s AutomatedActionsDeleteTooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
-	if !s.IsClientDelaySeconds() {
-		return v, false
-	}
-	return s.ClientDelaySeconds, true
-}
-
-// NewClientDelaySecondsAutomatedActionsDeleteTooManyRequestsRetryAfter returns new AutomatedActionsDeleteTooManyRequestsRetryAfter from ClientDelaySeconds.
-func NewClientDelaySecondsAutomatedActionsDeleteTooManyRequestsRetryAfter(v ClientDelaySeconds) AutomatedActionsDeleteTooManyRequestsRetryAfter {
-	var s AutomatedActionsDeleteTooManyRequestsRetryAfter
-	s.SetClientDelaySeconds(v)
-	return s
-}
-
-// SetClientRetryDateTime sets AutomatedActionsDeleteTooManyRequestsRetryAfter to ClientRetryDateTime.
-func (s *AutomatedActionsDeleteTooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
-	s.Type = ClientRetryDateTimeAutomatedActionsDeleteTooManyRequestsRetryAfter
-	s.ClientRetryDateTime = v
-}
-
-// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if AutomatedActionsDeleteTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s AutomatedActionsDeleteTooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
-	if !s.IsClientRetryDateTime() {
-		return v, false
-	}
-	return s.ClientRetryDateTime, true
-}
-
-// NewClientRetryDateTimeAutomatedActionsDeleteTooManyRequestsRetryAfter returns new AutomatedActionsDeleteTooManyRequestsRetryAfter from ClientRetryDateTime.
-func NewClientRetryDateTimeAutomatedActionsDeleteTooManyRequestsRetryAfter(v ClientRetryDateTime) AutomatedActionsDeleteTooManyRequestsRetryAfter {
-	var s AutomatedActionsDeleteTooManyRequestsRetryAfter
-	s.SetClientRetryDateTime(v)
-	return s
-}
-
-type AutomatedActionsListApplicationJSONBadRequest BadRequest
-
-func (*AutomatedActionsListApplicationJSONBadRequest) automatedActionsListRes() {}
-
-type AutomatedActionsListApplicationJSONForbidden Forbidden
-
-func (*AutomatedActionsListApplicationJSONForbidden) automatedActionsListRes() {}
-
-type AutomatedActionsListApplicationJSONUnauthorized Unauthorized
-
-func (*AutomatedActionsListApplicationJSONUnauthorized) automatedActionsListRes() {}
-
-type AutomatedActionsListApplicationProblemJSONBadRequest BadRequest
-
-func (*AutomatedActionsListApplicationProblemJSONBadRequest) automatedActionsListRes() {}
-
-type AutomatedActionsListApplicationProblemJSONForbidden Forbidden
-
-func (*AutomatedActionsListApplicationProblemJSONForbidden) automatedActionsListRes() {}
-
-type AutomatedActionsListApplicationProblemJSONUnauthorized Unauthorized
-
-func (*AutomatedActionsListApplicationProblemJSONUnauthorized) automatedActionsListRes() {}
-
-type AutomatedActionsListOK struct {
-	Items []AutomatedActionOutput `json:"items"`
-	// 次ページ取得用のトークン。
-	// このフィールドが省略されている場合は次ページなし。
-	// 次のページを取得するには、この値を次のリクエストの `next`
-	// に指定する。.
-	NextPageToken OptString `json:"nextPageToken"`
-	// 前ページ取得用のトークン。
-	// このフィールドが省略されている場合は前ページなし。
-	// 前のページを取得するには、この値を次のリクエストの `prev`
-	// に指定する。.
-	PrevPageToken OptString `json:"prevPageToken"`
-	// ページネーション対象リストの全アイテム数。
-	// この値は推定値である可能性がある。.
-	TotalSize int `json:"totalSize"`
-}
-
-// GetItems returns the value of Items.
-func (s *AutomatedActionsListOK) GetItems() []AutomatedActionOutput {
-	return s.Items
-}
-
-// GetNextPageToken returns the value of NextPageToken.
-func (s *AutomatedActionsListOK) GetNextPageToken() OptString {
-	return s.NextPageToken
-}
-
-// GetPrevPageToken returns the value of PrevPageToken.
-func (s *AutomatedActionsListOK) GetPrevPageToken() OptString {
-	return s.PrevPageToken
-}
-
-// GetTotalSize returns the value of TotalSize.
-func (s *AutomatedActionsListOK) GetTotalSize() int {
-	return s.TotalSize
-}
-
-// SetItems sets the value of Items.
-func (s *AutomatedActionsListOK) SetItems(val []AutomatedActionOutput) {
-	s.Items = val
-}
-
-// SetNextPageToken sets the value of NextPageToken.
-func (s *AutomatedActionsListOK) SetNextPageToken(val OptString) {
-	s.NextPageToken = val
-}
-
-// SetPrevPageToken sets the value of PrevPageToken.
-func (s *AutomatedActionsListOK) SetPrevPageToken(val OptString) {
-	s.PrevPageToken = val
-}
-
-// SetTotalSize sets the value of TotalSize.
-func (s *AutomatedActionsListOK) SetTotalSize(val int) {
-	s.TotalSize = val
-}
-
-func (*AutomatedActionsListOK) automatedActionsListRes() {}
-
-type AutomatedActionsReadApplicationJSONForbidden Forbidden
-
-func (*AutomatedActionsReadApplicationJSONForbidden) automatedActionsReadRes() {}
-
-type AutomatedActionsReadApplicationJSONNotFound NotFound
-
-func (*AutomatedActionsReadApplicationJSONNotFound) automatedActionsReadRes() {}
-
-type AutomatedActionsReadApplicationJSONTooManyRequests TooManyRequestsHeaders
-
-func (*AutomatedActionsReadApplicationJSONTooManyRequests) automatedActionsReadRes() {}
-
-type AutomatedActionsReadApplicationJSONUnauthorized Unauthorized
-
-func (*AutomatedActionsReadApplicationJSONUnauthorized) automatedActionsReadRes() {}
-
-type AutomatedActionsReadApplicationProblemJSONForbidden Forbidden
-
-func (*AutomatedActionsReadApplicationProblemJSONForbidden) automatedActionsReadRes() {}
-
-type AutomatedActionsReadApplicationProblemJSONNotFound NotFound
-
-func (*AutomatedActionsReadApplicationProblemJSONNotFound) automatedActionsReadRes() {}
-
-type AutomatedActionsReadApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
-
-func (*AutomatedActionsReadApplicationProblemJSONTooManyRequests) automatedActionsReadRes() {}
-
-type AutomatedActionsReadApplicationProblemJSONUnauthorized Unauthorized
-
-func (*AutomatedActionsReadApplicationProblemJSONUnauthorized) automatedActionsReadRes() {}
-
-// AutomatedActionsReadTooManyRequestsRetryAfter represents sum type.
-type AutomatedActionsReadTooManyRequestsRetryAfter struct {
-	Type                AutomatedActionsReadTooManyRequestsRetryAfterType // switch on this field
-	ClientDelaySeconds  ClientDelaySeconds
-	ClientRetryDateTime ClientRetryDateTime
-}
-
-// AutomatedActionsReadTooManyRequestsRetryAfterType is oneOf type of AutomatedActionsReadTooManyRequestsRetryAfter.
-type AutomatedActionsReadTooManyRequestsRetryAfterType string
-
-// Possible values for AutomatedActionsReadTooManyRequestsRetryAfterType.
-const (
-	ClientDelaySecondsAutomatedActionsReadTooManyRequestsRetryAfter  AutomatedActionsReadTooManyRequestsRetryAfterType = "ClientDelaySeconds"
-	ClientRetryDateTimeAutomatedActionsReadTooManyRequestsRetryAfter AutomatedActionsReadTooManyRequestsRetryAfterType = "ClientRetryDateTime"
-)
-
-// IsClientDelaySeconds reports whether AutomatedActionsReadTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s AutomatedActionsReadTooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
-	return s.Type == ClientDelaySecondsAutomatedActionsReadTooManyRequestsRetryAfter
-}
-
-// IsClientRetryDateTime reports whether AutomatedActionsReadTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s AutomatedActionsReadTooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
-	return s.Type == ClientRetryDateTimeAutomatedActionsReadTooManyRequestsRetryAfter
-}
-
-// SetClientDelaySeconds sets AutomatedActionsReadTooManyRequestsRetryAfter to ClientDelaySeconds.
-func (s *AutomatedActionsReadTooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
-	s.Type = ClientDelaySecondsAutomatedActionsReadTooManyRequestsRetryAfter
-	s.ClientDelaySeconds = v
-}
-
-// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if AutomatedActionsReadTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s AutomatedActionsReadTooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
-	if !s.IsClientDelaySeconds() {
-		return v, false
-	}
-	return s.ClientDelaySeconds, true
-}
-
-// NewClientDelaySecondsAutomatedActionsReadTooManyRequestsRetryAfter returns new AutomatedActionsReadTooManyRequestsRetryAfter from ClientDelaySeconds.
-func NewClientDelaySecondsAutomatedActionsReadTooManyRequestsRetryAfter(v ClientDelaySeconds) AutomatedActionsReadTooManyRequestsRetryAfter {
-	var s AutomatedActionsReadTooManyRequestsRetryAfter
-	s.SetClientDelaySeconds(v)
-	return s
-}
-
-// SetClientRetryDateTime sets AutomatedActionsReadTooManyRequestsRetryAfter to ClientRetryDateTime.
-func (s *AutomatedActionsReadTooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
-	s.Type = ClientRetryDateTimeAutomatedActionsReadTooManyRequestsRetryAfter
-	s.ClientRetryDateTime = v
-}
-
-// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if AutomatedActionsReadTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s AutomatedActionsReadTooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
-	if !s.IsClientRetryDateTime() {
-		return v, false
-	}
-	return s.ClientRetryDateTime, true
-}
-
-// NewClientRetryDateTimeAutomatedActionsReadTooManyRequestsRetryAfter returns new AutomatedActionsReadTooManyRequestsRetryAfter from ClientRetryDateTime.
-func NewClientRetryDateTimeAutomatedActionsReadTooManyRequestsRetryAfter(v ClientRetryDateTime) AutomatedActionsReadTooManyRequestsRetryAfter {
-	var s AutomatedActionsReadTooManyRequestsRetryAfter
-	s.SetClientRetryDateTime(v)
-	return s
-}
-
-type AutomatedActionsUpdateApplicationJSONBadRequest BadRequest
-
-func (*AutomatedActionsUpdateApplicationJSONBadRequest) automatedActionsUpdateRes() {}
-
-type AutomatedActionsUpdateApplicationJSONForbidden Forbidden
-
-func (*AutomatedActionsUpdateApplicationJSONForbidden) automatedActionsUpdateRes() {}
-
-type AutomatedActionsUpdateApplicationJSONNotFound NotFound
-
-func (*AutomatedActionsUpdateApplicationJSONNotFound) automatedActionsUpdateRes() {}
-
-type AutomatedActionsUpdateApplicationJSONTooManyRequests TooManyRequestsHeaders
-
-func (*AutomatedActionsUpdateApplicationJSONTooManyRequests) automatedActionsUpdateRes() {}
-
-type AutomatedActionsUpdateApplicationJSONUnauthorized Unauthorized
-
-func (*AutomatedActionsUpdateApplicationJSONUnauthorized) automatedActionsUpdateRes() {}
-
-type AutomatedActionsUpdateApplicationProblemJSONBadRequest BadRequest
-
-func (*AutomatedActionsUpdateApplicationProblemJSONBadRequest) automatedActionsUpdateRes() {}
-
-type AutomatedActionsUpdateApplicationProblemJSONForbidden Forbidden
-
-func (*AutomatedActionsUpdateApplicationProblemJSONForbidden) automatedActionsUpdateRes() {}
-
-type AutomatedActionsUpdateApplicationProblemJSONNotFound NotFound
-
-func (*AutomatedActionsUpdateApplicationProblemJSONNotFound) automatedActionsUpdateRes() {}
-
-type AutomatedActionsUpdateApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
-
-func (*AutomatedActionsUpdateApplicationProblemJSONTooManyRequests) automatedActionsUpdateRes() {}
-
-type AutomatedActionsUpdateApplicationProblemJSONUnauthorized Unauthorized
-
-func (*AutomatedActionsUpdateApplicationProblemJSONUnauthorized) automatedActionsUpdateRes() {}
-
-// AutomatedActionsUpdateTooManyRequestsRetryAfter represents sum type.
-type AutomatedActionsUpdateTooManyRequestsRetryAfter struct {
-	Type                AutomatedActionsUpdateTooManyRequestsRetryAfterType // switch on this field
-	ClientDelaySeconds  ClientDelaySeconds
-	ClientRetryDateTime ClientRetryDateTime
-}
-
-// AutomatedActionsUpdateTooManyRequestsRetryAfterType is oneOf type of AutomatedActionsUpdateTooManyRequestsRetryAfter.
-type AutomatedActionsUpdateTooManyRequestsRetryAfterType string
-
-// Possible values for AutomatedActionsUpdateTooManyRequestsRetryAfterType.
-const (
-	ClientDelaySecondsAutomatedActionsUpdateTooManyRequestsRetryAfter  AutomatedActionsUpdateTooManyRequestsRetryAfterType = "ClientDelaySeconds"
-	ClientRetryDateTimeAutomatedActionsUpdateTooManyRequestsRetryAfter AutomatedActionsUpdateTooManyRequestsRetryAfterType = "ClientRetryDateTime"
-)
-
-// IsClientDelaySeconds reports whether AutomatedActionsUpdateTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s AutomatedActionsUpdateTooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
-	return s.Type == ClientDelaySecondsAutomatedActionsUpdateTooManyRequestsRetryAfter
-}
-
-// IsClientRetryDateTime reports whether AutomatedActionsUpdateTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s AutomatedActionsUpdateTooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
-	return s.Type == ClientRetryDateTimeAutomatedActionsUpdateTooManyRequestsRetryAfter
-}
-
-// SetClientDelaySeconds sets AutomatedActionsUpdateTooManyRequestsRetryAfter to ClientDelaySeconds.
-func (s *AutomatedActionsUpdateTooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
-	s.Type = ClientDelaySecondsAutomatedActionsUpdateTooManyRequestsRetryAfter
-	s.ClientDelaySeconds = v
-}
-
-// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if AutomatedActionsUpdateTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s AutomatedActionsUpdateTooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
-	if !s.IsClientDelaySeconds() {
-		return v, false
-	}
-	return s.ClientDelaySeconds, true
-}
-
-// NewClientDelaySecondsAutomatedActionsUpdateTooManyRequestsRetryAfter returns new AutomatedActionsUpdateTooManyRequestsRetryAfter from ClientDelaySeconds.
-func NewClientDelaySecondsAutomatedActionsUpdateTooManyRequestsRetryAfter(v ClientDelaySeconds) AutomatedActionsUpdateTooManyRequestsRetryAfter {
-	var s AutomatedActionsUpdateTooManyRequestsRetryAfter
-	s.SetClientDelaySeconds(v)
-	return s
-}
-
-// SetClientRetryDateTime sets AutomatedActionsUpdateTooManyRequestsRetryAfter to ClientRetryDateTime.
-func (s *AutomatedActionsUpdateTooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
-	s.Type = ClientRetryDateTimeAutomatedActionsUpdateTooManyRequestsRetryAfter
-	s.ClientRetryDateTime = v
-}
-
-// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if AutomatedActionsUpdateTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s AutomatedActionsUpdateTooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
-	if !s.IsClientRetryDateTime() {
-		return v, false
-	}
-	return s.ClientRetryDateTime, true
-}
-
-// NewClientRetryDateTimeAutomatedActionsUpdateTooManyRequestsRetryAfter returns new AutomatedActionsUpdateTooManyRequestsRetryAfter from ClientRetryDateTime.
-func NewClientRetryDateTimeAutomatedActionsUpdateTooManyRequestsRetryAfter(v ClientRetryDateTime) AutomatedActionsUpdateTooManyRequestsRetryAfter {
-	var s AutomatedActionsUpdateTooManyRequestsRetryAfter
-	s.SetClientRetryDateTime(v)
-	return s
-}
+func (*AutomatedActionOutput) createAutomatedActionRes() {}
+func (*AutomatedActionOutput) readAutomatedActionRes()   {}
+func (*AutomatedActionOutput) updateAutomatedActionRes() {}
 
 // サーバーがリクエストのパラメータやペイロードを理解できなかった場合のエラー。.
 // Ref: #/components/schemas/BadRequest
@@ -1389,6 +904,7 @@ type ClientDelaySeconds int
 type ClientRetryDateTime time.Time
 
 // リクエストが現在のリソースの状態と競合した場合のエラー。
+//
 // 例えば、既に存在するリソースを再度作成しようとした場合などに返される。.
 // Ref: #/components/schemas/Conflict
 type Conflict struct {
@@ -1502,6 +1018,78 @@ func (ConflictStatus) AllValues() []ConflictStatus {
 		ConflictStatus409,
 	}
 }
+
+type CreateActivationApplicationJSONBadRequest BadRequest
+
+func (*CreateActivationApplicationJSONBadRequest) createActivationRes() {}
+
+type CreateActivationApplicationJSONConflict Conflict
+
+func (*CreateActivationApplicationJSONConflict) createActivationRes() {}
+
+type CreateActivationApplicationJSONForbidden Forbidden
+
+func (*CreateActivationApplicationJSONForbidden) createActivationRes() {}
+
+type CreateActivationApplicationJSONTooManyRequests TooManyRequestsHeaders
+
+func (*CreateActivationApplicationJSONTooManyRequests) createActivationRes() {}
+
+type CreateActivationApplicationJSONUnauthorized Unauthorized
+
+func (*CreateActivationApplicationJSONUnauthorized) createActivationRes() {}
+
+type CreateActivationApplicationProblemJSONBadRequest BadRequest
+
+func (*CreateActivationApplicationProblemJSONBadRequest) createActivationRes() {}
+
+type CreateActivationApplicationProblemJSONConflict Conflict
+
+func (*CreateActivationApplicationProblemJSONConflict) createActivationRes() {}
+
+type CreateActivationApplicationProblemJSONForbidden Forbidden
+
+func (*CreateActivationApplicationProblemJSONForbidden) createActivationRes() {}
+
+type CreateActivationApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
+
+func (*CreateActivationApplicationProblemJSONTooManyRequests) createActivationRes() {}
+
+type CreateActivationApplicationProblemJSONUnauthorized Unauthorized
+
+func (*CreateActivationApplicationProblemJSONUnauthorized) createActivationRes() {}
+
+type CreateAutomatedActionApplicationJSONBadRequest BadRequest
+
+func (*CreateAutomatedActionApplicationJSONBadRequest) createAutomatedActionRes() {}
+
+type CreateAutomatedActionApplicationJSONForbidden Forbidden
+
+func (*CreateAutomatedActionApplicationJSONForbidden) createAutomatedActionRes() {}
+
+type CreateAutomatedActionApplicationJSONTooManyRequests TooManyRequestsHeaders
+
+func (*CreateAutomatedActionApplicationJSONTooManyRequests) createAutomatedActionRes() {}
+
+type CreateAutomatedActionApplicationJSONUnauthorized Unauthorized
+
+func (*CreateAutomatedActionApplicationJSONUnauthorized) createAutomatedActionRes() {}
+
+type CreateAutomatedActionApplicationProblemJSONBadRequest BadRequest
+
+func (*CreateAutomatedActionApplicationProblemJSONBadRequest) createAutomatedActionRes() {}
+
+type CreateAutomatedActionApplicationProblemJSONForbidden Forbidden
+
+func (*CreateAutomatedActionApplicationProblemJSONForbidden) createAutomatedActionRes() {}
+
+type CreateAutomatedActionApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
+
+func (*CreateAutomatedActionApplicationProblemJSONTooManyRequests) createAutomatedActionRes() {}
+
+type CreateAutomatedActionApplicationProblemJSONUnauthorized Unauthorized
+
+func (*CreateAutomatedActionApplicationProblemJSONUnauthorized) createAutomatedActionRes() {}
 
 // Ref: #/components/schemas/DbaEncryptionEnabled
 type DbaEncryptionEnabled struct {
@@ -1622,6 +1210,35 @@ func (s *DbaNoPublicIPEvaluationRuleId) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type DeleteAutomatedActionApplicationJSONForbidden Forbidden
+
+func (*DeleteAutomatedActionApplicationJSONForbidden) deleteAutomatedActionRes() {}
+
+type DeleteAutomatedActionApplicationJSONTooManyRequests TooManyRequestsHeaders
+
+func (*DeleteAutomatedActionApplicationJSONTooManyRequests) deleteAutomatedActionRes() {}
+
+type DeleteAutomatedActionApplicationJSONUnauthorized Unauthorized
+
+func (*DeleteAutomatedActionApplicationJSONUnauthorized) deleteAutomatedActionRes() {}
+
+type DeleteAutomatedActionApplicationProblemJSONForbidden Forbidden
+
+func (*DeleteAutomatedActionApplicationProblemJSONForbidden) deleteAutomatedActionRes() {}
+
+type DeleteAutomatedActionApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
+
+func (*DeleteAutomatedActionApplicationProblemJSONTooManyRequests) deleteAutomatedActionRes() {}
+
+type DeleteAutomatedActionApplicationProblemJSONUnauthorized Unauthorized
+
+func (*DeleteAutomatedActionApplicationProblemJSONUnauthorized) deleteAutomatedActionRes() {}
+
+// DeleteAutomatedActionNoContent is response for DeleteAutomatedAction operation.
+type DeleteAutomatedActionNoContent struct{}
+
+func (*DeleteAutomatedActionNoContent) deleteAutomatedActionRes() {}
 
 // Ref: #/components/schemas/DiskEncryptionEnabled
 type DiskEncryptionEnabled struct {
@@ -1795,8 +1412,8 @@ func (s *EvaluationRule) SetIsEnabled(val bool) {
 	s.IsEnabled = val
 }
 
-func (*EvaluationRule) evaluationRulesReadRes()   {}
-func (*EvaluationRule) evaluationRulesUpdateRes() {}
+func (*EvaluationRule) readEvaluationRuleRes()   {}
+func (*EvaluationRule) updateEvaluationRuleRes() {}
 
 // Ref: #/components/schemas/EvaluationRuleID
 type EvaluationRuleID string
@@ -1970,8 +1587,8 @@ func (s *EvaluationRuleParametersEvaluationTarget) SetServicePrincipalId(val Opt
 }
 
 // サービスプリンシパルIDと評価対象のオブジェクトストレージ用サイト配列を要求するパラメータ。
-// オブジェクトストレージに関連する評価ルールで使用される。
-// `sites == []` の場合は「全サイト対象」の意味。.
+// オブジェクトストレージに関連する評価ルールで使用される。 `sites == []`
+// の場合は「全サイト対象」の意味。.
 // Ref: #/components/schemas/EvaluationRuleParameters.ObjectStorageEvaluationTarget
 type EvaluationRuleParametersObjectStorageEvaluationTarget struct {
 	// 評価対象リソースに対する読み取り権限を持つサービスプリンシパルのID。未指定の場合はセキュリティコントロール有効化時に設定されたサービスプリンシパルが使用される。.
@@ -2047,7 +1664,8 @@ func (s *EvaluationRuleUnion) SetOneOf(val EvaluationRuleUnionSum) {
 
 // EvaluationRuleUnionSum represents sum type.
 type EvaluationRuleUnionSum struct {
-	Type                                 EvaluationRuleUnionSumType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                                 EvaluationRuleUnionSumType
 	ServerNoPublicIP                     ServerNoPublicIP
 	DiskEncryptionEnabled                DiskEncryptionEnabled
 	DbaEncryptionEnabled                 DbaEncryptionEnabled
@@ -2449,381 +2067,6 @@ func NewAddonVulnerabilityDetectionsEvaluationRuleUnionSum(v AddonVulnerabilityD
 	return s
 }
 
-type EvaluationRulesListApplicationJSONBadRequest BadRequest
-
-func (*EvaluationRulesListApplicationJSONBadRequest) evaluationRulesListRes() {}
-
-type EvaluationRulesListApplicationJSONForbidden Forbidden
-
-func (*EvaluationRulesListApplicationJSONForbidden) evaluationRulesListRes() {}
-
-type EvaluationRulesListApplicationJSONNotFound NotFound
-
-func (*EvaluationRulesListApplicationJSONNotFound) evaluationRulesListRes() {}
-
-type EvaluationRulesListApplicationJSONTooManyRequests TooManyRequestsHeaders
-
-func (*EvaluationRulesListApplicationJSONTooManyRequests) evaluationRulesListRes() {}
-
-type EvaluationRulesListApplicationJSONUnauthorized Unauthorized
-
-func (*EvaluationRulesListApplicationJSONUnauthorized) evaluationRulesListRes() {}
-
-type EvaluationRulesListApplicationProblemJSONBadRequest BadRequest
-
-func (*EvaluationRulesListApplicationProblemJSONBadRequest) evaluationRulesListRes() {}
-
-type EvaluationRulesListApplicationProblemJSONForbidden Forbidden
-
-func (*EvaluationRulesListApplicationProblemJSONForbidden) evaluationRulesListRes() {}
-
-type EvaluationRulesListApplicationProblemJSONNotFound NotFound
-
-func (*EvaluationRulesListApplicationProblemJSONNotFound) evaluationRulesListRes() {}
-
-type EvaluationRulesListApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
-
-func (*EvaluationRulesListApplicationProblemJSONTooManyRequests) evaluationRulesListRes() {}
-
-type EvaluationRulesListApplicationProblemJSONUnauthorized Unauthorized
-
-func (*EvaluationRulesListApplicationProblemJSONUnauthorized) evaluationRulesListRes() {}
-
-type EvaluationRulesListOK struct {
-	Items []EvaluationRule `json:"items"`
-	// 次ページ取得用のトークン。
-	// このフィールドが省略されている場合は次ページなし。
-	// 次のページを取得するには、この値を次のリクエストの `next`
-	// に指定する。.
-	NextPageToken OptString `json:"nextPageToken"`
-	// 前ページ取得用のトークン。
-	// このフィールドが省略されている場合は前ページなし。
-	// 前のページを取得するには、この値を次のリクエストの `prev`
-	// に指定する。.
-	PrevPageToken OptString `json:"prevPageToken"`
-	// ページネーション対象リストの全アイテム数。
-	// この値は推定値である可能性がある。.
-	TotalSize int `json:"totalSize"`
-}
-
-// GetItems returns the value of Items.
-func (s *EvaluationRulesListOK) GetItems() []EvaluationRule {
-	return s.Items
-}
-
-// GetNextPageToken returns the value of NextPageToken.
-func (s *EvaluationRulesListOK) GetNextPageToken() OptString {
-	return s.NextPageToken
-}
-
-// GetPrevPageToken returns the value of PrevPageToken.
-func (s *EvaluationRulesListOK) GetPrevPageToken() OptString {
-	return s.PrevPageToken
-}
-
-// GetTotalSize returns the value of TotalSize.
-func (s *EvaluationRulesListOK) GetTotalSize() int {
-	return s.TotalSize
-}
-
-// SetItems sets the value of Items.
-func (s *EvaluationRulesListOK) SetItems(val []EvaluationRule) {
-	s.Items = val
-}
-
-// SetNextPageToken sets the value of NextPageToken.
-func (s *EvaluationRulesListOK) SetNextPageToken(val OptString) {
-	s.NextPageToken = val
-}
-
-// SetPrevPageToken sets the value of PrevPageToken.
-func (s *EvaluationRulesListOK) SetPrevPageToken(val OptString) {
-	s.PrevPageToken = val
-}
-
-// SetTotalSize sets the value of TotalSize.
-func (s *EvaluationRulesListOK) SetTotalSize(val int) {
-	s.TotalSize = val
-}
-
-func (*EvaluationRulesListOK) evaluationRulesListRes() {}
-
-// EvaluationRulesListTooManyRequestsRetryAfter represents sum type.
-type EvaluationRulesListTooManyRequestsRetryAfter struct {
-	Type                EvaluationRulesListTooManyRequestsRetryAfterType // switch on this field
-	ClientDelaySeconds  ClientDelaySeconds
-	ClientRetryDateTime ClientRetryDateTime
-}
-
-// EvaluationRulesListTooManyRequestsRetryAfterType is oneOf type of EvaluationRulesListTooManyRequestsRetryAfter.
-type EvaluationRulesListTooManyRequestsRetryAfterType string
-
-// Possible values for EvaluationRulesListTooManyRequestsRetryAfterType.
-const (
-	ClientDelaySecondsEvaluationRulesListTooManyRequestsRetryAfter  EvaluationRulesListTooManyRequestsRetryAfterType = "ClientDelaySeconds"
-	ClientRetryDateTimeEvaluationRulesListTooManyRequestsRetryAfter EvaluationRulesListTooManyRequestsRetryAfterType = "ClientRetryDateTime"
-)
-
-// IsClientDelaySeconds reports whether EvaluationRulesListTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s EvaluationRulesListTooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
-	return s.Type == ClientDelaySecondsEvaluationRulesListTooManyRequestsRetryAfter
-}
-
-// IsClientRetryDateTime reports whether EvaluationRulesListTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s EvaluationRulesListTooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
-	return s.Type == ClientRetryDateTimeEvaluationRulesListTooManyRequestsRetryAfter
-}
-
-// SetClientDelaySeconds sets EvaluationRulesListTooManyRequestsRetryAfter to ClientDelaySeconds.
-func (s *EvaluationRulesListTooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
-	s.Type = ClientDelaySecondsEvaluationRulesListTooManyRequestsRetryAfter
-	s.ClientDelaySeconds = v
-}
-
-// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if EvaluationRulesListTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s EvaluationRulesListTooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
-	if !s.IsClientDelaySeconds() {
-		return v, false
-	}
-	return s.ClientDelaySeconds, true
-}
-
-// NewClientDelaySecondsEvaluationRulesListTooManyRequestsRetryAfter returns new EvaluationRulesListTooManyRequestsRetryAfter from ClientDelaySeconds.
-func NewClientDelaySecondsEvaluationRulesListTooManyRequestsRetryAfter(v ClientDelaySeconds) EvaluationRulesListTooManyRequestsRetryAfter {
-	var s EvaluationRulesListTooManyRequestsRetryAfter
-	s.SetClientDelaySeconds(v)
-	return s
-}
-
-// SetClientRetryDateTime sets EvaluationRulesListTooManyRequestsRetryAfter to ClientRetryDateTime.
-func (s *EvaluationRulesListTooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
-	s.Type = ClientRetryDateTimeEvaluationRulesListTooManyRequestsRetryAfter
-	s.ClientRetryDateTime = v
-}
-
-// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if EvaluationRulesListTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s EvaluationRulesListTooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
-	if !s.IsClientRetryDateTime() {
-		return v, false
-	}
-	return s.ClientRetryDateTime, true
-}
-
-// NewClientRetryDateTimeEvaluationRulesListTooManyRequestsRetryAfter returns new EvaluationRulesListTooManyRequestsRetryAfter from ClientRetryDateTime.
-func NewClientRetryDateTimeEvaluationRulesListTooManyRequestsRetryAfter(v ClientRetryDateTime) EvaluationRulesListTooManyRequestsRetryAfter {
-	var s EvaluationRulesListTooManyRequestsRetryAfter
-	s.SetClientRetryDateTime(v)
-	return s
-}
-
-type EvaluationRulesReadApplicationJSONForbidden Forbidden
-
-func (*EvaluationRulesReadApplicationJSONForbidden) evaluationRulesReadRes() {}
-
-type EvaluationRulesReadApplicationJSONNotFound NotFound
-
-func (*EvaluationRulesReadApplicationJSONNotFound) evaluationRulesReadRes() {}
-
-type EvaluationRulesReadApplicationJSONTooManyRequests TooManyRequestsHeaders
-
-func (*EvaluationRulesReadApplicationJSONTooManyRequests) evaluationRulesReadRes() {}
-
-type EvaluationRulesReadApplicationJSONUnauthorized Unauthorized
-
-func (*EvaluationRulesReadApplicationJSONUnauthorized) evaluationRulesReadRes() {}
-
-type EvaluationRulesReadApplicationProblemJSONForbidden Forbidden
-
-func (*EvaluationRulesReadApplicationProblemJSONForbidden) evaluationRulesReadRes() {}
-
-type EvaluationRulesReadApplicationProblemJSONNotFound NotFound
-
-func (*EvaluationRulesReadApplicationProblemJSONNotFound) evaluationRulesReadRes() {}
-
-type EvaluationRulesReadApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
-
-func (*EvaluationRulesReadApplicationProblemJSONTooManyRequests) evaluationRulesReadRes() {}
-
-type EvaluationRulesReadApplicationProblemJSONUnauthorized Unauthorized
-
-func (*EvaluationRulesReadApplicationProblemJSONUnauthorized) evaluationRulesReadRes() {}
-
-// EvaluationRulesReadTooManyRequestsRetryAfter represents sum type.
-type EvaluationRulesReadTooManyRequestsRetryAfter struct {
-	Type                EvaluationRulesReadTooManyRequestsRetryAfterType // switch on this field
-	ClientDelaySeconds  ClientDelaySeconds
-	ClientRetryDateTime ClientRetryDateTime
-}
-
-// EvaluationRulesReadTooManyRequestsRetryAfterType is oneOf type of EvaluationRulesReadTooManyRequestsRetryAfter.
-type EvaluationRulesReadTooManyRequestsRetryAfterType string
-
-// Possible values for EvaluationRulesReadTooManyRequestsRetryAfterType.
-const (
-	ClientDelaySecondsEvaluationRulesReadTooManyRequestsRetryAfter  EvaluationRulesReadTooManyRequestsRetryAfterType = "ClientDelaySeconds"
-	ClientRetryDateTimeEvaluationRulesReadTooManyRequestsRetryAfter EvaluationRulesReadTooManyRequestsRetryAfterType = "ClientRetryDateTime"
-)
-
-// IsClientDelaySeconds reports whether EvaluationRulesReadTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s EvaluationRulesReadTooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
-	return s.Type == ClientDelaySecondsEvaluationRulesReadTooManyRequestsRetryAfter
-}
-
-// IsClientRetryDateTime reports whether EvaluationRulesReadTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s EvaluationRulesReadTooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
-	return s.Type == ClientRetryDateTimeEvaluationRulesReadTooManyRequestsRetryAfter
-}
-
-// SetClientDelaySeconds sets EvaluationRulesReadTooManyRequestsRetryAfter to ClientDelaySeconds.
-func (s *EvaluationRulesReadTooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
-	s.Type = ClientDelaySecondsEvaluationRulesReadTooManyRequestsRetryAfter
-	s.ClientDelaySeconds = v
-}
-
-// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if EvaluationRulesReadTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s EvaluationRulesReadTooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
-	if !s.IsClientDelaySeconds() {
-		return v, false
-	}
-	return s.ClientDelaySeconds, true
-}
-
-// NewClientDelaySecondsEvaluationRulesReadTooManyRequestsRetryAfter returns new EvaluationRulesReadTooManyRequestsRetryAfter from ClientDelaySeconds.
-func NewClientDelaySecondsEvaluationRulesReadTooManyRequestsRetryAfter(v ClientDelaySeconds) EvaluationRulesReadTooManyRequestsRetryAfter {
-	var s EvaluationRulesReadTooManyRequestsRetryAfter
-	s.SetClientDelaySeconds(v)
-	return s
-}
-
-// SetClientRetryDateTime sets EvaluationRulesReadTooManyRequestsRetryAfter to ClientRetryDateTime.
-func (s *EvaluationRulesReadTooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
-	s.Type = ClientRetryDateTimeEvaluationRulesReadTooManyRequestsRetryAfter
-	s.ClientRetryDateTime = v
-}
-
-// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if EvaluationRulesReadTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s EvaluationRulesReadTooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
-	if !s.IsClientRetryDateTime() {
-		return v, false
-	}
-	return s.ClientRetryDateTime, true
-}
-
-// NewClientRetryDateTimeEvaluationRulesReadTooManyRequestsRetryAfter returns new EvaluationRulesReadTooManyRequestsRetryAfter from ClientRetryDateTime.
-func NewClientRetryDateTimeEvaluationRulesReadTooManyRequestsRetryAfter(v ClientRetryDateTime) EvaluationRulesReadTooManyRequestsRetryAfter {
-	var s EvaluationRulesReadTooManyRequestsRetryAfter
-	s.SetClientRetryDateTime(v)
-	return s
-}
-
-type EvaluationRulesUpdateApplicationJSONBadRequest BadRequest
-
-func (*EvaluationRulesUpdateApplicationJSONBadRequest) evaluationRulesUpdateRes() {}
-
-type EvaluationRulesUpdateApplicationJSONForbidden Forbidden
-
-func (*EvaluationRulesUpdateApplicationJSONForbidden) evaluationRulesUpdateRes() {}
-
-type EvaluationRulesUpdateApplicationJSONNotFound NotFound
-
-func (*EvaluationRulesUpdateApplicationJSONNotFound) evaluationRulesUpdateRes() {}
-
-type EvaluationRulesUpdateApplicationJSONTooManyRequests TooManyRequestsHeaders
-
-func (*EvaluationRulesUpdateApplicationJSONTooManyRequests) evaluationRulesUpdateRes() {}
-
-type EvaluationRulesUpdateApplicationJSONUnauthorized Unauthorized
-
-func (*EvaluationRulesUpdateApplicationJSONUnauthorized) evaluationRulesUpdateRes() {}
-
-type EvaluationRulesUpdateApplicationProblemJSONBadRequest BadRequest
-
-func (*EvaluationRulesUpdateApplicationProblemJSONBadRequest) evaluationRulesUpdateRes() {}
-
-type EvaluationRulesUpdateApplicationProblemJSONForbidden Forbidden
-
-func (*EvaluationRulesUpdateApplicationProblemJSONForbidden) evaluationRulesUpdateRes() {}
-
-type EvaluationRulesUpdateApplicationProblemJSONNotFound NotFound
-
-func (*EvaluationRulesUpdateApplicationProblemJSONNotFound) evaluationRulesUpdateRes() {}
-
-type EvaluationRulesUpdateApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
-
-func (*EvaluationRulesUpdateApplicationProblemJSONTooManyRequests) evaluationRulesUpdateRes() {}
-
-type EvaluationRulesUpdateApplicationProblemJSONUnauthorized Unauthorized
-
-func (*EvaluationRulesUpdateApplicationProblemJSONUnauthorized) evaluationRulesUpdateRes() {}
-
-// EvaluationRulesUpdateTooManyRequestsRetryAfter represents sum type.
-type EvaluationRulesUpdateTooManyRequestsRetryAfter struct {
-	Type                EvaluationRulesUpdateTooManyRequestsRetryAfterType // switch on this field
-	ClientDelaySeconds  ClientDelaySeconds
-	ClientRetryDateTime ClientRetryDateTime
-}
-
-// EvaluationRulesUpdateTooManyRequestsRetryAfterType is oneOf type of EvaluationRulesUpdateTooManyRequestsRetryAfter.
-type EvaluationRulesUpdateTooManyRequestsRetryAfterType string
-
-// Possible values for EvaluationRulesUpdateTooManyRequestsRetryAfterType.
-const (
-	ClientDelaySecondsEvaluationRulesUpdateTooManyRequestsRetryAfter  EvaluationRulesUpdateTooManyRequestsRetryAfterType = "ClientDelaySeconds"
-	ClientRetryDateTimeEvaluationRulesUpdateTooManyRequestsRetryAfter EvaluationRulesUpdateTooManyRequestsRetryAfterType = "ClientRetryDateTime"
-)
-
-// IsClientDelaySeconds reports whether EvaluationRulesUpdateTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s EvaluationRulesUpdateTooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
-	return s.Type == ClientDelaySecondsEvaluationRulesUpdateTooManyRequestsRetryAfter
-}
-
-// IsClientRetryDateTime reports whether EvaluationRulesUpdateTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s EvaluationRulesUpdateTooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
-	return s.Type == ClientRetryDateTimeEvaluationRulesUpdateTooManyRequestsRetryAfter
-}
-
-// SetClientDelaySeconds sets EvaluationRulesUpdateTooManyRequestsRetryAfter to ClientDelaySeconds.
-func (s *EvaluationRulesUpdateTooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
-	s.Type = ClientDelaySecondsEvaluationRulesUpdateTooManyRequestsRetryAfter
-	s.ClientDelaySeconds = v
-}
-
-// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if EvaluationRulesUpdateTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s EvaluationRulesUpdateTooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
-	if !s.IsClientDelaySeconds() {
-		return v, false
-	}
-	return s.ClientDelaySeconds, true
-}
-
-// NewClientDelaySecondsEvaluationRulesUpdateTooManyRequestsRetryAfter returns new EvaluationRulesUpdateTooManyRequestsRetryAfter from ClientDelaySeconds.
-func NewClientDelaySecondsEvaluationRulesUpdateTooManyRequestsRetryAfter(v ClientDelaySeconds) EvaluationRulesUpdateTooManyRequestsRetryAfter {
-	var s EvaluationRulesUpdateTooManyRequestsRetryAfter
-	s.SetClientDelaySeconds(v)
-	return s
-}
-
-// SetClientRetryDateTime sets EvaluationRulesUpdateTooManyRequestsRetryAfter to ClientRetryDateTime.
-func (s *EvaluationRulesUpdateTooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
-	s.Type = ClientRetryDateTimeEvaluationRulesUpdateTooManyRequestsRetryAfter
-	s.ClientRetryDateTime = v
-}
-
-// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if EvaluationRulesUpdateTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s EvaluationRulesUpdateTooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
-	if !s.IsClientRetryDateTime() {
-		return v, false
-	}
-	return s.ClientRetryDateTime, true
-}
-
-// NewClientRetryDateTimeEvaluationRulesUpdateTooManyRequestsRetryAfter returns new EvaluationRulesUpdateTooManyRequestsRetryAfter from ClientRetryDateTime.
-func NewClientRetryDateTimeEvaluationRulesUpdateTooManyRequestsRetryAfter(v ClientRetryDateTime) EvaluationRulesUpdateTooManyRequestsRetryAfter {
-	var s EvaluationRulesUpdateTooManyRequestsRetryAfter
-	s.SetClientRetryDateTime(v)
-	return s
-}
-
 // サーバーがリクエストを理解したが認可を拒否した場合のエラー。
 // ユーザーにリソースへのアクセス権限がない場合に返される。.
 // Ref: #/components/schemas/Forbidden
@@ -2998,6 +2241,194 @@ func (s *IAMMemberOperationDetectedEvaluationRuleId) UnmarshalText(data []byte) 
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type ListAutomatedActionsApplicationJSONBadRequest BadRequest
+
+func (*ListAutomatedActionsApplicationJSONBadRequest) listAutomatedActionsRes() {}
+
+type ListAutomatedActionsApplicationJSONForbidden Forbidden
+
+func (*ListAutomatedActionsApplicationJSONForbidden) listAutomatedActionsRes() {}
+
+type ListAutomatedActionsApplicationJSONUnauthorized Unauthorized
+
+func (*ListAutomatedActionsApplicationJSONUnauthorized) listAutomatedActionsRes() {}
+
+type ListAutomatedActionsApplicationProblemJSONBadRequest BadRequest
+
+func (*ListAutomatedActionsApplicationProblemJSONBadRequest) listAutomatedActionsRes() {}
+
+type ListAutomatedActionsApplicationProblemJSONForbidden Forbidden
+
+func (*ListAutomatedActionsApplicationProblemJSONForbidden) listAutomatedActionsRes() {}
+
+type ListAutomatedActionsApplicationProblemJSONUnauthorized Unauthorized
+
+func (*ListAutomatedActionsApplicationProblemJSONUnauthorized) listAutomatedActionsRes() {}
+
+type ListAutomatedActionsOK struct {
+	Items []AutomatedActionOutput `json:"items"`
+	// 次ページ取得用のトークン。
+	//
+	// このフィールドが省略されている場合は次ページなし。
+	// 次のページを取得するには、この値を次のリクエストの `next`
+	// に指定する。.
+	NextPageToken OptString `json:"nextPageToken"`
+	// 前ページ取得用のトークン。
+	//
+	// このフィールドが省略されている場合は前ページなし。
+	// 前のページを取得するには、この値を次のリクエストの `prev`
+	// に指定する。.
+	PrevPageToken OptString `json:"prevPageToken"`
+	// ページネーション対象リストの全アイテム数。
+	//
+	// この値は推定値である可能性がある。.
+	TotalSize int `json:"totalSize"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListAutomatedActionsOK) GetItems() []AutomatedActionOutput {
+	return s.Items
+}
+
+// GetNextPageToken returns the value of NextPageToken.
+func (s *ListAutomatedActionsOK) GetNextPageToken() OptString {
+	return s.NextPageToken
+}
+
+// GetPrevPageToken returns the value of PrevPageToken.
+func (s *ListAutomatedActionsOK) GetPrevPageToken() OptString {
+	return s.PrevPageToken
+}
+
+// GetTotalSize returns the value of TotalSize.
+func (s *ListAutomatedActionsOK) GetTotalSize() int {
+	return s.TotalSize
+}
+
+// SetItems sets the value of Items.
+func (s *ListAutomatedActionsOK) SetItems(val []AutomatedActionOutput) {
+	s.Items = val
+}
+
+// SetNextPageToken sets the value of NextPageToken.
+func (s *ListAutomatedActionsOK) SetNextPageToken(val OptString) {
+	s.NextPageToken = val
+}
+
+// SetPrevPageToken sets the value of PrevPageToken.
+func (s *ListAutomatedActionsOK) SetPrevPageToken(val OptString) {
+	s.PrevPageToken = val
+}
+
+// SetTotalSize sets the value of TotalSize.
+func (s *ListAutomatedActionsOK) SetTotalSize(val int) {
+	s.TotalSize = val
+}
+
+func (*ListAutomatedActionsOK) listAutomatedActionsRes() {}
+
+type ListEvaluationRulesApplicationJSONBadRequest BadRequest
+
+func (*ListEvaluationRulesApplicationJSONBadRequest) listEvaluationRulesRes() {}
+
+type ListEvaluationRulesApplicationJSONForbidden Forbidden
+
+func (*ListEvaluationRulesApplicationJSONForbidden) listEvaluationRulesRes() {}
+
+type ListEvaluationRulesApplicationJSONNotFound NotFound
+
+func (*ListEvaluationRulesApplicationJSONNotFound) listEvaluationRulesRes() {}
+
+type ListEvaluationRulesApplicationJSONTooManyRequests TooManyRequestsHeaders
+
+func (*ListEvaluationRulesApplicationJSONTooManyRequests) listEvaluationRulesRes() {}
+
+type ListEvaluationRulesApplicationJSONUnauthorized Unauthorized
+
+func (*ListEvaluationRulesApplicationJSONUnauthorized) listEvaluationRulesRes() {}
+
+type ListEvaluationRulesApplicationProblemJSONBadRequest BadRequest
+
+func (*ListEvaluationRulesApplicationProblemJSONBadRequest) listEvaluationRulesRes() {}
+
+type ListEvaluationRulesApplicationProblemJSONForbidden Forbidden
+
+func (*ListEvaluationRulesApplicationProblemJSONForbidden) listEvaluationRulesRes() {}
+
+type ListEvaluationRulesApplicationProblemJSONNotFound NotFound
+
+func (*ListEvaluationRulesApplicationProblemJSONNotFound) listEvaluationRulesRes() {}
+
+type ListEvaluationRulesApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
+
+func (*ListEvaluationRulesApplicationProblemJSONTooManyRequests) listEvaluationRulesRes() {}
+
+type ListEvaluationRulesApplicationProblemJSONUnauthorized Unauthorized
+
+func (*ListEvaluationRulesApplicationProblemJSONUnauthorized) listEvaluationRulesRes() {}
+
+type ListEvaluationRulesOK struct {
+	Items []EvaluationRule `json:"items"`
+	// 次ページ取得用のトークン。
+	//
+	// このフィールドが省略されている場合は次ページなし。
+	// 次のページを取得するには、この値を次のリクエストの `next`
+	// に指定する。.
+	NextPageToken OptString `json:"nextPageToken"`
+	// 前ページ取得用のトークン。
+	//
+	// このフィールドが省略されている場合は前ページなし。
+	// 前のページを取得するには、この値を次のリクエストの `prev`
+	// に指定する。.
+	PrevPageToken OptString `json:"prevPageToken"`
+	// ページネーション対象リストの全アイテム数。
+	//
+	// この値は推定値である可能性がある。.
+	TotalSize int `json:"totalSize"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListEvaluationRulesOK) GetItems() []EvaluationRule {
+	return s.Items
+}
+
+// GetNextPageToken returns the value of NextPageToken.
+func (s *ListEvaluationRulesOK) GetNextPageToken() OptString {
+	return s.NextPageToken
+}
+
+// GetPrevPageToken returns the value of PrevPageToken.
+func (s *ListEvaluationRulesOK) GetPrevPageToken() OptString {
+	return s.PrevPageToken
+}
+
+// GetTotalSize returns the value of TotalSize.
+func (s *ListEvaluationRulesOK) GetTotalSize() int {
+	return s.TotalSize
+}
+
+// SetItems sets the value of Items.
+func (s *ListEvaluationRulesOK) SetItems(val []EvaluationRule) {
+	s.Items = val
+}
+
+// SetNextPageToken sets the value of NextPageToken.
+func (s *ListEvaluationRulesOK) SetNextPageToken(val OptString) {
+	s.NextPageToken = val
+}
+
+// SetPrevPageToken sets the value of PrevPageToken.
+func (s *ListEvaluationRulesOK) SetPrevPageToken(val OptString) {
+	s.PrevPageToken = val
+}
+
+// SetTotalSize sets the value of TotalSize.
+func (s *ListEvaluationRulesOK) SetTotalSize(val int) {
+	s.TotalSize = val
+}
+
+func (*ListEvaluationRulesOK) listEvaluationRulesRes() {}
 
 // Ref: #/components/schemas/NoSQLEncryptionEnabled
 type NoSQLEncryptionEnabled struct {
@@ -3292,190 +2723,6 @@ func (s *ObjectStorageBucketEncryptionEnabledEvaluationRuleId) UnmarshalText(dat
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
-}
-
-// NewOptAutomatedActionsCreateTooManyRequestsRetryAfter returns new OptAutomatedActionsCreateTooManyRequestsRetryAfter with value set to v.
-func NewOptAutomatedActionsCreateTooManyRequestsRetryAfter(v AutomatedActionsCreateTooManyRequestsRetryAfter) OptAutomatedActionsCreateTooManyRequestsRetryAfter {
-	return OptAutomatedActionsCreateTooManyRequestsRetryAfter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptAutomatedActionsCreateTooManyRequestsRetryAfter is optional AutomatedActionsCreateTooManyRequestsRetryAfter.
-type OptAutomatedActionsCreateTooManyRequestsRetryAfter struct {
-	Value AutomatedActionsCreateTooManyRequestsRetryAfter
-	Set   bool
-}
-
-// IsSet returns true if OptAutomatedActionsCreateTooManyRequestsRetryAfter was set.
-func (o OptAutomatedActionsCreateTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptAutomatedActionsCreateTooManyRequestsRetryAfter) Reset() {
-	var v AutomatedActionsCreateTooManyRequestsRetryAfter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptAutomatedActionsCreateTooManyRequestsRetryAfter) SetTo(v AutomatedActionsCreateTooManyRequestsRetryAfter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptAutomatedActionsCreateTooManyRequestsRetryAfter) Get() (v AutomatedActionsCreateTooManyRequestsRetryAfter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptAutomatedActionsCreateTooManyRequestsRetryAfter) Or(d AutomatedActionsCreateTooManyRequestsRetryAfter) AutomatedActionsCreateTooManyRequestsRetryAfter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptAutomatedActionsDeleteTooManyRequestsRetryAfter returns new OptAutomatedActionsDeleteTooManyRequestsRetryAfter with value set to v.
-func NewOptAutomatedActionsDeleteTooManyRequestsRetryAfter(v AutomatedActionsDeleteTooManyRequestsRetryAfter) OptAutomatedActionsDeleteTooManyRequestsRetryAfter {
-	return OptAutomatedActionsDeleteTooManyRequestsRetryAfter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptAutomatedActionsDeleteTooManyRequestsRetryAfter is optional AutomatedActionsDeleteTooManyRequestsRetryAfter.
-type OptAutomatedActionsDeleteTooManyRequestsRetryAfter struct {
-	Value AutomatedActionsDeleteTooManyRequestsRetryAfter
-	Set   bool
-}
-
-// IsSet returns true if OptAutomatedActionsDeleteTooManyRequestsRetryAfter was set.
-func (o OptAutomatedActionsDeleteTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptAutomatedActionsDeleteTooManyRequestsRetryAfter) Reset() {
-	var v AutomatedActionsDeleteTooManyRequestsRetryAfter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptAutomatedActionsDeleteTooManyRequestsRetryAfter) SetTo(v AutomatedActionsDeleteTooManyRequestsRetryAfter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptAutomatedActionsDeleteTooManyRequestsRetryAfter) Get() (v AutomatedActionsDeleteTooManyRequestsRetryAfter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptAutomatedActionsDeleteTooManyRequestsRetryAfter) Or(d AutomatedActionsDeleteTooManyRequestsRetryAfter) AutomatedActionsDeleteTooManyRequestsRetryAfter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptAutomatedActionsReadTooManyRequestsRetryAfter returns new OptAutomatedActionsReadTooManyRequestsRetryAfter with value set to v.
-func NewOptAutomatedActionsReadTooManyRequestsRetryAfter(v AutomatedActionsReadTooManyRequestsRetryAfter) OptAutomatedActionsReadTooManyRequestsRetryAfter {
-	return OptAutomatedActionsReadTooManyRequestsRetryAfter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptAutomatedActionsReadTooManyRequestsRetryAfter is optional AutomatedActionsReadTooManyRequestsRetryAfter.
-type OptAutomatedActionsReadTooManyRequestsRetryAfter struct {
-	Value AutomatedActionsReadTooManyRequestsRetryAfter
-	Set   bool
-}
-
-// IsSet returns true if OptAutomatedActionsReadTooManyRequestsRetryAfter was set.
-func (o OptAutomatedActionsReadTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptAutomatedActionsReadTooManyRequestsRetryAfter) Reset() {
-	var v AutomatedActionsReadTooManyRequestsRetryAfter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptAutomatedActionsReadTooManyRequestsRetryAfter) SetTo(v AutomatedActionsReadTooManyRequestsRetryAfter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptAutomatedActionsReadTooManyRequestsRetryAfter) Get() (v AutomatedActionsReadTooManyRequestsRetryAfter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptAutomatedActionsReadTooManyRequestsRetryAfter) Or(d AutomatedActionsReadTooManyRequestsRetryAfter) AutomatedActionsReadTooManyRequestsRetryAfter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptAutomatedActionsUpdateTooManyRequestsRetryAfter returns new OptAutomatedActionsUpdateTooManyRequestsRetryAfter with value set to v.
-func NewOptAutomatedActionsUpdateTooManyRequestsRetryAfter(v AutomatedActionsUpdateTooManyRequestsRetryAfter) OptAutomatedActionsUpdateTooManyRequestsRetryAfter {
-	return OptAutomatedActionsUpdateTooManyRequestsRetryAfter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptAutomatedActionsUpdateTooManyRequestsRetryAfter is optional AutomatedActionsUpdateTooManyRequestsRetryAfter.
-type OptAutomatedActionsUpdateTooManyRequestsRetryAfter struct {
-	Value AutomatedActionsUpdateTooManyRequestsRetryAfter
-	Set   bool
-}
-
-// IsSet returns true if OptAutomatedActionsUpdateTooManyRequestsRetryAfter was set.
-func (o OptAutomatedActionsUpdateTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptAutomatedActionsUpdateTooManyRequestsRetryAfter) Reset() {
-	var v AutomatedActionsUpdateTooManyRequestsRetryAfter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptAutomatedActionsUpdateTooManyRequestsRetryAfter) SetTo(v AutomatedActionsUpdateTooManyRequestsRetryAfter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptAutomatedActionsUpdateTooManyRequestsRetryAfter) Get() (v AutomatedActionsUpdateTooManyRequestsRetryAfter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptAutomatedActionsUpdateTooManyRequestsRetryAfter) Or(d AutomatedActionsUpdateTooManyRequestsRetryAfter) AutomatedActionsUpdateTooManyRequestsRetryAfter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
 }
 
 // NewOptBadRequestDetail returns new OptBadRequestDetail with value set to v.
@@ -3800,144 +3047,6 @@ func (o OptEvaluationRuleParametersZonedEvaluationTarget) Or(d EvaluationRulePar
 	return d
 }
 
-// NewOptEvaluationRulesListTooManyRequestsRetryAfter returns new OptEvaluationRulesListTooManyRequestsRetryAfter with value set to v.
-func NewOptEvaluationRulesListTooManyRequestsRetryAfter(v EvaluationRulesListTooManyRequestsRetryAfter) OptEvaluationRulesListTooManyRequestsRetryAfter {
-	return OptEvaluationRulesListTooManyRequestsRetryAfter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptEvaluationRulesListTooManyRequestsRetryAfter is optional EvaluationRulesListTooManyRequestsRetryAfter.
-type OptEvaluationRulesListTooManyRequestsRetryAfter struct {
-	Value EvaluationRulesListTooManyRequestsRetryAfter
-	Set   bool
-}
-
-// IsSet returns true if OptEvaluationRulesListTooManyRequestsRetryAfter was set.
-func (o OptEvaluationRulesListTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptEvaluationRulesListTooManyRequestsRetryAfter) Reset() {
-	var v EvaluationRulesListTooManyRequestsRetryAfter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptEvaluationRulesListTooManyRequestsRetryAfter) SetTo(v EvaluationRulesListTooManyRequestsRetryAfter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptEvaluationRulesListTooManyRequestsRetryAfter) Get() (v EvaluationRulesListTooManyRequestsRetryAfter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptEvaluationRulesListTooManyRequestsRetryAfter) Or(d EvaluationRulesListTooManyRequestsRetryAfter) EvaluationRulesListTooManyRequestsRetryAfter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptEvaluationRulesReadTooManyRequestsRetryAfter returns new OptEvaluationRulesReadTooManyRequestsRetryAfter with value set to v.
-func NewOptEvaluationRulesReadTooManyRequestsRetryAfter(v EvaluationRulesReadTooManyRequestsRetryAfter) OptEvaluationRulesReadTooManyRequestsRetryAfter {
-	return OptEvaluationRulesReadTooManyRequestsRetryAfter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptEvaluationRulesReadTooManyRequestsRetryAfter is optional EvaluationRulesReadTooManyRequestsRetryAfter.
-type OptEvaluationRulesReadTooManyRequestsRetryAfter struct {
-	Value EvaluationRulesReadTooManyRequestsRetryAfter
-	Set   bool
-}
-
-// IsSet returns true if OptEvaluationRulesReadTooManyRequestsRetryAfter was set.
-func (o OptEvaluationRulesReadTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptEvaluationRulesReadTooManyRequestsRetryAfter) Reset() {
-	var v EvaluationRulesReadTooManyRequestsRetryAfter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptEvaluationRulesReadTooManyRequestsRetryAfter) SetTo(v EvaluationRulesReadTooManyRequestsRetryAfter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptEvaluationRulesReadTooManyRequestsRetryAfter) Get() (v EvaluationRulesReadTooManyRequestsRetryAfter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptEvaluationRulesReadTooManyRequestsRetryAfter) Or(d EvaluationRulesReadTooManyRequestsRetryAfter) EvaluationRulesReadTooManyRequestsRetryAfter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptEvaluationRulesUpdateTooManyRequestsRetryAfter returns new OptEvaluationRulesUpdateTooManyRequestsRetryAfter with value set to v.
-func NewOptEvaluationRulesUpdateTooManyRequestsRetryAfter(v EvaluationRulesUpdateTooManyRequestsRetryAfter) OptEvaluationRulesUpdateTooManyRequestsRetryAfter {
-	return OptEvaluationRulesUpdateTooManyRequestsRetryAfter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptEvaluationRulesUpdateTooManyRequestsRetryAfter is optional EvaluationRulesUpdateTooManyRequestsRetryAfter.
-type OptEvaluationRulesUpdateTooManyRequestsRetryAfter struct {
-	Value EvaluationRulesUpdateTooManyRequestsRetryAfter
-	Set   bool
-}
-
-// IsSet returns true if OptEvaluationRulesUpdateTooManyRequestsRetryAfter was set.
-func (o OptEvaluationRulesUpdateTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptEvaluationRulesUpdateTooManyRequestsRetryAfter) Reset() {
-	var v EvaluationRulesUpdateTooManyRequestsRetryAfter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptEvaluationRulesUpdateTooManyRequestsRetryAfter) SetTo(v EvaluationRulesUpdateTooManyRequestsRetryAfter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptEvaluationRulesUpdateTooManyRequestsRetryAfter) Get() (v EvaluationRulesUpdateTooManyRequestsRetryAfter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptEvaluationRulesUpdateTooManyRequestsRetryAfter) Or(d EvaluationRulesUpdateTooManyRequestsRetryAfter) EvaluationRulesUpdateTooManyRequestsRetryAfter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptForbiddenDetail returns new OptForbiddenDetail with value set to v.
 func NewOptForbiddenDetail(v ForbiddenDetail) OptForbiddenDetail {
 	return OptForbiddenDetail{
@@ -4168,38 +3277,38 @@ func (o OptNotFoundStatus) Or(d NotFoundStatus) NotFoundStatus {
 	return d
 }
 
-// NewOptProjectActivationCreateTooManyRequestsRetryAfter returns new OptProjectActivationCreateTooManyRequestsRetryAfter with value set to v.
-func NewOptProjectActivationCreateTooManyRequestsRetryAfter(v ProjectActivationCreateTooManyRequestsRetryAfter) OptProjectActivationCreateTooManyRequestsRetryAfter {
-	return OptProjectActivationCreateTooManyRequestsRetryAfter{
+// NewOptReadActivationTooManyRequestsRetryAfter returns new OptReadActivationTooManyRequestsRetryAfter with value set to v.
+func NewOptReadActivationTooManyRequestsRetryAfter(v ReadActivationTooManyRequestsRetryAfter) OptReadActivationTooManyRequestsRetryAfter {
+	return OptReadActivationTooManyRequestsRetryAfter{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptProjectActivationCreateTooManyRequestsRetryAfter is optional ProjectActivationCreateTooManyRequestsRetryAfter.
-type OptProjectActivationCreateTooManyRequestsRetryAfter struct {
-	Value ProjectActivationCreateTooManyRequestsRetryAfter
+// OptReadActivationTooManyRequestsRetryAfter is optional ReadActivationTooManyRequestsRetryAfter.
+type OptReadActivationTooManyRequestsRetryAfter struct {
+	Value ReadActivationTooManyRequestsRetryAfter
 	Set   bool
 }
 
-// IsSet returns true if OptProjectActivationCreateTooManyRequestsRetryAfter was set.
-func (o OptProjectActivationCreateTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
+// IsSet returns true if OptReadActivationTooManyRequestsRetryAfter was set.
+func (o OptReadActivationTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptProjectActivationCreateTooManyRequestsRetryAfter) Reset() {
-	var v ProjectActivationCreateTooManyRequestsRetryAfter
+func (o *OptReadActivationTooManyRequestsRetryAfter) Reset() {
+	var v ReadActivationTooManyRequestsRetryAfter
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptProjectActivationCreateTooManyRequestsRetryAfter) SetTo(v ProjectActivationCreateTooManyRequestsRetryAfter) {
+func (o *OptReadActivationTooManyRequestsRetryAfter) SetTo(v ReadActivationTooManyRequestsRetryAfter) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptProjectActivationCreateTooManyRequestsRetryAfter) Get() (v ProjectActivationCreateTooManyRequestsRetryAfter, ok bool) {
+func (o OptReadActivationTooManyRequestsRetryAfter) Get() (v ReadActivationTooManyRequestsRetryAfter, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -4207,99 +3316,7 @@ func (o OptProjectActivationCreateTooManyRequestsRetryAfter) Get() (v ProjectAct
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptProjectActivationCreateTooManyRequestsRetryAfter) Or(d ProjectActivationCreateTooManyRequestsRetryAfter) ProjectActivationCreateTooManyRequestsRetryAfter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptProjectActivationReadTooManyRequestsRetryAfter returns new OptProjectActivationReadTooManyRequestsRetryAfter with value set to v.
-func NewOptProjectActivationReadTooManyRequestsRetryAfter(v ProjectActivationReadTooManyRequestsRetryAfter) OptProjectActivationReadTooManyRequestsRetryAfter {
-	return OptProjectActivationReadTooManyRequestsRetryAfter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptProjectActivationReadTooManyRequestsRetryAfter is optional ProjectActivationReadTooManyRequestsRetryAfter.
-type OptProjectActivationReadTooManyRequestsRetryAfter struct {
-	Value ProjectActivationReadTooManyRequestsRetryAfter
-	Set   bool
-}
-
-// IsSet returns true if OptProjectActivationReadTooManyRequestsRetryAfter was set.
-func (o OptProjectActivationReadTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptProjectActivationReadTooManyRequestsRetryAfter) Reset() {
-	var v ProjectActivationReadTooManyRequestsRetryAfter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptProjectActivationReadTooManyRequestsRetryAfter) SetTo(v ProjectActivationReadTooManyRequestsRetryAfter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptProjectActivationReadTooManyRequestsRetryAfter) Get() (v ProjectActivationReadTooManyRequestsRetryAfter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptProjectActivationReadTooManyRequestsRetryAfter) Or(d ProjectActivationReadTooManyRequestsRetryAfter) ProjectActivationReadTooManyRequestsRetryAfter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptProjectActivationUpdateTooManyRequestsRetryAfter returns new OptProjectActivationUpdateTooManyRequestsRetryAfter with value set to v.
-func NewOptProjectActivationUpdateTooManyRequestsRetryAfter(v ProjectActivationUpdateTooManyRequestsRetryAfter) OptProjectActivationUpdateTooManyRequestsRetryAfter {
-	return OptProjectActivationUpdateTooManyRequestsRetryAfter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptProjectActivationUpdateTooManyRequestsRetryAfter is optional ProjectActivationUpdateTooManyRequestsRetryAfter.
-type OptProjectActivationUpdateTooManyRequestsRetryAfter struct {
-	Value ProjectActivationUpdateTooManyRequestsRetryAfter
-	Set   bool
-}
-
-// IsSet returns true if OptProjectActivationUpdateTooManyRequestsRetryAfter was set.
-func (o OptProjectActivationUpdateTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptProjectActivationUpdateTooManyRequestsRetryAfter) Reset() {
-	var v ProjectActivationUpdateTooManyRequestsRetryAfter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptProjectActivationUpdateTooManyRequestsRetryAfter) SetTo(v ProjectActivationUpdateTooManyRequestsRetryAfter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptProjectActivationUpdateTooManyRequestsRetryAfter) Get() (v ProjectActivationUpdateTooManyRequestsRetryAfter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptProjectActivationUpdateTooManyRequestsRetryAfter) Or(d ProjectActivationUpdateTooManyRequestsRetryAfter) ProjectActivationUpdateTooManyRequestsRetryAfter {
+func (o OptReadActivationTooManyRequestsRetryAfter) Or(d ReadActivationTooManyRequestsRetryAfter) ReadActivationTooManyRequestsRetryAfter {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -4536,325 +3553,175 @@ func (o OptUnauthorizedStatus) Or(d UnauthorizedStatus) UnauthorizedStatus {
 	return d
 }
 
-type ProjectActivationCreateApplicationJSONBadRequest BadRequest
+type ReadActivationApplicationJSONForbidden Forbidden
 
-func (*ProjectActivationCreateApplicationJSONBadRequest) projectActivationCreateRes() {}
+func (*ReadActivationApplicationJSONForbidden) readActivationRes() {}
 
-type ProjectActivationCreateApplicationJSONConflict Conflict
+type ReadActivationApplicationJSONNotFound NotFound
 
-func (*ProjectActivationCreateApplicationJSONConflict) projectActivationCreateRes() {}
+func (*ReadActivationApplicationJSONNotFound) readActivationRes() {}
 
-type ProjectActivationCreateApplicationJSONForbidden Forbidden
+type ReadActivationApplicationJSONTooManyRequests TooManyRequestsHeaders
 
-func (*ProjectActivationCreateApplicationJSONForbidden) projectActivationCreateRes() {}
+func (*ReadActivationApplicationJSONTooManyRequests) readActivationRes() {}
 
-type ProjectActivationCreateApplicationJSONTooManyRequests TooManyRequestsHeaders
+type ReadActivationApplicationJSONUnauthorized Unauthorized
 
-func (*ProjectActivationCreateApplicationJSONTooManyRequests) projectActivationCreateRes() {}
+func (*ReadActivationApplicationJSONUnauthorized) readActivationRes() {}
 
-type ProjectActivationCreateApplicationJSONUnauthorized Unauthorized
+type ReadActivationApplicationProblemJSONForbidden Forbidden
 
-func (*ProjectActivationCreateApplicationJSONUnauthorized) projectActivationCreateRes() {}
+func (*ReadActivationApplicationProblemJSONForbidden) readActivationRes() {}
 
-type ProjectActivationCreateApplicationProblemJSONBadRequest BadRequest
+type ReadActivationApplicationProblemJSONNotFound NotFound
 
-func (*ProjectActivationCreateApplicationProblemJSONBadRequest) projectActivationCreateRes() {}
+func (*ReadActivationApplicationProblemJSONNotFound) readActivationRes() {}
 
-type ProjectActivationCreateApplicationProblemJSONConflict Conflict
+type ReadActivationApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
 
-func (*ProjectActivationCreateApplicationProblemJSONConflict) projectActivationCreateRes() {}
+func (*ReadActivationApplicationProblemJSONTooManyRequests) readActivationRes() {}
 
-type ProjectActivationCreateApplicationProblemJSONForbidden Forbidden
+type ReadActivationApplicationProblemJSONUnauthorized Unauthorized
 
-func (*ProjectActivationCreateApplicationProblemJSONForbidden) projectActivationCreateRes() {}
+func (*ReadActivationApplicationProblemJSONUnauthorized) readActivationRes() {}
 
-type ProjectActivationCreateApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
-
-func (*ProjectActivationCreateApplicationProblemJSONTooManyRequests) projectActivationCreateRes() {}
-
-type ProjectActivationCreateApplicationProblemJSONUnauthorized Unauthorized
-
-func (*ProjectActivationCreateApplicationProblemJSONUnauthorized) projectActivationCreateRes() {}
-
-// ProjectActivationCreateTooManyRequestsRetryAfter represents sum type.
-type ProjectActivationCreateTooManyRequestsRetryAfter struct {
-	Type                ProjectActivationCreateTooManyRequestsRetryAfterType // switch on this field
+// ReadActivationTooManyRequestsRetryAfter represents sum type.
+type ReadActivationTooManyRequestsRetryAfter struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadActivationTooManyRequestsRetryAfterType
 	ClientDelaySeconds  ClientDelaySeconds
 	ClientRetryDateTime ClientRetryDateTime
 }
 
-// ProjectActivationCreateTooManyRequestsRetryAfterType is oneOf type of ProjectActivationCreateTooManyRequestsRetryAfter.
-type ProjectActivationCreateTooManyRequestsRetryAfterType string
+// ReadActivationTooManyRequestsRetryAfterType is oneOf type of ReadActivationTooManyRequestsRetryAfter.
+type ReadActivationTooManyRequestsRetryAfterType string
 
-// Possible values for ProjectActivationCreateTooManyRequestsRetryAfterType.
+// Possible values for ReadActivationTooManyRequestsRetryAfterType.
 const (
-	ClientDelaySecondsProjectActivationCreateTooManyRequestsRetryAfter  ProjectActivationCreateTooManyRequestsRetryAfterType = "ClientDelaySeconds"
-	ClientRetryDateTimeProjectActivationCreateTooManyRequestsRetryAfter ProjectActivationCreateTooManyRequestsRetryAfterType = "ClientRetryDateTime"
+	ClientDelaySecondsReadActivationTooManyRequestsRetryAfter  ReadActivationTooManyRequestsRetryAfterType = "ClientDelaySeconds"
+	ClientRetryDateTimeReadActivationTooManyRequestsRetryAfter ReadActivationTooManyRequestsRetryAfterType = "ClientRetryDateTime"
 )
 
-// IsClientDelaySeconds reports whether ProjectActivationCreateTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s ProjectActivationCreateTooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
-	return s.Type == ClientDelaySecondsProjectActivationCreateTooManyRequestsRetryAfter
+// IsClientDelaySeconds reports whether ReadActivationTooManyRequestsRetryAfter is ClientDelaySeconds.
+func (s ReadActivationTooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
+	return s.Type == ClientDelaySecondsReadActivationTooManyRequestsRetryAfter
 }
 
-// IsClientRetryDateTime reports whether ProjectActivationCreateTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s ProjectActivationCreateTooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
-	return s.Type == ClientRetryDateTimeProjectActivationCreateTooManyRequestsRetryAfter
+// IsClientRetryDateTime reports whether ReadActivationTooManyRequestsRetryAfter is ClientRetryDateTime.
+func (s ReadActivationTooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
+	return s.Type == ClientRetryDateTimeReadActivationTooManyRequestsRetryAfter
 }
 
-// SetClientDelaySeconds sets ProjectActivationCreateTooManyRequestsRetryAfter to ClientDelaySeconds.
-func (s *ProjectActivationCreateTooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
-	s.Type = ClientDelaySecondsProjectActivationCreateTooManyRequestsRetryAfter
+// SetClientDelaySeconds sets ReadActivationTooManyRequestsRetryAfter to ClientDelaySeconds.
+func (s *ReadActivationTooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
+	s.Type = ClientDelaySecondsReadActivationTooManyRequestsRetryAfter
 	s.ClientDelaySeconds = v
 }
 
-// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if ProjectActivationCreateTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s ProjectActivationCreateTooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
+// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if ReadActivationTooManyRequestsRetryAfter is ClientDelaySeconds.
+func (s ReadActivationTooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
 	if !s.IsClientDelaySeconds() {
 		return v, false
 	}
 	return s.ClientDelaySeconds, true
 }
 
-// NewClientDelaySecondsProjectActivationCreateTooManyRequestsRetryAfter returns new ProjectActivationCreateTooManyRequestsRetryAfter from ClientDelaySeconds.
-func NewClientDelaySecondsProjectActivationCreateTooManyRequestsRetryAfter(v ClientDelaySeconds) ProjectActivationCreateTooManyRequestsRetryAfter {
-	var s ProjectActivationCreateTooManyRequestsRetryAfter
+// NewClientDelaySecondsReadActivationTooManyRequestsRetryAfter returns new ReadActivationTooManyRequestsRetryAfter from ClientDelaySeconds.
+func NewClientDelaySecondsReadActivationTooManyRequestsRetryAfter(v ClientDelaySeconds) ReadActivationTooManyRequestsRetryAfter {
+	var s ReadActivationTooManyRequestsRetryAfter
 	s.SetClientDelaySeconds(v)
 	return s
 }
 
-// SetClientRetryDateTime sets ProjectActivationCreateTooManyRequestsRetryAfter to ClientRetryDateTime.
-func (s *ProjectActivationCreateTooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
-	s.Type = ClientRetryDateTimeProjectActivationCreateTooManyRequestsRetryAfter
+// SetClientRetryDateTime sets ReadActivationTooManyRequestsRetryAfter to ClientRetryDateTime.
+func (s *ReadActivationTooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
+	s.Type = ClientRetryDateTimeReadActivationTooManyRequestsRetryAfter
 	s.ClientRetryDateTime = v
 }
 
-// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if ProjectActivationCreateTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s ProjectActivationCreateTooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
+// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if ReadActivationTooManyRequestsRetryAfter is ClientRetryDateTime.
+func (s ReadActivationTooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
 	if !s.IsClientRetryDateTime() {
 		return v, false
 	}
 	return s.ClientRetryDateTime, true
 }
 
-// NewClientRetryDateTimeProjectActivationCreateTooManyRequestsRetryAfter returns new ProjectActivationCreateTooManyRequestsRetryAfter from ClientRetryDateTime.
-func NewClientRetryDateTimeProjectActivationCreateTooManyRequestsRetryAfter(v ClientRetryDateTime) ProjectActivationCreateTooManyRequestsRetryAfter {
-	var s ProjectActivationCreateTooManyRequestsRetryAfter
+// NewClientRetryDateTimeReadActivationTooManyRequestsRetryAfter returns new ReadActivationTooManyRequestsRetryAfter from ClientRetryDateTime.
+func NewClientRetryDateTimeReadActivationTooManyRequestsRetryAfter(v ClientRetryDateTime) ReadActivationTooManyRequestsRetryAfter {
+	var s ReadActivationTooManyRequestsRetryAfter
 	s.SetClientRetryDateTime(v)
 	return s
 }
 
-type ProjectActivationReadApplicationJSONForbidden Forbidden
+type ReadAutomatedActionApplicationJSONForbidden Forbidden
 
-func (*ProjectActivationReadApplicationJSONForbidden) projectActivationReadRes() {}
+func (*ReadAutomatedActionApplicationJSONForbidden) readAutomatedActionRes() {}
 
-type ProjectActivationReadApplicationJSONNotFound NotFound
+type ReadAutomatedActionApplicationJSONNotFound NotFound
 
-func (*ProjectActivationReadApplicationJSONNotFound) projectActivationReadRes() {}
+func (*ReadAutomatedActionApplicationJSONNotFound) readAutomatedActionRes() {}
 
-type ProjectActivationReadApplicationJSONTooManyRequests TooManyRequestsHeaders
+type ReadAutomatedActionApplicationJSONTooManyRequests TooManyRequestsHeaders
 
-func (*ProjectActivationReadApplicationJSONTooManyRequests) projectActivationReadRes() {}
+func (*ReadAutomatedActionApplicationJSONTooManyRequests) readAutomatedActionRes() {}
 
-type ProjectActivationReadApplicationJSONUnauthorized Unauthorized
+type ReadAutomatedActionApplicationJSONUnauthorized Unauthorized
 
-func (*ProjectActivationReadApplicationJSONUnauthorized) projectActivationReadRes() {}
+func (*ReadAutomatedActionApplicationJSONUnauthorized) readAutomatedActionRes() {}
 
-type ProjectActivationReadApplicationProblemJSONForbidden Forbidden
+type ReadAutomatedActionApplicationProblemJSONForbidden Forbidden
 
-func (*ProjectActivationReadApplicationProblemJSONForbidden) projectActivationReadRes() {}
+func (*ReadAutomatedActionApplicationProblemJSONForbidden) readAutomatedActionRes() {}
 
-type ProjectActivationReadApplicationProblemJSONNotFound NotFound
+type ReadAutomatedActionApplicationProblemJSONNotFound NotFound
 
-func (*ProjectActivationReadApplicationProblemJSONNotFound) projectActivationReadRes() {}
+func (*ReadAutomatedActionApplicationProblemJSONNotFound) readAutomatedActionRes() {}
 
-type ProjectActivationReadApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
+type ReadAutomatedActionApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
 
-func (*ProjectActivationReadApplicationProblemJSONTooManyRequests) projectActivationReadRes() {}
+func (*ReadAutomatedActionApplicationProblemJSONTooManyRequests) readAutomatedActionRes() {}
 
-type ProjectActivationReadApplicationProblemJSONUnauthorized Unauthorized
+type ReadAutomatedActionApplicationProblemJSONUnauthorized Unauthorized
 
-func (*ProjectActivationReadApplicationProblemJSONUnauthorized) projectActivationReadRes() {}
+func (*ReadAutomatedActionApplicationProblemJSONUnauthorized) readAutomatedActionRes() {}
 
-// ProjectActivationReadTooManyRequestsRetryAfter represents sum type.
-type ProjectActivationReadTooManyRequestsRetryAfter struct {
-	Type                ProjectActivationReadTooManyRequestsRetryAfterType // switch on this field
-	ClientDelaySeconds  ClientDelaySeconds
-	ClientRetryDateTime ClientRetryDateTime
-}
+type ReadEvaluationRuleApplicationJSONForbidden Forbidden
 
-// ProjectActivationReadTooManyRequestsRetryAfterType is oneOf type of ProjectActivationReadTooManyRequestsRetryAfter.
-type ProjectActivationReadTooManyRequestsRetryAfterType string
+func (*ReadEvaluationRuleApplicationJSONForbidden) readEvaluationRuleRes() {}
 
-// Possible values for ProjectActivationReadTooManyRequestsRetryAfterType.
-const (
-	ClientDelaySecondsProjectActivationReadTooManyRequestsRetryAfter  ProjectActivationReadTooManyRequestsRetryAfterType = "ClientDelaySeconds"
-	ClientRetryDateTimeProjectActivationReadTooManyRequestsRetryAfter ProjectActivationReadTooManyRequestsRetryAfterType = "ClientRetryDateTime"
-)
+type ReadEvaluationRuleApplicationJSONNotFound NotFound
 
-// IsClientDelaySeconds reports whether ProjectActivationReadTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s ProjectActivationReadTooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
-	return s.Type == ClientDelaySecondsProjectActivationReadTooManyRequestsRetryAfter
-}
+func (*ReadEvaluationRuleApplicationJSONNotFound) readEvaluationRuleRes() {}
 
-// IsClientRetryDateTime reports whether ProjectActivationReadTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s ProjectActivationReadTooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
-	return s.Type == ClientRetryDateTimeProjectActivationReadTooManyRequestsRetryAfter
-}
+type ReadEvaluationRuleApplicationJSONTooManyRequests TooManyRequestsHeaders
 
-// SetClientDelaySeconds sets ProjectActivationReadTooManyRequestsRetryAfter to ClientDelaySeconds.
-func (s *ProjectActivationReadTooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
-	s.Type = ClientDelaySecondsProjectActivationReadTooManyRequestsRetryAfter
-	s.ClientDelaySeconds = v
-}
+func (*ReadEvaluationRuleApplicationJSONTooManyRequests) readEvaluationRuleRes() {}
 
-// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if ProjectActivationReadTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s ProjectActivationReadTooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
-	if !s.IsClientDelaySeconds() {
-		return v, false
-	}
-	return s.ClientDelaySeconds, true
-}
+type ReadEvaluationRuleApplicationJSONUnauthorized Unauthorized
 
-// NewClientDelaySecondsProjectActivationReadTooManyRequestsRetryAfter returns new ProjectActivationReadTooManyRequestsRetryAfter from ClientDelaySeconds.
-func NewClientDelaySecondsProjectActivationReadTooManyRequestsRetryAfter(v ClientDelaySeconds) ProjectActivationReadTooManyRequestsRetryAfter {
-	var s ProjectActivationReadTooManyRequestsRetryAfter
-	s.SetClientDelaySeconds(v)
-	return s
-}
+func (*ReadEvaluationRuleApplicationJSONUnauthorized) readEvaluationRuleRes() {}
 
-// SetClientRetryDateTime sets ProjectActivationReadTooManyRequestsRetryAfter to ClientRetryDateTime.
-func (s *ProjectActivationReadTooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
-	s.Type = ClientRetryDateTimeProjectActivationReadTooManyRequestsRetryAfter
-	s.ClientRetryDateTime = v
-}
+type ReadEvaluationRuleApplicationProblemJSONForbidden Forbidden
 
-// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if ProjectActivationReadTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s ProjectActivationReadTooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
-	if !s.IsClientRetryDateTime() {
-		return v, false
-	}
-	return s.ClientRetryDateTime, true
-}
+func (*ReadEvaluationRuleApplicationProblemJSONForbidden) readEvaluationRuleRes() {}
 
-// NewClientRetryDateTimeProjectActivationReadTooManyRequestsRetryAfter returns new ProjectActivationReadTooManyRequestsRetryAfter from ClientRetryDateTime.
-func NewClientRetryDateTimeProjectActivationReadTooManyRequestsRetryAfter(v ClientRetryDateTime) ProjectActivationReadTooManyRequestsRetryAfter {
-	var s ProjectActivationReadTooManyRequestsRetryAfter
-	s.SetClientRetryDateTime(v)
-	return s
-}
+type ReadEvaluationRuleApplicationProblemJSONNotFound NotFound
 
-type ProjectActivationUpdateApplicationJSONBadRequest BadRequest
+func (*ReadEvaluationRuleApplicationProblemJSONNotFound) readEvaluationRuleRes() {}
 
-func (*ProjectActivationUpdateApplicationJSONBadRequest) projectActivationUpdateRes() {}
+type ReadEvaluationRuleApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
 
-type ProjectActivationUpdateApplicationJSONForbidden Forbidden
+func (*ReadEvaluationRuleApplicationProblemJSONTooManyRequests) readEvaluationRuleRes() {}
 
-func (*ProjectActivationUpdateApplicationJSONForbidden) projectActivationUpdateRes() {}
+type ReadEvaluationRuleApplicationProblemJSONUnauthorized Unauthorized
 
-type ProjectActivationUpdateApplicationJSONNotFound NotFound
-
-func (*ProjectActivationUpdateApplicationJSONNotFound) projectActivationUpdateRes() {}
-
-type ProjectActivationUpdateApplicationJSONTooManyRequests TooManyRequestsHeaders
-
-func (*ProjectActivationUpdateApplicationJSONTooManyRequests) projectActivationUpdateRes() {}
-
-type ProjectActivationUpdateApplicationJSONUnauthorized Unauthorized
-
-func (*ProjectActivationUpdateApplicationJSONUnauthorized) projectActivationUpdateRes() {}
-
-type ProjectActivationUpdateApplicationProblemJSONBadRequest BadRequest
-
-func (*ProjectActivationUpdateApplicationProblemJSONBadRequest) projectActivationUpdateRes() {}
-
-type ProjectActivationUpdateApplicationProblemJSONForbidden Forbidden
-
-func (*ProjectActivationUpdateApplicationProblemJSONForbidden) projectActivationUpdateRes() {}
-
-type ProjectActivationUpdateApplicationProblemJSONNotFound NotFound
-
-func (*ProjectActivationUpdateApplicationProblemJSONNotFound) projectActivationUpdateRes() {}
-
-type ProjectActivationUpdateApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
-
-func (*ProjectActivationUpdateApplicationProblemJSONTooManyRequests) projectActivationUpdateRes() {}
-
-type ProjectActivationUpdateApplicationProblemJSONUnauthorized Unauthorized
-
-func (*ProjectActivationUpdateApplicationProblemJSONUnauthorized) projectActivationUpdateRes() {}
-
-// ProjectActivationUpdateTooManyRequestsRetryAfter represents sum type.
-type ProjectActivationUpdateTooManyRequestsRetryAfter struct {
-	Type                ProjectActivationUpdateTooManyRequestsRetryAfterType // switch on this field
-	ClientDelaySeconds  ClientDelaySeconds
-	ClientRetryDateTime ClientRetryDateTime
-}
-
-// ProjectActivationUpdateTooManyRequestsRetryAfterType is oneOf type of ProjectActivationUpdateTooManyRequestsRetryAfter.
-type ProjectActivationUpdateTooManyRequestsRetryAfterType string
-
-// Possible values for ProjectActivationUpdateTooManyRequestsRetryAfterType.
-const (
-	ClientDelaySecondsProjectActivationUpdateTooManyRequestsRetryAfter  ProjectActivationUpdateTooManyRequestsRetryAfterType = "ClientDelaySeconds"
-	ClientRetryDateTimeProjectActivationUpdateTooManyRequestsRetryAfter ProjectActivationUpdateTooManyRequestsRetryAfterType = "ClientRetryDateTime"
-)
-
-// IsClientDelaySeconds reports whether ProjectActivationUpdateTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s ProjectActivationUpdateTooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
-	return s.Type == ClientDelaySecondsProjectActivationUpdateTooManyRequestsRetryAfter
-}
-
-// IsClientRetryDateTime reports whether ProjectActivationUpdateTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s ProjectActivationUpdateTooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
-	return s.Type == ClientRetryDateTimeProjectActivationUpdateTooManyRequestsRetryAfter
-}
-
-// SetClientDelaySeconds sets ProjectActivationUpdateTooManyRequestsRetryAfter to ClientDelaySeconds.
-func (s *ProjectActivationUpdateTooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
-	s.Type = ClientDelaySecondsProjectActivationUpdateTooManyRequestsRetryAfter
-	s.ClientDelaySeconds = v
-}
-
-// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if ProjectActivationUpdateTooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s ProjectActivationUpdateTooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
-	if !s.IsClientDelaySeconds() {
-		return v, false
-	}
-	return s.ClientDelaySeconds, true
-}
-
-// NewClientDelaySecondsProjectActivationUpdateTooManyRequestsRetryAfter returns new ProjectActivationUpdateTooManyRequestsRetryAfter from ClientDelaySeconds.
-func NewClientDelaySecondsProjectActivationUpdateTooManyRequestsRetryAfter(v ClientDelaySeconds) ProjectActivationUpdateTooManyRequestsRetryAfter {
-	var s ProjectActivationUpdateTooManyRequestsRetryAfter
-	s.SetClientDelaySeconds(v)
-	return s
-}
-
-// SetClientRetryDateTime sets ProjectActivationUpdateTooManyRequestsRetryAfter to ClientRetryDateTime.
-func (s *ProjectActivationUpdateTooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
-	s.Type = ClientRetryDateTimeProjectActivationUpdateTooManyRequestsRetryAfter
-	s.ClientRetryDateTime = v
-}
-
-// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if ProjectActivationUpdateTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s ProjectActivationUpdateTooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
-	if !s.IsClientRetryDateTime() {
-		return v, false
-	}
-	return s.ClientRetryDateTime, true
-}
-
-// NewClientRetryDateTimeProjectActivationUpdateTooManyRequestsRetryAfter returns new ProjectActivationUpdateTooManyRequestsRetryAfter from ClientRetryDateTime.
-func NewClientRetryDateTimeProjectActivationUpdateTooManyRequestsRetryAfter(v ClientRetryDateTime) ProjectActivationUpdateTooManyRequestsRetryAfter {
-	var s ProjectActivationUpdateTooManyRequestsRetryAfter
-	s.SetClientRetryDateTime(v)
-	return s
-}
+func (*ReadEvaluationRuleApplicationProblemJSONUnauthorized) readEvaluationRuleRes() {}
 
 // Ref: #/components/schemas/SakuraSimpleNotification
 type SakuraSimpleNotification struct {
 	// さくらのクラウドの作成・削除権限を持つサービスプリンシパルID。
+	//
 	// このサービスプリンシパルには `作成・削除`
 	// ロールが付与されている必要がある。
 	// 付与されていない場合、自動アクションの実行に失敗する。.
@@ -4886,6 +3753,7 @@ func (s *SakuraSimpleNotification) SetNotificationGroupId(val string) {
 // Ref: #/components/schemas/SakuraWorkflows
 type SakuraWorkflows struct {
 	// さくらのクラウドの作成・削除権限を持つサービスプリンシパルID。
+	//
 	// このサービスプリンシパルには `ワークフロー`
 	// ロールが付与されている必要がある。
 	// 付与されていない場合、自動アクションの実行に失敗する。.
@@ -4899,8 +3767,7 @@ type SakuraWorkflows struct {
 	// 指定しない場合は最新のリビジョンが使用される。.
 	RevisionAlias OptString `json:"revisionAlias"`
 	// 実行時にワークフローへ渡す引数（JSON文字列）。
-	// 引数を要求するワークフローの場合は指定が必須。
-	// 例: `{\"server_id\": 12345}`.
+	// 引数を要求するワークフローの場合は指定が必須。 例: `{\"server_id\": 12345}`.
 	Args OptString `json:"args"`
 	// ワークフロー実行名。.
 	Name OptString `json:"name"`
@@ -5027,6 +3894,7 @@ func (s *ServerNoPublicIPEvaluationRuleId) UnmarshalText(data []byte) error {
 }
 
 // クライアントが一定期間内に過剰なリクエストを送信した場合のエラー。
+//
 // レートリミットに達した場合に返される。.
 // Ref: #/components/schemas/TooManyRequests
 type TooManyRequests struct {
@@ -5129,12 +3997,12 @@ func (s *TooManyRequestsDetail) UnmarshalText(data []byte) error {
 
 // TooManyRequestsHeaders wraps TooManyRequests with response headers.
 type TooManyRequestsHeaders struct {
-	RetryAfter OptTooManyRequestsRetryAfter
+	RetryAfter OptReadActivationTooManyRequestsRetryAfter
 	Response   TooManyRequests
 }
 
 // GetRetryAfter returns the value of RetryAfter.
-func (s *TooManyRequestsHeaders) GetRetryAfter() OptTooManyRequestsRetryAfter {
+func (s *TooManyRequestsHeaders) GetRetryAfter() OptReadActivationTooManyRequestsRetryAfter {
 	return s.RetryAfter
 }
 
@@ -5144,7 +4012,7 @@ func (s *TooManyRequestsHeaders) GetResponse() TooManyRequests {
 }
 
 // SetRetryAfter sets the value of RetryAfter.
-func (s *TooManyRequestsHeaders) SetRetryAfter(val OptTooManyRequestsRetryAfter) {
+func (s *TooManyRequestsHeaders) SetRetryAfter(val OptReadActivationTooManyRequestsRetryAfter) {
 	s.RetryAfter = val
 }
 
@@ -5374,128 +4242,134 @@ func (s *UnexpectedErrorStatusCode) SetResponse(val UnexpectedError) {
 	s.Response = val
 }
 
-func (*UnexpectedErrorStatusCode) automatedActionsCreateRes()  {}
-func (*UnexpectedErrorStatusCode) automatedActionsDeleteRes()  {}
-func (*UnexpectedErrorStatusCode) automatedActionsListRes()    {}
-func (*UnexpectedErrorStatusCode) automatedActionsReadRes()    {}
-func (*UnexpectedErrorStatusCode) automatedActionsUpdateRes()  {}
-func (*UnexpectedErrorStatusCode) evaluationRulesListRes()     {}
-func (*UnexpectedErrorStatusCode) evaluationRulesReadRes()     {}
-func (*UnexpectedErrorStatusCode) evaluationRulesUpdateRes()   {}
-func (*UnexpectedErrorStatusCode) projectActivationCreateRes() {}
-func (*UnexpectedErrorStatusCode) projectActivationReadRes()   {}
-func (*UnexpectedErrorStatusCode) projectActivationUpdateRes() {}
+func (*UnexpectedErrorStatusCode) createActivationRes()      {}
+func (*UnexpectedErrorStatusCode) createAutomatedActionRes() {}
+func (*UnexpectedErrorStatusCode) deleteAutomatedActionRes() {}
+func (*UnexpectedErrorStatusCode) listAutomatedActionsRes()  {}
+func (*UnexpectedErrorStatusCode) listEvaluationRulesRes()   {}
+func (*UnexpectedErrorStatusCode) readActivationRes()        {}
+func (*UnexpectedErrorStatusCode) readAutomatedActionRes()   {}
+func (*UnexpectedErrorStatusCode) readEvaluationRuleRes()    {}
+func (*UnexpectedErrorStatusCode) updateActivationRes()      {}
+func (*UnexpectedErrorStatusCode) updateAutomatedActionRes() {}
+func (*UnexpectedErrorStatusCode) updateEvaluationRuleRes()  {}
 
-// TooManyRequestsRetryAfter represents sum type.
-type TooManyRequestsRetryAfter struct {
-	Type                TooManyRequestsRetryAfterType // switch on this field
-	ClientDelaySeconds  ClientDelaySeconds
-	ClientRetryDateTime ClientRetryDateTime
-}
+type UpdateActivationApplicationJSONBadRequest BadRequest
 
-// TooManyRequestsRetryAfterType is oneOf type of TooManyRequestsRetryAfter.
-type TooManyRequestsRetryAfterType string
+func (*UpdateActivationApplicationJSONBadRequest) updateActivationRes() {}
 
-// Possible values for TooManyRequestsRetryAfterType.
-const (
-	ClientDelaySecondsTooManyRequestsRetryAfter  TooManyRequestsRetryAfterType = "ClientDelaySeconds"
-	ClientRetryDateTimeTooManyRequestsRetryAfter TooManyRequestsRetryAfterType = "ClientRetryDateTime"
-)
+type UpdateActivationApplicationJSONForbidden Forbidden
 
-// IsClientDelaySeconds reports whether TooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s TooManyRequestsRetryAfter) IsClientDelaySeconds() bool {
-	return s.Type == ClientDelaySecondsTooManyRequestsRetryAfter
-}
+func (*UpdateActivationApplicationJSONForbidden) updateActivationRes() {}
 
-// IsClientRetryDateTime reports whether TooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s TooManyRequestsRetryAfter) IsClientRetryDateTime() bool {
-	return s.Type == ClientRetryDateTimeTooManyRequestsRetryAfter
-}
+type UpdateActivationApplicationJSONNotFound NotFound
 
-// SetClientDelaySeconds sets TooManyRequestsRetryAfter to ClientDelaySeconds.
-func (s *TooManyRequestsRetryAfter) SetClientDelaySeconds(v ClientDelaySeconds) {
-	s.Type = ClientDelaySecondsTooManyRequestsRetryAfter
-	s.ClientDelaySeconds = v
-}
+func (*UpdateActivationApplicationJSONNotFound) updateActivationRes() {}
 
-// GetClientDelaySeconds returns ClientDelaySeconds and true boolean if TooManyRequestsRetryAfter is ClientDelaySeconds.
-func (s TooManyRequestsRetryAfter) GetClientDelaySeconds() (v ClientDelaySeconds, ok bool) {
-	if !s.IsClientDelaySeconds() {
-		return v, false
-	}
-	return s.ClientDelaySeconds, true
-}
+type UpdateActivationApplicationJSONTooManyRequests TooManyRequestsHeaders
 
-// NewClientDelaySecondsTooManyRequestsRetryAfter returns new TooManyRequestsRetryAfter from ClientDelaySeconds.
-func NewClientDelaySecondsTooManyRequestsRetryAfter(v ClientDelaySeconds) TooManyRequestsRetryAfter {
-	var s TooManyRequestsRetryAfter
-	s.SetClientDelaySeconds(v)
-	return s
-}
+func (*UpdateActivationApplicationJSONTooManyRequests) updateActivationRes() {}
 
-// SetClientRetryDateTime sets ProjectActivationReadTooManyRequestsRetryAfter to ClientRetryDateTime.
-func (s *TooManyRequestsRetryAfter) SetClientRetryDateTime(v ClientRetryDateTime) {
-	s.Type = ClientRetryDateTimeTooManyRequestsRetryAfter
-	s.ClientRetryDateTime = v
-}
+type UpdateActivationApplicationJSONUnauthorized Unauthorized
 
-// GetClientRetryDateTime returns ClientRetryDateTime and true boolean if ProjectActivationReadTooManyRequestsRetryAfter is ClientRetryDateTime.
-func (s TooManyRequestsRetryAfter) GetClientRetryDateTime() (v ClientRetryDateTime, ok bool) {
-	if !s.IsClientRetryDateTime() {
-		return v, false
-	}
-	return s.ClientRetryDateTime, true
-}
+func (*UpdateActivationApplicationJSONUnauthorized) updateActivationRes() {}
 
-// NewClientRetryDateTimeTooManyRequestsRetryAfter returns new TooManyRequestsRetryAfter from ClientRetryDateTime.
-func NewClientRetryDateTimeTooManyRequestsRetryAfter(v ClientRetryDateTime) TooManyRequestsRetryAfter {
-	var s TooManyRequestsRetryAfter
-	s.SetClientRetryDateTime(v)
-	return s
-}
+type UpdateActivationApplicationProblemJSONBadRequest BadRequest
 
-// NewOptTooManyRequestsRetryAfter returns new OptTooManyRequestsRetryAfter with value set to v.
-func NewOptTooManyRequestsRetryAfter(v TooManyRequestsRetryAfter) OptTooManyRequestsRetryAfter {
-	return OptTooManyRequestsRetryAfter{
-		Value: v,
-		Set:   true,
-	}
-}
+func (*UpdateActivationApplicationProblemJSONBadRequest) updateActivationRes() {}
 
-// OptTooManyRequestsRetryAfter is optional TooManyRequestsRetryAfter.
-type OptTooManyRequestsRetryAfter struct {
-	Value TooManyRequestsRetryAfter
-	Set   bool
-}
+type UpdateActivationApplicationProblemJSONForbidden Forbidden
 
-// IsSet returns true if OptTooManyRequestsRetryAfter was set.
-func (o OptTooManyRequestsRetryAfter) IsSet() bool { return o.Set }
+func (*UpdateActivationApplicationProblemJSONForbidden) updateActivationRes() {}
 
-// Reset unsets value.
-func (o *OptTooManyRequestsRetryAfter) Reset() {
-	var v TooManyRequestsRetryAfter
-	o.Value = v
-	o.Set = false
-}
+type UpdateActivationApplicationProblemJSONNotFound NotFound
 
-// SetTo sets value to v.
-func (o *OptTooManyRequestsRetryAfter) SetTo(v TooManyRequestsRetryAfter) {
-	o.Set = true
-	o.Value = v
-}
+func (*UpdateActivationApplicationProblemJSONNotFound) updateActivationRes() {}
 
-// Get returns value and boolean that denotes whether value was set.
-func (o OptTooManyRequestsRetryAfter) Get() (v TooManyRequestsRetryAfter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
+type UpdateActivationApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
 
-// Or returns value if set, or given parameter if does not.
-func (o OptTooManyRequestsRetryAfter) Or(d TooManyRequestsRetryAfter) TooManyRequestsRetryAfter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
+func (*UpdateActivationApplicationProblemJSONTooManyRequests) updateActivationRes() {}
+
+type UpdateActivationApplicationProblemJSONUnauthorized Unauthorized
+
+func (*UpdateActivationApplicationProblemJSONUnauthorized) updateActivationRes() {}
+
+type UpdateAutomatedActionApplicationJSONBadRequest BadRequest
+
+func (*UpdateAutomatedActionApplicationJSONBadRequest) updateAutomatedActionRes() {}
+
+type UpdateAutomatedActionApplicationJSONForbidden Forbidden
+
+func (*UpdateAutomatedActionApplicationJSONForbidden) updateAutomatedActionRes() {}
+
+type UpdateAutomatedActionApplicationJSONNotFound NotFound
+
+func (*UpdateAutomatedActionApplicationJSONNotFound) updateAutomatedActionRes() {}
+
+type UpdateAutomatedActionApplicationJSONTooManyRequests TooManyRequestsHeaders
+
+func (*UpdateAutomatedActionApplicationJSONTooManyRequests) updateAutomatedActionRes() {}
+
+type UpdateAutomatedActionApplicationJSONUnauthorized Unauthorized
+
+func (*UpdateAutomatedActionApplicationJSONUnauthorized) updateAutomatedActionRes() {}
+
+type UpdateAutomatedActionApplicationProblemJSONBadRequest BadRequest
+
+func (*UpdateAutomatedActionApplicationProblemJSONBadRequest) updateAutomatedActionRes() {}
+
+type UpdateAutomatedActionApplicationProblemJSONForbidden Forbidden
+
+func (*UpdateAutomatedActionApplicationProblemJSONForbidden) updateAutomatedActionRes() {}
+
+type UpdateAutomatedActionApplicationProblemJSONNotFound NotFound
+
+func (*UpdateAutomatedActionApplicationProblemJSONNotFound) updateAutomatedActionRes() {}
+
+type UpdateAutomatedActionApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
+
+func (*UpdateAutomatedActionApplicationProblemJSONTooManyRequests) updateAutomatedActionRes() {}
+
+type UpdateAutomatedActionApplicationProblemJSONUnauthorized Unauthorized
+
+func (*UpdateAutomatedActionApplicationProblemJSONUnauthorized) updateAutomatedActionRes() {}
+
+type UpdateEvaluationRuleApplicationJSONBadRequest BadRequest
+
+func (*UpdateEvaluationRuleApplicationJSONBadRequest) updateEvaluationRuleRes() {}
+
+type UpdateEvaluationRuleApplicationJSONForbidden Forbidden
+
+func (*UpdateEvaluationRuleApplicationJSONForbidden) updateEvaluationRuleRes() {}
+
+type UpdateEvaluationRuleApplicationJSONNotFound NotFound
+
+func (*UpdateEvaluationRuleApplicationJSONNotFound) updateEvaluationRuleRes() {}
+
+type UpdateEvaluationRuleApplicationJSONTooManyRequests TooManyRequestsHeaders
+
+func (*UpdateEvaluationRuleApplicationJSONTooManyRequests) updateEvaluationRuleRes() {}
+
+type UpdateEvaluationRuleApplicationJSONUnauthorized Unauthorized
+
+func (*UpdateEvaluationRuleApplicationJSONUnauthorized) updateEvaluationRuleRes() {}
+
+type UpdateEvaluationRuleApplicationProblemJSONBadRequest BadRequest
+
+func (*UpdateEvaluationRuleApplicationProblemJSONBadRequest) updateEvaluationRuleRes() {}
+
+type UpdateEvaluationRuleApplicationProblemJSONForbidden Forbidden
+
+func (*UpdateEvaluationRuleApplicationProblemJSONForbidden) updateEvaluationRuleRes() {}
+
+type UpdateEvaluationRuleApplicationProblemJSONNotFound NotFound
+
+func (*UpdateEvaluationRuleApplicationProblemJSONNotFound) updateEvaluationRuleRes() {}
+
+type UpdateEvaluationRuleApplicationProblemJSONTooManyRequests TooManyRequestsHeaders
+
+func (*UpdateEvaluationRuleApplicationProblemJSONTooManyRequests) updateEvaluationRuleRes() {}
+
+type UpdateEvaluationRuleApplicationProblemJSONUnauthorized Unauthorized
+
+func (*UpdateEvaluationRuleApplicationProblemJSONUnauthorized) updateEvaluationRuleRes() {}

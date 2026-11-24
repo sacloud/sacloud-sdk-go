@@ -268,307 +268,6 @@ func (s *AutomatedActionOutput) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *AutomatedActionsCreateApplicationJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsCreateApplicationJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsCreateApplicationJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsCreateApplicationJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsCreateApplicationJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsCreateApplicationJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsCreateApplicationProblemJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsCreateApplicationProblemJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsCreateApplicationProblemJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsCreateApplicationProblemJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsCreateApplicationProblemJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsCreateApplicationProblemJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsDeleteApplicationJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsDeleteApplicationJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsDeleteApplicationJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsDeleteApplicationJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsDeleteApplicationProblemJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsDeleteApplicationProblemJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsDeleteApplicationProblemJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsDeleteApplicationProblemJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsListApplicationJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsListApplicationJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsListApplicationJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsListApplicationJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsListApplicationJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsListApplicationJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsListApplicationProblemJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsListApplicationProblemJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsListApplicationProblemJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsListApplicationProblemJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsListApplicationProblemJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsListApplicationProblemJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsListOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem AutomatedActionOutput
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.NextPageToken.SetFake()
-		}
-	}
-	{
-		{
-			s.PrevPageToken.SetFake()
-		}
-	}
-	{
-		{
-			s.TotalSize = int(0)
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsReadApplicationJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsReadApplicationJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsReadApplicationJSONNotFound) SetFake() {
-	var unwrapped NotFound
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsReadApplicationJSONNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsReadApplicationJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsReadApplicationJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsReadApplicationProblemJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsReadApplicationProblemJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsReadApplicationProblemJSONNotFound) SetFake() {
-	var unwrapped NotFound
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsReadApplicationProblemJSONNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsReadApplicationProblemJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsReadApplicationProblemJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsUpdateApplicationJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsUpdateApplicationJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsUpdateApplicationJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsUpdateApplicationJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsUpdateApplicationJSONNotFound) SetFake() {
-	var unwrapped NotFound
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsUpdateApplicationJSONNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsUpdateApplicationJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsUpdateApplicationJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsUpdateApplicationProblemJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsUpdateApplicationProblemJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsUpdateApplicationProblemJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsUpdateApplicationProblemJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsUpdateApplicationProblemJSONNotFound) SetFake() {
-	var unwrapped NotFound
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsUpdateApplicationProblemJSONNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *AutomatedActionsUpdateApplicationProblemJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = AutomatedActionsUpdateApplicationProblemJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
 func (s *BadRequest) SetFake() {
 	{
 		{
@@ -647,6 +346,132 @@ func (s *ConflictStatus) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *CreateActivationApplicationJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateActivationApplicationJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateActivationApplicationJSONConflict) SetFake() {
+	var unwrapped Conflict
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateActivationApplicationJSONConflict(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateActivationApplicationJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateActivationApplicationJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateActivationApplicationJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateActivationApplicationJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateActivationApplicationProblemJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateActivationApplicationProblemJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateActivationApplicationProblemJSONConflict) SetFake() {
+	var unwrapped Conflict
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateActivationApplicationProblemJSONConflict(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateActivationApplicationProblemJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateActivationApplicationProblemJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateActivationApplicationProblemJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateActivationApplicationProblemJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateAutomatedActionApplicationJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAutomatedActionApplicationJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateAutomatedActionApplicationJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAutomatedActionApplicationJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateAutomatedActionApplicationJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAutomatedActionApplicationJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateAutomatedActionApplicationProblemJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAutomatedActionApplicationProblemJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateAutomatedActionApplicationProblemJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAutomatedActionApplicationProblemJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateAutomatedActionApplicationProblemJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAutomatedActionApplicationProblemJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
 func (s *DbaEncryptionEnabled) SetFake() {
 	{
 		{
@@ -682,6 +507,42 @@ func (s *DbaNoPublicIP) SetFake() {
 // SetFake set fake values.
 func (s *DbaNoPublicIPEvaluationRuleId) SetFake() {
 	*s = DbaNoPublicIPEvaluationRuleIdDbaNoPublicIP
+}
+
+// SetFake set fake values.
+func (s *DeleteAutomatedActionApplicationJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteAutomatedActionApplicationJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeleteAutomatedActionApplicationJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteAutomatedActionApplicationJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeleteAutomatedActionApplicationProblemJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteAutomatedActionApplicationProblemJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeleteAutomatedActionApplicationProblemJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteAutomatedActionApplicationProblemJSONUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.
@@ -838,235 +699,6 @@ func (s *EvaluationRuleUnionSum) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *EvaluationRulesListApplicationJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesListApplicationJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesListApplicationJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesListApplicationJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesListApplicationJSONNotFound) SetFake() {
-	var unwrapped NotFound
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesListApplicationJSONNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesListApplicationJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesListApplicationJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesListApplicationProblemJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesListApplicationProblemJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesListApplicationProblemJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesListApplicationProblemJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesListApplicationProblemJSONNotFound) SetFake() {
-	var unwrapped NotFound
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesListApplicationProblemJSONNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesListApplicationProblemJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesListApplicationProblemJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesListOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem EvaluationRule
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.NextPageToken.SetFake()
-		}
-	}
-	{
-		{
-			s.PrevPageToken.SetFake()
-		}
-	}
-	{
-		{
-			s.TotalSize = int(0)
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesReadApplicationJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesReadApplicationJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesReadApplicationJSONNotFound) SetFake() {
-	var unwrapped NotFound
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesReadApplicationJSONNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesReadApplicationJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesReadApplicationJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesReadApplicationProblemJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesReadApplicationProblemJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesReadApplicationProblemJSONNotFound) SetFake() {
-	var unwrapped NotFound
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesReadApplicationProblemJSONNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesReadApplicationProblemJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesReadApplicationProblemJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesUpdateApplicationJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesUpdateApplicationJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesUpdateApplicationJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesUpdateApplicationJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesUpdateApplicationJSONNotFound) SetFake() {
-	var unwrapped NotFound
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesUpdateApplicationJSONNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesUpdateApplicationJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesUpdateApplicationJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesUpdateApplicationProblemJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesUpdateApplicationProblemJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesUpdateApplicationProblemJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesUpdateApplicationProblemJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesUpdateApplicationProblemJSONNotFound) SetFake() {
-	var unwrapped NotFound
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesUpdateApplicationProblemJSONNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *EvaluationRulesUpdateApplicationProblemJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = EvaluationRulesUpdateApplicationProblemJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
 func (s *Forbidden) SetFake() {
 	{
 		{
@@ -1122,6 +754,194 @@ func (s *IAMMemberOperationDetected) SetFake() {
 // SetFake set fake values.
 func (s *IAMMemberOperationDetectedEvaluationRuleId) SetFake() {
 	*s = IAMMemberOperationDetectedEvaluationRuleIdIamMemberOperationDetected
+}
+
+// SetFake set fake values.
+func (s *ListAutomatedActionsApplicationJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListAutomatedActionsApplicationJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListAutomatedActionsApplicationJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListAutomatedActionsApplicationJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListAutomatedActionsApplicationJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListAutomatedActionsApplicationJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListAutomatedActionsApplicationProblemJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListAutomatedActionsApplicationProblemJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListAutomatedActionsApplicationProblemJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListAutomatedActionsApplicationProblemJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListAutomatedActionsApplicationProblemJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListAutomatedActionsApplicationProblemJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListAutomatedActionsOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem AutomatedActionOutput
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.NextPageToken.SetFake()
+		}
+	}
+	{
+		{
+			s.PrevPageToken.SetFake()
+		}
+	}
+	{
+		{
+			s.TotalSize = int(0)
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListEvaluationRulesApplicationJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListEvaluationRulesApplicationJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListEvaluationRulesApplicationJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListEvaluationRulesApplicationJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListEvaluationRulesApplicationJSONNotFound) SetFake() {
+	var unwrapped NotFound
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListEvaluationRulesApplicationJSONNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListEvaluationRulesApplicationJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListEvaluationRulesApplicationJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListEvaluationRulesApplicationProblemJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListEvaluationRulesApplicationProblemJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListEvaluationRulesApplicationProblemJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListEvaluationRulesApplicationProblemJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListEvaluationRulesApplicationProblemJSONNotFound) SetFake() {
+	var unwrapped NotFound
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListEvaluationRulesApplicationProblemJSONNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListEvaluationRulesApplicationProblemJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListEvaluationRulesApplicationProblemJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListEvaluationRulesOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem EvaluationRule
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.NextPageToken.SetFake()
+		}
+	}
+	{
+		{
+			s.PrevPageToken.SetFake()
+		}
+	}
+	{
+		{
+			s.TotalSize = int(0)
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -1374,201 +1194,165 @@ func (s *OptUnauthorizedStatus) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationCreateApplicationJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = ProjectActivationCreateApplicationJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ProjectActivationCreateApplicationJSONConflict) SetFake() {
-	var unwrapped Conflict
-	{
-		unwrapped.SetFake()
-	}
-	*s = ProjectActivationCreateApplicationJSONConflict(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ProjectActivationCreateApplicationJSONForbidden) SetFake() {
+func (s *ReadActivationApplicationJSONForbidden) SetFake() {
 	var unwrapped Forbidden
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationCreateApplicationJSONForbidden(unwrapped)
+	*s = ReadActivationApplicationJSONForbidden(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationCreateApplicationJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = ProjectActivationCreateApplicationJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ProjectActivationCreateApplicationProblemJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = ProjectActivationCreateApplicationProblemJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ProjectActivationCreateApplicationProblemJSONConflict) SetFake() {
-	var unwrapped Conflict
-	{
-		unwrapped.SetFake()
-	}
-	*s = ProjectActivationCreateApplicationProblemJSONConflict(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ProjectActivationCreateApplicationProblemJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = ProjectActivationCreateApplicationProblemJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ProjectActivationCreateApplicationProblemJSONUnauthorized) SetFake() {
-	var unwrapped Unauthorized
-	{
-		unwrapped.SetFake()
-	}
-	*s = ProjectActivationCreateApplicationProblemJSONUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ProjectActivationReadApplicationJSONForbidden) SetFake() {
-	var unwrapped Forbidden
-	{
-		unwrapped.SetFake()
-	}
-	*s = ProjectActivationReadApplicationJSONForbidden(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ProjectActivationReadApplicationJSONNotFound) SetFake() {
+func (s *ReadActivationApplicationJSONNotFound) SetFake() {
 	var unwrapped NotFound
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationReadApplicationJSONNotFound(unwrapped)
+	*s = ReadActivationApplicationJSONNotFound(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationReadApplicationJSONUnauthorized) SetFake() {
+func (s *ReadActivationApplicationJSONUnauthorized) SetFake() {
 	var unwrapped Unauthorized
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationReadApplicationJSONUnauthorized(unwrapped)
+	*s = ReadActivationApplicationJSONUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationReadApplicationProblemJSONForbidden) SetFake() {
+func (s *ReadActivationApplicationProblemJSONForbidden) SetFake() {
 	var unwrapped Forbidden
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationReadApplicationProblemJSONForbidden(unwrapped)
+	*s = ReadActivationApplicationProblemJSONForbidden(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationReadApplicationProblemJSONNotFound) SetFake() {
+func (s *ReadActivationApplicationProblemJSONNotFound) SetFake() {
 	var unwrapped NotFound
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationReadApplicationProblemJSONNotFound(unwrapped)
+	*s = ReadActivationApplicationProblemJSONNotFound(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationReadApplicationProblemJSONUnauthorized) SetFake() {
+func (s *ReadActivationApplicationProblemJSONUnauthorized) SetFake() {
 	var unwrapped Unauthorized
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationReadApplicationProblemJSONUnauthorized(unwrapped)
+	*s = ReadActivationApplicationProblemJSONUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationUpdateApplicationJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = ProjectActivationUpdateApplicationJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ProjectActivationUpdateApplicationJSONForbidden) SetFake() {
+func (s *ReadAutomatedActionApplicationJSONForbidden) SetFake() {
 	var unwrapped Forbidden
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationUpdateApplicationJSONForbidden(unwrapped)
+	*s = ReadAutomatedActionApplicationJSONForbidden(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationUpdateApplicationJSONNotFound) SetFake() {
+func (s *ReadAutomatedActionApplicationJSONNotFound) SetFake() {
 	var unwrapped NotFound
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationUpdateApplicationJSONNotFound(unwrapped)
+	*s = ReadAutomatedActionApplicationJSONNotFound(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationUpdateApplicationJSONUnauthorized) SetFake() {
+func (s *ReadAutomatedActionApplicationJSONUnauthorized) SetFake() {
 	var unwrapped Unauthorized
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationUpdateApplicationJSONUnauthorized(unwrapped)
+	*s = ReadAutomatedActionApplicationJSONUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationUpdateApplicationProblemJSONBadRequest) SetFake() {
-	var unwrapped BadRequest
-	{
-		unwrapped.SetFake()
-	}
-	*s = ProjectActivationUpdateApplicationProblemJSONBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ProjectActivationUpdateApplicationProblemJSONForbidden) SetFake() {
+func (s *ReadAutomatedActionApplicationProblemJSONForbidden) SetFake() {
 	var unwrapped Forbidden
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationUpdateApplicationProblemJSONForbidden(unwrapped)
+	*s = ReadAutomatedActionApplicationProblemJSONForbidden(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationUpdateApplicationProblemJSONNotFound) SetFake() {
+func (s *ReadAutomatedActionApplicationProblemJSONNotFound) SetFake() {
 	var unwrapped NotFound
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationUpdateApplicationProblemJSONNotFound(unwrapped)
+	*s = ReadAutomatedActionApplicationProblemJSONNotFound(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ProjectActivationUpdateApplicationProblemJSONUnauthorized) SetFake() {
+func (s *ReadAutomatedActionApplicationProblemJSONUnauthorized) SetFake() {
 	var unwrapped Unauthorized
 	{
 		unwrapped.SetFake()
 	}
-	*s = ProjectActivationUpdateApplicationProblemJSONUnauthorized(unwrapped)
+	*s = ReadAutomatedActionApplicationProblemJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadEvaluationRuleApplicationJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadEvaluationRuleApplicationJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadEvaluationRuleApplicationJSONNotFound) SetFake() {
+	var unwrapped NotFound
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadEvaluationRuleApplicationJSONNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadEvaluationRuleApplicationJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadEvaluationRuleApplicationJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadEvaluationRuleApplicationProblemJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadEvaluationRuleApplicationProblemJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadEvaluationRuleApplicationProblemJSONNotFound) SetFake() {
+	var unwrapped NotFound
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadEvaluationRuleApplicationProblemJSONNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadEvaluationRuleApplicationProblemJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadEvaluationRuleApplicationProblemJSONUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.
@@ -1743,4 +1527,220 @@ func (s *UnexpectedError) SetFake() {
 			s.Instance.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *UpdateActivationApplicationJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateActivationApplicationJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateActivationApplicationJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateActivationApplicationJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateActivationApplicationJSONNotFound) SetFake() {
+	var unwrapped NotFound
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateActivationApplicationJSONNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateActivationApplicationJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateActivationApplicationJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateActivationApplicationProblemJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateActivationApplicationProblemJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateActivationApplicationProblemJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateActivationApplicationProblemJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateActivationApplicationProblemJSONNotFound) SetFake() {
+	var unwrapped NotFound
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateActivationApplicationProblemJSONNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateActivationApplicationProblemJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateActivationApplicationProblemJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateAutomatedActionApplicationJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateAutomatedActionApplicationJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateAutomatedActionApplicationJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateAutomatedActionApplicationJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateAutomatedActionApplicationJSONNotFound) SetFake() {
+	var unwrapped NotFound
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateAutomatedActionApplicationJSONNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateAutomatedActionApplicationJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateAutomatedActionApplicationJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateAutomatedActionApplicationProblemJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateAutomatedActionApplicationProblemJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateAutomatedActionApplicationProblemJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateAutomatedActionApplicationProblemJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateAutomatedActionApplicationProblemJSONNotFound) SetFake() {
+	var unwrapped NotFound
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateAutomatedActionApplicationProblemJSONNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateAutomatedActionApplicationProblemJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateAutomatedActionApplicationProblemJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateEvaluationRuleApplicationJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateEvaluationRuleApplicationJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateEvaluationRuleApplicationJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateEvaluationRuleApplicationJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateEvaluationRuleApplicationJSONNotFound) SetFake() {
+	var unwrapped NotFound
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateEvaluationRuleApplicationJSONNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateEvaluationRuleApplicationJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateEvaluationRuleApplicationJSONUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateEvaluationRuleApplicationProblemJSONBadRequest) SetFake() {
+	var unwrapped BadRequest
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateEvaluationRuleApplicationProblemJSONBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateEvaluationRuleApplicationProblemJSONForbidden) SetFake() {
+	var unwrapped Forbidden
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateEvaluationRuleApplicationProblemJSONForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateEvaluationRuleApplicationProblemJSONNotFound) SetFake() {
+	var unwrapped NotFound
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateEvaluationRuleApplicationProblemJSONNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateEvaluationRuleApplicationProblemJSONUnauthorized) SetFake() {
+	var unwrapped Unauthorized
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateEvaluationRuleApplicationProblemJSONUnauthorized(unwrapped)
 }

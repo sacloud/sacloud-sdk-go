@@ -4,6 +4,7 @@ package v1
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 
@@ -21,79 +22,79 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
-	// AutomatedActionsCreate invokes AutomatedActions_create operation.
+	// CreateActivation invokes createActivation operation.
 	//
-	// 新しい自動アクションを作成する。.
-	//
-	// POST /automated_actions
-	AutomatedActionsCreate(ctx context.Context, request *AutomatedActionInput) (AutomatedActionsCreateRes, error)
-	// AutomatedActionsDelete invokes AutomatedActions_delete operation.
-	//
-	// 指定されたIDの自動アクションを削除する。.
-	//
-	// DELETE /automated_actions/{actionId}
-	AutomatedActionsDelete(ctx context.Context, params AutomatedActionsDeleteParams) (AutomatedActionsDeleteRes, error)
-	// AutomatedActionsList invokes AutomatedActions_list operation.
-	//
-	// 自動アクションを一覧取得する。
-	// pageSizeの最大値は100。100を超える値は100として扱う。
-	// pageSize未指定時は50。.
-	//
-	// GET /automated_actions
-	AutomatedActionsList(ctx context.Context, params AutomatedActionsListParams) (AutomatedActionsListRes, error)
-	// AutomatedActionsRead invokes AutomatedActions_read operation.
-	//
-	// 指定されたIDの自動アクション詳細を取得する。.
-	//
-	// GET /automated_actions/{actionId}
-	AutomatedActionsRead(ctx context.Context, params AutomatedActionsReadParams) (AutomatedActionsReadRes, error)
-	// AutomatedActionsUpdate invokes AutomatedActions_update operation.
-	//
-	// 指定されたIDの自動アクションを更新する。.
-	//
-	// PUT /automated_actions/{actionId}
-	AutomatedActionsUpdate(ctx context.Context, request *AutomatedActionInput, params AutomatedActionsUpdateParams) (AutomatedActionsUpdateRes, error)
-	// EvaluationRulesList invokes EvaluationRules_list operation.
-	//
-	// プロジェクトの評価ルールを一覧取得する。
-	// pageSizeの最大値は100。100を超える値は100として扱う。
-	// pageSize未指定時は50。.
-	//
-	// GET /evaluation_rules
-	EvaluationRulesList(ctx context.Context, params EvaluationRulesListParams) (EvaluationRulesListRes, error)
-	// EvaluationRulesRead invokes EvaluationRules_read operation.
-	//
-	// 指定されたIDの評価ルール詳細を取得する。.
-	//
-	// GET /evaluation_rules/{evaluationRuleId}
-	EvaluationRulesRead(ctx context.Context, params EvaluationRulesReadParams) (EvaluationRulesReadRes, error)
-	// EvaluationRulesUpdate invokes EvaluationRules_update operation.
-	//
-	// 指定されたIDの評価ルールを更新する。.
-	//
-	// PUT /evaluation_rules/{evaluationRuleId}
-	EvaluationRulesUpdate(ctx context.Context, request *EvaluationRuleInput, params EvaluationRulesUpdateParams) (EvaluationRulesUpdateRes, error)
-	// ProjectActivationCreate invokes ProjectActivation_create operation.
-	//
-	// 現在のプロジェクトをセキュリティコントロールで有効化する（新規有効化状態を作成）。
-	// 成功時は200、リクエストが不正な場合は400を返す。.
+	// 現在のプロジェクトでセキュリティコントロールを有効化します。
+	// 成功時は201を返し、リクエストが不正な場合は400を返します。.
 	//
 	// POST /activation
-	ProjectActivationCreate(ctx context.Context, request *ActivationCreateInput) (ProjectActivationCreateRes, error)
-	// ProjectActivationRead invokes ProjectActivation_read operation.
+	CreateActivation(ctx context.Context, request *ActivationCreateInput) (CreateActivationRes, error)
+	// CreateAutomatedAction invokes createAutomatedAction operation.
 	//
-	// 現在のプロジェクトの有効化状態を取得する。
-	// 成功時は200で有効化詳細を返し、プロジェクトがまだ一度も有効化されていない場合は404を返す。.
+	// 新しい自動アクションを作成します。.
+	//
+	// POST /automated_actions
+	CreateAutomatedAction(ctx context.Context, request *AutomatedActionInput) (CreateAutomatedActionRes, error)
+	// DeleteAutomatedAction invokes deleteAutomatedAction operation.
+	//
+	// 指定されたIDの自動アクションを削除します。.
+	//
+	// DELETE /automated_actions/{actionId}
+	DeleteAutomatedAction(ctx context.Context, params DeleteAutomatedActionParams) (DeleteAutomatedActionRes, error)
+	// ListAutomatedActions invokes listAutomatedActions operation.
+	//
+	// 自動アクション一覧を取得します。
+	//
+	// pageSizeの最大値は100。100を超える値は100として扱う。 pageSize未指定時は50。.
+	//
+	// GET /automated_actions
+	ListAutomatedActions(ctx context.Context, params ListAutomatedActionsParams) (ListAutomatedActionsRes, error)
+	// ListEvaluationRules invokes listEvaluationRules operation.
+	//
+	// プロジェクトの評価ルール一覧を取得します。
+	//
+	// pageSizeの最大値は100。100を超える値は100として扱う。 pageSize未指定時は50。.
+	//
+	// GET /evaluation_rules
+	ListEvaluationRules(ctx context.Context, params ListEvaluationRulesParams) (ListEvaluationRulesRes, error)
+	// ReadActivation invokes readActivation operation.
+	//
+	// 現在のプロジェクトの有効化状態を取得します。
+	// 成功時は200で有効化詳細を返し、プロジェクトがまだ一度も有効化されていない場合は404を返します。.
 	//
 	// GET /activation
-	ProjectActivationRead(ctx context.Context) (ProjectActivationReadRes, error)
-	// ProjectActivationUpdate invokes ProjectActivation_update operation.
+	ReadActivation(ctx context.Context) (ReadActivationRes, error)
+	// ReadAutomatedAction invokes readAutomatedAction operation.
 	//
-	// 現在のプロジェクトの有効化状態を更新する。
-	// 成功時は200で更新後の有効化詳細を返し、リクエストが不正な場合は400を返す。.
+	// 指定されたIDの自動アクション詳細を取得します。.
+	//
+	// GET /automated_actions/{actionId}
+	ReadAutomatedAction(ctx context.Context, params ReadAutomatedActionParams) (ReadAutomatedActionRes, error)
+	// ReadEvaluationRule invokes readEvaluationRule operation.
+	//
+	// 指定されたIDの評価ルール詳細を取得します。.
+	//
+	// GET /evaluation_rules/{evaluationRuleId}
+	ReadEvaluationRule(ctx context.Context, params ReadEvaluationRuleParams) (ReadEvaluationRuleRes, error)
+	// UpdateActivation invokes updateActivation operation.
+	//
+	// 現在のプロジェクトの有効化状態を更新します。
+	// 成功時は200で更新後の有効化詳細を返し、リクエストが不正な場合は400を返します。.
 	//
 	// PUT /activation
-	ProjectActivationUpdate(ctx context.Context, request *ActivationUpdateInput) (ProjectActivationUpdateRes, error)
+	UpdateActivation(ctx context.Context, request *ActivationUpdateInput) (UpdateActivationRes, error)
+	// UpdateAutomatedAction invokes updateAutomatedAction operation.
+	//
+	// 指定されたIDの自動アクションを更新します。.
+	//
+	// PUT /automated_actions/{actionId}
+	UpdateAutomatedAction(ctx context.Context, request *AutomatedActionInput, params UpdateAutomatedActionParams) (UpdateAutomatedActionRes, error)
+	// UpdateEvaluationRule invokes updateEvaluationRule operation.
+	//
+	// 指定されたIDの評価ルールを更新します。.
+	//
+	// PUT /evaluation_rules/{evaluationRuleId}
+	UpdateEvaluationRule(ctx context.Context, request *EvaluationRuleInput, params UpdateEvaluationRuleParams) (UpdateEvaluationRuleRes, error)
 }
 
 // Client implements OAS client.
@@ -137,37 +138,29 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
-// AutomatedActionsCreate invokes AutomatedActions_create operation.
+// CreateActivation invokes createActivation operation.
 //
-// 新しい自動アクションを作成する。.
+// 現在のプロジェクトでセキュリティコントロールを有効化します。
+// 成功時は201を返し、リクエストが不正な場合は400を返します。.
 //
-// POST /automated_actions
-func (c *Client) AutomatedActionsCreate(ctx context.Context, request *AutomatedActionInput) (AutomatedActionsCreateRes, error) {
-	res, err := c.sendAutomatedActionsCreate(ctx, request)
+// POST /activation
+func (c *Client) CreateActivation(ctx context.Context, request *ActivationCreateInput) (CreateActivationRes, error) {
+	res, err := c.sendCreateActivation(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendAutomatedActionsCreate(ctx context.Context, request *AutomatedActionInput) (res AutomatedActionsCreateRes, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
+func (c *Client) sendCreateActivation(ctx context.Context, request *ActivationCreateInput) (res CreateActivationRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
-	pathParts[0] = "/automated_actions"
+	pathParts[0] = "/activation"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeAutomatedActionsCreateRequest(request, r); err != nil {
+	if err := encodeCreateActivationRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -176,7 +169,7 @@ func (c *Client) sendAutomatedActionsCreate(ctx context.Context, request *Automa
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, AutomatedActionsCreateOperation, r); {
+			switch err := c.securityBasicAuth(ctx, CreateActivationOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -208,9 +201,16 @@ func (c *Client) sendAutomatedActionsCreate(ctx context.Context, request *Automa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeAutomatedActionsCreateResponse(resp)
+	result, err := decodeCreateActivationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -218,17 +218,105 @@ func (c *Client) sendAutomatedActionsCreate(ctx context.Context, request *Automa
 	return result, nil
 }
 
-// AutomatedActionsDelete invokes AutomatedActions_delete operation.
+// CreateAutomatedAction invokes createAutomatedAction operation.
 //
-// 指定されたIDの自動アクションを削除する。.
+// 新しい自動アクションを作成します。.
 //
-// DELETE /automated_actions/{actionId}
-func (c *Client) AutomatedActionsDelete(ctx context.Context, params AutomatedActionsDeleteParams) (AutomatedActionsDeleteRes, error) {
-	res, err := c.sendAutomatedActionsDelete(ctx, params)
+// POST /automated_actions
+func (c *Client) CreateAutomatedAction(ctx context.Context, request *AutomatedActionInput) (CreateAutomatedActionRes, error) {
+	res, err := c.sendCreateAutomatedAction(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendAutomatedActionsDelete(ctx context.Context, params AutomatedActionsDeleteParams) (res AutomatedActionsDeleteRes, err error) {
+func (c *Client) sendCreateAutomatedAction(ctx context.Context, request *AutomatedActionInput) (res CreateAutomatedActionRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/automated_actions"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateAutomatedActionRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, CreateAutomatedActionOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateAutomatedActionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteAutomatedAction invokes deleteAutomatedAction operation.
+//
+// 指定されたIDの自動アクションを削除します。.
+//
+// DELETE /automated_actions/{actionId}
+func (c *Client) DeleteAutomatedAction(ctx context.Context, params DeleteAutomatedActionParams) (DeleteAutomatedActionRes, error) {
+	res, err := c.sendDeleteAutomatedAction(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteAutomatedAction(ctx context.Context, params DeleteAutomatedActionParams) (res DeleteAutomatedActionRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -266,7 +354,7 @@ func (c *Client) sendAutomatedActionsDelete(ctx context.Context, params Automate
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, AutomatedActionsDeleteOperation, r); {
+			switch err := c.securityBasicAuth(ctx, DeleteAutomatedActionOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -298,9 +386,16 @@ func (c *Client) sendAutomatedActionsDelete(ctx context.Context, params Automate
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeAutomatedActionsDeleteResponse(resp)
+	result, err := decodeDeleteAutomatedActionResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -308,19 +403,19 @@ func (c *Client) sendAutomatedActionsDelete(ctx context.Context, params Automate
 	return result, nil
 }
 
-// AutomatedActionsList invokes AutomatedActions_list operation.
+// ListAutomatedActions invokes listAutomatedActions operation.
 //
-// 自動アクションを一覧取得する。
-// pageSizeの最大値は100。100を超える値は100として扱う。
-// pageSize未指定時は50。.
+// 自動アクション一覧を取得します。
+//
+// pageSizeの最大値は100。100を超える値は100として扱う。 pageSize未指定時は50。.
 //
 // GET /automated_actions
-func (c *Client) AutomatedActionsList(ctx context.Context, params AutomatedActionsListParams) (AutomatedActionsListRes, error) {
-	res, err := c.sendAutomatedActionsList(ctx, params)
+func (c *Client) ListAutomatedActions(ctx context.Context, params ListAutomatedActionsParams) (ListAutomatedActionsRes, error) {
+	res, err := c.sendListAutomatedActions(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendAutomatedActionsList(ctx context.Context, params AutomatedActionsListParams) (res AutomatedActionsListRes, err error) {
+func (c *Client) sendListAutomatedActions(ctx context.Context, params ListAutomatedActionsParams) (res ListAutomatedActionsRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -391,7 +486,7 @@ func (c *Client) sendAutomatedActionsList(ctx context.Context, params AutomatedA
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, AutomatedActionsListOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ListAutomatedActionsOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -423,9 +518,16 @@ func (c *Client) sendAutomatedActionsList(ctx context.Context, params AutomatedA
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeAutomatedActionsListResponse(resp)
+	result, err := decodeListAutomatedActionsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -433,211 +535,19 @@ func (c *Client) sendAutomatedActionsList(ctx context.Context, params AutomatedA
 	return result, nil
 }
 
-// AutomatedActionsRead invokes AutomatedActions_read operation.
+// ListEvaluationRules invokes listEvaluationRules operation.
 //
-// 指定されたIDの自動アクション詳細を取得する。.
+// プロジェクトの評価ルール一覧を取得します。
 //
-// GET /automated_actions/{actionId}
-func (c *Client) AutomatedActionsRead(ctx context.Context, params AutomatedActionsReadParams) (AutomatedActionsReadRes, error) {
-	res, err := c.sendAutomatedActionsRead(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendAutomatedActionsRead(ctx context.Context, params AutomatedActionsReadParams) (res AutomatedActionsReadRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/automated_actions/"
-	{
-		// Encode "actionId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "actionId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := string(params.ActionId); true {
-				return e.EncodeValue(conv.StringToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, AutomatedActionsReadOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeAutomatedActionsReadResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// AutomatedActionsUpdate invokes AutomatedActions_update operation.
-//
-// 指定されたIDの自動アクションを更新する。.
-//
-// PUT /automated_actions/{actionId}
-func (c *Client) AutomatedActionsUpdate(ctx context.Context, request *AutomatedActionInput, params AutomatedActionsUpdateParams) (AutomatedActionsUpdateRes, error) {
-	res, err := c.sendAutomatedActionsUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendAutomatedActionsUpdate(ctx context.Context, request *AutomatedActionInput, params AutomatedActionsUpdateParams) (res AutomatedActionsUpdateRes, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/automated_actions/"
-	{
-		// Encode "actionId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "actionId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := string(params.ActionId); true {
-				return e.EncodeValue(conv.StringToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeAutomatedActionsUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, AutomatedActionsUpdateOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeAutomatedActionsUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// EvaluationRulesList invokes EvaluationRules_list operation.
-//
-// プロジェクトの評価ルールを一覧取得する。
-// pageSizeの最大値は100。100を超える値は100として扱う。
-// pageSize未指定時は50。.
+// pageSizeの最大値は100。100を超える値は100として扱う。 pageSize未指定時は50。.
 //
 // GET /evaluation_rules
-func (c *Client) EvaluationRulesList(ctx context.Context, params EvaluationRulesListParams) (EvaluationRulesListRes, error) {
-	res, err := c.sendEvaluationRulesList(ctx, params)
+func (c *Client) ListEvaluationRules(ctx context.Context, params ListEvaluationRulesParams) (ListEvaluationRulesRes, error) {
+	res, err := c.sendListEvaluationRules(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendEvaluationRulesList(ctx context.Context, params EvaluationRulesListParams) (res EvaluationRulesListRes, err error) {
+func (c *Client) sendListEvaluationRules(ctx context.Context, params ListEvaluationRulesParams) (res ListEvaluationRulesRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -708,7 +618,7 @@ func (c *Client) sendEvaluationRulesList(ctx context.Context, params EvaluationR
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, EvaluationRulesListOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ListEvaluationRulesOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -740,9 +650,16 @@ func (c *Client) sendEvaluationRulesList(ctx context.Context, params EvaluationR
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeEvaluationRulesListResponse(resp)
+	result, err := decodeListEvaluationRulesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -750,17 +667,191 @@ func (c *Client) sendEvaluationRulesList(ctx context.Context, params EvaluationR
 	return result, nil
 }
 
-// EvaluationRulesRead invokes EvaluationRules_read operation.
+// ReadActivation invokes readActivation operation.
 //
-// 指定されたIDの評価ルール詳細を取得する。.
+// 現在のプロジェクトの有効化状態を取得します。
+// 成功時は200で有効化詳細を返し、プロジェクトがまだ一度も有効化されていない場合は404を返します。.
 //
-// GET /evaluation_rules/{evaluationRuleId}
-func (c *Client) EvaluationRulesRead(ctx context.Context, params EvaluationRulesReadParams) (EvaluationRulesReadRes, error) {
-	res, err := c.sendEvaluationRulesRead(ctx, params)
+// GET /activation
+func (c *Client) ReadActivation(ctx context.Context) (ReadActivationRes, error) {
+	res, err := c.sendReadActivation(ctx)
 	return res, err
 }
 
-func (c *Client) sendEvaluationRulesRead(ctx context.Context, params EvaluationRulesReadParams) (res EvaluationRulesReadRes, err error) {
+func (c *Client) sendReadActivation(ctx context.Context) (res ReadActivationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/activation"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadActivationOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadActivationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadAutomatedAction invokes readAutomatedAction operation.
+//
+// 指定されたIDの自動アクション詳細を取得します。.
+//
+// GET /automated_actions/{actionId}
+func (c *Client) ReadAutomatedAction(ctx context.Context, params ReadAutomatedActionParams) (ReadAutomatedActionRes, error) {
+	res, err := c.sendReadAutomatedAction(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadAutomatedAction(ctx context.Context, params ReadAutomatedActionParams) (res ReadAutomatedActionRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/automated_actions/"
+	{
+		// Encode "actionId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "actionId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := string(params.ActionId); true {
+				return e.EncodeValue(conv.StringToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadAutomatedActionOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadAutomatedActionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadEvaluationRule invokes readEvaluationRule operation.
+//
+// 指定されたIDの評価ルール詳細を取得します。.
+//
+// GET /evaluation_rules/{evaluationRuleId}
+func (c *Client) ReadEvaluationRule(ctx context.Context, params ReadEvaluationRuleParams) (ReadEvaluationRuleRes, error) {
+	res, err := c.sendReadEvaluationRule(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadEvaluationRule(ctx context.Context, params ReadEvaluationRuleParams) (res ReadEvaluationRuleRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -795,7 +886,7 @@ func (c *Client) sendEvaluationRulesRead(ctx context.Context, params EvaluationR
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, EvaluationRulesReadOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ReadEvaluationRuleOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -827,9 +918,16 @@ func (c *Client) sendEvaluationRulesRead(ctx context.Context, params EvaluationR
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeEvaluationRulesReadResponse(resp)
+	result, err := decodeReadEvaluationRuleResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -837,17 +935,206 @@ func (c *Client) sendEvaluationRulesRead(ctx context.Context, params EvaluationR
 	return result, nil
 }
 
-// EvaluationRulesUpdate invokes EvaluationRules_update operation.
+// UpdateActivation invokes updateActivation operation.
 //
-// 指定されたIDの評価ルールを更新する。.
+// 現在のプロジェクトの有効化状態を更新します。
+// 成功時は200で更新後の有効化詳細を返し、リクエストが不正な場合は400を返します。.
 //
-// PUT /evaluation_rules/{evaluationRuleId}
-func (c *Client) EvaluationRulesUpdate(ctx context.Context, request *EvaluationRuleInput, params EvaluationRulesUpdateParams) (EvaluationRulesUpdateRes, error) {
-	res, err := c.sendEvaluationRulesUpdate(ctx, request, params)
+// PUT /activation
+func (c *Client) UpdateActivation(ctx context.Context, request *ActivationUpdateInput) (UpdateActivationRes, error) {
+	res, err := c.sendUpdateActivation(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendEvaluationRulesUpdate(ctx context.Context, request *EvaluationRuleInput, params EvaluationRulesUpdateParams) (res EvaluationRulesUpdateRes, err error) {
+func (c *Client) sendUpdateActivation(ctx context.Context, request *ActivationUpdateInput) (res UpdateActivationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/activation"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateActivationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, UpdateActivationOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateActivationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateAutomatedAction invokes updateAutomatedAction operation.
+//
+// 指定されたIDの自動アクションを更新します。.
+//
+// PUT /automated_actions/{actionId}
+func (c *Client) UpdateAutomatedAction(ctx context.Context, request *AutomatedActionInput, params UpdateAutomatedActionParams) (UpdateAutomatedActionRes, error) {
+	res, err := c.sendUpdateAutomatedAction(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateAutomatedAction(ctx context.Context, request *AutomatedActionInput, params UpdateAutomatedActionParams) (res UpdateAutomatedActionRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/automated_actions/"
+	{
+		// Encode "actionId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "actionId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := string(params.ActionId); true {
+				return e.EncodeValue(conv.StringToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateAutomatedActionRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, UpdateAutomatedActionOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateAutomatedActionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateEvaluationRule invokes updateEvaluationRule operation.
+//
+// 指定されたIDの評価ルールを更新します。.
+//
+// PUT /evaluation_rules/{evaluationRuleId}
+func (c *Client) UpdateEvaluationRule(ctx context.Context, request *EvaluationRuleInput, params UpdateEvaluationRuleParams) (UpdateEvaluationRuleRes, error) {
+	res, err := c.sendUpdateEvaluationRule(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateEvaluationRule(ctx context.Context, request *EvaluationRuleInput, params UpdateEvaluationRuleParams) (res UpdateEvaluationRuleRes, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -885,7 +1172,7 @@ func (c *Client) sendEvaluationRulesUpdate(ctx context.Context, request *Evaluat
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeEvaluationRulesUpdateRequest(request, r); err != nil {
+	if err := encodeUpdateEvaluationRuleRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -894,7 +1181,7 @@ func (c *Client) sendEvaluationRulesUpdate(ctx context.Context, request *Evaluat
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, EvaluationRulesUpdateOperation, r); {
+			switch err := c.securityBasicAuth(ctx, UpdateEvaluationRuleOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -926,225 +1213,16 @@ func (c *Client) sendEvaluationRulesUpdate(ctx context.Context, request *Evaluat
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeEvaluationRulesUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ProjectActivationCreate invokes ProjectActivation_create operation.
-//
-// 現在のプロジェクトをセキュリティコントロールで有効化する（新規有効化状態を作成）。
-// 成功時は200、リクエストが不正な場合は400を返す。.
-//
-// POST /activation
-func (c *Client) ProjectActivationCreate(ctx context.Context, request *ActivationCreateInput) (ProjectActivationCreateRes, error) {
-	res, err := c.sendProjectActivationCreate(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendProjectActivationCreate(ctx context.Context, request *ActivationCreateInput) (res ProjectActivationCreateRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/activation"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeProjectActivationCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, ProjectActivationCreateOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeProjectActivationCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ProjectActivationRead invokes ProjectActivation_read operation.
-//
-// 現在のプロジェクトの有効化状態を取得する。
-// 成功時は200で有効化詳細を返し、プロジェクトがまだ一度も有効化されていない場合は404を返す。.
-//
-// GET /activation
-func (c *Client) ProjectActivationRead(ctx context.Context) (ProjectActivationReadRes, error) {
-	res, err := c.sendProjectActivationRead(ctx)
-	return res, err
-}
-
-func (c *Client) sendProjectActivationRead(ctx context.Context) (res ProjectActivationReadRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/activation"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, ProjectActivationReadOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeProjectActivationReadResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ProjectActivationUpdate invokes ProjectActivation_update operation.
-//
-// 現在のプロジェクトの有効化状態を更新する。
-// 成功時は200で更新後の有効化詳細を返し、リクエストが不正な場合は400を返す。.
-//
-// PUT /activation
-func (c *Client) ProjectActivationUpdate(ctx context.Context, request *ActivationUpdateInput) (ProjectActivationUpdateRes, error) {
-	res, err := c.sendProjectActivationUpdate(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendProjectActivationUpdate(ctx context.Context, request *ActivationUpdateInput) (res ProjectActivationUpdateRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/activation"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeProjectActivationUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, ProjectActivationUpdateOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeProjectActivationUpdateResponse(resp)
+	result, err := decodeUpdateEvaluationRuleResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

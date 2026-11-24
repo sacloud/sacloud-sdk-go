@@ -10,49 +10,7 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 )
 
-func encodeAutomatedActionsCreateRequest(
-	req *AutomatedActionInput,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeAutomatedActionsUpdateRequest(
-	req *AutomatedActionInput,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeEvaluationRulesUpdateRequest(
-	req *EvaluationRuleInput,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeProjectActivationCreateRequest(
+func encodeCreateActivationRequest(
 	req *ActivationCreateInput,
 	r *http.Request,
 ) error {
@@ -66,8 +24,50 @@ func encodeProjectActivationCreateRequest(
 	return nil
 }
 
-func encodeProjectActivationUpdateRequest(
+func encodeCreateAutomatedActionRequest(
+	req *AutomatedActionInput,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateActivationRequest(
 	req *ActivationUpdateInput,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateAutomatedActionRequest(
+	req *AutomatedActionInput,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateEvaluationRuleRequest(
+	req *EvaluationRuleInput,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

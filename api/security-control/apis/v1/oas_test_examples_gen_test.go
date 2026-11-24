@@ -275,378 +275,6 @@ func TestAutomatedActionOutput_EncodeDecode(t *testing.T) {
 	var typ2 AutomatedActionOutput
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestAutomatedActionsCreateApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsCreateApplicationJSONBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsCreateApplicationJSONBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsCreateApplicationJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsCreateApplicationJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsCreateApplicationJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsCreateApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsCreateApplicationJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsCreateApplicationJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsCreateApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsCreateApplicationProblemJSONBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsCreateApplicationProblemJSONBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsCreateApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsCreateApplicationProblemJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsCreateApplicationProblemJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsCreateApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsCreateApplicationProblemJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsCreateApplicationProblemJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsDeleteApplicationJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsDeleteApplicationJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsDeleteApplicationJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsDeleteApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsDeleteApplicationJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsDeleteApplicationJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsDeleteApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsDeleteApplicationProblemJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsDeleteApplicationProblemJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsDeleteApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsDeleteApplicationProblemJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsDeleteApplicationProblemJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsListApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsListApplicationJSONBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsListApplicationJSONBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsListApplicationJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsListApplicationJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsListApplicationJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsListApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsListApplicationJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsListApplicationJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsListApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsListApplicationProblemJSONBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsListApplicationProblemJSONBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsListApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsListApplicationProblemJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsListApplicationProblemJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsListApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsListApplicationProblemJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsListApplicationProblemJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsListOK_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsListOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsListOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsReadApplicationJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsReadApplicationJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsReadApplicationJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsReadApplicationJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsReadApplicationJSONNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsReadApplicationJSONNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsReadApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsReadApplicationJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsReadApplicationJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsReadApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsReadApplicationProblemJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsReadApplicationProblemJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsReadApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsReadApplicationProblemJSONNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsReadApplicationProblemJSONNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsReadApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsReadApplicationProblemJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsReadApplicationProblemJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsUpdateApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsUpdateApplicationJSONBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsUpdateApplicationJSONBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsUpdateApplicationJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsUpdateApplicationJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsUpdateApplicationJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsUpdateApplicationJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsUpdateApplicationJSONNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsUpdateApplicationJSONNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsUpdateApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsUpdateApplicationJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsUpdateApplicationJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsUpdateApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsUpdateApplicationProblemJSONBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsUpdateApplicationProblemJSONBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsUpdateApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsUpdateApplicationProblemJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsUpdateApplicationProblemJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsUpdateApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsUpdateApplicationProblemJSONNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsUpdateApplicationProblemJSONNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestAutomatedActionsUpdateApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ AutomatedActionsUpdateApplicationProblemJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AutomatedActionsUpdateApplicationProblemJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestBadRequest_EncodeDecode(t *testing.T) {
 	var typ BadRequest
 	typ.SetFake()
@@ -719,6 +347,174 @@ func TestConflictStatus_EncodeDecode(t *testing.T) {
 	var typ2 ConflictStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestCreateActivationApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ CreateActivationApplicationJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateActivationApplicationJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateActivationApplicationJSONConflict_EncodeDecode(t *testing.T) {
+	var typ CreateActivationApplicationJSONConflict
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateActivationApplicationJSONConflict
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateActivationApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ CreateActivationApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateActivationApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateActivationApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ CreateActivationApplicationJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateActivationApplicationJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateActivationApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ CreateActivationApplicationProblemJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateActivationApplicationProblemJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateActivationApplicationProblemJSONConflict_EncodeDecode(t *testing.T) {
+	var typ CreateActivationApplicationProblemJSONConflict
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateActivationApplicationProblemJSONConflict
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateActivationApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ CreateActivationApplicationProblemJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateActivationApplicationProblemJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateActivationApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ CreateActivationApplicationProblemJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateActivationApplicationProblemJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateAutomatedActionApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ CreateAutomatedActionApplicationJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateAutomatedActionApplicationJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateAutomatedActionApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ CreateAutomatedActionApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateAutomatedActionApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateAutomatedActionApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ CreateAutomatedActionApplicationJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateAutomatedActionApplicationJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateAutomatedActionApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ CreateAutomatedActionApplicationProblemJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateAutomatedActionApplicationProblemJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateAutomatedActionApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ CreateAutomatedActionApplicationProblemJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateAutomatedActionApplicationProblemJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateAutomatedActionApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ CreateAutomatedActionApplicationProblemJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateAutomatedActionApplicationProblemJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestDbaEncryptionEnabled_EncodeDecode(t *testing.T) {
 	var typ DbaEncryptionEnabled
 	typ.SetFake()
@@ -765,6 +561,54 @@ func TestDbaNoPublicIPEvaluationRuleId_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 DbaNoPublicIPEvaluationRuleId
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDeleteAutomatedActionApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ DeleteAutomatedActionApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteAutomatedActionApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDeleteAutomatedActionApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ DeleteAutomatedActionApplicationJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteAutomatedActionApplicationJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDeleteAutomatedActionApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ DeleteAutomatedActionApplicationProblemJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteAutomatedActionApplicationProblemJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDeleteAutomatedActionApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ DeleteAutomatedActionApplicationProblemJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteAutomatedActionApplicationProblemJSONUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestDiskEncryptionEnabled_EncodeDecode(t *testing.T) {
@@ -899,282 +743,6 @@ func TestEvaluationRuleUnionSum_EncodeDecode(t *testing.T) {
 	var typ2 EvaluationRuleUnionSum
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestEvaluationRulesListApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesListApplicationJSONBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesListApplicationJSONBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesListApplicationJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesListApplicationJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesListApplicationJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesListApplicationJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesListApplicationJSONNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesListApplicationJSONNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesListApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesListApplicationJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesListApplicationJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesListApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesListApplicationProblemJSONBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesListApplicationProblemJSONBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesListApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesListApplicationProblemJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesListApplicationProblemJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesListApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesListApplicationProblemJSONNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesListApplicationProblemJSONNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesListApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesListApplicationProblemJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesListApplicationProblemJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesListOK_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesListOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesListOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesReadApplicationJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesReadApplicationJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesReadApplicationJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesReadApplicationJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesReadApplicationJSONNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesReadApplicationJSONNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesReadApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesReadApplicationJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesReadApplicationJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesReadApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesReadApplicationProblemJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesReadApplicationProblemJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesReadApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesReadApplicationProblemJSONNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesReadApplicationProblemJSONNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesReadApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesReadApplicationProblemJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesReadApplicationProblemJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesUpdateApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesUpdateApplicationJSONBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesUpdateApplicationJSONBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesUpdateApplicationJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesUpdateApplicationJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesUpdateApplicationJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesUpdateApplicationJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesUpdateApplicationJSONNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesUpdateApplicationJSONNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesUpdateApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesUpdateApplicationJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesUpdateApplicationJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesUpdateApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesUpdateApplicationProblemJSONBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesUpdateApplicationProblemJSONBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesUpdateApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesUpdateApplicationProblemJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesUpdateApplicationProblemJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesUpdateApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesUpdateApplicationProblemJSONNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesUpdateApplicationProblemJSONNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestEvaluationRulesUpdateApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ EvaluationRulesUpdateApplicationProblemJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 EvaluationRulesUpdateApplicationProblemJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestForbidden_EncodeDecode(t *testing.T) {
 	var typ Forbidden
 	typ.SetFake()
@@ -1233,6 +801,198 @@ func TestIAMMemberOperationDetectedEvaluationRuleId_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 IAMMemberOperationDetectedEvaluationRuleId
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListAutomatedActionsApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListAutomatedActionsApplicationJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListAutomatedActionsApplicationJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListAutomatedActionsApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ListAutomatedActionsApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListAutomatedActionsApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListAutomatedActionsApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListAutomatedActionsApplicationJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListAutomatedActionsApplicationJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListAutomatedActionsApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListAutomatedActionsApplicationProblemJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListAutomatedActionsApplicationProblemJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListAutomatedActionsApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ListAutomatedActionsApplicationProblemJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListAutomatedActionsApplicationProblemJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListAutomatedActionsApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListAutomatedActionsApplicationProblemJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListAutomatedActionsApplicationProblemJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListAutomatedActionsOK_EncodeDecode(t *testing.T) {
+	var typ ListAutomatedActionsOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListAutomatedActionsOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListEvaluationRulesApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListEvaluationRulesApplicationJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListEvaluationRulesApplicationJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListEvaluationRulesApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ListEvaluationRulesApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListEvaluationRulesApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListEvaluationRulesApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ListEvaluationRulesApplicationJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListEvaluationRulesApplicationJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListEvaluationRulesApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListEvaluationRulesApplicationJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListEvaluationRulesApplicationJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListEvaluationRulesApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListEvaluationRulesApplicationProblemJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListEvaluationRulesApplicationProblemJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListEvaluationRulesApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ListEvaluationRulesApplicationProblemJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListEvaluationRulesApplicationProblemJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListEvaluationRulesApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ListEvaluationRulesApplicationProblemJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListEvaluationRulesApplicationProblemJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListEvaluationRulesApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListEvaluationRulesApplicationProblemJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListEvaluationRulesApplicationProblemJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListEvaluationRulesOK_EncodeDecode(t *testing.T) {
+	var typ ListEvaluationRulesOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListEvaluationRulesOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestNoSQLEncryptionEnabled_EncodeDecode(t *testing.T) {
@@ -1343,8 +1103,8 @@ func TestObjectStorageBucketEncryptionEnabledEvaluationRuleId_EncodeDecode(t *te
 	var typ2 ObjectStorageBucketEncryptionEnabledEvaluationRuleId
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationCreateApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationCreateApplicationJSONBadRequest
+func TestReadActivationApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadActivationApplicationJSONForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1352,11 +1112,11 @@ func TestProjectActivationCreateApplicationJSONBadRequest_EncodeDecode(t *testin
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationCreateApplicationJSONBadRequest
+	var typ2 ReadActivationApplicationJSONForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationCreateApplicationJSONConflict_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationCreateApplicationJSONConflict
+func TestReadActivationApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadActivationApplicationJSONNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1364,11 +1124,11 @@ func TestProjectActivationCreateApplicationJSONConflict_EncodeDecode(t *testing.
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationCreateApplicationJSONConflict
+	var typ2 ReadActivationApplicationJSONNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationCreateApplicationJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationCreateApplicationJSONForbidden
+func TestReadActivationApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadActivationApplicationJSONUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1376,11 +1136,11 @@ func TestProjectActivationCreateApplicationJSONForbidden_EncodeDecode(t *testing
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationCreateApplicationJSONForbidden
+	var typ2 ReadActivationApplicationJSONUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationCreateApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationCreateApplicationJSONUnauthorized
+func TestReadActivationApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadActivationApplicationProblemJSONForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1388,11 +1148,11 @@ func TestProjectActivationCreateApplicationJSONUnauthorized_EncodeDecode(t *test
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationCreateApplicationJSONUnauthorized
+	var typ2 ReadActivationApplicationProblemJSONForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationCreateApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationCreateApplicationProblemJSONBadRequest
+func TestReadActivationApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadActivationApplicationProblemJSONNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1400,11 +1160,11 @@ func TestProjectActivationCreateApplicationProblemJSONBadRequest_EncodeDecode(t 
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationCreateApplicationProblemJSONBadRequest
+	var typ2 ReadActivationApplicationProblemJSONNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationCreateApplicationProblemJSONConflict_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationCreateApplicationProblemJSONConflict
+func TestReadActivationApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadActivationApplicationProblemJSONUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1412,11 +1172,11 @@ func TestProjectActivationCreateApplicationProblemJSONConflict_EncodeDecode(t *t
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationCreateApplicationProblemJSONConflict
+	var typ2 ReadActivationApplicationProblemJSONUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationCreateApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationCreateApplicationProblemJSONForbidden
+func TestReadAutomatedActionApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadAutomatedActionApplicationJSONForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1424,11 +1184,11 @@ func TestProjectActivationCreateApplicationProblemJSONForbidden_EncodeDecode(t *
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationCreateApplicationProblemJSONForbidden
+	var typ2 ReadAutomatedActionApplicationJSONForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationCreateApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationCreateApplicationProblemJSONUnauthorized
+func TestReadAutomatedActionApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadAutomatedActionApplicationJSONNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1436,11 +1196,11 @@ func TestProjectActivationCreateApplicationProblemJSONUnauthorized_EncodeDecode(
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationCreateApplicationProblemJSONUnauthorized
+	var typ2 ReadAutomatedActionApplicationJSONNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationReadApplicationJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationReadApplicationJSONForbidden
+func TestReadAutomatedActionApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadAutomatedActionApplicationJSONUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1448,11 +1208,11 @@ func TestProjectActivationReadApplicationJSONForbidden_EncodeDecode(t *testing.T
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationReadApplicationJSONForbidden
+	var typ2 ReadAutomatedActionApplicationJSONUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationReadApplicationJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationReadApplicationJSONNotFound
+func TestReadAutomatedActionApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadAutomatedActionApplicationProblemJSONForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1460,11 +1220,11 @@ func TestProjectActivationReadApplicationJSONNotFound_EncodeDecode(t *testing.T)
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationReadApplicationJSONNotFound
+	var typ2 ReadAutomatedActionApplicationProblemJSONForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationReadApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationReadApplicationJSONUnauthorized
+func TestReadAutomatedActionApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadAutomatedActionApplicationProblemJSONNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1472,11 +1232,11 @@ func TestProjectActivationReadApplicationJSONUnauthorized_EncodeDecode(t *testin
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationReadApplicationJSONUnauthorized
+	var typ2 ReadAutomatedActionApplicationProblemJSONNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationReadApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationReadApplicationProblemJSONForbidden
+func TestReadAutomatedActionApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadAutomatedActionApplicationProblemJSONUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1484,11 +1244,11 @@ func TestProjectActivationReadApplicationProblemJSONForbidden_EncodeDecode(t *te
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationReadApplicationProblemJSONForbidden
+	var typ2 ReadAutomatedActionApplicationProblemJSONUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationReadApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationReadApplicationProblemJSONNotFound
+func TestReadEvaluationRuleApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadEvaluationRuleApplicationJSONForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1496,11 +1256,11 @@ func TestProjectActivationReadApplicationProblemJSONNotFound_EncodeDecode(t *tes
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationReadApplicationProblemJSONNotFound
+	var typ2 ReadEvaluationRuleApplicationJSONForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationReadApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationReadApplicationProblemJSONUnauthorized
+func TestReadEvaluationRuleApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadEvaluationRuleApplicationJSONNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1508,11 +1268,11 @@ func TestProjectActivationReadApplicationProblemJSONUnauthorized_EncodeDecode(t 
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationReadApplicationProblemJSONUnauthorized
+	var typ2 ReadEvaluationRuleApplicationJSONNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationUpdateApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationUpdateApplicationJSONBadRequest
+func TestReadEvaluationRuleApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadEvaluationRuleApplicationJSONUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1520,11 +1280,11 @@ func TestProjectActivationUpdateApplicationJSONBadRequest_EncodeDecode(t *testin
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationUpdateApplicationJSONBadRequest
+	var typ2 ReadEvaluationRuleApplicationJSONUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationUpdateApplicationJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationUpdateApplicationJSONForbidden
+func TestReadEvaluationRuleApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadEvaluationRuleApplicationProblemJSONForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1532,11 +1292,11 @@ func TestProjectActivationUpdateApplicationJSONForbidden_EncodeDecode(t *testing
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationUpdateApplicationJSONForbidden
+	var typ2 ReadEvaluationRuleApplicationProblemJSONForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationUpdateApplicationJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationUpdateApplicationJSONNotFound
+func TestReadEvaluationRuleApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadEvaluationRuleApplicationProblemJSONNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1544,11 +1304,11 @@ func TestProjectActivationUpdateApplicationJSONNotFound_EncodeDecode(t *testing.
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationUpdateApplicationJSONNotFound
+	var typ2 ReadEvaluationRuleApplicationProblemJSONNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectActivationUpdateApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationUpdateApplicationJSONUnauthorized
+func TestReadEvaluationRuleApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadEvaluationRuleApplicationProblemJSONUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1556,55 +1316,7 @@ func TestProjectActivationUpdateApplicationJSONUnauthorized_EncodeDecode(t *test
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectActivationUpdateApplicationJSONUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestProjectActivationUpdateApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationUpdateApplicationProblemJSONBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ProjectActivationUpdateApplicationProblemJSONBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestProjectActivationUpdateApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationUpdateApplicationProblemJSONForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ProjectActivationUpdateApplicationProblemJSONForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestProjectActivationUpdateApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationUpdateApplicationProblemJSONNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ProjectActivationUpdateApplicationProblemJSONNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestProjectActivationUpdateApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ProjectActivationUpdateApplicationProblemJSONUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ProjectActivationUpdateApplicationProblemJSONUnauthorized
+	var typ2 ReadEvaluationRuleApplicationProblemJSONUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestSakuraSimpleNotification_EncodeDecode(t *testing.T) {
@@ -1737,5 +1449,293 @@ func TestUnexpectedError_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 UnexpectedError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateActivationApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateActivationApplicationJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateActivationApplicationJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateActivationApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ UpdateActivationApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateActivationApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateActivationApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ UpdateActivationApplicationJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateActivationApplicationJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateActivationApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ UpdateActivationApplicationJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateActivationApplicationJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateActivationApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateActivationApplicationProblemJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateActivationApplicationProblemJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateActivationApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ UpdateActivationApplicationProblemJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateActivationApplicationProblemJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateActivationApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ UpdateActivationApplicationProblemJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateActivationApplicationProblemJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateActivationApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ UpdateActivationApplicationProblemJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateActivationApplicationProblemJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateAutomatedActionApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateAutomatedActionApplicationJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateAutomatedActionApplicationJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateAutomatedActionApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ UpdateAutomatedActionApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateAutomatedActionApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateAutomatedActionApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ UpdateAutomatedActionApplicationJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateAutomatedActionApplicationJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateAutomatedActionApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ UpdateAutomatedActionApplicationJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateAutomatedActionApplicationJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateAutomatedActionApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateAutomatedActionApplicationProblemJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateAutomatedActionApplicationProblemJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateAutomatedActionApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ UpdateAutomatedActionApplicationProblemJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateAutomatedActionApplicationProblemJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateAutomatedActionApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ UpdateAutomatedActionApplicationProblemJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateAutomatedActionApplicationProblemJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateAutomatedActionApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ UpdateAutomatedActionApplicationProblemJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateAutomatedActionApplicationProblemJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateEvaluationRuleApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateEvaluationRuleApplicationJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateEvaluationRuleApplicationJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateEvaluationRuleApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ UpdateEvaluationRuleApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateEvaluationRuleApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateEvaluationRuleApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ UpdateEvaluationRuleApplicationJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateEvaluationRuleApplicationJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateEvaluationRuleApplicationJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ UpdateEvaluationRuleApplicationJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateEvaluationRuleApplicationJSONUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateEvaluationRuleApplicationProblemJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateEvaluationRuleApplicationProblemJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateEvaluationRuleApplicationProblemJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateEvaluationRuleApplicationProblemJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ UpdateEvaluationRuleApplicationProblemJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateEvaluationRuleApplicationProblemJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateEvaluationRuleApplicationProblemJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ UpdateEvaluationRuleApplicationProblemJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateEvaluationRuleApplicationProblemJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateEvaluationRuleApplicationProblemJSONUnauthorized_EncodeDecode(t *testing.T) {
+	var typ UpdateEvaluationRuleApplicationProblemJSONUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateEvaluationRuleApplicationProblemJSONUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
