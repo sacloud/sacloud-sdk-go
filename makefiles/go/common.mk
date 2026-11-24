@@ -19,7 +19,9 @@ COPYRIGHT_YEAR          ?= 2026
 COPYRIGHT_FILES         ?= $$(find . -name "*.go" -print | grep -v "/vendor/")
 GO                      ?= go
 DEFAULT_GOALS           ?= fmt set-license go-licenses-check goimports lint vulncheck test
-GOLANG_CI_LINT_VERSION  ?= v2.14.0
+# Keep this in sync with the `version:` of golangci-lint-action in
+# .github/workflows/tests.yaml
+GOLANG_CI_LINT_VERSION  ?= v2.15.0
 TEXTLINT_ACTION_VERSION ?= v0.1.0
 
 .DEFAULT_GOAL = default

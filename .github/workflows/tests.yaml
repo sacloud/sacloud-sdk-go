@@ -15,6 +15,7 @@ jobs:
       contents: read
     outputs:
       changes: ${{ steps.filter.outputs.changes }}
+      lint_version: ${{ steps.filter_lint_version.outputs.lint_version }}
     steps:
       # Note that `dorny/paths-filter` itself runs without `actions/checkout`
       # but the `git ls-files` below mandates `.git` to exist.
@@ -36,6 +37,17 @@ jobs:
         id: filter
         with:
           filters: ${{ steps.submodules.outputs.submodules }}
+      # Detects changes to this workflow file itself. Note that `tests.yaml`
+      # is listed in every module's filter above, so a change here already
+      # expands the `changes` output to all modules. This filter exists only
+      # to let lint-go disable `only-new-issues` below, so that a golangci-lint
+      # version bump is verified against all modules (unchanged code included).
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: filter_lint_version
+        with:
+          filters: |
+            lint_version:
+              - .github/workflows/tests.yaml
 
   lint-text:
     runs-on: ubuntu-latest
@@ -77,9 +89,13 @@ jobs:
           go-version-file: go.mod
       - uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
         with:
+          # Keep in sync with GOLANG_CI_LINT_VERSION in makefiles/go/common.mk
           version: v2.15.0
           working-directory: ${{ matrix.module }}
-          only-new-issues: true
+          # When this workflow (e.g. the pinned golangci-lint version) changes,
+          # run a full lint without `only-new-issues` so that issues introduced
+          # by the new version in unchanged code are also reported.
+          only-new-issues: ${{ needs.changes.outputs.lint_version != 'true' }}
           args: --timeout 5m
 
   vulncheck:
