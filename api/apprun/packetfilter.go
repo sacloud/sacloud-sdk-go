@@ -17,7 +17,6 @@ package apprun
 import (
 	"context"
 	"errors"
-	"net/http"
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
@@ -48,26 +47,9 @@ func (op *packetFilterOp) Read(ctx context.Context, appId string) (*v1.HandlerRe
 		return nil, NewError(methodName, err)
 	}
 
-	res, err := op.client.ReadApplicationPacketFilter(ctx, v1.ReadApplicationPacketFilterParams{ID: id})
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-	switch result := res.(type) {
-	case *v1.HandlerReadPacketFilter:
-		return result, nil
-	case *v1.ReadApplicationPacketFilterBadRequest:
-		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.ReadApplicationPacketFilterUnauthorized:
-		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.ReadApplicationPacketFilterForbidden:
-		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.ReadApplicationPacketFilterNotFound:
-		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.ReadApplicationPacketFilterInternalServerError:
-		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
-	default:
-		return nil, unknownAPIError(methodName, result)
-	}
+	return errorFromDecodedResponse[v1.HandlerReadPacketFilter](methodName, func() (any, error) {
+		return op.client.ReadApplicationPacketFilter(ctx, v1.ReadApplicationPacketFilterParams{ID: id})
+	})
 }
 
 func (op *packetFilterOp) Update(ctx context.Context, appId string, params *v1.PatchPacketFilterBody) (*v1.HandlerPatchPacketFilter, error) {
@@ -80,24 +62,7 @@ func (op *packetFilterOp) Update(ctx context.Context, appId string, params *v1.P
 		return nil, NewError(methodName, errors.New("params is nil"))
 	}
 
-	res, err := op.client.PatchApplicationPacketFilter(ctx, params, v1.PatchApplicationPacketFilterParams{ID: id})
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-	switch result := res.(type) {
-	case *v1.HandlerPatchPacketFilter:
-		return result, nil
-	case *v1.PatchApplicationPacketFilterBadRequest:
-		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.PatchApplicationPacketFilterUnauthorized:
-		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.PatchApplicationPacketFilterForbidden:
-		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.PatchApplicationPacketFilterNotFound:
-		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.PatchApplicationPacketFilterInternalServerError:
-		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
-	default:
-		return nil, unknownAPIError(methodName, result)
-	}
+	return errorFromDecodedResponse[v1.HandlerPatchPacketFilter](methodName, func() (any, error) {
+		return op.client.PatchApplicationPacketFilter(ctx, params, v1.PatchApplicationPacketFilterParams{ID: id})
+	})
 }

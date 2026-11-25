@@ -16,7 +16,6 @@ package apprun
 
 import (
 	"context"
-	"net/http"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 )
@@ -62,97 +61,25 @@ func (op *versionOp) List(ctx context.Context, appId string, params *v1.ListAppl
 		reqParams = *params
 		reqParams.ID = appId
 	}
-	const methodName = "Versions.List"
-	res, err := op.client.ListApplicationVersions(ctx, reqParams)
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-	switch result := res.(type) {
-	case *v1.HandlerListVersions:
-		return result, nil
-	case *v1.ListApplicationVersionsBadRequest:
-		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.ListApplicationVersionsUnauthorized:
-		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.ListApplicationVersionsForbidden:
-		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.ListApplicationVersionsNotFound:
-		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.ListApplicationVersionsInternalServerError:
-		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
-	default:
-		return nil, unknownAPIError(methodName, result)
-	}
+	return errorFromDecodedResponse[v1.HandlerListVersions]("Versions.List", func() (any, error) {
+		return op.client.ListApplicationVersions(ctx, reqParams)
+	})
 }
 
 func (op *versionOp) Read(ctx context.Context, appId, versionId string) (*v1.HandlerReadVersion, error) {
-	const methodName = "Versions.Read"
-	res, err := op.client.ReadApplicationVersion(ctx, v1.ReadApplicationVersionParams{ID: appId, VersionID: versionId})
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-	switch result := res.(type) {
-	case *v1.HandlerReadVersion:
-		return result, nil
-	case *v1.ReadApplicationVersionBadRequest:
-		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.ReadApplicationVersionUnauthorized:
-		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.ReadApplicationVersionForbidden:
-		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.ReadApplicationVersionNotFound:
-		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.ReadApplicationVersionInternalServerError:
-		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
-	default:
-		return nil, unknownAPIError(methodName, result)
-	}
+	return errorFromDecodedResponse[v1.HandlerReadVersion]("Versions.Read", func() (any, error) {
+		return op.client.ReadApplicationVersion(ctx, v1.ReadApplicationVersionParams{ID: appId, VersionID: versionId})
+	})
 }
 
 func (op *versionOp) Delete(ctx context.Context, appId, versionId string) error {
-	const methodName = "Versions.Delete"
-	res, err := op.client.DeleteApplicationVersion(ctx, v1.DeleteApplicationVersionParams{ID: appId, VersionID: versionId})
-	if err != nil {
-		return NewAPIError(methodName, 0, err)
-	}
-	switch result := res.(type) {
-	case *v1.DeleteApplicationVersionNoContent:
-		return nil
-	case *v1.DeleteApplicationVersionBadRequest:
-		return apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.DeleteApplicationVersionUnauthorized:
-		return apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.DeleteApplicationVersionForbidden:
-		return apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.DeleteApplicationVersionNotFound:
-		return apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.DeleteApplicationVersionInternalServerError:
-		return apiErrorFromModel(methodName, http.StatusInternalServerError, result)
-	default:
-		return unknownAPIError(methodName, result)
-	}
+	return errorFromDecodedResponseE[v1.DeleteApplicationVersionNoContent]("Versions.Delete", func() (any, error) {
+		return op.client.DeleteApplicationVersion(ctx, v1.DeleteApplicationVersionParams{ID: appId, VersionID: versionId})
+	})
 }
 
 func (op *versionOp) ReadStatus(ctx context.Context, appId, versionId string) (*v1.HandlerReadApplicationVersionOnlyStatus, error) {
-	const methodName = "Versions.ReadStatus"
-	res, err := op.client.ReadApplicationVersionStatus(ctx, v1.ReadApplicationVersionStatusParams{ID: appId, VersionID: versionId})
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-	switch result := res.(type) {
-	case *v1.HandlerReadApplicationVersionOnlyStatus:
-		return result, nil
-	case *v1.ReadApplicationVersionStatusBadRequest:
-		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.ReadApplicationVersionStatusUnauthorized:
-		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.ReadApplicationVersionStatusForbidden:
-		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.ReadApplicationVersionStatusNotFound:
-		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.ReadApplicationVersionStatusInternalServerError:
-		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
-	default:
-		return nil, unknownAPIError(methodName, result)
-	}
+	return errorFromDecodedResponse[v1.HandlerReadApplicationVersionOnlyStatus]("Versions.ReadStatus", func() (any, error) {
+		return op.client.ReadApplicationVersionStatus(ctx, v1.ReadApplicationVersionStatusParams{ID: appId, VersionID: versionId})
+	})
 }

@@ -17,7 +17,6 @@ package apprun
 import (
 	"context"
 	"errors"
-	"net/http"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 )
@@ -41,27 +40,9 @@ func NewTrafficOp(client *v1.Client) TrafficAPI {
 }
 
 func (op *trafficOp) List(ctx context.Context, appId string) (*v1.HandlerListTraffic, error) {
-	const methodName = "Traffics.List"
-	res, err := op.client.ListApplicationTraffic(ctx, v1.ListApplicationTrafficParams{ID: appId})
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-	switch result := res.(type) {
-	case *v1.HandlerListTraffic:
-		return result, nil
-	case *v1.ListApplicationTrafficBadRequest:
-		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.ListApplicationTrafficUnauthorized:
-		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.ListApplicationTrafficForbidden:
-		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.ListApplicationTrafficNotFound:
-		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.ListApplicationTrafficInternalServerError:
-		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
-	default:
-		return nil, unknownAPIError(methodName, result)
-	}
+	return errorFromDecodedResponse[v1.HandlerListTraffic]("Traffics.List", func() (any, error) {
+		return op.client.ListApplicationTraffic(ctx, v1.ListApplicationTrafficParams{ID: appId})
+	})
 }
 
 func (op *trafficOp) Update(ctx context.Context, appId string, params *v1.UpdateTrafficBody) (*v1.HandlerUpdateTraffic, error) {
@@ -70,24 +51,7 @@ func (op *trafficOp) Update(ctx context.Context, appId string, params *v1.Update
 		return nil, NewError(methodName, errors.New("params is nil"))
 	}
 
-	res, err := op.client.UpdateApplicationTraffic(ctx, *params, v1.UpdateApplicationTrafficParams{ID: appId})
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-	switch result := res.(type) {
-	case *v1.HandlerUpdateTraffic:
-		return result, nil
-	case *v1.UpdateApplicationTrafficBadRequest:
-		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.UpdateApplicationTrafficUnauthorized:
-		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.UpdateApplicationTrafficForbidden:
-		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.UpdateApplicationTrafficNotFound:
-		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.UpdateApplicationTrafficInternalServerError:
-		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
-	default:
-		return nil, unknownAPIError(methodName, result)
-	}
+	return errorFromDecodedResponse[v1.HandlerUpdateTraffic](methodName, func() (any, error) {
+		return op.client.UpdateApplicationTraffic(ctx, *params, v1.UpdateApplicationTrafficParams{ID: appId})
+	})
 }

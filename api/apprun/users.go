@@ -16,7 +16,6 @@ package apprun
 
 import (
 	"context"
-	"net/http"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 )
@@ -40,45 +39,13 @@ func NewUserOp(client *v1.Client) UserAPI {
 }
 
 func (op *userOp) Read(ctx context.Context) (*v1.HandlerReadUser, error) {
-	const methodName = "Users.Read"
-	res, err := op.client.ReadUser(ctx)
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-	switch result := res.(type) {
-	case *v1.HandlerReadUser:
-		return result, nil
-	case *v1.ReadUserUnauthorized:
-		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.ReadUserForbidden:
-		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.ReadUserNotFound:
-		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.ReadUserInternalServerError:
-		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
-	default:
-		return nil, unknownAPIError(methodName, result)
-	}
+	return errorFromDecodedResponse[v1.HandlerReadUser]("Users.Read", func() (any, error) {
+		return op.client.ReadUser(ctx)
+	})
 }
 
 func (op *userOp) Create(ctx context.Context) (*v1.HandlerCreateUser, error) {
-	const methodName = "Users.Create"
-	res, err := op.client.CreateUser(ctx)
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-	switch result := res.(type) {
-	case *v1.HandlerCreateUser:
-		return result, nil
-	case *v1.CreateUserUnauthorized:
-		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.CreateUserForbidden:
-		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.CreateUserConflict:
-		return nil, apiErrorFromModel(methodName, http.StatusConflict, result)
-	case *v1.CreateUserInternalServerError:
-		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
-	default:
-		return nil, unknownAPIError(methodName, result)
-	}
+	return errorFromDecodedResponse[v1.HandlerCreateUser]("Users.Create", func() (any, error) {
+		return op.client.CreateUser(ctx)
+	})
 }
