@@ -395,7 +395,7 @@ func TestAccBucketExtraOperation(t *testing.T) {
 		rep, err := beOp.ReadReplication(ctx)
 		require.NoError(t, err)
 		require.Equal(t, tky, rep.DestBucket.ClusterID)
-		require.Equal(t, bucketName2, rep.DestBucket.Name)
+		require.Equal(t, v2.BucketName(bucketName2), rep.DestBucket.Name)
 
 		err = beOp.DisableReplication(ctx)
 		require.NoError(t, err)

@@ -41,8 +41,8 @@ func (op *siteOp) List(ctx context.Context) ([]v2.ClusterResponseBody, error) {
 	switch r := res.(type) {
 	case *v2.HandlerListClustersResponse:
 		return r.Data, nil
-	case *v2.Error401:
-		return nil, NewAPIError("Site.List", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
+	case *v2.ErrorResponse:
+		return nil, NewAPIError("Site.List", int(r.Error.Code), errors.New(string(r.Error.Message)))
 	default:
 		return nil, unknownError("Site.List", r)
 	}
@@ -57,10 +57,10 @@ func (op *siteOp) Read(ctx context.Context, id string) (*v2.ClusterResponseBody,
 	switch r := res.(type) {
 	case *v2.HandlerReadClusterResponse:
 		return &r.Data, nil
-	case *v2.Error401:
-		return nil, NewAPIError("Site.Read", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.Error404:
-		return nil, NewAPIError("Site.Read", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
+	case *v2.ReadClusterUnauthorized:
+		return nil, NewAPIError("Site.Read", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ReadClusterNotFound:
+		return nil, NewAPIError("Site.Read", int(r.Error.Code), errors.New(string(r.Error.Message)))
 	default:
 		return nil, unknownError("Site.Read", r)
 	}
@@ -75,10 +75,10 @@ func (op *siteOp) ListPlans(ctx context.Context) ([]v2.PlanItem, error) {
 	switch r := res.(type) {
 	case *v2.ListPlansOK:
 		return r.Data, nil
-	case *v2.Error401:
-		return nil, NewAPIError("Site.ListPlans", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return nil, NewAPIError("Site.ListPlans", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+	case *v2.ErrorResponse:
+		return nil, NewAPIError("Site.ListPlans", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return nil, NewAPIError("Site.ListPlans", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return nil, unknownError("Site.ListPlans", r)
 	}

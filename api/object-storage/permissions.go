@@ -46,10 +46,10 @@ func (op *permissionOp) List(ctx context.Context) ([]v2.PermissionsDataItem, err
 	switch r := res.(type) {
 	case *v2.Permissions:
 		return r.Data, nil
-	case *v2.Error401:
-		return nil, NewAPIError("Permissions.List", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return nil, NewAPIError("Permissions.List", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+	case *v2.ErrorResponse:
+		return nil, NewAPIError("Permissions.List", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return nil, NewAPIError("Permissions.List", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return nil, unknownError("Permissions.List", r)
 	}
@@ -67,14 +67,14 @@ func (op *permissionOp) Create(ctx context.Context, displayName string, controls
 	switch r := res.(type) {
 	case *v2.Permission:
 		return &r.Data, nil
-	case *v2.Error401:
-		return nil, NewAPIError("Permissions.Create", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.Error404:
-		return nil, NewAPIError("Permissions.Create", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.Error409:
-		return nil, NewAPIError("Permissions.Create", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return nil, NewAPIError("Permissions.Create", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+	case *v2.CreatePermissionUnauthorized:
+		return nil, NewAPIError("Permissions.Create", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.CreatePermissionNotFound:
+		return nil, NewAPIError("Permissions.Create", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.CreatePermissionConflict:
+		return nil, NewAPIError("Permissions.Create", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return nil, NewAPIError("Permissions.Create", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return nil, unknownError("Permissions.Create", r)
 	}
@@ -93,12 +93,12 @@ func (op *permissionOp) Read(ctx context.Context, permissionId string) (*v2.Perm
 	switch r := res.(type) {
 	case *v2.Permission:
 		return &r.Data, nil
-	case *v2.Error401:
-		return nil, NewAPIError("Permissions.Read", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.Error404:
-		return nil, NewAPIError("Permissions.Read", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return nil, NewAPIError("Permissions.Read", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+	case *v2.ReadPermissionUnauthorized:
+		return nil, NewAPIError("Permissions.Read", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ReadPermissionNotFound:
+		return nil, NewAPIError("Permissions.Read", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return nil, NewAPIError("Permissions.Read", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return nil, unknownError("Permissions.Read", r)
 	}
@@ -120,12 +120,14 @@ func (op *permissionOp) Update(ctx context.Context, permissionId, name string, c
 	switch r := res.(type) {
 	case *v2.Permission:
 		return &r.Data, nil
-	case *v2.Error401:
-		return nil, NewAPIError("Permissions.Update", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.Error404:
-		return nil, NewAPIError("Permissions.Update", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return nil, NewAPIError("Permissions.Update", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+	case *v2.UpdatePermissionUnauthorized:
+		return nil, NewAPIError("Permissions.Update", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.UpdatePermissionNotFound:
+		return nil, NewAPIError("Permissions.Update", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.UpdatePermissionConflict:
+		return nil, NewAPIError("Permissions.Update", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return nil, NewAPIError("Permissions.Update", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return nil, unknownError("Permissions.Update", r)
 	}
@@ -144,10 +146,10 @@ func (op *permissionOp) Delete(ctx context.Context, permissionId string) error {
 	switch r := res.(type) {
 	case *v2.DeletePermissionNoContent:
 		return nil
-	case *v2.Error401:
-		return NewAPIError("Permissions.Delete", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return NewAPIError("Permissions.Delete", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+	case *v2.ErrorResponse:
+		return NewAPIError("Permissions.Delete", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return NewAPIError("Permissions.Delete", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return unknownError("Permissions.Delete", r)
 	}
@@ -166,10 +168,12 @@ func (op *permissionOp) ListAccessKeys(ctx context.Context, permissionId string)
 	switch r := res.(type) {
 	case *v2.HandlerListPermissionKeysResponse:
 		return r.Data, nil
-	case *v2.Error401:
-		return nil, NewAPIError("Permissions.ListAccessKeys", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return nil, NewAPIError("Permissions.ListAccessKeys", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+	case *v2.ListPermissionKeysUnauthorized:
+		return nil, NewAPIError("Permissions.ListAccessKeys", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ListPermissionKeysNotFound:
+		return nil, NewAPIError("Permissions.ListAccessKeys", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return nil, NewAPIError("Permissions.ListAccessKeys", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return nil, unknownError("Permissions.ListAccessKeys", r)
 	}
@@ -188,10 +192,14 @@ func (op *permissionOp) CreateAccessKey(ctx context.Context, permissionId string
 	switch r := res.(type) {
 	case *v2.HandlerCreatePermissionKeyResponse:
 		return &r.Data, nil
-	case *v2.Error401:
-		return nil, NewAPIError("Permissions.CreateAccessKey", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return nil, NewAPIError("Permissions.CreateAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+	case *v2.CreatePermissionKeyUnauthorized:
+		return nil, NewAPIError("Permissions.CreateAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.CreatePermissionKeyNotFound:
+		return nil, NewAPIError("Permissions.CreateAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.CreatePermissionKeyConflict:
+		return nil, NewAPIError("Permissions.CreateAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return nil, NewAPIError("Permissions.CreateAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return nil, unknownError("Permissions.CreateAccessKey", r)
 	}
@@ -210,10 +218,12 @@ func (op *permissionOp) ReadAccessKey(ctx context.Context, permissionId, accessK
 	switch r := res.(type) {
 	case *v2.HandlerReadPermissionKeyResponse:
 		return &r.Data, nil
-	case *v2.Error401:
-		return nil, NewAPIError("Permissions.ReadAccessKey", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return nil, NewAPIError("Permissions.ReadAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+	case *v2.ReadPermissionKeyUnauthorized:
+		return nil, NewAPIError("Permissions.ReadAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ReadPermissionKeyNotFound:
+		return nil, NewAPIError("Permissions.ReadAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return nil, NewAPIError("Permissions.ReadAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return nil, unknownError("Permissions.ReadAccessKey", r)
 	}
@@ -232,10 +242,12 @@ func (op *permissionOp) DeleteAccessKey(ctx context.Context, permissionId, acces
 	switch r := res.(type) {
 	case *v2.DeletePermissionKeyNoContent:
 		return nil
-	case *v2.Error401:
-		return NewAPIError("Permissions.DeleteAccessKey", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return NewAPIError("Permissions.DeleteAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+	case *v2.DeletePermissionKeyUnauthorized:
+		return NewAPIError("Permissions.DeleteAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.DeletePermissionKeyNotFound:
+		return NewAPIError("Permissions.DeleteAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return NewAPIError("Permissions.DeleteAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return unknownError("Permissions.DeleteAccessKey", r)
 	}
