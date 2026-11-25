@@ -1,5 +1,21 @@
 # Changelog
 
+## [v0.8.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.7.1...v0.8.0) - 2026-11-25
+
+### 🚀 New Features
+- api/security-control: openapi.json version 1.0.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/362
+- api/object-storage: openapi.json 1.7.1 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/350
+- api/service-endpoint-gateway openapi.json version 1.2.2 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/357
+### ✨ Ordinary Updates
+- api/addon: ResourceGroupResource has "url" by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/358
+- go.mod: toolchain go1.27.4 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/356
+- */openapi.json: mark patched files as such by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/360
+### 📦 Dependency Updates
+- go: bump github.com/ogen-go/ogen from 1.24.0 to 1.25.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/361
+- go: bump golang.org/x/crypto from 0.58.0 to 0.59.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/354
+- ci: bump actions/setup-go from 7.0.0 to 7.1.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/363
+- go: bump github.com/sacloud/sacloud-sdk-go from 0.6.0 to 0.7.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/364
+
 ## [v0.7.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.7.0...v0.7.1) - 2026-11-19
 
 ### ✨ Ordinary Updates
