@@ -16,7 +16,6 @@ package dedicatedstorage
 
 import (
 	"context"
-	"errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/dedicated-storage/apis/v1"
 )
@@ -43,83 +42,47 @@ func NewDiskOp(client *v1.Client) DiskAPI {
 }
 
 func (op *diskOp) CreateSnapshot(ctx context.Context, diskID int64, request *v1.CreateSnapshotRequest) (*v1.DiskSnapshot, error) {
-	const methodName = "Disk.CreateSnapshot"
-
-	res, err := op.client.DisksCreateSnapshot(ctx, request, v1.DisksCreateSnapshotParams{DiskId: diskID})
+	res, err := errorFromDecodedResponse("Disk.CreateSnapshot", func() (*v1.DiskSnapshotResponse, error) {
+		return op.client.DisksCreateSnapshot(ctx, request, v1.DisksCreateSnapshotParams{DiskId: diskID})
+	})
 	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	return &res.DiskSnapshot, nil
+	return new(res.GetDiskSnapshot()), nil
 }
 
 func (op *diskOp) ListSnapshots(ctx context.Context, diskID int64) (*v1.DiskSnapshotsListResponse, error) {
-	const methodName = "Disk.ListSnapshots"
-
-	res, err := op.client.DisksListSnapshots(ctx, v1.DisksListSnapshotsParams{DiskId: diskID})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return nil, NewAPIError(methodName, 0, err)
-	}
-
-	return res, nil
+	return errorFromDecodedResponse("Disk.ListSnapshots", func() (*v1.DiskSnapshotsListResponse, error) {
+		return op.client.DisksListSnapshots(ctx, v1.DisksListSnapshotsParams{DiskId: diskID})
+	})
 }
 
 func (op *diskOp) UpdateSnapshot(ctx context.Context, diskID, snapshotID int64, request *v1.UpdateSnapshotRequest) (*v1.DiskSnapshot, error) {
-	const methodName = "Disk.UpdateSnapshot"
-
-	res, err := op.client.DisksUpdateSnapshot(ctx, request, v1.DisksUpdateSnapshotParams{DiskId: diskID, SnapshotId: snapshotID})
+	res, err := errorFromDecodedResponse("Disk.UpdateSnapshot", func() (*v1.DiskSnapshotResponse, error) {
+		return op.client.DisksUpdateSnapshot(ctx, request, v1.DisksUpdateSnapshotParams{DiskId: diskID, SnapshotId: snapshotID})
+	})
 	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	return &res.DiskSnapshot, nil
+	return new(res.GetDiskSnapshot()), nil
 }
 
 func (op *diskOp) DeleteSnapshot(ctx context.Context, diskID, snapshotID int64) error {
-	const methodName = "Disk.DeleteSnapshot"
-
-	err := op.client.DisksDeleteSnapshot(ctx, v1.DisksDeleteSnapshotParams{DiskId: diskID, SnapshotId: snapshotID})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return NewAPIError(methodName, 0, err)
-	}
-	return nil
+	return errorFromDecodedResponseE("Disk.DeleteSnapshot", func() error {
+		return op.client.DisksDeleteSnapshot(ctx, v1.DisksDeleteSnapshotParams{DiskId: diskID, SnapshotId: snapshotID})
+	})
 }
 
 func (op *diskOp) RestoreFromSnapshot(ctx context.Context, diskID, snapshotID int64) error {
-	const methodName = "Disk.RestoreFromSnapshot"
-
-	err := op.client.DisksRestoreSnapshot(ctx, v1.DisksRestoreSnapshotParams{DiskId: diskID, SnapshotId: snapshotID})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return NewAPIError(methodName, 0, err)
-	}
-	return nil
+	return errorFromDecodedResponseE("Disk.RestoreFromSnapshot", func() error {
+		return op.client.DisksRestoreSnapshot(ctx, v1.DisksRestoreSnapshotParams{DiskId: diskID, SnapshotId: snapshotID})
+	})
 }
 
 func (op *diskOp) Expand(ctx context.Context, diskID int64, request *v1.ExpandDiskRequest) error {
-	const methodName = "Disk.Expand"
-
-	err := op.client.DisksExpand(ctx, request, v1.DisksExpandParams{ID: diskID})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return NewAPIError(methodName, 0, err)
-	}
-
-	return nil
+	return errorFromDecodedResponseE("Disk.Expand", func() error {
+		return op.client.DisksExpand(ctx, request, v1.DisksExpandParams{ID: diskID})
+	})
 }
