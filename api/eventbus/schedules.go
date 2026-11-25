@@ -16,7 +16,6 @@ package eventbus
 
 import (
 	"context"
-	"errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/eventbus/apis/v1"
 )
@@ -41,45 +40,23 @@ func NewScheduleOp(client *v1.Client) ScheduleAPI {
 
 func (op *scheduleOp) List(ctx context.Context) ([]v1.CommonServiceItem, error) {
 	ctx = setFilterProviderClass(ctx, v1.ProviderClassEventbusschedule)
-	res, err := op.client.ListCommonServiceItems(ctx)
+	res, err := errorFromDecodedResponse[v1.ListCommonServiceItemsOK]("Schedule.List", func() (any, error) { return op.client.ListCommonServiceItems(ctx) })
 	if err != nil {
-		return nil, NewAPIError("Schedule.List", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.ListCommonServiceItemsOK:
-		return p.CommonServiceItems, nil
-	case *v1.ListCommonServiceItemsUnauthorized:
-		return nil, NewAPIError("Schedule.List", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.ListCommonServiceItemsBadRequest:
-		return nil, NewAPIError("Schedule.List", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.ListCommonServiceItemsInternalServerError:
-		return nil, NewAPIError("Schedule.List", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Schedule.List", 0, unknownError(p))
-	}
+	return res.GetCommonServiceItems(), nil
 }
 
 func (op *scheduleOp) Read(ctx context.Context, id string) (*v1.CommonServiceItem, error) {
-	res, err := op.client.ReadCommonServiceItem(ctx, v1.ReadCommonServiceItemParams{ID: id})
+	res, err := errorFromDecodedResponse[v1.ReadCommonServiceItemOK]("Schedule.Read", func() (any, error) {
+		return op.client.ReadCommonServiceItem(ctx, v1.ReadCommonServiceItemParams{ID: id})
+	})
 	if err != nil {
-		return nil, NewAPIError("Schedule.Read", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.ReadCommonServiceItemOK:
-		return &p.CommonServiceItem, nil
-	case *v1.ReadCommonServiceItemUnauthorized:
-		return nil, NewAPIError("Schedule.Read", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.ReadCommonServiceItemBadRequest:
-		return nil, NewAPIError("Schedule.Read", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.ReadCommonServiceItemNotFound:
-		return nil, NewAPIError("Schedule.Read", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.ReadCommonServiceItemInternalServerError:
-		return nil, NewAPIError("Schedule.Read", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Schedule.Read", 0, unknownError(p))
-	}
+	return new(res.GetCommonServiceItem()), nil
 }
 
 func (op *scheduleOp) Create(ctx context.Context, request v1.CreateCommonServiceItemRequest) (*v1.CommonServiceItem, error) {
@@ -87,25 +64,12 @@ func (op *scheduleOp) Create(ctx context.Context, request v1.CreateCommonService
 		return nil, NewError("invalid settings as Schedule", nil)
 	}
 	request.CommonServiceItem.Provider = v1.Provider{Class: v1.ProviderClassEventbusschedule}
-	res, err := op.client.CreateCommonServiceItem(ctx, &request)
+	res, err := errorFromDecodedResponse[v1.CreateCommonServiceItemCreated]("Schedule.Create", func() (any, error) { return op.client.CreateCommonServiceItem(ctx, &request) })
 	if err != nil {
-		return nil, NewAPIError("Schedule.Create", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.CreateCommonServiceItemCreated:
-		return &p.CommonServiceItem, nil
-	case *v1.CreateCommonServiceItemBadRequest:
-		return nil, NewAPIError("Schedule.Create", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.CreateCommonServiceItemUnauthorized:
-		return nil, NewAPIError("Schedule.Create", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.CreateCommonServiceItemConflict:
-		return nil, NewAPIError("Schedule.Create", 409, errors.New(p.ErrorMsg.Value))
-	case *v1.CreateCommonServiceItemInternalServerError:
-		return nil, NewAPIError("Schedule.Create", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Schedule.Create", 0, unknownError(p))
-	}
+	return new(res.GetCommonServiceItem()), nil
 }
 
 func (op *scheduleOp) Update(ctx context.Context, id string, request v1.UpdateCommonServiceItemRequest) (*v1.CommonServiceItem, error) {
@@ -113,45 +77,18 @@ func (op *scheduleOp) Update(ctx context.Context, id string, request v1.UpdateCo
 		return nil, NewError("invalid settings as Schedule", nil)
 	}
 	request.CommonServiceItem.Provider = v1.NewOptProvider(v1.Provider{Class: v1.ProviderClassEventbusschedule})
-	res, err := op.client.UpdateCommonServiceItem(ctx, &request, v1.UpdateCommonServiceItemParams{ID: id})
+	res, err := errorFromDecodedResponse[v1.UpdateCommonServiceItemOK]("Schedule.Update", func() (any, error) {
+		return op.client.UpdateCommonServiceItem(ctx, &request, v1.UpdateCommonServiceItemParams{ID: id})
+	})
 	if err != nil {
-		return nil, NewAPIError("Schedule.Update", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.UpdateCommonServiceItemOK:
-		return &p.CommonServiceItem, nil
-	case *v1.UpdateCommonServiceItemBadRequest:
-		return nil, NewAPIError("Schedule.Update", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UpdateCommonServiceItemUnauthorized:
-		return nil, NewAPIError("Schedule.Update", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.UpdateCommonServiceItemNotFound:
-		return nil, NewAPIError("Schedule.Update", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.UpdateCommonServiceItemInternalServerError:
-		return nil, NewAPIError("Schedule.Update", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Schedule.Update", 0, unknownError(p))
-	}
+	return new(res.GetCommonServiceItem()), nil
 }
 
 func (op *scheduleOp) Delete(ctx context.Context, id string) error {
-	res, err := op.client.DeleteCommonServiceItem(ctx, v1.DeleteCommonServiceItemParams{ID: id})
-	if err != nil {
-		return NewAPIError("Schedule.Delete", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.DeleteCommonServiceItemOK:
-		return nil
-	case *v1.DeleteCommonServiceItemUnauthorized:
-		return NewAPIError("Schedule.Delete", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.DeleteCommonServiceItemBadRequest:
-		return NewAPIError("Schedule.Delete", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.DeleteCommonServiceItemNotFound:
-		return NewAPIError("Schedule.Delete", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.DeleteCommonServiceItemInternalServerError:
-		return NewAPIError("Schedule.Delete", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return NewAPIError("Schedule.Delete", 0, unknownError(p))
-	}
+	return errorFromDecodedResponseE[v1.DeleteCommonServiceItemOK]("Schedule.Delete", func() (any, error) {
+		return op.client.DeleteCommonServiceItem(ctx, v1.DeleteCommonServiceItemParams{ID: id})
+	})
 }

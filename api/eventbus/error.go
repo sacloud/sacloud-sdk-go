@@ -17,9 +17,15 @@ package eventbus
 //go:generate go run ./gen/list_of_errors.go
 
 import (
+	"errors"
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/go-faster/jx"
+	ogen "github.com/ogen-go/ogen/validate"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/eventbus/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -52,15 +58,60 @@ func NewAPIError(method string, code int, err error) *Error {
 	return &Error{msg: method, err: saclient.NewError(code, "", err)}
 }
 
-func unknownError(p any) error {
-	if err, ok := asError(p); !ok {
-		return fmt.Errorf("unknown API response type %#+v", p)
-	} else if err == nil {
-		return fmt.Errorf("nil API error response %T", p)
-	} else {
-		var e jx.Encoder
-		err.Encode(&e)
-		str := string(e.Bytes())
-		return fmt.Errorf("unknown API error response: %s", str)
+type apiError struct{ error *v1.Error }
+
+func (e *apiError) Error() string {
+	if e == nil {
+		return "(nil error)"
 	}
+
+	if e.error == nil {
+		return "(nil error)"
+	}
+
+	var enc jx.Encoder
+	e.error.Encode(&enc)
+	return string(enc.Bytes())
+}
+
+func newErrorFromAPIError(err *v1.Error) error {
+	e := apiError{error: err}
+
+	if err == nil {
+		return errors.Join(&e, errors.New("nil API error response"))
+	} else if s, ok := err.GetStatus().Get(); !ok {
+		return errors.Join(&e, errors.New("no status code"))
+	} else if n, _, ok := strings.Cut(s, " "); !ok {
+		return errors.Join(&e, fmt.Errorf("invalid HTTP status %q", s))
+	} else if c, err := strconv.Atoi(n); err != nil {
+		return errors.Join(&e, fmt.Errorf("invalid HTTP status %q: %w", s, err))
+	} else {
+		return saclient.NewError(c, "", &e)
+	}
+}
+
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
+func errorFromDecodedResponse[T any](method string, yield func() (any, error)) (ret *T, err error) {
+	res, e1 := yield()
+
+	if e2, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](e1); ok {
+		err = NewError(method, httperror.NewError(method, e2))
+	} else if e1 != nil {
+		err = NewError(method, e1) // this is e.g. broken JSON
+	} else if e3, ok := asError(res); ok {
+		err = NewError(method, newErrorFromAPIError(e3))
+	} else if res == nil {
+		err = NewError(method, errors.New("nil API response"))
+	} else if httperror.IsTypedNil(res) {
+		err = NewError(method, errors.New("nil API response"))
+	} else if ret, ok = res.(*T); !ok {
+		err = NewError(method, fmt.Errorf("unknown API response type %v", res))
+	}
+
+	return
+}
+
+func errorFromDecodedResponseE[T any](method string, yield func() (any, error)) (err error) {
+	_, err = errorFromDecodedResponse[T](method, yield)
+	return
 }
