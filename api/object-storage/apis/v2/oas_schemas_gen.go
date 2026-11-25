@@ -207,7 +207,7 @@ func (s *BasicAuth) SetRoles(val []string) {
 // Ref: #/components/schemas/BucketBillingItem
 type BucketBillingItem struct {
 	// 集計対象の年月.
-	YearMonth string `json:"year_month"`
+	YearMonth YearMonth `json:"year_month"`
 	// 基本料金.
 	Basic BucketBillingItemDetail `json:"basic"`
 	// ストレージ使用量.
@@ -221,7 +221,7 @@ type BucketBillingItem struct {
 }
 
 // GetYearMonth returns the value of YearMonth.
-func (s *BucketBillingItem) GetYearMonth() string {
+func (s *BucketBillingItem) GetYearMonth() YearMonth {
 	return s.YearMonth
 }
 
@@ -251,7 +251,7 @@ func (s *BucketBillingItem) GetTransferAmount() BucketBillingItemDetail {
 }
 
 // SetYearMonth sets the value of YearMonth.
-func (s *BucketBillingItem) SetYearMonth(val string) {
+func (s *BucketBillingItem) SetYearMonth(val YearMonth) {
 	s.YearMonth = val
 }
 
@@ -1117,6 +1117,50 @@ func (s *ContractSummaryStatus) UnmarshalText(data []byte) error {
 	}
 }
 
+type CreateAccountConflict ErrorResponse
+
+func (*CreateAccountConflict) createAccountRes() {}
+
+type CreateAccountForbidden ErrorResponse
+
+func (*CreateAccountForbidden) createAccountRes() {}
+
+type CreateAccountKeyConflict ErrorResponse
+
+func (*CreateAccountKeyConflict) createAccountKeyRes() {}
+
+type CreateAccountKeyNotFound ErrorResponse
+
+func (*CreateAccountKeyNotFound) createAccountKeyRes() {}
+
+type CreateAccountKeyUnauthorized ErrorResponse
+
+func (*CreateAccountKeyUnauthorized) createAccountKeyRes() {}
+
+type CreateAccountUnauthorized ErrorResponse
+
+func (*CreateAccountUnauthorized) createAccountRes() {}
+
+type CreateBucketBadRequest ErrorResponse
+
+func (*CreateBucketBadRequest) createBucketRes() {}
+
+type CreateBucketConflict ErrorResponse
+
+func (*CreateBucketConflict) createBucketRes() {}
+
+type CreateBucketNotFound ErrorResponse
+
+func (*CreateBucketNotFound) createBucketRes() {}
+
+type CreateBucketReplicationBadRequest ErrorResponse
+
+func (*CreateBucketReplicationBadRequest) createBucketReplicationRes() {}
+
+type CreateBucketReplicationNotFound ErrorResponse
+
+func (*CreateBucketReplicationNotFound) createBucketReplicationRes() {}
+
 type CreateBucketReplicationReq struct {
 	DestBucket string `json:"dest_bucket"`
 }
@@ -1131,7 +1175,39 @@ func (s *CreateBucketReplicationReq) SetDestBucket(val string) {
 	s.DestBucket = val
 }
 
+type CreateBucketReplicationUnauthorized ErrorResponse
+
+func (*CreateBucketReplicationUnauthorized) createBucketReplicationRes() {}
+
+type CreatePermissionConflict ErrorResponse
+
+func (*CreatePermissionConflict) createPermissionRes() {}
+
+type CreatePermissionKeyConflict ErrorResponse
+
+func (*CreatePermissionKeyConflict) createPermissionKeyRes() {}
+
+type CreatePermissionKeyNotFound ErrorResponse
+
+func (*CreatePermissionKeyNotFound) createPermissionKeyRes() {}
+
+type CreatePermissionKeyUnauthorized ErrorResponse
+
+func (*CreatePermissionKeyUnauthorized) createPermissionKeyRes() {}
+
+type CreatePermissionNotFound ErrorResponse
+
+func (*CreatePermissionNotFound) createPermissionRes() {}
+
+type CreatePermissionUnauthorized ErrorResponse
+
+func (*CreatePermissionUnauthorized) createPermissionRes() {}
+
 type CreatedAt time.Time
+
+type DeleteAccountConflict ErrorResponse
+
+func (*DeleteAccountConflict) deleteAccountRes() {}
 
 // DeleteAccountKeyNoContent is response for DeleteAccountKey operation.
 type DeleteAccountKeyNoContent struct{}
@@ -1143,10 +1219,34 @@ type DeleteAccountNoContent struct{}
 
 func (*DeleteAccountNoContent) deleteAccountRes() {}
 
+type DeleteAccountUnauthorized ErrorResponse
+
+func (*DeleteAccountUnauthorized) deleteAccountRes() {}
+
+type DeleteBucketBadRequest ErrorResponse
+
+func (*DeleteBucketBadRequest) deleteBucketRes() {}
+
+type DeleteBucketConflict ErrorResponse
+
+func (*DeleteBucketConflict) deleteBucketRes() {}
+
+type DeleteBucketEncryptionMethodNotAllowed ErrorResponse
+
+func (*DeleteBucketEncryptionMethodNotAllowed) deleteBucketEncryptionRes() {}
+
 // DeleteBucketEncryptionNoContent is response for DeleteBucketEncryption operation.
 type DeleteBucketEncryptionNoContent struct{}
 
 func (*DeleteBucketEncryptionNoContent) deleteBucketEncryptionRes() {}
+
+type DeleteBucketEncryptionNotFound ErrorResponse
+
+func (*DeleteBucketEncryptionNotFound) deleteBucketEncryptionRes() {}
+
+type DeleteBucketEncryptionUnauthorized ErrorResponse
+
+func (*DeleteBucketEncryptionUnauthorized) deleteBucketEncryptionRes() {}
 
 // DeleteBucketNoContent is response for DeleteBucket operation.
 type DeleteBucketNoContent struct{}
@@ -1158,10 +1258,26 @@ type DeleteBucketReplicationNoContent struct{}
 
 func (*DeleteBucketReplicationNoContent) deleteBucketReplicationRes() {}
 
+type DeleteBucketReplicationNotFound ErrorResponse
+
+func (*DeleteBucketReplicationNotFound) deleteBucketReplicationRes() {}
+
+type DeleteBucketReplicationUnauthorized ErrorResponse
+
+func (*DeleteBucketReplicationUnauthorized) deleteBucketReplicationRes() {}
+
 // DeletePermissionKeyNoContent is response for DeletePermissionKey operation.
 type DeletePermissionKeyNoContent struct{}
 
 func (*DeletePermissionKeyNoContent) deletePermissionKeyRes() {}
+
+type DeletePermissionKeyNotFound ErrorResponse
+
+func (*DeletePermissionKeyNotFound) deletePermissionKeyRes() {}
+
+type DeletePermissionKeyUnauthorized ErrorResponse
+
+func (*DeletePermissionKeyUnauthorized) deletePermissionKeyRes() {}
 
 // DeletePermissionNoContent is response for DeletePermission operation.
 type DeletePermissionNoContent struct{}
@@ -1170,592 +1286,133 @@ func (*DeletePermissionNoContent) deletePermissionRes() {}
 
 type DisplayName string
 
-// Ref: #/components/schemas/Error400
-type Error400 struct {
-	// Error 400.
-	Error OptError400Error `json:"error"`
-}
-
-// GetError returns the value of Error.
-func (s *Error400) GetError() OptError400Error {
-	return s.Error
-}
-
-// SetError sets the value of Error.
-func (s *Error400) SetError(val OptError400Error) {
-	s.Error = val
-}
-
-func (*Error400) createBucketReplicationRes() {}
-func (*Error400) createBucketRes()            {}
-func (*Error400) deleteBucketRes()            {}
-func (*Error400) listBucketMeteringRes()      {}
-func (*Error400) readBucketPlanRes()          {}
-func (*Error400) readBucketQuotaRes()         {}
-func (*Error400) updateBucketEncryptionRes()  {}
-func (*Error400) updateBucketPlanRes()        {}
-
-// Error 400.
-type Error400Error struct {
-	Code    OptErrorCode    `json:"code"`
-	Message OptErrorMessage `json:"message"`
-	TraceID OptErrorTraceId `json:"trace_id"`
-	Errors  Errors          `json:"errors"`
+// Ref: #/components/schemas/ErrorBody
+type ErrorBody struct {
+	Code    ErrorCode    `json:"code"`
+	Message ErrorMessage `json:"message"`
+	TraceID ErrorTraceId `json:"trace_id"`
+	Errors  Errors       `json:"errors"`
 }
 
 // GetCode returns the value of Code.
-func (s *Error400Error) GetCode() OptErrorCode {
+func (s *ErrorBody) GetCode() ErrorCode {
 	return s.Code
 }
 
 // GetMessage returns the value of Message.
-func (s *Error400Error) GetMessage() OptErrorMessage {
+func (s *ErrorBody) GetMessage() ErrorMessage {
 	return s.Message
 }
 
 // GetTraceID returns the value of TraceID.
-func (s *Error400Error) GetTraceID() OptErrorTraceId {
+func (s *ErrorBody) GetTraceID() ErrorTraceId {
 	return s.TraceID
 }
 
 // GetErrors returns the value of Errors.
-func (s *Error400Error) GetErrors() Errors {
+func (s *ErrorBody) GetErrors() Errors {
 	return s.Errors
 }
 
 // SetCode sets the value of Code.
-func (s *Error400Error) SetCode(val OptErrorCode) {
+func (s *ErrorBody) SetCode(val ErrorCode) {
 	s.Code = val
 }
 
 // SetMessage sets the value of Message.
-func (s *Error400Error) SetMessage(val OptErrorMessage) {
+func (s *ErrorBody) SetMessage(val ErrorMessage) {
 	s.Message = val
 }
 
 // SetTraceID sets the value of TraceID.
-func (s *Error400Error) SetTraceID(val OptErrorTraceId) {
+func (s *ErrorBody) SetTraceID(val ErrorTraceId) {
 	s.TraceID = val
 }
 
 // SetErrors sets the value of Errors.
-func (s *Error400Error) SetErrors(val Errors) {
-	s.Errors = val
-}
-
-// Ref: #/components/schemas/Error401
-type Error401 struct {
-	// Error 401.
-	Error OptError401Error `json:"error"`
-}
-
-// GetError returns the value of Error.
-func (s *Error401) GetError() OptError401Error {
-	return s.Error
-}
-
-// SetError sets the value of Error.
-func (s *Error401) SetError(val OptError401Error) {
-	s.Error = val
-}
-
-func (*Error401) createAccountKeyRes()            {}
-func (*Error401) createAccountRes()               {}
-func (*Error401) createBucketReplicationRes()     {}
-func (*Error401) createPermissionKeyRes()         {}
-func (*Error401) createPermissionRes()            {}
-func (*Error401) deleteAccountKeyRes()            {}
-func (*Error401) deleteAccountRes()               {}
-func (*Error401) deleteBucketEncryptionRes()      {}
-func (*Error401) deleteBucketReplicationRes()     {}
-func (*Error401) deletePermissionKeyRes()         {}
-func (*Error401) deletePermissionRes()            {}
-func (*Error401) listAccountKeysRes()             {}
-func (*Error401) listBucketMeteringRes()          {}
-func (*Error401) listBucketReplicableTargetsRes() {}
-func (*Error401) listBucketsRes()                 {}
-func (*Error401) listClustersRes()                {}
-func (*Error401) listPermissionKeysRes()          {}
-func (*Error401) listPermissionsRes()             {}
-func (*Error401) listPlansRes()                   {}
-func (*Error401) readAccountKeyRes()              {}
-func (*Error401) readAccountRes()                 {}
-func (*Error401) readBucketEncryptionRes()        {}
-func (*Error401) readBucketPenaltyRes()           {}
-func (*Error401) readBucketQuotaRes()             {}
-func (*Error401) readBucketReplicationRes()       {}
-func (*Error401) readBucketUsageRes()             {}
-func (*Error401) readClusterRes()                 {}
-func (*Error401) readPermissionKeyRes()           {}
-func (*Error401) readPermissionRes()              {}
-func (*Error401) readQuotaRes()                   {}
-func (*Error401) readStatusRes()                  {}
-func (*Error401) updateBucketEncryptionRes()      {}
-func (*Error401) updatePermissionRes()            {}
-
-// Error 401.
-type Error401Error struct {
-	Code    OptErrorCode    `json:"code"`
-	Message OptErrorMessage `json:"message"`
-	TraceID OptErrorTraceId `json:"trace_id"`
-	Errors  Errors          `json:"errors"`
-}
-
-// GetCode returns the value of Code.
-func (s *Error401Error) GetCode() OptErrorCode {
-	return s.Code
-}
-
-// GetMessage returns the value of Message.
-func (s *Error401Error) GetMessage() OptErrorMessage {
-	return s.Message
-}
-
-// GetTraceID returns the value of TraceID.
-func (s *Error401Error) GetTraceID() OptErrorTraceId {
-	return s.TraceID
-}
-
-// GetErrors returns the value of Errors.
-func (s *Error401Error) GetErrors() Errors {
-	return s.Errors
-}
-
-// SetCode sets the value of Code.
-func (s *Error401Error) SetCode(val OptErrorCode) {
-	s.Code = val
-}
-
-// SetMessage sets the value of Message.
-func (s *Error401Error) SetMessage(val OptErrorMessage) {
-	s.Message = val
-}
-
-// SetTraceID sets the value of TraceID.
-func (s *Error401Error) SetTraceID(val OptErrorTraceId) {
-	s.TraceID = val
-}
-
-// SetErrors sets the value of Errors.
-func (s *Error401Error) SetErrors(val Errors) {
-	s.Errors = val
-}
-
-// Ref: #/components/schemas/Error403
-type Error403 struct {
-	// Error 403.
-	Error OptError403Error `json:"error"`
-}
-
-// GetError returns the value of Error.
-func (s *Error403) GetError() OptError403Error {
-	return s.Error
-}
-
-// SetError sets the value of Error.
-func (s *Error403) SetError(val OptError403Error) {
-	s.Error = val
-}
-
-func (*Error403) createAccountRes() {}
-
-// Error 403.
-type Error403Error struct {
-	Code    OptErrorCode    `json:"code"`
-	Message OptErrorMessage `json:"message"`
-	TraceID OptErrorTraceId `json:"trace_id"`
-	Errors  Errors          `json:"errors"`
-}
-
-// GetCode returns the value of Code.
-func (s *Error403Error) GetCode() OptErrorCode {
-	return s.Code
-}
-
-// GetMessage returns the value of Message.
-func (s *Error403Error) GetMessage() OptErrorMessage {
-	return s.Message
-}
-
-// GetTraceID returns the value of TraceID.
-func (s *Error403Error) GetTraceID() OptErrorTraceId {
-	return s.TraceID
-}
-
-// GetErrors returns the value of Errors.
-func (s *Error403Error) GetErrors() Errors {
-	return s.Errors
-}
-
-// SetCode sets the value of Code.
-func (s *Error403Error) SetCode(val OptErrorCode) {
-	s.Code = val
-}
-
-// SetMessage sets the value of Message.
-func (s *Error403Error) SetMessage(val OptErrorMessage) {
-	s.Message = val
-}
-
-// SetTraceID sets the value of TraceID.
-func (s *Error403Error) SetTraceID(val OptErrorTraceId) {
-	s.TraceID = val
-}
-
-// SetErrors sets the value of Errors.
-func (s *Error403Error) SetErrors(val Errors) {
-	s.Errors = val
-}
-
-// Ref: #/components/schemas/Error404
-type Error404 struct {
-	// Error 404.
-	Error OptError404Error `json:"error"`
-}
-
-// GetError returns the value of Error.
-func (s *Error404) GetError() OptError404Error {
-	return s.Error
-}
-
-// SetError sets the value of Error.
-func (s *Error404) SetError(val OptError404Error) {
-	s.Error = val
-}
-
-func (*Error404) createAccountKeyRes()            {}
-func (*Error404) createBucketReplicationRes()     {}
-func (*Error404) createBucketRes()                {}
-func (*Error404) createPermissionKeyRes()         {}
-func (*Error404) createPermissionRes()            {}
-func (*Error404) deleteBucketEncryptionRes()      {}
-func (*Error404) deleteBucketReplicationRes()     {}
-func (*Error404) deletePermissionKeyRes()         {}
-func (*Error404) listAccountKeysRes()             {}
-func (*Error404) listBucketReplicableTargetsRes() {}
-func (*Error404) listPermissionKeysRes()          {}
-func (*Error404) readAccountKeyRes()              {}
-func (*Error404) readAccountRes()                 {}
-func (*Error404) readBucketEncryptionRes()        {}
-func (*Error404) readBucketPenaltyRes()           {}
-func (*Error404) readBucketPlanRes()              {}
-func (*Error404) readBucketQuotaRes()             {}
-func (*Error404) readBucketReplicationRes()       {}
-func (*Error404) readBucketUsageRes()             {}
-func (*Error404) readClusterRes()                 {}
-func (*Error404) readPermissionKeyRes()           {}
-func (*Error404) readPermissionRes()              {}
-func (*Error404) updateBucketEncryptionRes()      {}
-func (*Error404) updatePermissionRes()            {}
-
-// Error 404.
-type Error404Error struct {
-	Code    OptErrorCode    `json:"code"`
-	Message OptErrorMessage `json:"message"`
-	TraceID OptErrorTraceId `json:"trace_id"`
-	Errors  Errors          `json:"errors"`
-}
-
-// GetCode returns the value of Code.
-func (s *Error404Error) GetCode() OptErrorCode {
-	return s.Code
-}
-
-// GetMessage returns the value of Message.
-func (s *Error404Error) GetMessage() OptErrorMessage {
-	return s.Message
-}
-
-// GetTraceID returns the value of TraceID.
-func (s *Error404Error) GetTraceID() OptErrorTraceId {
-	return s.TraceID
-}
-
-// GetErrors returns the value of Errors.
-func (s *Error404Error) GetErrors() Errors {
-	return s.Errors
-}
-
-// SetCode sets the value of Code.
-func (s *Error404Error) SetCode(val OptErrorCode) {
-	s.Code = val
-}
-
-// SetMessage sets the value of Message.
-func (s *Error404Error) SetMessage(val OptErrorMessage) {
-	s.Message = val
-}
-
-// SetTraceID sets the value of TraceID.
-func (s *Error404Error) SetTraceID(val OptErrorTraceId) {
-	s.TraceID = val
-}
-
-// SetErrors sets the value of Errors.
-func (s *Error404Error) SetErrors(val Errors) {
-	s.Errors = val
-}
-
-// Ref: #/components/schemas/Error405
-type Error405 struct {
-	// Error 405.
-	Error OptError405Error `json:"error"`
-}
-
-// GetError returns the value of Error.
-func (s *Error405) GetError() OptError405Error {
-	return s.Error
-}
-
-// SetError sets the value of Error.
-func (s *Error405) SetError(val OptError405Error) {
-	s.Error = val
-}
-
-func (*Error405) readBucketPlanRes()   {}
-func (*Error405) updateBucketPlanRes() {}
-
-// Error 405.
-type Error405Error struct {
-	Code    OptErrorCode    `json:"code"`
-	Message OptErrorMessage `json:"message"`
-	TraceID OptErrorTraceId `json:"trace_id"`
-	Errors  Errors          `json:"errors"`
-}
-
-// GetCode returns the value of Code.
-func (s *Error405Error) GetCode() OptErrorCode {
-	return s.Code
-}
-
-// GetMessage returns the value of Message.
-func (s *Error405Error) GetMessage() OptErrorMessage {
-	return s.Message
-}
-
-// GetTraceID returns the value of TraceID.
-func (s *Error405Error) GetTraceID() OptErrorTraceId {
-	return s.TraceID
-}
-
-// GetErrors returns the value of Errors.
-func (s *Error405Error) GetErrors() Errors {
-	return s.Errors
-}
-
-// SetCode sets the value of Code.
-func (s *Error405Error) SetCode(val OptErrorCode) {
-	s.Code = val
-}
-
-// SetMessage sets the value of Message.
-func (s *Error405Error) SetMessage(val OptErrorMessage) {
-	s.Message = val
-}
-
-// SetTraceID sets the value of TraceID.
-func (s *Error405Error) SetTraceID(val OptErrorTraceId) {
-	s.TraceID = val
-}
-
-// SetErrors sets the value of Errors.
-func (s *Error405Error) SetErrors(val Errors) {
-	s.Errors = val
-}
-
-// Ref: #/components/schemas/Error409
-type Error409 struct {
-	// Error 409.
-	Error OptError409Error `json:"error"`
-}
-
-// GetError returns the value of Error.
-func (s *Error409) GetError() OptError409Error {
-	return s.Error
-}
-
-// SetError sets the value of Error.
-func (s *Error409) SetError(val OptError409Error) {
-	s.Error = val
-}
-
-func (*Error409) createAccountKeyRes()    {}
-func (*Error409) createAccountRes()       {}
-func (*Error409) createBucketRes()        {}
-func (*Error409) createPermissionKeyRes() {}
-func (*Error409) createPermissionRes()    {}
-func (*Error409) deleteAccountRes()       {}
-func (*Error409) deleteBucketRes()        {}
-func (*Error409) updateBucketPlanRes()    {}
-func (*Error409) updatePermissionRes()    {}
-
-// Error 409.
-type Error409Error struct {
-	Code    OptErrorCode    `json:"code"`
-	Message OptErrorMessage `json:"message"`
-	TraceID OptErrorTraceId `json:"trace_id"`
-	Errors  Errors          `json:"errors"`
-}
-
-// GetCode returns the value of Code.
-func (s *Error409Error) GetCode() OptErrorCode {
-	return s.Code
-}
-
-// GetMessage returns the value of Message.
-func (s *Error409Error) GetMessage() OptErrorMessage {
-	return s.Message
-}
-
-// GetTraceID returns the value of TraceID.
-func (s *Error409Error) GetTraceID() OptErrorTraceId {
-	return s.TraceID
-}
-
-// GetErrors returns the value of Errors.
-func (s *Error409Error) GetErrors() Errors {
-	return s.Errors
-}
-
-// SetCode sets the value of Code.
-func (s *Error409Error) SetCode(val OptErrorCode) {
-	s.Code = val
-}
-
-// SetMessage sets the value of Message.
-func (s *Error409Error) SetMessage(val OptErrorMessage) {
-	s.Message = val
-}
-
-// SetTraceID sets the value of TraceID.
-func (s *Error409Error) SetTraceID(val OptErrorTraceId) {
-	s.TraceID = val
-}
-
-// SetErrors sets the value of Errors.
-func (s *Error409Error) SetErrors(val Errors) {
+func (s *ErrorBody) SetErrors(val Errors) {
 	s.Errors = val
 }
 
 type ErrorCode int32
 
-// Ref: #/components/schemas/ErrorDefault
-type ErrorDefault struct {
-	// Error 500.
-	Error OptErrorDefaultError `json:"error"`
+type ErrorMessage string
+
+// Ref: #/components/schemas/ErrorResponse
+type ErrorResponse struct {
+	Error ErrorBody `json:"error"`
 }
 
 // GetError returns the value of Error.
-func (s *ErrorDefault) GetError() OptErrorDefaultError {
+func (s *ErrorResponse) GetError() ErrorBody {
 	return s.Error
 }
 
 // SetError sets the value of Error.
-func (s *ErrorDefault) SetError(val OptErrorDefaultError) {
+func (s *ErrorResponse) SetError(val ErrorBody) {
 	s.Error = val
 }
 
-// Error 500.
-type ErrorDefaultError struct {
-	Code    OptErrorCode    `json:"code"`
-	Message OptErrorMessage `json:"message"`
-	TraceID OptErrorTraceId `json:"trace_id"`
-	Errors  Errors          `json:"errors"`
-}
+func (*ErrorResponse) deleteAccountKeyRes() {}
+func (*ErrorResponse) deletePermissionRes() {}
+func (*ErrorResponse) listBucketsRes()      {}
+func (*ErrorResponse) listClustersRes()     {}
+func (*ErrorResponse) listPermissionsRes()  {}
+func (*ErrorResponse) listPlansRes()        {}
+func (*ErrorResponse) readQuotaRes()        {}
+func (*ErrorResponse) readStatusRes()       {}
 
-// GetCode returns the value of Code.
-func (s *ErrorDefaultError) GetCode() OptErrorCode {
-	return s.Code
-}
-
-// GetMessage returns the value of Message.
-func (s *ErrorDefaultError) GetMessage() OptErrorMessage {
-	return s.Message
-}
-
-// GetTraceID returns the value of TraceID.
-func (s *ErrorDefaultError) GetTraceID() OptErrorTraceId {
-	return s.TraceID
-}
-
-// GetErrors returns the value of Errors.
-func (s *ErrorDefaultError) GetErrors() Errors {
-	return s.Errors
-}
-
-// SetCode sets the value of Code.
-func (s *ErrorDefaultError) SetCode(val OptErrorCode) {
-	s.Code = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ErrorDefaultError) SetMessage(val OptErrorMessage) {
-	s.Message = val
-}
-
-// SetTraceID sets the value of TraceID.
-func (s *ErrorDefaultError) SetTraceID(val OptErrorTraceId) {
-	s.TraceID = val
-}
-
-// SetErrors sets the value of Errors.
-func (s *ErrorDefaultError) SetErrors(val Errors) {
-	s.Errors = val
-}
-
-// ErrorDefaultStatusCode wraps ErrorDefault with StatusCode.
-type ErrorDefaultStatusCode struct {
+// ErrorResponseStatusCode wraps ErrorResponse with StatusCode.
+type ErrorResponseStatusCode struct {
 	StatusCode int
-	Response   ErrorDefault
+	Response   ErrorResponse
 }
 
 // GetStatusCode returns the value of StatusCode.
-func (s *ErrorDefaultStatusCode) GetStatusCode() int {
+func (s *ErrorResponseStatusCode) GetStatusCode() int {
 	return s.StatusCode
 }
 
 // GetResponse returns the value of Response.
-func (s *ErrorDefaultStatusCode) GetResponse() ErrorDefault {
+func (s *ErrorResponseStatusCode) GetResponse() ErrorResponse {
 	return s.Response
 }
 
 // SetStatusCode sets the value of StatusCode.
-func (s *ErrorDefaultStatusCode) SetStatusCode(val int) {
+func (s *ErrorResponseStatusCode) SetStatusCode(val int) {
 	s.StatusCode = val
 }
 
 // SetResponse sets the value of Response.
-func (s *ErrorDefaultStatusCode) SetResponse(val ErrorDefault) {
+func (s *ErrorResponseStatusCode) SetResponse(val ErrorResponse) {
 	s.Response = val
 }
 
-func (*ErrorDefaultStatusCode) createAccountKeyRes()    {}
-func (*ErrorDefaultStatusCode) createAccountRes()       {}
-func (*ErrorDefaultStatusCode) createPermissionKeyRes() {}
-func (*ErrorDefaultStatusCode) createPermissionRes()    {}
-func (*ErrorDefaultStatusCode) deleteAccountKeyRes()    {}
-func (*ErrorDefaultStatusCode) deleteAccountRes()       {}
-func (*ErrorDefaultStatusCode) deletePermissionKeyRes() {}
-func (*ErrorDefaultStatusCode) deletePermissionRes()    {}
-func (*ErrorDefaultStatusCode) listAccountKeysRes()     {}
-func (*ErrorDefaultStatusCode) listBucketMeteringRes()  {}
-func (*ErrorDefaultStatusCode) listPermissionKeysRes()  {}
-func (*ErrorDefaultStatusCode) listPermissionsRes()     {}
-func (*ErrorDefaultStatusCode) listPlansRes()           {}
-func (*ErrorDefaultStatusCode) readAccountKeyRes()      {}
-func (*ErrorDefaultStatusCode) readAccountRes()         {}
-func (*ErrorDefaultStatusCode) readBucketPenaltyRes()   {}
-func (*ErrorDefaultStatusCode) readBucketPlanRes()      {}
-func (*ErrorDefaultStatusCode) readBucketQuotaRes()     {}
-func (*ErrorDefaultStatusCode) readBucketUsageRes()     {}
-func (*ErrorDefaultStatusCode) readPermissionKeyRes()   {}
-func (*ErrorDefaultStatusCode) readPermissionRes()      {}
-func (*ErrorDefaultStatusCode) readQuotaRes()           {}
-func (*ErrorDefaultStatusCode) readStatusRes()          {}
-func (*ErrorDefaultStatusCode) updateBucketPlanRes()    {}
-func (*ErrorDefaultStatusCode) updatePermissionRes()    {}
-
-type ErrorMessage string
+func (*ErrorResponseStatusCode) createAccountKeyRes()    {}
+func (*ErrorResponseStatusCode) createAccountRes()       {}
+func (*ErrorResponseStatusCode) createPermissionKeyRes() {}
+func (*ErrorResponseStatusCode) createPermissionRes()    {}
+func (*ErrorResponseStatusCode) deleteAccountKeyRes()    {}
+func (*ErrorResponseStatusCode) deleteAccountRes()       {}
+func (*ErrorResponseStatusCode) deletePermissionKeyRes() {}
+func (*ErrorResponseStatusCode) deletePermissionRes()    {}
+func (*ErrorResponseStatusCode) listAccountKeysRes()     {}
+func (*ErrorResponseStatusCode) listBucketMeteringRes()  {}
+func (*ErrorResponseStatusCode) listPermissionKeysRes()  {}
+func (*ErrorResponseStatusCode) listPermissionsRes()     {}
+func (*ErrorResponseStatusCode) listPlansRes()           {}
+func (*ErrorResponseStatusCode) readAccountKeyRes()      {}
+func (*ErrorResponseStatusCode) readAccountRes()         {}
+func (*ErrorResponseStatusCode) readBucketPenaltyRes()   {}
+func (*ErrorResponseStatusCode) readBucketPlanRes()      {}
+func (*ErrorResponseStatusCode) readBucketQuotaRes()     {}
+func (*ErrorResponseStatusCode) readBucketUsageRes()     {}
+func (*ErrorResponseStatusCode) readPermissionKeyRes()   {}
+func (*ErrorResponseStatusCode) readPermissionRes()      {}
+func (*ErrorResponseStatusCode) readQuotaRes()           {}
+func (*ErrorResponseStatusCode) readStatusRes()          {}
+func (*ErrorResponseStatusCode) updateBucketPlanRes()    {}
+func (*ErrorResponseStatusCode) updatePermissionRes()    {}
 
 type ErrorTraceId string
 
@@ -2120,6 +1777,18 @@ func (s *HandlerUpdateBucketEncryptionResponse) SetConfiguredAt(val CreatedAt) {
 	s.ConfiguredAt = val
 }
 
+type ListAccountKeysNotFound ErrorResponse
+
+func (*ListAccountKeysNotFound) listAccountKeysRes() {}
+
+type ListAccountKeysUnauthorized ErrorResponse
+
+func (*ListAccountKeysUnauthorized) listAccountKeysRes() {}
+
+type ListBucketMeteringBadRequest ErrorResponse
+
+func (*ListBucketMeteringBadRequest) listBucketMeteringRes() {}
+
 type ListBucketMeteringOK struct {
 	Data []BucketBillingItem `json:"data"`
 }
@@ -2135,6 +1804,26 @@ func (s *ListBucketMeteringOK) SetData(val []BucketBillingItem) {
 }
 
 func (*ListBucketMeteringOK) listBucketMeteringRes() {}
+
+type ListBucketMeteringUnauthorized ErrorResponse
+
+func (*ListBucketMeteringUnauthorized) listBucketMeteringRes() {}
+
+type ListBucketReplicableTargetsNotFound ErrorResponse
+
+func (*ListBucketReplicableTargetsNotFound) listBucketReplicableTargetsRes() {}
+
+type ListBucketReplicableTargetsUnauthorized ErrorResponse
+
+func (*ListBucketReplicableTargetsUnauthorized) listBucketReplicableTargetsRes() {}
+
+type ListPermissionKeysNotFound ErrorResponse
+
+func (*ListPermissionKeysNotFound) listPermissionKeysRes() {}
+
+type ListPermissionKeysUnauthorized ErrorResponse
+
+func (*ListPermissionKeysUnauthorized) listPermissionKeysRes() {}
 
 type ListPlansOK struct {
 	Data []PlanItem `json:"data"`
@@ -2198,21 +1887,21 @@ func (s *ModelPlanType) UnmarshalText(data []byte) error {
 // Ref: #/components/schemas/model.Replication
 type ModelReplication struct {
 	// Source bucket info.
-	SourceBucket ModelReplicationSourceBucket `json:"source_bucket"`
+	SourceBucket ReplicationBucket `json:"source_bucket"`
 	// Destination bucket info.
-	DestBucket ModelReplicationDestBucket `json:"dest_bucket"`
+	DestBucket ReplicationBucket `json:"dest_bucket"`
 	// Creating=federation→cluster applying / created=cluster applied.
 	ConfigStatus ModelReplicationConfigStatus `json:"config_status"`
 	CreatedAt    time.Time                    `json:"created_at"`
 }
 
 // GetSourceBucket returns the value of SourceBucket.
-func (s *ModelReplication) GetSourceBucket() ModelReplicationSourceBucket {
+func (s *ModelReplication) GetSourceBucket() ReplicationBucket {
 	return s.SourceBucket
 }
 
 // GetDestBucket returns the value of DestBucket.
-func (s *ModelReplication) GetDestBucket() ModelReplicationDestBucket {
+func (s *ModelReplication) GetDestBucket() ReplicationBucket {
 	return s.DestBucket
 }
 
@@ -2227,12 +1916,12 @@ func (s *ModelReplication) GetCreatedAt() time.Time {
 }
 
 // SetSourceBucket sets the value of SourceBucket.
-func (s *ModelReplication) SetSourceBucket(val ModelReplicationSourceBucket) {
+func (s *ModelReplication) SetSourceBucket(val ReplicationBucket) {
 	s.SourceBucket = val
 }
 
 // SetDestBucket sets the value of DestBucket.
-func (s *ModelReplication) SetDestBucket(val ModelReplicationDestBucket) {
+func (s *ModelReplication) SetDestBucket(val ReplicationBucket) {
 	s.DestBucket = val
 }
 
@@ -2286,130 +1975,6 @@ func (s *ModelReplicationConfigStatus) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
-}
-
-// Destination bucket info.
-type ModelReplicationDestBucket struct {
-	Name      string                         `json:"name"`
-	ClusterID string                         `json:"cluster_id"`
-	Plan      ModelReplicationDestBucketPlan `json:"plan"`
-}
-
-// GetName returns the value of Name.
-func (s *ModelReplicationDestBucket) GetName() string {
-	return s.Name
-}
-
-// GetClusterID returns the value of ClusterID.
-func (s *ModelReplicationDestBucket) GetClusterID() string {
-	return s.ClusterID
-}
-
-// GetPlan returns the value of Plan.
-func (s *ModelReplicationDestBucket) GetPlan() ModelReplicationDestBucketPlan {
-	return s.Plan
-}
-
-// SetName sets the value of Name.
-func (s *ModelReplicationDestBucket) SetName(val string) {
-	s.Name = val
-}
-
-// SetClusterID sets the value of ClusterID.
-func (s *ModelReplicationDestBucket) SetClusterID(val string) {
-	s.ClusterID = val
-}
-
-// SetPlan sets the value of Plan.
-func (s *ModelReplicationDestBucket) SetPlan(val ModelReplicationDestBucketPlan) {
-	s.Plan = val
-}
-
-type ModelReplicationDestBucketPlan struct {
-	Type             ModelPlanType    `json:"type"`
-	ServiceClassPath ServiceClassPath `json:"service_class_path"`
-}
-
-// GetType returns the value of Type.
-func (s *ModelReplicationDestBucketPlan) GetType() ModelPlanType {
-	return s.Type
-}
-
-// GetServiceClassPath returns the value of ServiceClassPath.
-func (s *ModelReplicationDestBucketPlan) GetServiceClassPath() ServiceClassPath {
-	return s.ServiceClassPath
-}
-
-// SetType sets the value of Type.
-func (s *ModelReplicationDestBucketPlan) SetType(val ModelPlanType) {
-	s.Type = val
-}
-
-// SetServiceClassPath sets the value of ServiceClassPath.
-func (s *ModelReplicationDestBucketPlan) SetServiceClassPath(val ServiceClassPath) {
-	s.ServiceClassPath = val
-}
-
-// Source bucket info.
-type ModelReplicationSourceBucket struct {
-	Name      string                           `json:"name"`
-	ClusterID string                           `json:"cluster_id"`
-	Plan      ModelReplicationSourceBucketPlan `json:"plan"`
-}
-
-// GetName returns the value of Name.
-func (s *ModelReplicationSourceBucket) GetName() string {
-	return s.Name
-}
-
-// GetClusterID returns the value of ClusterID.
-func (s *ModelReplicationSourceBucket) GetClusterID() string {
-	return s.ClusterID
-}
-
-// GetPlan returns the value of Plan.
-func (s *ModelReplicationSourceBucket) GetPlan() ModelReplicationSourceBucketPlan {
-	return s.Plan
-}
-
-// SetName sets the value of Name.
-func (s *ModelReplicationSourceBucket) SetName(val string) {
-	s.Name = val
-}
-
-// SetClusterID sets the value of ClusterID.
-func (s *ModelReplicationSourceBucket) SetClusterID(val string) {
-	s.ClusterID = val
-}
-
-// SetPlan sets the value of Plan.
-func (s *ModelReplicationSourceBucket) SetPlan(val ModelReplicationSourceBucketPlan) {
-	s.Plan = val
-}
-
-type ModelReplicationSourceBucketPlan struct {
-	Type             ModelPlanType    `json:"type"`
-	ServiceClassPath ServiceClassPath `json:"service_class_path"`
-}
-
-// GetType returns the value of Type.
-func (s *ModelReplicationSourceBucketPlan) GetType() ModelPlanType {
-	return s.Type
-}
-
-// GetServiceClassPath returns the value of ServiceClassPath.
-func (s *ModelReplicationSourceBucketPlan) GetServiceClassPath() ServiceClassPath {
-	return s.ServiceClassPath
-}
-
-// SetType sets the value of Type.
-func (s *ModelReplicationSourceBucketPlan) SetType(val ModelPlanType) {
-	s.Type = val
-}
-
-// SetServiceClassPath sets the value of ServiceClassPath.
-func (s *ModelReplicationSourceBucketPlan) SetServiceClassPath(val ServiceClassPath) {
-	s.ServiceClassPath = val
 }
 
 // NewNilDateTime returns new NilDateTime with value set to v.
@@ -2502,6 +2067,51 @@ func (o NilInt) Or(d int) int {
 	return d
 }
 
+// NewNilPlanItemFee returns new NilPlanItemFee with value set to v.
+func NewNilPlanItemFee(v PlanItemFee) NilPlanItemFee {
+	return NilPlanItemFee{
+		Value: v,
+	}
+}
+
+// NilPlanItemFee is nullable PlanItemFee.
+type NilPlanItemFee struct {
+	Value PlanItemFee
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilPlanItemFee) SetTo(v PlanItemFee) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilPlanItemFee) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilPlanItemFee) SetToNull() {
+	o.Null = true
+	var v PlanItemFee
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilPlanItemFee) Get() (v PlanItemFee, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilPlanItemFee) Or(d PlanItemFee) PlanItemFee {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptBucketListResponseBodyPlan returns new OptBucketListResponseBodyPlan with value set to v.
 func NewOptBucketListResponseBodyPlan(v BucketListResponseBodyPlan) OptBucketListResponseBodyPlan {
 	return OptBucketListResponseBodyPlan{
@@ -2588,466 +2198,6 @@ func (o OptContractSummary) Get() (v ContractSummary, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptContractSummary) Or(d ContractSummary) ContractSummary {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptError400Error returns new OptError400Error with value set to v.
-func NewOptError400Error(v Error400Error) OptError400Error {
-	return OptError400Error{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptError400Error is optional Error400Error.
-type OptError400Error struct {
-	Value Error400Error
-	Set   bool
-}
-
-// IsSet returns true if OptError400Error was set.
-func (o OptError400Error) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptError400Error) Reset() {
-	var v Error400Error
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptError400Error) SetTo(v Error400Error) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptError400Error) Get() (v Error400Error, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptError400Error) Or(d Error400Error) Error400Error {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptError401Error returns new OptError401Error with value set to v.
-func NewOptError401Error(v Error401Error) OptError401Error {
-	return OptError401Error{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptError401Error is optional Error401Error.
-type OptError401Error struct {
-	Value Error401Error
-	Set   bool
-}
-
-// IsSet returns true if OptError401Error was set.
-func (o OptError401Error) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptError401Error) Reset() {
-	var v Error401Error
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptError401Error) SetTo(v Error401Error) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptError401Error) Get() (v Error401Error, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptError401Error) Or(d Error401Error) Error401Error {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptError403Error returns new OptError403Error with value set to v.
-func NewOptError403Error(v Error403Error) OptError403Error {
-	return OptError403Error{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptError403Error is optional Error403Error.
-type OptError403Error struct {
-	Value Error403Error
-	Set   bool
-}
-
-// IsSet returns true if OptError403Error was set.
-func (o OptError403Error) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptError403Error) Reset() {
-	var v Error403Error
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptError403Error) SetTo(v Error403Error) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptError403Error) Get() (v Error403Error, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptError403Error) Or(d Error403Error) Error403Error {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptError404Error returns new OptError404Error with value set to v.
-func NewOptError404Error(v Error404Error) OptError404Error {
-	return OptError404Error{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptError404Error is optional Error404Error.
-type OptError404Error struct {
-	Value Error404Error
-	Set   bool
-}
-
-// IsSet returns true if OptError404Error was set.
-func (o OptError404Error) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptError404Error) Reset() {
-	var v Error404Error
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptError404Error) SetTo(v Error404Error) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptError404Error) Get() (v Error404Error, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptError404Error) Or(d Error404Error) Error404Error {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptError405Error returns new OptError405Error with value set to v.
-func NewOptError405Error(v Error405Error) OptError405Error {
-	return OptError405Error{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptError405Error is optional Error405Error.
-type OptError405Error struct {
-	Value Error405Error
-	Set   bool
-}
-
-// IsSet returns true if OptError405Error was set.
-func (o OptError405Error) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptError405Error) Reset() {
-	var v Error405Error
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptError405Error) SetTo(v Error405Error) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptError405Error) Get() (v Error405Error, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptError405Error) Or(d Error405Error) Error405Error {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptError409Error returns new OptError409Error with value set to v.
-func NewOptError409Error(v Error409Error) OptError409Error {
-	return OptError409Error{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptError409Error is optional Error409Error.
-type OptError409Error struct {
-	Value Error409Error
-	Set   bool
-}
-
-// IsSet returns true if OptError409Error was set.
-func (o OptError409Error) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptError409Error) Reset() {
-	var v Error409Error
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptError409Error) SetTo(v Error409Error) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptError409Error) Get() (v Error409Error, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptError409Error) Or(d Error409Error) Error409Error {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptErrorCode returns new OptErrorCode with value set to v.
-func NewOptErrorCode(v ErrorCode) OptErrorCode {
-	return OptErrorCode{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptErrorCode is optional ErrorCode.
-type OptErrorCode struct {
-	Value ErrorCode
-	Set   bool
-}
-
-// IsSet returns true if OptErrorCode was set.
-func (o OptErrorCode) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptErrorCode) Reset() {
-	var v ErrorCode
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptErrorCode) SetTo(v ErrorCode) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptErrorCode) Get() (v ErrorCode, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptErrorCode) Or(d ErrorCode) ErrorCode {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptErrorDefaultError returns new OptErrorDefaultError with value set to v.
-func NewOptErrorDefaultError(v ErrorDefaultError) OptErrorDefaultError {
-	return OptErrorDefaultError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptErrorDefaultError is optional ErrorDefaultError.
-type OptErrorDefaultError struct {
-	Value ErrorDefaultError
-	Set   bool
-}
-
-// IsSet returns true if OptErrorDefaultError was set.
-func (o OptErrorDefaultError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptErrorDefaultError) Reset() {
-	var v ErrorDefaultError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptErrorDefaultError) SetTo(v ErrorDefaultError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptErrorDefaultError) Get() (v ErrorDefaultError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptErrorDefaultError) Or(d ErrorDefaultError) ErrorDefaultError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptErrorMessage returns new OptErrorMessage with value set to v.
-func NewOptErrorMessage(v ErrorMessage) OptErrorMessage {
-	return OptErrorMessage{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptErrorMessage is optional ErrorMessage.
-type OptErrorMessage struct {
-	Value ErrorMessage
-	Set   bool
-}
-
-// IsSet returns true if OptErrorMessage was set.
-func (o OptErrorMessage) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptErrorMessage) Reset() {
-	var v ErrorMessage
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptErrorMessage) SetTo(v ErrorMessage) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptErrorMessage) Get() (v ErrorMessage, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptErrorMessage) Or(d ErrorMessage) ErrorMessage {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptErrorTraceId returns new OptErrorTraceId with value set to v.
-func NewOptErrorTraceId(v ErrorTraceId) OptErrorTraceId {
-	return OptErrorTraceId{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptErrorTraceId is optional ErrorTraceId.
-type OptErrorTraceId struct {
-	Value ErrorTraceId
-	Set   bool
-}
-
-// IsSet returns true if OptErrorTraceId was set.
-func (o OptErrorTraceId) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptErrorTraceId) Reset() {
-	var v ErrorTraceId
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptErrorTraceId) SetTo(v ErrorTraceId) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptErrorTraceId) Get() (v ErrorTraceId, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptErrorTraceId) Or(d ErrorTraceId) ErrorTraceId {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -3835,7 +2985,7 @@ type PlanItem struct {
 	ClusterID        string           `json:"cluster_id"`
 	CapacityGib      int              `json:"capacity_gib"`
 	// Fee information (tax included).
-	Fee PlanItemFee `json:"fee"`
+	Fee NilPlanItemFee `json:"fee"`
 }
 
 // GetServiceClassPath returns the value of ServiceClassPath.
@@ -3859,7 +3009,7 @@ func (s *PlanItem) GetCapacityGib() int {
 }
 
 // GetFee returns the value of Fee.
-func (s *PlanItem) GetFee() PlanItemFee {
+func (s *PlanItem) GetFee() NilPlanItemFee {
 	return s.Fee
 }
 
@@ -3884,7 +3034,7 @@ func (s *PlanItem) SetCapacityGib(val int) {
 }
 
 // SetFee sets the value of Fee.
-func (s *PlanItem) SetFee(val PlanItemFee) {
+func (s *PlanItem) SetFee(val NilPlanItemFee) {
 	s.Fee = val
 }
 
@@ -4158,6 +3308,30 @@ func (s *ReadAccountKeyData) SetCreatedAt(val CreatedAt) {
 	s.CreatedAt = val
 }
 
+type ReadAccountKeyNotFound ErrorResponse
+
+func (*ReadAccountKeyNotFound) readAccountKeyRes() {}
+
+type ReadAccountKeyUnauthorized ErrorResponse
+
+func (*ReadAccountKeyUnauthorized) readAccountKeyRes() {}
+
+type ReadAccountNotFound ErrorResponse
+
+func (*ReadAccountNotFound) readAccountRes() {}
+
+type ReadAccountUnauthorized ErrorResponse
+
+func (*ReadAccountUnauthorized) readAccountRes() {}
+
+type ReadBucketEncryptionMethodNotAllowed ErrorResponse
+
+func (*ReadBucketEncryptionMethodNotAllowed) readBucketEncryptionRes() {}
+
+type ReadBucketEncryptionNotFound ErrorResponse
+
+func (*ReadBucketEncryptionNotFound) readBucketEncryptionRes() {}
+
 type ReadBucketEncryptionOK struct {
 	Data HandlerReadBucketEncryptionResponse `json:"data"`
 }
@@ -4174,6 +3348,30 @@ func (s *ReadBucketEncryptionOK) SetData(val HandlerReadBucketEncryptionResponse
 
 func (*ReadBucketEncryptionOK) readBucketEncryptionRes() {}
 
+type ReadBucketEncryptionUnauthorized ErrorResponse
+
+func (*ReadBucketEncryptionUnauthorized) readBucketEncryptionRes() {}
+
+type ReadBucketPenaltyNotFound ErrorResponse
+
+func (*ReadBucketPenaltyNotFound) readBucketPenaltyRes() {}
+
+type ReadBucketPenaltyUnauthorized ErrorResponse
+
+func (*ReadBucketPenaltyUnauthorized) readBucketPenaltyRes() {}
+
+type ReadBucketPlanBadRequest ErrorResponse
+
+func (*ReadBucketPlanBadRequest) readBucketPlanRes() {}
+
+type ReadBucketPlanMethodNotAllowed ErrorResponse
+
+func (*ReadBucketPlanMethodNotAllowed) readBucketPlanRes() {}
+
+type ReadBucketPlanNotFound ErrorResponse
+
+func (*ReadBucketPlanNotFound) readBucketPlanRes() {}
+
 type ReadBucketPlanOK struct {
 	Data PlanWithContract `json:"data"`
 }
@@ -4189,6 +3387,169 @@ func (s *ReadBucketPlanOK) SetData(val PlanWithContract) {
 }
 
 func (*ReadBucketPlanOK) readBucketPlanRes() {}
+
+type ReadBucketQuotaBadRequest ErrorResponse
+
+func (*ReadBucketQuotaBadRequest) readBucketQuotaRes() {}
+
+type ReadBucketQuotaNotFound ErrorResponse
+
+func (*ReadBucketQuotaNotFound) readBucketQuotaRes() {}
+
+type ReadBucketQuotaUnauthorized ErrorResponse
+
+func (*ReadBucketQuotaUnauthorized) readBucketQuotaRes() {}
+
+type ReadBucketReplicationNotFound ErrorResponse
+
+func (*ReadBucketReplicationNotFound) readBucketReplicationRes() {}
+
+type ReadBucketReplicationUnauthorized ErrorResponse
+
+func (*ReadBucketReplicationUnauthorized) readBucketReplicationRes() {}
+
+type ReadBucketUsageNotFound ErrorResponse
+
+func (*ReadBucketUsageNotFound) readBucketUsageRes() {}
+
+type ReadBucketUsageUnauthorized ErrorResponse
+
+func (*ReadBucketUsageUnauthorized) readBucketUsageRes() {}
+
+type ReadClusterNotFound ErrorResponse
+
+func (*ReadClusterNotFound) readClusterRes() {}
+
+type ReadClusterUnauthorized ErrorResponse
+
+func (*ReadClusterUnauthorized) readClusterRes() {}
+
+type ReadPermissionKeyNotFound ErrorResponse
+
+func (*ReadPermissionKeyNotFound) readPermissionKeyRes() {}
+
+type ReadPermissionKeyUnauthorized ErrorResponse
+
+func (*ReadPermissionKeyUnauthorized) readPermissionKeyRes() {}
+
+type ReadPermissionNotFound ErrorResponse
+
+func (*ReadPermissionNotFound) readPermissionRes() {}
+
+type ReadPermissionUnauthorized ErrorResponse
+
+func (*ReadPermissionUnauthorized) readPermissionRes() {}
+
+// Ref: #/components/schemas/ReplicationBucket
+type ReplicationBucket struct {
+	Name      BucketName      `json:"name"`
+	ClusterID string          `json:"cluster_id"`
+	Plan      ReplicationPlan `json:"plan"`
+}
+
+// GetName returns the value of Name.
+func (s *ReplicationBucket) GetName() BucketName {
+	return s.Name
+}
+
+// GetClusterID returns the value of ClusterID.
+func (s *ReplicationBucket) GetClusterID() string {
+	return s.ClusterID
+}
+
+// GetPlan returns the value of Plan.
+func (s *ReplicationBucket) GetPlan() ReplicationPlan {
+	return s.Plan
+}
+
+// SetName sets the value of Name.
+func (s *ReplicationBucket) SetName(val BucketName) {
+	s.Name = val
+}
+
+// SetClusterID sets the value of ClusterID.
+func (s *ReplicationBucket) SetClusterID(val string) {
+	s.ClusterID = val
+}
+
+// SetPlan sets the value of Plan.
+func (s *ReplicationBucket) SetPlan(val ReplicationPlan) {
+	s.Plan = val
+}
+
+// Ref: #/components/schemas/ReplicationPlan
+type ReplicationPlan struct {
+	Type             ReplicationPlanType `json:"type"`
+	ServiceClassPath string              `json:"service_class_path"`
+}
+
+// GetType returns the value of Type.
+func (s *ReplicationPlan) GetType() ReplicationPlanType {
+	return s.Type
+}
+
+// GetServiceClassPath returns the value of ServiceClassPath.
+func (s *ReplicationPlan) GetServiceClassPath() string {
+	return s.ServiceClassPath
+}
+
+// SetType sets the value of Type.
+func (s *ReplicationPlan) SetType(val ReplicationPlanType) {
+	s.Type = val
+}
+
+// SetServiceClassPath sets the value of ServiceClassPath.
+func (s *ReplicationPlan) SetServiceClassPath(val string) {
+	s.ServiceClassPath = val
+}
+
+type ReplicationPlanType string
+
+const (
+	ReplicationPlanTypeEmpty    ReplicationPlanType = ""
+	ReplicationPlanTypeStandard ReplicationPlanType = "standard"
+	ReplicationPlanTypeArchive  ReplicationPlanType = "archive"
+)
+
+// AllValues returns all ReplicationPlanType values.
+func (ReplicationPlanType) AllValues() []ReplicationPlanType {
+	return []ReplicationPlanType{
+		ReplicationPlanTypeEmpty,
+		ReplicationPlanTypeStandard,
+		ReplicationPlanTypeArchive,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReplicationPlanType) MarshalText() ([]byte, error) {
+	switch s {
+	case ReplicationPlanTypeEmpty:
+		return []byte(s), nil
+	case ReplicationPlanTypeStandard:
+		return []byte(s), nil
+	case ReplicationPlanTypeArchive:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReplicationPlanType) UnmarshalText(data []byte) error {
+	switch ReplicationPlanType(data) {
+	case ReplicationPlanTypeEmpty:
+		*s = ReplicationPlanTypeEmpty
+		return nil
+	case ReplicationPlanTypeStandard:
+		*s = ReplicationPlanTypeStandard
+		return nil
+	case ReplicationPlanTypeArchive:
+		*s = ReplicationPlanTypeArchive
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 type ResourceID string
 
@@ -4288,6 +3649,18 @@ func (s *StatusDataStatusCode) SetStatus(val string) {
 	s.Status = val
 }
 
+type UpdateBucketEncryptionBadRequest ErrorResponse
+
+func (*UpdateBucketEncryptionBadRequest) updateBucketEncryptionRes() {}
+
+type UpdateBucketEncryptionMethodNotAllowed ErrorResponse
+
+func (*UpdateBucketEncryptionMethodNotAllowed) updateBucketEncryptionRes() {}
+
+type UpdateBucketEncryptionNotFound ErrorResponse
+
+func (*UpdateBucketEncryptionNotFound) updateBucketEncryptionRes() {}
+
 type UpdateBucketEncryptionOK struct {
 	Data HandlerUpdateBucketEncryptionResponse `json:"data"`
 }
@@ -4304,6 +3677,22 @@ func (s *UpdateBucketEncryptionOK) SetData(val HandlerUpdateBucketEncryptionResp
 
 func (*UpdateBucketEncryptionOK) updateBucketEncryptionRes() {}
 
+type UpdateBucketEncryptionUnauthorized ErrorResponse
+
+func (*UpdateBucketEncryptionUnauthorized) updateBucketEncryptionRes() {}
+
+type UpdateBucketPlanBadRequest ErrorResponse
+
+func (*UpdateBucketPlanBadRequest) updateBucketPlanRes() {}
+
+type UpdateBucketPlanConflict ErrorResponse
+
+func (*UpdateBucketPlanConflict) updateBucketPlanRes() {}
+
+type UpdateBucketPlanMethodNotAllowed ErrorResponse
+
+func (*UpdateBucketPlanMethodNotAllowed) updateBucketPlanRes() {}
+
 type UpdateBucketPlanOK struct {
 	Data PlanChangeResBody `json:"data"`
 }
@@ -4319,3 +3708,17 @@ func (s *UpdateBucketPlanOK) SetData(val PlanChangeResBody) {
 }
 
 func (*UpdateBucketPlanOK) updateBucketPlanRes() {}
+
+type UpdatePermissionConflict ErrorResponse
+
+func (*UpdatePermissionConflict) updatePermissionRes() {}
+
+type UpdatePermissionNotFound ErrorResponse
+
+func (*UpdatePermissionNotFound) updatePermissionRes() {}
+
+type UpdatePermissionUnauthorized ErrorResponse
+
+func (*UpdatePermissionUnauthorized) updatePermissionRes() {}
+
+type YearMonth string

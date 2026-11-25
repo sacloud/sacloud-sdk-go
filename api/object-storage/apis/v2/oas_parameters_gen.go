@@ -2,10 +2,6 @@
 
 package v1
 
-import (
-	"time"
-)
-
 // CreateBucketParams is parameters of createBucket operation.
 type CreateBucketParams struct {
 	// バケット名.
@@ -67,9 +63,9 @@ type ListBucketMeteringParams struct {
 	// バケット名.
 	Name BucketName
 	// 範囲の開始月.
-	From time.Time
+	From YearMonth
 	// 範囲の終了月.
-	To time.Time
+	To YearMonth
 }
 
 // ListBucketReplicableTargetsParams is parameters of listBucketReplicableTargets operation.

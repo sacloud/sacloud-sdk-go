@@ -16,6 +16,7 @@ var regexMap = map[string]ogenregex.Regexp{
 	"^[\\w\\d\\/]{1,40}$":          ogenregex.MustCompile("^[\\w\\d\\/]{1,40}$"),
 	"^[a-z0-9][a-z0-9-]*[a-z0-9]$": ogenregex.MustCompile("^[a-z0-9][a-z0-9-]*[a-z0-9]$"),
 	"^\\d{1,12}$":                  ogenregex.MustCompile("^\\d{1,12}$"),
+	"^\\d{4}-(0[1-9]|1[0-2])$":     ogenregex.MustCompile("^\\d{4}-(0[1-9]|1[0-2])$"),
 }
 
 type (

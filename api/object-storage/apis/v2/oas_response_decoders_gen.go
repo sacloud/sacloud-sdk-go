@@ -73,7 +73,7 @@ func decodeCreateAccountResponse(resp *http.Response) (res CreateAccountRes, _ e
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response CreateAccountUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -89,6 +89,15 @@ func decodeCreateAccountResponse(resp *http.Response) (res CreateAccountRes, _ e
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -108,7 +117,7 @@ func decodeCreateAccountResponse(resp *http.Response) (res CreateAccountRes, _ e
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error403
+			var response CreateAccountForbidden
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -124,6 +133,15 @@ func decodeCreateAccountResponse(resp *http.Response) (res CreateAccountRes, _ e
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -143,7 +161,7 @@ func decodeCreateAccountResponse(resp *http.Response) (res CreateAccountRes, _ e
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error409
+			var response CreateAccountConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -159,6 +177,15 @@ func decodeCreateAccountResponse(resp *http.Response) (res CreateAccountRes, _ e
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -179,7 +206,7 @@ func decodeCreateAccountResponse(resp *http.Response) (res CreateAccountRes, _ e
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -196,7 +223,16 @@ func decodeCreateAccountResponse(resp *http.Response) (res CreateAccountRes, _ e
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -270,7 +306,7 @@ func decodeCreateAccountKeyResponse(resp *http.Response) (res CreateAccountKeyRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response CreateAccountKeyUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -286,6 +322,15 @@ func decodeCreateAccountKeyResponse(resp *http.Response) (res CreateAccountKeyRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -305,7 +350,7 @@ func decodeCreateAccountKeyResponse(resp *http.Response) (res CreateAccountKeyRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response CreateAccountKeyNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -321,6 +366,15 @@ func decodeCreateAccountKeyResponse(resp *http.Response) (res CreateAccountKeyRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -340,7 +394,7 @@ func decodeCreateAccountKeyResponse(resp *http.Response) (res CreateAccountKeyRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error409
+			var response CreateAccountKeyConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -356,6 +410,15 @@ func decodeCreateAccountKeyResponse(resp *http.Response) (res CreateAccountKeyRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -376,7 +439,7 @@ func decodeCreateAccountKeyResponse(resp *http.Response) (res CreateAccountKeyRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -393,7 +456,16 @@ func decodeCreateAccountKeyResponse(resp *http.Response) (res CreateAccountKeyRe
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -467,7 +539,7 @@ func decodeCreateBucketResponse(resp *http.Response) (res CreateBucketRes, _ err
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error400
+			var response CreateBucketBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -483,6 +555,15 @@ func decodeCreateBucketResponse(resp *http.Response) (res CreateBucketRes, _ err
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -502,7 +583,7 @@ func decodeCreateBucketResponse(resp *http.Response) (res CreateBucketRes, _ err
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response CreateBucketNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -518,6 +599,15 @@ func decodeCreateBucketResponse(resp *http.Response) (res CreateBucketRes, _ err
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -537,7 +627,7 @@ func decodeCreateBucketResponse(resp *http.Response) (res CreateBucketRes, _ err
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error409
+			var response CreateBucketConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -553,6 +643,15 @@ func decodeCreateBucketResponse(resp *http.Response) (res CreateBucketRes, _ err
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -622,7 +721,7 @@ func decodeCreateBucketReplicationResponse(resp *http.Response) (res CreateBucke
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error400
+			var response CreateBucketReplicationBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -638,6 +737,15 @@ func decodeCreateBucketReplicationResponse(resp *http.Response) (res CreateBucke
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -657,7 +765,7 @@ func decodeCreateBucketReplicationResponse(resp *http.Response) (res CreateBucke
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response CreateBucketReplicationUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -673,6 +781,15 @@ func decodeCreateBucketReplicationResponse(resp *http.Response) (res CreateBucke
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -692,7 +809,7 @@ func decodeCreateBucketReplicationResponse(resp *http.Response) (res CreateBucke
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response CreateBucketReplicationNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -708,6 +825,15 @@ func decodeCreateBucketReplicationResponse(resp *http.Response) (res CreateBucke
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -777,7 +903,7 @@ func decodeCreatePermissionResponse(resp *http.Response) (res CreatePermissionRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response CreatePermissionUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -793,6 +919,15 @@ func decodeCreatePermissionResponse(resp *http.Response) (res CreatePermissionRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -812,7 +947,7 @@ func decodeCreatePermissionResponse(resp *http.Response) (res CreatePermissionRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response CreatePermissionNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -828,6 +963,15 @@ func decodeCreatePermissionResponse(resp *http.Response) (res CreatePermissionRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -847,7 +991,7 @@ func decodeCreatePermissionResponse(resp *http.Response) (res CreatePermissionRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error409
+			var response CreatePermissionConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -863,6 +1007,15 @@ func decodeCreatePermissionResponse(resp *http.Response) (res CreatePermissionRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -883,7 +1036,7 @@ func decodeCreatePermissionResponse(resp *http.Response) (res CreatePermissionRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -900,7 +1053,16 @@ func decodeCreatePermissionResponse(resp *http.Response) (res CreatePermissionRe
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -974,7 +1136,7 @@ func decodeCreatePermissionKeyResponse(resp *http.Response) (res CreatePermissio
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response CreatePermissionKeyUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -990,6 +1152,15 @@ func decodeCreatePermissionKeyResponse(resp *http.Response) (res CreatePermissio
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1009,7 +1180,7 @@ func decodeCreatePermissionKeyResponse(resp *http.Response) (res CreatePermissio
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response CreatePermissionKeyNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1025,6 +1196,15 @@ func decodeCreatePermissionKeyResponse(resp *http.Response) (res CreatePermissio
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1044,7 +1224,7 @@ func decodeCreatePermissionKeyResponse(resp *http.Response) (res CreatePermissio
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error409
+			var response CreatePermissionKeyConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1060,6 +1240,15 @@ func decodeCreatePermissionKeyResponse(resp *http.Response) (res CreatePermissio
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1080,7 +1269,7 @@ func decodeCreatePermissionKeyResponse(resp *http.Response) (res CreatePermissio
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1097,7 +1286,16 @@ func decodeCreatePermissionKeyResponse(resp *http.Response) (res CreatePermissio
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -1130,7 +1328,7 @@ func decodeDeleteAccountResponse(resp *http.Response) (res DeleteAccountRes, _ e
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response DeleteAccountUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1146,6 +1344,15 @@ func decodeDeleteAccountResponse(resp *http.Response) (res DeleteAccountRes, _ e
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1165,7 +1372,7 @@ func decodeDeleteAccountResponse(resp *http.Response) (res DeleteAccountRes, _ e
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error409
+			var response DeleteAccountConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1181,6 +1388,15 @@ func decodeDeleteAccountResponse(resp *http.Response) (res DeleteAccountRes, _ e
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1201,7 +1417,7 @@ func decodeDeleteAccountResponse(resp *http.Response) (res DeleteAccountRes, _ e
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1218,7 +1434,16 @@ func decodeDeleteAccountResponse(resp *http.Response) (res DeleteAccountRes, _ e
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -1251,7 +1476,7 @@ func decodeDeleteAccountKeyResponse(resp *http.Response) (res DeleteAccountKeyRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1267,6 +1492,15 @@ func decodeDeleteAccountKeyResponse(resp *http.Response) (res DeleteAccountKeyRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1287,7 +1521,7 @@ func decodeDeleteAccountKeyResponse(resp *http.Response) (res DeleteAccountKeyRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1304,7 +1538,16 @@ func decodeDeleteAccountKeyResponse(resp *http.Response) (res DeleteAccountKeyRe
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -1337,7 +1580,7 @@ func decodeDeleteBucketResponse(resp *http.Response) (res DeleteBucketRes, _ err
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error400
+			var response DeleteBucketBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1353,6 +1596,15 @@ func decodeDeleteBucketResponse(resp *http.Response) (res DeleteBucketRes, _ err
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1372,7 +1624,7 @@ func decodeDeleteBucketResponse(resp *http.Response) (res DeleteBucketRes, _ err
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error409
+			var response DeleteBucketConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1388,6 +1640,15 @@ func decodeDeleteBucketResponse(resp *http.Response) (res DeleteBucketRes, _ err
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1416,7 +1677,7 @@ func decodeDeleteBucketEncryptionResponse(resp *http.Response) (res DeleteBucket
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response DeleteBucketEncryptionUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1432,6 +1693,15 @@ func decodeDeleteBucketEncryptionResponse(resp *http.Response) (res DeleteBucket
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1451,7 +1721,7 @@ func decodeDeleteBucketEncryptionResponse(resp *http.Response) (res DeleteBucket
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response DeleteBucketEncryptionNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1467,6 +1737,59 @@ func decodeDeleteBucketEncryptionResponse(resp *http.Response) (res DeleteBucket
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 405:
+		// Code 405.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response DeleteBucketEncryptionMethodNotAllowed
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1495,7 +1818,7 @@ func decodeDeleteBucketReplicationResponse(resp *http.Response) (res DeleteBucke
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response DeleteBucketReplicationUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1511,6 +1834,15 @@ func decodeDeleteBucketReplicationResponse(resp *http.Response) (res DeleteBucke
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1530,7 +1862,7 @@ func decodeDeleteBucketReplicationResponse(resp *http.Response) (res DeleteBucke
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response DeleteBucketReplicationNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1546,6 +1878,15 @@ func decodeDeleteBucketReplicationResponse(resp *http.Response) (res DeleteBucke
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1574,7 +1915,7 @@ func decodeDeletePermissionResponse(resp *http.Response) (res DeletePermissionRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1590,6 +1931,15 @@ func decodeDeletePermissionResponse(resp *http.Response) (res DeletePermissionRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1610,7 +1960,7 @@ func decodeDeletePermissionResponse(resp *http.Response) (res DeletePermissionRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1627,7 +1977,16 @@ func decodeDeletePermissionResponse(resp *http.Response) (res DeletePermissionRe
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -1660,7 +2019,7 @@ func decodeDeletePermissionKeyResponse(resp *http.Response) (res DeletePermissio
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response DeletePermissionKeyUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1676,6 +2035,15 @@ func decodeDeletePermissionKeyResponse(resp *http.Response) (res DeletePermissio
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1695,7 +2063,7 @@ func decodeDeletePermissionKeyResponse(resp *http.Response) (res DeletePermissio
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response DeletePermissionKeyNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1711,6 +2079,15 @@ func decodeDeletePermissionKeyResponse(resp *http.Response) (res DeletePermissio
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1731,7 +2108,7 @@ func decodeDeletePermissionKeyResponse(resp *http.Response) (res DeletePermissio
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1748,7 +2125,16 @@ func decodeDeletePermissionKeyResponse(resp *http.Response) (res DeletePermissio
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -1822,7 +2208,7 @@ func decodeListAccountKeysResponse(resp *http.Response) (res ListAccountKeysRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ListAccountKeysUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1838,6 +2224,15 @@ func decodeListAccountKeysResponse(resp *http.Response) (res ListAccountKeysRes,
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1857,7 +2252,7 @@ func decodeListAccountKeysResponse(resp *http.Response) (res ListAccountKeysRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ListAccountKeysNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1873,6 +2268,15 @@ func decodeListAccountKeysResponse(resp *http.Response) (res ListAccountKeysRes,
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -1893,7 +2297,7 @@ func decodeListAccountKeysResponse(resp *http.Response) (res ListAccountKeysRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1910,7 +2314,16 @@ func decodeListAccountKeysResponse(resp *http.Response) (res ListAccountKeysRes,
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -1984,7 +2397,7 @@ func decodeListBucketMeteringResponse(resp *http.Response) (res ListBucketMeteri
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error400
+			var response ListBucketMeteringBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2000,6 +2413,15 @@ func decodeListBucketMeteringResponse(resp *http.Response) (res ListBucketMeteri
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2019,7 +2441,7 @@ func decodeListBucketMeteringResponse(resp *http.Response) (res ListBucketMeteri
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ListBucketMeteringUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2035,6 +2457,15 @@ func decodeListBucketMeteringResponse(resp *http.Response) (res ListBucketMeteri
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2055,7 +2486,7 @@ func decodeListBucketMeteringResponse(resp *http.Response) (res ListBucketMeteri
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2072,7 +2503,16 @@ func decodeListBucketMeteringResponse(resp *http.Response) (res ListBucketMeteri
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -2146,7 +2586,7 @@ func decodeListBucketReplicableTargetsResponse(resp *http.Response) (res ListBuc
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ListBucketReplicableTargetsUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2162,6 +2602,15 @@ func decodeListBucketReplicableTargetsResponse(resp *http.Response) (res ListBuc
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2181,7 +2630,7 @@ func decodeListBucketReplicableTargetsResponse(resp *http.Response) (res ListBuc
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ListBucketReplicableTargetsNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2197,6 +2646,15 @@ func decodeListBucketReplicableTargetsResponse(resp *http.Response) (res ListBuc
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2266,7 +2724,7 @@ func decodeListBucketsResponse(resp *http.Response) (res ListBucketsRes, _ error
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2282,6 +2740,15 @@ func decodeListBucketsResponse(resp *http.Response) (res ListBucketsRes, _ error
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2351,7 +2818,7 @@ func decodeListClustersResponse(resp *http.Response) (res ListClustersRes, _ err
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2367,6 +2834,15 @@ func decodeListClustersResponse(resp *http.Response) (res ListClustersRes, _ err
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2436,7 +2912,7 @@ func decodeListPermissionKeysResponse(resp *http.Response) (res ListPermissionKe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ListPermissionKeysUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2452,6 +2928,15 @@ func decodeListPermissionKeysResponse(resp *http.Response) (res ListPermissionKe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2471,7 +2956,7 @@ func decodeListPermissionKeysResponse(resp *http.Response) (res ListPermissionKe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ListPermissionKeysNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2487,6 +2972,15 @@ func decodeListPermissionKeysResponse(resp *http.Response) (res ListPermissionKe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2507,7 +3001,7 @@ func decodeListPermissionKeysResponse(resp *http.Response) (res ListPermissionKe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2524,7 +3018,16 @@ func decodeListPermissionKeysResponse(resp *http.Response) (res ListPermissionKe
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -2598,7 +3101,7 @@ func decodeListPermissionsResponse(resp *http.Response) (res ListPermissionsRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2614,6 +3117,15 @@ func decodeListPermissionsResponse(resp *http.Response) (res ListPermissionsRes,
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2634,7 +3146,7 @@ func decodeListPermissionsResponse(resp *http.Response) (res ListPermissionsRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2651,7 +3163,16 @@ func decodeListPermissionsResponse(resp *http.Response) (res ListPermissionsRes,
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -2725,7 +3246,7 @@ func decodeListPlansResponse(resp *http.Response) (res ListPlansRes, _ error) {
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2741,6 +3262,15 @@ func decodeListPlansResponse(resp *http.Response) (res ListPlansRes, _ error) {
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2761,7 +3291,7 @@ func decodeListPlansResponse(resp *http.Response) (res ListPlansRes, _ error) {
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2778,7 +3308,16 @@ func decodeListPlansResponse(resp *http.Response) (res ListPlansRes, _ error) {
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -2852,7 +3391,7 @@ func decodeReadAccountResponse(resp *http.Response) (res ReadAccountRes, _ error
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ReadAccountUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2868,6 +3407,15 @@ func decodeReadAccountResponse(resp *http.Response) (res ReadAccountRes, _ error
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2887,7 +3435,7 @@ func decodeReadAccountResponse(resp *http.Response) (res ReadAccountRes, _ error
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ReadAccountNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2903,6 +3451,15 @@ func decodeReadAccountResponse(resp *http.Response) (res ReadAccountRes, _ error
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -2923,7 +3480,7 @@ func decodeReadAccountResponse(resp *http.Response) (res ReadAccountRes, _ error
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2940,7 +3497,16 @@ func decodeReadAccountResponse(resp *http.Response) (res ReadAccountRes, _ error
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -3014,7 +3580,7 @@ func decodeReadAccountKeyResponse(resp *http.Response) (res ReadAccountKeyRes, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ReadAccountKeyUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3030,6 +3596,15 @@ func decodeReadAccountKeyResponse(resp *http.Response) (res ReadAccountKeyRes, _
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3049,7 +3624,7 @@ func decodeReadAccountKeyResponse(resp *http.Response) (res ReadAccountKeyRes, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ReadAccountKeyNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3065,6 +3640,15 @@ func decodeReadAccountKeyResponse(resp *http.Response) (res ReadAccountKeyRes, _
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3085,7 +3669,7 @@ func decodeReadAccountKeyResponse(resp *http.Response) (res ReadAccountKeyRes, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3102,7 +3686,16 @@ func decodeReadAccountKeyResponse(resp *http.Response) (res ReadAccountKeyRes, _
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -3176,7 +3769,7 @@ func decodeReadBucketEncryptionResponse(resp *http.Response) (res ReadBucketEncr
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ReadBucketEncryptionUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3192,6 +3785,15 @@ func decodeReadBucketEncryptionResponse(resp *http.Response) (res ReadBucketEncr
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3211,7 +3813,7 @@ func decodeReadBucketEncryptionResponse(resp *http.Response) (res ReadBucketEncr
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ReadBucketEncryptionNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3227,6 +3829,59 @@ func decodeReadBucketEncryptionResponse(resp *http.Response) (res ReadBucketEncr
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 405:
+		// Code 405.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ReadBucketEncryptionMethodNotAllowed
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3296,7 +3951,7 @@ func decodeReadBucketPenaltyResponse(resp *http.Response) (res ReadBucketPenalty
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ReadBucketPenaltyUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3312,6 +3967,15 @@ func decodeReadBucketPenaltyResponse(resp *http.Response) (res ReadBucketPenalty
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3331,7 +3995,7 @@ func decodeReadBucketPenaltyResponse(resp *http.Response) (res ReadBucketPenalty
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ReadBucketPenaltyNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3347,6 +4011,15 @@ func decodeReadBucketPenaltyResponse(resp *http.Response) (res ReadBucketPenalty
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3367,7 +4040,7 @@ func decodeReadBucketPenaltyResponse(resp *http.Response) (res ReadBucketPenalty
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3384,7 +4057,16 @@ func decodeReadBucketPenaltyResponse(resp *http.Response) (res ReadBucketPenalty
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -3458,7 +4140,7 @@ func decodeReadBucketPlanResponse(resp *http.Response) (res ReadBucketPlanRes, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error400
+			var response ReadBucketPlanBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3474,6 +4156,15 @@ func decodeReadBucketPlanResponse(resp *http.Response) (res ReadBucketPlanRes, _
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3493,7 +4184,7 @@ func decodeReadBucketPlanResponse(resp *http.Response) (res ReadBucketPlanRes, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ReadBucketPlanNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3509,6 +4200,15 @@ func decodeReadBucketPlanResponse(resp *http.Response) (res ReadBucketPlanRes, _
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3528,7 +4228,7 @@ func decodeReadBucketPlanResponse(resp *http.Response) (res ReadBucketPlanRes, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error405
+			var response ReadBucketPlanMethodNotAllowed
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3544,6 +4244,15 @@ func decodeReadBucketPlanResponse(resp *http.Response) (res ReadBucketPlanRes, _
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3564,7 +4273,7 @@ func decodeReadBucketPlanResponse(resp *http.Response) (res ReadBucketPlanRes, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3581,7 +4290,16 @@ func decodeReadBucketPlanResponse(resp *http.Response) (res ReadBucketPlanRes, _
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -3655,7 +4373,7 @@ func decodeReadBucketQuotaResponse(resp *http.Response) (res ReadBucketQuotaRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error400
+			var response ReadBucketQuotaBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3671,6 +4389,15 @@ func decodeReadBucketQuotaResponse(resp *http.Response) (res ReadBucketQuotaRes,
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3690,7 +4417,7 @@ func decodeReadBucketQuotaResponse(resp *http.Response) (res ReadBucketQuotaRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ReadBucketQuotaUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3706,6 +4433,15 @@ func decodeReadBucketQuotaResponse(resp *http.Response) (res ReadBucketQuotaRes,
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3725,7 +4461,7 @@ func decodeReadBucketQuotaResponse(resp *http.Response) (res ReadBucketQuotaRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ReadBucketQuotaNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3741,6 +4477,15 @@ func decodeReadBucketQuotaResponse(resp *http.Response) (res ReadBucketQuotaRes,
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3761,7 +4506,7 @@ func decodeReadBucketQuotaResponse(resp *http.Response) (res ReadBucketQuotaRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3778,7 +4523,16 @@ func decodeReadBucketQuotaResponse(resp *http.Response) (res ReadBucketQuotaRes,
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -3852,7 +4606,7 @@ func decodeReadBucketReplicationResponse(resp *http.Response) (res ReadBucketRep
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ReadBucketReplicationUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3868,6 +4622,15 @@ func decodeReadBucketReplicationResponse(resp *http.Response) (res ReadBucketRep
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3887,7 +4650,7 @@ func decodeReadBucketReplicationResponse(resp *http.Response) (res ReadBucketRep
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ReadBucketReplicationNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3903,6 +4666,15 @@ func decodeReadBucketReplicationResponse(resp *http.Response) (res ReadBucketRep
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -3972,7 +4744,7 @@ func decodeReadBucketUsageResponse(resp *http.Response) (res ReadBucketUsageRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ReadBucketUsageUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3988,6 +4760,15 @@ func decodeReadBucketUsageResponse(resp *http.Response) (res ReadBucketUsageRes,
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4007,7 +4788,7 @@ func decodeReadBucketUsageResponse(resp *http.Response) (res ReadBucketUsageRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ReadBucketUsageNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4023,6 +4804,15 @@ func decodeReadBucketUsageResponse(resp *http.Response) (res ReadBucketUsageRes,
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4043,7 +4833,7 @@ func decodeReadBucketUsageResponse(resp *http.Response) (res ReadBucketUsageRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4060,7 +4850,16 @@ func decodeReadBucketUsageResponse(resp *http.Response) (res ReadBucketUsageRes,
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -4134,7 +4933,7 @@ func decodeReadClusterResponse(resp *http.Response) (res ReadClusterRes, _ error
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ReadClusterUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4150,6 +4949,15 @@ func decodeReadClusterResponse(resp *http.Response) (res ReadClusterRes, _ error
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4169,7 +4977,7 @@ func decodeReadClusterResponse(resp *http.Response) (res ReadClusterRes, _ error
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ReadClusterNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4185,6 +4993,15 @@ func decodeReadClusterResponse(resp *http.Response) (res ReadClusterRes, _ error
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4254,7 +5071,7 @@ func decodeReadPermissionResponse(resp *http.Response) (res ReadPermissionRes, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ReadPermissionUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4270,6 +5087,15 @@ func decodeReadPermissionResponse(resp *http.Response) (res ReadPermissionRes, _
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4289,7 +5115,7 @@ func decodeReadPermissionResponse(resp *http.Response) (res ReadPermissionRes, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ReadPermissionNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4305,6 +5131,15 @@ func decodeReadPermissionResponse(resp *http.Response) (res ReadPermissionRes, _
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4325,7 +5160,7 @@ func decodeReadPermissionResponse(resp *http.Response) (res ReadPermissionRes, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4342,7 +5177,16 @@ func decodeReadPermissionResponse(resp *http.Response) (res ReadPermissionRes, _
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -4416,7 +5260,7 @@ func decodeReadPermissionKeyResponse(resp *http.Response) (res ReadPermissionKey
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ReadPermissionKeyUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4432,6 +5276,15 @@ func decodeReadPermissionKeyResponse(resp *http.Response) (res ReadPermissionKey
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4451,7 +5304,7 @@ func decodeReadPermissionKeyResponse(resp *http.Response) (res ReadPermissionKey
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response ReadPermissionKeyNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4467,6 +5320,15 @@ func decodeReadPermissionKeyResponse(resp *http.Response) (res ReadPermissionKey
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4487,7 +5349,7 @@ func decodeReadPermissionKeyResponse(resp *http.Response) (res ReadPermissionKey
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4504,7 +5366,16 @@ func decodeReadPermissionKeyResponse(resp *http.Response) (res ReadPermissionKey
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -4578,7 +5449,7 @@ func decodeReadQuotaResponse(resp *http.Response) (res ReadQuotaRes, _ error) {
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4594,6 +5465,15 @@ func decodeReadQuotaResponse(resp *http.Response) (res ReadQuotaRes, _ error) {
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4614,7 +5494,7 @@ func decodeReadQuotaResponse(resp *http.Response) (res ReadQuotaRes, _ error) {
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4631,7 +5511,16 @@ func decodeReadQuotaResponse(resp *http.Response) (res ReadQuotaRes, _ error) {
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -4696,7 +5585,7 @@ func decodeReadStatusResponse(resp *http.Response) (res ReadStatusRes, _ error) 
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4712,6 +5601,15 @@ func decodeReadStatusResponse(resp *http.Response) (res ReadStatusRes, _ error) 
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4732,7 +5630,7 @@ func decodeReadStatusResponse(resp *http.Response) (res ReadStatusRes, _ error) 
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4749,7 +5647,16 @@ func decodeReadStatusResponse(resp *http.Response) (res ReadStatusRes, _ error) 
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -4823,7 +5730,7 @@ func decodeUpdateBucketEncryptionResponse(resp *http.Response) (res UpdateBucket
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error400
+			var response UpdateBucketEncryptionBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4839,6 +5746,15 @@ func decodeUpdateBucketEncryptionResponse(resp *http.Response) (res UpdateBucket
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4858,7 +5774,7 @@ func decodeUpdateBucketEncryptionResponse(resp *http.Response) (res UpdateBucket
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response UpdateBucketEncryptionUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4874,6 +5790,15 @@ func decodeUpdateBucketEncryptionResponse(resp *http.Response) (res UpdateBucket
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4893,7 +5818,7 @@ func decodeUpdateBucketEncryptionResponse(resp *http.Response) (res UpdateBucket
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response UpdateBucketEncryptionNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4909,6 +5834,59 @@ func decodeUpdateBucketEncryptionResponse(resp *http.Response) (res UpdateBucket
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 405:
+		// Code 405.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response UpdateBucketEncryptionMethodNotAllowed
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -4978,7 +5956,7 @@ func decodeUpdateBucketPlanResponse(resp *http.Response) (res UpdateBucketPlanRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error400
+			var response UpdateBucketPlanBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -4994,6 +5972,15 @@ func decodeUpdateBucketPlanResponse(resp *http.Response) (res UpdateBucketPlanRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -5013,7 +6000,7 @@ func decodeUpdateBucketPlanResponse(resp *http.Response) (res UpdateBucketPlanRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error405
+			var response UpdateBucketPlanMethodNotAllowed
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -5029,6 +6016,15 @@ func decodeUpdateBucketPlanResponse(resp *http.Response) (res UpdateBucketPlanRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -5048,7 +6044,7 @@ func decodeUpdateBucketPlanResponse(resp *http.Response) (res UpdateBucketPlanRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error409
+			var response UpdateBucketPlanConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -5064,6 +6060,15 @@ func decodeUpdateBucketPlanResponse(resp *http.Response) (res UpdateBucketPlanRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -5084,7 +6089,7 @@ func decodeUpdateBucketPlanResponse(resp *http.Response) (res UpdateBucketPlanRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -5101,7 +6106,16 @@ func decodeUpdateBucketPlanResponse(resp *http.Response) (res UpdateBucketPlanRe
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil
@@ -5175,7 +6189,7 @@ func decodeUpdatePermissionResponse(resp *http.Response) (res UpdatePermissionRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error401
+			var response UpdatePermissionUnauthorized
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -5191,6 +6205,15 @@ func decodeUpdatePermissionResponse(resp *http.Response) (res UpdatePermissionRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -5210,7 +6233,7 @@ func decodeUpdatePermissionResponse(resp *http.Response) (res UpdatePermissionRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error404
+			var response UpdatePermissionNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -5226,6 +6249,15 @@ func decodeUpdatePermissionResponse(resp *http.Response) (res UpdatePermissionRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -5245,7 +6277,7 @@ func decodeUpdatePermissionResponse(resp *http.Response) (res UpdatePermissionRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response Error409
+			var response UpdatePermissionConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -5261,6 +6293,15 @@ func decodeUpdatePermissionResponse(resp *http.Response) (res UpdatePermissionRe
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -5281,7 +6322,7 @@ func decodeUpdatePermissionResponse(resp *http.Response) (res UpdatePermissionRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorDefault
+			var response ErrorResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -5298,7 +6339,16 @@ func decodeUpdatePermissionResponse(resp *http.Response) (res UpdatePermissionRe
 				}
 				return res, err
 			}
-			return &ErrorDefaultStatusCode{
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorResponseStatusCode{
 				StatusCode: resp.StatusCode,
 				Response:   response,
 			}, nil

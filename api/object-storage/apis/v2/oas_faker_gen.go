@@ -105,7 +105,7 @@ func (s *AccountKeysDataItem) SetFake() {
 func (s *BucketBillingItem) SetFake() {
 	{
 		{
-			s.YearMonth = "string"
+			s.YearMonth.SetFake()
 		}
 	}
 	{
@@ -576,12 +576,174 @@ func (s *ContractSummaryStatus) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *CreateAccountConflict) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAccountConflict(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateAccountForbidden) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAccountForbidden(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateAccountKeyConflict) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAccountKeyConflict(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateAccountKeyNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAccountKeyNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateAccountKeyUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAccountKeyUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateAccountUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateAccountUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateBucketBadRequest) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateBucketBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateBucketConflict) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateBucketConflict(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateBucketNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateBucketNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateBucketReplicationBadRequest) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateBucketReplicationBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreateBucketReplicationNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateBucketReplicationNotFound(unwrapped)
+}
+
+// SetFake set fake values.
 func (s *CreateBucketReplicationReq) SetFake() {
 	{
 		{
 			s.DestBucket = "string"
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *CreateBucketReplicationUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreateBucketReplicationUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreatePermissionConflict) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreatePermissionConflict(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreatePermissionKeyConflict) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreatePermissionKeyConflict(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreatePermissionKeyNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreatePermissionKeyNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreatePermissionKeyUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreatePermissionKeyUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreatePermissionNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreatePermissionNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *CreatePermissionUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = CreatePermissionUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.
@@ -594,6 +756,105 @@ func (s *CreatedAt) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *DeleteAccountConflict) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteAccountConflict(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeleteAccountUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteAccountUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeleteBucketBadRequest) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteBucketBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeleteBucketConflict) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteBucketConflict(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeleteBucketEncryptionMethodNotAllowed) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteBucketEncryptionMethodNotAllowed(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeleteBucketEncryptionNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteBucketEncryptionNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeleteBucketEncryptionUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteBucketEncryptionUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeleteBucketReplicationNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteBucketReplicationNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeleteBucketReplicationUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeleteBucketReplicationUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeletePermissionKeyNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeletePermissionKeyNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DeletePermissionKeyUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = DeletePermissionKeyUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
 func (s *DisplayName) SetFake() {
 	var unwrapped string
 	{
@@ -603,181 +864,7 @@ func (s *DisplayName) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *Error400) SetFake() {
-	{
-		{
-			s.Error.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *Error400Error) SetFake() {
-	{
-		{
-			s.Code.SetFake()
-		}
-	}
-	{
-		{
-			s.Message.SetFake()
-		}
-	}
-	{
-		{
-			s.TraceID.SetFake()
-		}
-	}
-	{
-		{
-			s.Errors.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *Error401) SetFake() {
-	{
-		{
-			s.Error.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *Error401Error) SetFake() {
-	{
-		{
-			s.Code.SetFake()
-		}
-	}
-	{
-		{
-			s.Message.SetFake()
-		}
-	}
-	{
-		{
-			s.TraceID.SetFake()
-		}
-	}
-	{
-		{
-			s.Errors.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *Error403) SetFake() {
-	{
-		{
-			s.Error.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *Error403Error) SetFake() {
-	{
-		{
-			s.Code.SetFake()
-		}
-	}
-	{
-		{
-			s.Message.SetFake()
-		}
-	}
-	{
-		{
-			s.TraceID.SetFake()
-		}
-	}
-	{
-		{
-			s.Errors.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *Error404) SetFake() {
-	{
-		{
-			s.Error.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *Error404Error) SetFake() {
-	{
-		{
-			s.Code.SetFake()
-		}
-	}
-	{
-		{
-			s.Message.SetFake()
-		}
-	}
-	{
-		{
-			s.TraceID.SetFake()
-		}
-	}
-	{
-		{
-			s.Errors.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *Error405) SetFake() {
-	{
-		{
-			s.Error.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *Error405Error) SetFake() {
-	{
-		{
-			s.Code.SetFake()
-		}
-	}
-	{
-		{
-			s.Message.SetFake()
-		}
-	}
-	{
-		{
-			s.TraceID.SetFake()
-		}
-	}
-	{
-		{
-			s.Errors.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *Error409) SetFake() {
-	{
-		{
-			s.Error.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *Error409Error) SetFake() {
+func (s *ErrorBody) SetFake() {
 	{
 		{
 			s.Code.SetFake()
@@ -810,45 +897,21 @@ func (s *ErrorCode) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ErrorDefault) SetFake() {
-	{
-		{
-			s.Error.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ErrorDefaultError) SetFake() {
-	{
-		{
-			s.Code.SetFake()
-		}
-	}
-	{
-		{
-			s.Message.SetFake()
-		}
-	}
-	{
-		{
-			s.TraceID.SetFake()
-		}
-	}
-	{
-		{
-			s.Errors.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
 func (s *ErrorMessage) SetFake() {
 	var unwrapped string
 	{
 		unwrapped = "string"
 	}
 	*s = ErrorMessage(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ErrorResponse) SetFake() {
+	{
+		{
+			s.Error.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -1134,6 +1197,33 @@ func (s *HandlerUpdateBucketEncryptionResponse) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *ListAccountKeysNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListAccountKeysNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListAccountKeysUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListAccountKeysUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListBucketMeteringBadRequest) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListBucketMeteringBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
 func (s *ListBucketMeteringOK) SetFake() {
 	{
 		{
@@ -1147,6 +1237,51 @@ func (s *ListBucketMeteringOK) SetFake() {
 			}
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *ListBucketMeteringUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListBucketMeteringUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListBucketReplicableTargetsNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListBucketReplicableTargetsNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListBucketReplicableTargetsUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListBucketReplicableTargetsUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListPermissionKeysNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListPermissionKeysNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ListPermissionKeysUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ListPermissionKeysUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.
@@ -1200,78 +1335,17 @@ func (s *ModelReplicationConfigStatus) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ModelReplicationDestBucket) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.ClusterID = "string"
-		}
-	}
-	{
-		{
-			s.Plan.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ModelReplicationDestBucketPlan) SetFake() {
-	{
-		{
-			s.Type.SetFake()
-		}
-	}
-	{
-		{
-			s.ServiceClassPath.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ModelReplicationSourceBucket) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.ClusterID = "string"
-		}
-	}
-	{
-		{
-			s.Plan.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ModelReplicationSourceBucketPlan) SetFake() {
-	{
-		{
-			s.Type.SetFake()
-		}
-	}
-	{
-		{
-			s.ServiceClassPath.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
 func (s *NilDateTime) SetFake() {
 	s.Null = true
 }
 
 // SetFake set fake values.
 func (s *NilInt) SetFake() {
+	s.Null = true
+}
+
+// SetFake set fake values.
+func (s *NilPlanItemFee) SetFake() {
 	s.Null = true
 }
 
@@ -1287,96 +1361,6 @@ func (s *OptBucketListResponseBodyPlan) SetFake() {
 // SetFake set fake values.
 func (s *OptContractSummary) SetFake() {
 	var elem ContractSummary
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptError400Error) SetFake() {
-	var elem Error400Error
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptError401Error) SetFake() {
-	var elem Error401Error
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptError403Error) SetFake() {
-	var elem Error403Error
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptError404Error) SetFake() {
-	var elem Error404Error
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptError405Error) SetFake() {
-	var elem Error405Error
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptError409Error) SetFake() {
-	var elem Error409Error
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptErrorCode) SetFake() {
-	var elem ErrorCode
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptErrorDefaultError) SetFake() {
-	var elem ErrorDefaultError
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptErrorMessage) SetFake() {
-	var elem ErrorMessage
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptErrorTraceId) SetFake() {
-	var elem ErrorTraceId
 	{
 		elem.SetFake()
 	}
@@ -1827,6 +1811,60 @@ func (s *ReadAccountKeyData) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *ReadAccountKeyNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadAccountKeyNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadAccountKeyUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadAccountKeyUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadAccountNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadAccountNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadAccountUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadAccountUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketEncryptionMethodNotAllowed) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketEncryptionMethodNotAllowed(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketEncryptionNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketEncryptionNotFound(unwrapped)
+}
+
+// SetFake set fake values.
 func (s *ReadBucketEncryptionOK) SetFake() {
 	{
 		{
@@ -1836,12 +1874,221 @@ func (s *ReadBucketEncryptionOK) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *ReadBucketEncryptionUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketEncryptionUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketPenaltyNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketPenaltyNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketPenaltyUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketPenaltyUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketPlanBadRequest) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketPlanBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketPlanMethodNotAllowed) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketPlanMethodNotAllowed(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketPlanNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketPlanNotFound(unwrapped)
+}
+
+// SetFake set fake values.
 func (s *ReadBucketPlanOK) SetFake() {
 	{
 		{
 			s.Data.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *ReadBucketQuotaBadRequest) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketQuotaBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketQuotaNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketQuotaNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketQuotaUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketQuotaUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketReplicationNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketReplicationNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketReplicationUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketReplicationUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketUsageNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketUsageNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadBucketUsageUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadBucketUsageUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadClusterNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadClusterNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadClusterUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadClusterUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadPermissionKeyNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadPermissionKeyNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadPermissionKeyUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadPermissionKeyUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadPermissionNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadPermissionNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadPermissionUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadPermissionUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReplicationBucket) SetFake() {
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.ClusterID = "string"
+		}
+	}
+	{
+		{
+			s.Plan.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReplicationPlan) SetFake() {
+	{
+		{
+			s.Type.SetFake()
+		}
+	}
+	{
+		{
+			s.ServiceClassPath = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReplicationPlanType) SetFake() {
+	*s = ReplicationPlanTypeEmpty
 }
 
 // SetFake set fake values.
@@ -1919,6 +2166,33 @@ func (s *StatusDataStatusCode) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *UpdateBucketEncryptionBadRequest) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateBucketEncryptionBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateBucketEncryptionMethodNotAllowed) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateBucketEncryptionMethodNotAllowed(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateBucketEncryptionNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateBucketEncryptionNotFound(unwrapped)
+}
+
+// SetFake set fake values.
 func (s *UpdateBucketEncryptionOK) SetFake() {
 	{
 		{
@@ -1928,10 +2202,82 @@ func (s *UpdateBucketEncryptionOK) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *UpdateBucketEncryptionUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateBucketEncryptionUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateBucketPlanBadRequest) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateBucketPlanBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateBucketPlanConflict) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateBucketPlanConflict(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateBucketPlanMethodNotAllowed) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateBucketPlanMethodNotAllowed(unwrapped)
+}
+
+// SetFake set fake values.
 func (s *UpdateBucketPlanOK) SetFake() {
 	{
 		{
 			s.Data.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *UpdatePermissionConflict) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdatePermissionConflict(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdatePermissionNotFound) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdatePermissionNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdatePermissionUnauthorized) SetFake() {
+	var unwrapped ErrorResponse
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdatePermissionUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *YearMonth) SetFake() {
+	var unwrapped string
+	{
+		unwrapped = "string"
+	}
+	*s = YearMonth(unwrapped)
 }
