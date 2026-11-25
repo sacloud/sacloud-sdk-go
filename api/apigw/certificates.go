@@ -40,89 +40,36 @@ func NewCertificateOp(client *v1.Client) CertificateAPI {
 }
 
 func (op *certificateOp) List(ctx context.Context) ([]v1.Certificate, error) {
-	res, err := op.client.GetCertificates(ctx)
+	res, err := errorFromDecodedResponse[v1.GetCertificatesOK]("Certificate.List", func() (any, error) { return op.client.GetCertificates(ctx) })
 	if err != nil {
-		return nil, NewAPIError("Certificate.List", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.GetCertificatesOK:
-		return p.Apigw.Certificates, nil
-	case *v1.GetCertificatesBadRequest:
-		return nil, NewAPIError("Certificate.List", 400, errors.New(p.Message.Value))
-	case *v1.GetCertificatesUnauthorized:
-		return nil, NewAPIError("Certificate.List", 401, errors.New(p.Message.Value))
-	case *v1.GetCertificatesInternalServerError:
-		return nil, NewAPIError("Certificate.List", 500, errors.New(p.Message.Value))
-	}
-
-	return nil, NewAPIError("Certificate.List", 0, unknownError(res))
+	return new(res.GetApigw()).GetCertificates(), nil
 }
 
 func (op *certificateOp) Create(ctx context.Context, request *v1.Certificate) (*v1.Certificate, error) {
-	res, err := op.client.AddCertificate(ctx, request)
+	res, err := errorFromDecodedResponse[v1.AddCertificateCreated]("Certificate.Create", func() (any, error) { return op.client.AddCertificate(ctx, request) })
 	if err != nil {
-		return nil, NewAPIError("Certificate.Create", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.AddCertificateCreated:
-		return &p.Apigw.Certificate.Value, nil
-	case *v1.AddCertificateBadRequest:
-		return nil, NewAPIError("Certificate.Create", 400, errors.New(p.Message.Value))
-	case *v1.AddCertificateUnauthorized:
-		return nil, NewAPIError("Certificate.Create", 401, errors.New(p.Message.Value))
-	case *v1.AddCertificateConflict:
-		return nil, NewAPIError("Certificate.Create", 409, errors.New(p.Message.Value))
-	case *v1.AddCertificateInternalServerError:
-		return nil, NewAPIError("Certificate.Create", 500, errors.New(p.Message.Value))
+	c, ok := new(res.GetApigw()).GetCertificate().Get()
+	if !ok {
+		return nil, NewError("Certificate.Create", errors.New("response does not contain a certificate"))
 	}
 
-	return nil, NewAPIError("Certificate.Create", 0, unknownError(res))
+	return &c, nil
 }
 
 func (op *certificateOp) Update(ctx context.Context, request *v1.Certificate, id uuid.UUID) error {
-	res, err := op.client.UpdateCertificate(ctx, request, v1.UpdateCertificateParams{CertificateId: id})
-	if err != nil {
-		return NewAPIError("Certificate.Update", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.UpdateCertificateNoContent:
-		return nil
-	case *v1.UpdateCertificateBadRequest:
-		return NewAPIError("Certificate.Update", 400, errors.New(p.Message.Value))
-	case *v1.UpdateCertificateUnauthorized:
-		return NewAPIError("Certificate.Update", 401, errors.New(p.Message.Value))
-	case *v1.UpdateCertificateNotFound:
-		return NewAPIError("Certificate.Update", 404, errors.New(p.Message.Value))
-	case *v1.UpdateCertificateConflict:
-		return NewAPIError("Certificate.Update", 409, errors.New(p.Message.Value))
-	case *v1.UpdateCertificateInternalServerError:
-		return NewAPIError("Certificate.Update", 500, errors.New(p.Message.Value))
-	}
-
-	return NewAPIError("Certificate.Update", 0, unknownError(res))
+	return errorFromDecodedResponseE[v1.UpdateCertificateNoContent]("Certificate.Update", func() (any, error) {
+		return op.client.UpdateCertificate(ctx, request, v1.UpdateCertificateParams{CertificateId: id})
+	})
 }
 
 func (op *certificateOp) Delete(ctx context.Context, id uuid.UUID) error {
-	res, err := op.client.DeleteCertificate(ctx, v1.DeleteCertificateParams{CertificateId: id})
-	if err != nil {
-		return NewAPIError("Certificate.Delete", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.DeleteCertificateNoContent:
-		return nil
-	case *v1.DeleteCertificateBadRequest:
-		return NewAPIError("Certificate.Delete", 400, errors.New(p.Message.Value))
-	case *v1.DeleteCertificateUnauthorized:
-		return NewAPIError("Certificate.Delete", 401, errors.New(p.Message.Value))
-	case *v1.DeleteCertificateNotFound:
-		return NewAPIError("Certificate.Delete", 404, errors.New(p.Message.Value))
-	case *v1.DeleteCertificateInternalServerError:
-		return NewAPIError("Certificate.Delete", 500, errors.New(p.Message.Value))
-	}
-
-	return NewAPIError("Certificate.Delete", 0, unknownError(res))
+	return errorFromDecodedResponseE[v1.DeleteCertificateNoContent]("Certificate.Delete", func() (any, error) {
+		return op.client.DeleteCertificate(ctx, v1.DeleteCertificateParams{CertificateId: id})
+	})
 }

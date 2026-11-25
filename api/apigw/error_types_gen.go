@@ -8,6 +8,9 @@ package apigw
 import v1 "github.com/sacloud/sacloud-sdk-go/api/apigw/apis/v1"
 
 func asErrorSchema(p any) (*v1.ErrorSchema, bool) {
+	if p == nil {
+		return nil, false
+	}
 	switch p := p.(type) {
 	case *v1.AddCertificateBadRequest:
 		return (*v1.ErrorSchema)(p), true

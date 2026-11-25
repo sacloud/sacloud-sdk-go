@@ -41,101 +41,50 @@ func NewGroupOp(client *v1.Client) GroupAPI {
 }
 
 func (op *groupOp) List(ctx context.Context) ([]v1.Group, error) {
-	res, err := op.client.GetGroups(ctx)
+	res, err := errorFromDecodedResponse[v1.GetGroupsOK]("Group.List", func() (any, error) { return op.client.GetGroups(ctx) })
 	if err != nil {
-		return nil, NewAPIError("Group.List", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.GetGroupsOK:
-		return p.Apigw.Groups, nil
-	case *v1.GetGroupsBadRequest:
-		return nil, NewAPIError("Group.List", 400, errors.New(p.Message.Value))
-	case *v1.GetGroupsInternalServerError:
-		return nil, NewAPIError("Group.List", 500, errors.New(p.Message.Value))
-	}
-
-	return nil, NewAPIError("Group.List", 0, unknownError(res))
+	return new(res.GetApigw()).GetGroups(), nil
 }
 
 func (op *groupOp) Create(ctx context.Context, request *v1.Group) (*v1.Group, error) {
-	res, err := op.client.AddGroup(ctx, request)
+	res, err := errorFromDecodedResponse[v1.AddGroupCreated]("Group.Create", func() (any, error) { return op.client.AddGroup(ctx, request) })
 	if err != nil {
-		return nil, NewAPIError("Group.Create", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.AddGroupCreated:
-		return &p.Apigw.Group.Value, nil
-	case *v1.AddGroupBadRequest:
-		return nil, NewAPIError("Group.Create", 400, errors.New(p.Message.Value))
-	case *v1.AddGroupConflict:
-		return nil, NewAPIError("Group.Create", 409, errors.New(p.Message.Value))
-	case *v1.AddGroupInternalServerError:
-		return nil, NewAPIError("Group.Create", 500, errors.New(p.Message.Value))
+	g, ok := new(res.GetApigw()).GetGroup().Get()
+	if !ok {
+		return nil, NewError("Group.Create", errors.New("response does not contain a group"))
 	}
 
-	return nil, NewAPIError("Group.Create", 0, unknownError(res))
+	return &g, nil
 }
 
 func (op *groupOp) Read(ctx context.Context, id uuid.UUID) (*v1.Group, error) {
-	res, err := op.client.GetGroup(ctx, v1.GetGroupParams{GroupId: id})
+	res, err := errorFromDecodedResponse[v1.GetGroupOK]("Group.Read", func() (any, error) { return op.client.GetGroup(ctx, v1.GetGroupParams{GroupId: id}) })
 	if err != nil {
-		return nil, NewAPIError("Group.Read", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.GetGroupOK:
-		return &p.Apigw.Group.Value, nil
-	case *v1.GetGroupBadRequest:
-		return nil, NewAPIError("Group.Read", 400, errors.New(p.Message.Value))
-	case *v1.GetGroupNotFound:
-		return nil, NewAPIError("Group.Read", 404, errors.New(p.Message.Value))
-	case *v1.GetGroupInternalServerError:
-		return nil, NewAPIError("Group.Read", 500, errors.New(p.Message.Value))
+	g, ok := new(res.GetApigw()).GetGroup().Get()
+	if !ok {
+		return nil, NewError("Group.Read", errors.New("response does not contain a group"))
 	}
 
-	return nil, NewAPIError("Group.Read", 0, unknownError(res))
+	return &g, nil
 }
 
 func (op *groupOp) Update(ctx context.Context, request *v1.Group, id uuid.UUID) error {
-	res, err := op.client.UpdateGroup(ctx, request, v1.UpdateGroupParams{GroupId: id})
-	if err != nil {
-		return NewAPIError("Group.Update", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.UpdateGroupNoContent:
-		return nil
-	case *v1.UpdateGroupBadRequest:
-		return NewAPIError("Group.Update", 400, errors.New(p.Message.Value))
-	case *v1.UpdateGroupNotFound:
-		return NewAPIError("Group.Update", 404, errors.New(p.Message.Value))
-	case *v1.UpdateGroupInternalServerError:
-		return NewAPIError("Group.Update", 500, errors.New(p.Message.Value))
-	}
-
-	return NewAPIError("Group.Update", 0, unknownError(res))
+	return errorFromDecodedResponseE[v1.UpdateGroupNoContent]("Group.Update", func() (any, error) {
+		return op.client.UpdateGroup(ctx, request, v1.UpdateGroupParams{GroupId: id})
+	})
 }
 
 func (op *groupOp) Delete(ctx context.Context, id uuid.UUID) error {
-	res, err := op.client.DeleteGroup(ctx, v1.DeleteGroupParams{GroupId: id})
-	if err != nil {
-		return NewAPIError("Group.Delete", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.DeleteGroupNoContent:
-		return nil
-	case *v1.DeleteGroupBadRequest:
-		return NewAPIError("Group.Delete", 400, errors.New(p.Message.Value))
-	case *v1.DeleteGroupUnauthorized:
-		return NewAPIError("Group.Delete", 401, errors.New(p.Message.Value))
-	case *v1.DeleteGroupNotFound:
-		return NewAPIError("Group.Delete", 404, errors.New(p.Message.Value))
-	case *v1.DeleteGroupInternalServerError:
-		return NewAPIError("Group.Delete", 500, errors.New(p.Message.Value))
-	}
-
-	return NewAPIError("Group.Delete", 0, unknownError(res))
+	return errorFromDecodedResponseE[v1.DeleteGroupNoContent]("Group.Delete", func() (any, error) {
+		return op.client.DeleteGroup(ctx, v1.DeleteGroupParams{GroupId: id})
+	})
 }
