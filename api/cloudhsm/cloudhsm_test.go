@@ -71,7 +71,7 @@ func TestCloudHSMOp_Read_404(t *testing.T) {
 	cloudhsm, err := api.Read(ctx, "99999")
 	assert.Nil(cloudhsm)
 	assert.Error(err)
-	assert.ErrorContains(err, "not found")
+	assert.ErrorContains(err, "No CloudHSM matches the given query.")
 }
 
 func TestCloudHSMOp_Create(t *testing.T) {
@@ -161,7 +161,7 @@ func TestCloudHSMOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "0")
 	assert.Error(err)
-	assert.ErrorContains(err, "not found")
+	assert.ErrorContains(err, "Not found")
 }
 
 //nolint:gosec // no security issue here

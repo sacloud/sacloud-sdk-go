@@ -58,7 +58,7 @@ func TestDocumentOp_List_404(t *testing.T) {
 	documents, err := api.List(context.Background(), nil, nil)
 
 	assert.Nil(documents)
-	assert.ErrorContains(err, "not found")
+	assert.ErrorContains(err, "No documents found.")
 }
 
 func TestDocumentOp_Download_422(t *testing.T) {
@@ -69,5 +69,5 @@ func TestDocumentOp_Download_422(t *testing.T) {
 	document, err := api.Download(context.Background(), "invalid-document")
 
 	assert.Nil(document)
-	assert.ErrorContains(err, "invalid parameter")
+	assert.ErrorContains(err, "Invalid document.")
 }

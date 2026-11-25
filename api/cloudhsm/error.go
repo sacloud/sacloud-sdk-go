@@ -14,7 +14,13 @@
 
 package cloudhsm
 
-import "github.com/sacloud/sacloud-sdk-go/common/saclient"
+import (
+	"errors"
+
+	ogen "github.com/ogen-go/ogen/validate"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+)
 
 type Error struct {
 	msg string
@@ -43,4 +49,24 @@ func NewError(msg string, err error) *Error {
 
 func NewAPIError(method string, code int, err error) *Error {
 	return &Error{msg: method, err: saclient.NewError(code, "", err)}
+}
+
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
+func errorFromDecodedResponse[T any](method string, yield func() (*T, error)) (ret *T, err error) {
+	ret, err = yield()
+
+	if e, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](err); ok {
+		err = NewError(method, httperror.NewError(method, e))
+	} else if err != nil {
+		err = NewError(method, err) // this is e.g. broken JSON
+	}
+
+	return
+}
+
+func errorFromDecodedResponseE(method string, yield func() error) (err error) {
+	type never struct{}
+	var zero never
+	_, err = errorFromDecodedResponse[never](method, func() (*never, error) { return &zero, yield() })
+	return
 }

@@ -5,10 +5,7 @@ package cloudhsm
 
 import (
 	"context"
-	"net/http"
 
-	"github.com/go-faster/errors"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/cloudhsm/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
@@ -38,38 +35,26 @@ func (op *DocumentOp) List(ctx context.Context, count, from *int) ([]v1.CloudHSM
 		Count:             into.Opt[v1.OptInt](count),
 		From:              into.Opt[v1.OptInt](from),
 	}
-
-	resp, err := op.client.ListCloudHSMDocuments(ctx, request)
-	if err == nil {
-		return resp.GetCloudHSMDocuments(), nil
-	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
-		return nil, NewAPIError("Document.List", 0, err)
-	} else if e.StatusCode == http.StatusNotFound {
-		return nil, NewAPIError("Document.List", e.StatusCode, errors.Wrap(err, "not found"))
-	} else {
-		return nil, NewAPIError("Document.List", e.StatusCode, errors.Wrap(err, "internal server error"))
+	resp, err := errorFromDecodedResponse("Document.List", func() (*v1.PaginatedCloudHSMDocumentList, error) {
+		return op.client.ListCloudHSMDocuments(ctx, request)
+	})
+	if err != nil {
+		return nil, err
 	}
+
+	return resp.GetCloudHSMDocuments(), nil
 }
 
 func (op *DocumentOp) Download(ctx context.Context, id string) (*v1.CloudHSMDocumentDownload, error) {
-	resp, err := op.client.DownloadCloudHSMDocument(
-		ctx,
-		v1.DownloadCloudHSMDocumentParams{
+	resp, err := errorFromDecodedResponse("Document.Download", func() (*v1.WrappedCloudHSMDocumentDownload, error) {
+		return op.client.DownloadCloudHSMDocument(ctx, v1.DownloadCloudHSMDocumentParams{
 			ID:                id,
 			LicenseResourceID: op.licenseResourceID,
-		},
-	)
-	//nolint:gocritic
-	if err == nil {
-		document := resp.GetDocument()
-		return &document, nil
-	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
-		return nil, NewAPIError("Document.Download", 0, err)
-	} else if e.StatusCode == http.StatusNotFound {
-		return nil, NewAPIError("Document.Download", e.StatusCode, errors.Wrap(err, "not found"))
-	} else if e.StatusCode == http.StatusUnprocessableEntity {
-		return nil, NewAPIError("Document.Download", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-	} else {
-		return nil, NewAPIError("Document.Download", e.StatusCode, errors.Wrap(err, "internal server error"))
+		})
+	})
+	if err != nil {
+		return nil, err
 	}
+
+	return new(resp.GetDocument()), nil
 }

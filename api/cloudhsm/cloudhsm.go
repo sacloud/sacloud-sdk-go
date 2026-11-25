@@ -16,10 +16,7 @@ package cloudhsm
 
 import (
 	"context"
-	"net/http"
 
-	"github.com/go-faster/errors"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/cloudhsm/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
@@ -65,9 +62,8 @@ type CloudHSMCreateParams struct {
 }
 
 func (op *CloudHSMOp) Create(ctx context.Context, p CloudHSMCreateParams) (*v1.CreateCloudHSM, error) {
-	resp, err := op.client.CreateCloudHSM(
-		ctx,
-		&v1.WrappedCreateCloudHSMRequest{
+	resp, err := errorFromDecodedResponse("CloudHSM.Create", func() (*v1.WrappedCreateCloudHSM, error) {
+		return op.client.CreateCloudHSM(ctx, &v1.WrappedCreateCloudHSMRequest{
 			CloudHSM: v1.CreateCloudHSMRequest{
 				Name:               p.Name,
 				Description:        into.Opt[v1.OptString](p.Description),
@@ -75,39 +71,26 @@ func (op *CloudHSMOp) Create(ctx context.Context, p CloudHSMCreateParams) (*v1.C
 				IPv4NetworkAddress: p.IPv4NetworkAddress,
 				IPv4PrefixLength:   p.IPv4PrefixLength,
 			},
-		},
-	)
-
-	if err == nil {
-		ret := resp.GetCloudHSM()
-		return &ret, nil
-	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
-		return nil, NewAPIError("CloudHSM.Create", 0, err)
-	} else if e.StatusCode == http.StatusUnprocessableEntity {
-		return nil, NewAPIError("CloudHSM.Create", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-	} else {
-		return nil, NewAPIError("CloudHSM.Create", e.StatusCode, errors.Wrap(err, "internal server error"))
+		})
+	})
+	if err != nil {
+		return nil, err
 	}
+
+	return new(resp.GetCloudHSM()), nil
 }
 
 func (op *CloudHSMOp) Read(ctx context.Context, id string) (*v1.CloudHSM, error) {
-	resp, err := op.client.ReadCloudHSM(
-		ctx,
-		v1.ReadCloudHSMParams{
+	resp, err := errorFromDecodedResponse("CloudHSM.Read", func() (*v1.WrappedCloudHSM, error) {
+		return op.client.ReadCloudHSM(ctx, v1.ReadCloudHSMParams{
 			ResourceID: id,
-		},
-	)
-
-	if err == nil {
-		ret := resp.GetCloudHSM()
-		return &ret, nil
-	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
-		return nil, NewAPIError("CloudHSM.Read", 0, err)
-	} else if e.StatusCode == http.StatusNotFound {
-		return nil, NewAPIError("CloudHSM.Read", e.StatusCode, errors.Wrap(err, "not found"))
-	} else {
-		return nil, NewAPIError("CloudHSM.Read", e.StatusCode, errors.Wrap(err, "internal server error"))
+		})
+	})
+	if err != nil {
+		return nil, err
 	}
+
+	return new(resp.GetCloudHSM()), nil
 }
 
 type CloudHSMUpdateParams struct {
@@ -119,9 +102,8 @@ type CloudHSMUpdateParams struct {
 }
 
 func (op *CloudHSMOp) Update(ctx context.Context, id string, p CloudHSMUpdateParams) (*v1.CloudHSM, error) {
-	resp, err := op.client.UpdateCloudHSM(
-		ctx,
-		&v1.WrappedCloudHSMRequest{
+	resp, err := errorFromDecodedResponse("CloudHSM.Update", func() (*v1.WrappedCloudHSM, error) {
+		return op.client.UpdateCloudHSM(ctx, &v1.WrappedCloudHSMRequest{
 			CloudHSM: v1.CloudHSMRequest{
 				Name:               p.Name,
 				Description:        into.Opt[v1.OptString](p.Description),
@@ -129,39 +111,21 @@ func (op *CloudHSMOp) Update(ctx context.Context, id string, p CloudHSMUpdatePar
 				IPv4NetworkAddress: p.IPv4NetworkAddress,
 				IPv4PrefixLength:   p.IPv4PrefixLength,
 			},
-		},
-		v1.UpdateCloudHSMParams{
+		}, v1.UpdateCloudHSMParams{
 			ResourceID: id,
-		},
-	)
-
-	if err == nil {
-		ret := resp.GetCloudHSM()
-		return &ret, nil
-	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
-		return nil, NewAPIError("CloudHSM.Update", 0, err)
-	} else if e.StatusCode == http.StatusUnprocessableEntity {
-		return nil, NewAPIError("CloudHSM.Update", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-	} else {
-		return nil, NewAPIError("CloudHSM.Update", 0, err)
+		})
+	})
+	if err != nil {
+		return nil, err
 	}
+
+	return new(resp.GetCloudHSM()), nil
 }
 
 func (op *CloudHSMOp) Delete(ctx context.Context, id string) error {
-	err := op.client.DeleteCloudHSM(
-		ctx,
-		v1.DeleteCloudHSMParams{
+	return errorFromDecodedResponseE("CloudHSM.Delete", func() error {
+		return op.client.DeleteCloudHSM(ctx, v1.DeleteCloudHSMParams{
 			ResourceID: id,
-		},
-	)
-
-	if err == nil {
-		return nil
-	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
-		return NewAPIError("CloudHSM.Delete", 0, err)
-	} else if e.StatusCode == http.StatusNotFound {
-		return NewAPIError("CloudHSM.Delete", e.StatusCode, errors.Wrap(err, "not found"))
-	} else {
-		return NewAPIError("CloudHSM.Delete", e.StatusCode, errors.Wrap(err, "internal server error"))
-	}
+		})
+	})
 }
