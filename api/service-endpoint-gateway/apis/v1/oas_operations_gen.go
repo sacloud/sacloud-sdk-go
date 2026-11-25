@@ -6,15 +6,15 @@ package v1
 type OperationName = string
 
 const (
-	SegApplyOperation                   OperationName = "SegApply"
-	SegCreateOperation                  OperationName = "SegCreate"
-	SegDeleteOperation                  OperationName = "SegDelete"
-	SegGetOperation                     OperationName = "SegGet"
-	SegInterfaceGetInterfaceOperation   OperationName = "SegInterfaceGetInterface"
-	SegListOperation                    OperationName = "SegList"
-	SegStatusDeletePowerStatusOperation OperationName = "SegStatusDeletePowerStatus"
-	SegStatusGetPowerStatusOperation    OperationName = "SegStatusGetPowerStatus"
-	SegStatusResetPowerStatusOperation  OperationName = "SegStatusResetPowerStatus"
-	SegStatusUpdatePowerStatusOperation OperationName = "SegStatusUpdatePowerStatus"
-	SegUpdateOperation                  OperationName = "SegUpdate"
+	ApplyServiceEndpointGatewayConfigOperation     OperationName = "ApplyServiceEndpointGatewayConfig"
+	CreateServiceEndpointGatewayOperation          OperationName = "CreateServiceEndpointGateway"
+	DeleteServiceEndpointGatewayOperation          OperationName = "DeleteServiceEndpointGateway"
+	ListServiceEndpointGatewaysOperation           OperationName = "ListServiceEndpointGateways"
+	PowerOffServiceEndpointGatewayOperation        OperationName = "PowerOffServiceEndpointGateway"
+	PowerOnServiceEndpointGatewayOperation         OperationName = "PowerOnServiceEndpointGateway"
+	ReadServiceEndpointGatewayOperation            OperationName = "ReadServiceEndpointGateway"
+	ReadServiceEndpointGatewayInterfaceOperation   OperationName = "ReadServiceEndpointGatewayInterface"
+	ReadServiceEndpointGatewayPowerStatusOperation OperationName = "ReadServiceEndpointGatewayPowerStatus"
+	ResetServiceEndpointGatewayOperation           OperationName = "ResetServiceEndpointGateway"
+	UpdateServiceEndpointGatewayOperation          OperationName = "UpdateServiceEndpointGateway"
 )

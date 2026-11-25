@@ -3,11 +3,7 @@
 package v1
 
 import (
-	"fmt"
-
-	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-	"github.com/ogen-go/ogen/validate"
 
 	std "encoding/json"
 	"testing"
@@ -27,8 +23,8 @@ func TestModelsApplianceAppliance_EncodeDecode(t *testing.T) {
 	var typ2 ModelsApplianceAppliance
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestModelsApplianceApplianceApplyResponse_EncodeDecode(t *testing.T) {
-	var typ ModelsApplianceApplianceApplyResponse
+func TestModelsApplianceApplianceApplyResponseBody_EncodeDecode(t *testing.T) {
+	var typ ModelsApplianceApplianceApplyResponseBody
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -36,11 +32,11 @@ func TestModelsApplianceApplianceApplyResponse_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ModelsApplianceApplianceApplyResponse
+	var typ2 ModelsApplianceApplianceApplyResponseBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestModelsApplianceApplianceApplyResponseResponseHeaders_EncodeDecode(t *testing.T) {
-	var typ ModelsApplianceApplianceApplyResponseResponseHeaders
+func TestModelsApplianceApplianceApplyResponseBodyResponseHeaders_EncodeDecode(t *testing.T) {
+	var typ ModelsApplianceApplianceApplyResponseBodyResponseHeaders
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -48,7 +44,7 @@ func TestModelsApplianceApplianceApplyResponseResponseHeaders_EncodeDecode(t *te
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ModelsApplianceApplianceApplyResponseResponseHeaders
+	var typ2 ModelsApplianceApplianceApplyResponseBodyResponseHeaders
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestModelsApplianceApplianceAvailability_EncodeDecode(t *testing.T) {
@@ -99,211 +95,6 @@ func TestModelsApplianceApplianceCreateBodyClass_EncodeDecode(t *testing.T) {
 	var typ2 ModelsApplianceApplianceCreateBodyClass
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestModelsApplianceApplianceCreateRequest_EncodeDecode(t *testing.T) {
-	var typ ModelsApplianceApplianceCreateRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ModelsApplianceApplianceCreateRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestModelsApplianceApplianceCreateRequest_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Appliance\":{\"Class\":\"serviceendpointgateway\",\"Plan\":{\"ID\":1},\"Remark\":{\"Network\":{\"NetworkMaskLen\":24},\"Servers\":[{\"IPAddress\":\"192.0.2.15\"}],\"Switch\":{\"ID\":\"123456789012\"}}}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ModelsApplianceApplianceCreateRequest
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ModelsApplianceApplianceCreateRequest
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestModelsApplianceApplianceCreateResponseBody_EncodeDecode(t *testing.T) {
-	var typ ModelsApplianceApplianceCreateResponseBody
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ModelsApplianceApplianceCreateResponseBody
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestModelsApplianceApplianceCreateResponseBody_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Appliance\":{\"Availability\":\"migrating\",\"Class\":\"serviceendpointgateway\",\"CreatedAt\":\"2026-02-09T23:40:29+09:00\",\"Description\":\"\",\"Disk\":{\"DedicatedStorageContract\":{\"ID\":null},\"EncryptionAlgorithm\":null,\"EncryptionKey\":{\"KMSKeyID\":null}},\"Generation\":100,\"ID\":\"123456789012\",\"Icon\":null,\"Instance\":{\"Host\":{\"InfoURL\":null,\"Name\":null},\"Hosts\":[],\"Status\":null,\"StatusChangedAt\":null},\"Interfaces\":[],\"Name\":\"Service Endpoint Gateway (123456789012)\",\"Plan\":{\"ID\":1},\"Remark\":{\"Network\":{\"NetworkMaskLen\":24},\"Servers\":[{\"IPAddress\":\"192.0.2.15\"}],\"Switch\":{\"ID\":\"123456789012\"},\"Zone\":{\"ID\":\"21001\"}},\"ServiceClass\":\"cloud/appliance/serviceendpointgateway/1\",\"Settings\":null,\"SettingsHash\":null,\"Switch\":{\"Availability\":\"available\",\"ID\":\"123456789012\",\"Internet\":{\"BandWidthMbps\":null},\"Name\":\"Switch\",\"Scope\":\"user\",\"Zone\":{\"ID\":21001,\"Name\":\"tk1a\",\"Region\":{\"ID\":210,\"Name\":\"東京\"}}},\"Tags\":[]},\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ModelsApplianceApplianceCreateResponseBody
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ModelsApplianceApplianceCreateResponseBody
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestModelsApplianceApplianceGetInterfaceResponseBody_EncodeDecode(t *testing.T) {
-	var typ ModelsApplianceApplianceGetInterfaceResponseBody
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ModelsApplianceApplianceGetInterfaceResponseBody
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestModelsApplianceApplianceGetInterfaceResponseBody_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Interface\":{\"IPAddress\":\"203.0.113.100\",\"Switch\":{\"Scope\":\"shared\"},\"UserIPAddress\":null},\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ModelsApplianceApplianceGetInterfaceResponseBody
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ModelsApplianceApplianceGetInterfaceResponseBody
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestModelsApplianceApplianceGetResponseBody_EncodeDecode(t *testing.T) {
-	var typ ModelsApplianceApplianceGetResponseBody
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ModelsApplianceApplianceGetResponseBody
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestModelsApplianceApplianceGetResponseBody_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Appliance\":{\"Availability\":\"available\",\"Class\":\"serviceendpointgateway\",\"CreatedAt\":\"2024-01-01T00:00:00+09:00\",\"Description\":\"\",\"Disk\":{\"DedicatedStorageContract\":null,\"EncryptionAlgorithm\":\"none\",\"EncryptionKey\":null},\"Generation\":100,\"ID\":\"123456789012\",\"Icon\":null,\"Instance\":{\"Host\":{\"InfoURL\":\"\",\"Name\":\"sac-tk1a-sv001\"},\"Hosts\":[{\"InfoURL\":\"\",\"Name\":\"sac-tk1a-sv001\"}],\"Status\":\"up\",\"StatusChangedAt\":\"2024-01-01T00:00:00+09:00\"},\"Interfaces\":[{\"HostName\":null,\"IPAddress\":\"203.0.113.100\",\"Switch\":{\"ID\":\"123456789012\",\"Name\":\"Switch\",\"Scope\":\"shared\",\"Subnet\":{\"DefaultRoute\":\"203.0.113.1\",\"Internet\":{\"BandWidthMbps\":100},\"NetworkAddress\":\"203.0.113.0\",\"NetworkMaskLen\":24},\"UserSubnet\":{\"DefaultRoute\":\"203.0.113.1\",\"NetworkMaskLen\":24}},\"UserIPAddress\":null},{\"HostName\":null,\"IPAddress\":null,\"Switch\":{\"ID\":\"123456789012\",\"Name\":\"SwitchForSEG\",\"Scope\":\"user\",\"Subnet\":null,\"UserSubnet\":{\"DefaultRoute\":\"192.0.2.1\",\"NetworkMaskLen\":24}},\"UserIPAddress\":\"192.0.2.15\"}],\"Name\":\"Service Endpoint Gateway (123456789012)\",\"Plan\":{\"ID\":1},\"Remark\":{\"Network\":{\"NetworkMaskLen\":24},\"Servers\":[{\"IPAddress\":\"192.0.2.15\"}],\"Switch\":{\"ID\":\"123456789012\"},\"Zone\":{\"ID\":\"21001\"}},\"ServiceClass\":\"cloud/appliance/serviceendpointgateway/1\",\"Settings\":{\"ServiceEndpointGateway\":{\"DNSForwarding\":{\"Enabled\":\"True\",\"PrivateHostedZone\":\"internal.example.com\",\"UpstreamDNS1\":\"ns1.gslbN.sakura.ne.jp\",\"UpstreamDNS2\":\"ns2.gslbN.sakura.ne.jp\"},\"EnabledServices\":[{\"Config\":{\"Endpoints\":[\"s3.isk01.sakurastorage.jp\"]},\"Type\":\"ObjectStorage\"},{\"Config\":{\"Mode\":\"Managed\"},\"Type\":\"AppRunDedicatedControlPlane\"}],\"MonitoringSuite\":{\"Enabled\":\"True\"}}},\"SettingsHash\":\"abcdef1234567890abcdef1234567890\",\"Switch\":{\"Availability\":\"available\",\"ID\":\"123456789012\",\"Internet\":null,\"Name\":\"Switch1\",\"Scope\":\"user\",\"Zone\":{\"ID\":21001,\"Name\":\"tk1a\",\"Region\":{\"ID\":210,\"Name\":\"東京\"}}},\"Tags\":[]},\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ModelsApplianceApplianceGetResponseBody
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ModelsApplianceApplianceGetResponseBody
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestModelsApplianceApplianceListResponseBody_EncodeDecode(t *testing.T) {
-	var typ ModelsApplianceApplianceListResponseBody
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ModelsApplianceApplianceListResponseBody
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestModelsApplianceApplianceListResponseBody_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Appliances\":[{\"Availability\":\"available\",\"Class\":\"serviceendpointgateway\",\"CreatedAt\":\"2024-01-01T00:00:00+09:00\",\"Description\":\"\",\"Disk\":{\"DedicatedStorageContract\":null,\"EncryptionAlgorithm\":\"none\",\"EncryptionKey\":null},\"Generation\":100,\"ID\":\"123456789012\",\"Icon\":null,\"Instance\":{\"Host\":{\"InfoURL\":\"\",\"Name\":\"sac-tk1a-sv001\"},\"Hosts\":[{\"InfoURL\":\"\",\"Name\":\"sac-tk1a-sv001\"}],\"Status\":\"up\",\"StatusChangedAt\":\"2024-01-01T00:00:00+09:00\"},\"Interfaces\":[{\"HostName\":null,\"IPAddress\":\"203.0.113.100\",\"Switch\":{\"ID\":\"123456789012\",\"Name\":\"Switch\",\"Scope\":\"shared\",\"Subnet\":{\"DefaultRoute\":\"203.0.113.1\",\"Internet\":{\"BandWidthMbps\":100},\"NetworkAddress\":\"203.0.113.0\",\"NetworkMaskLen\":24},\"UserSubnet\":{\"DefaultRoute\":\"203.0.113.1\",\"NetworkMaskLen\":24}},\"UserIPAddress\":null},{\"HostName\":null,\"IPAddress\":null,\"Switch\":{\"ID\":\"123456789012\",\"Name\":\"SwitchForSEG\",\"Scope\":\"user\",\"Subnet\":null,\"UserSubnet\":{\"DefaultRoute\":\"192.0.2.1\",\"NetworkMaskLen\":24}},\"UserIPAddress\":\"192.0.2.15\"}],\"Name\":\"Service Endpoint Gateway (123456789012)\",\"Plan\":{\"ID\":1},\"Remark\":{\"Network\":{\"NetworkMaskLen\":24},\"Servers\":[{\"IPAddress\":\"192.0.2.15\"}],\"Switch\":{\"ID\":\"123456789012\"},\"Zone\":{\"ID\":\"21001\"}},\"ServiceClass\":\"cloud/appliance/serviceendpointgateway/1\",\"Settings\":{\"ServiceEndpointGateway\":{\"DNSForwarding\":{\"Enabled\":\"True\",\"PrivateHostedZone\":\"internal.example.com\",\"UpstreamDNS1\":\"ns1.gslbN.sakura.ne.jp\",\"UpstreamDNS2\":\"ns2.gslbN.sakura.ne.jp\"},\"EnabledServices\":[{\"Config\":{\"Endpoints\":[\"s3.isk01.sakurastorage.jp\"]},\"Type\":\"ObjectStorage\"},{\"Config\":{\"Mode\":\"Managed\"},\"Type\":\"AppRunDedicatedControlPlane\"}],\"MonitoringSuite\":{\"Enabled\":\"True\"}}},\"SettingsHash\":\"abcdef1234567890abcdef1234567890\",\"Switch\":{\"Availability\":\"available\",\"ID\":\"123456789012\",\"Internet\":null,\"Name\":\"Switch1\",\"Scope\":\"user\",\"Zone\":{\"ID\":21001,\"Name\":\"tk1a\",\"Region\":{\"ID\":210,\"Name\":\"東京\"}}},\"Tags\":[]}],\"Count\":1,\"From\":0,\"Total\":1,\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ModelsApplianceApplianceListResponseBody
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ModelsApplianceApplianceListResponseBody
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
 func TestModelsApplianceApplianceServiceClass_EncodeDecode(t *testing.T) {
 	var typ ModelsApplianceApplianceServiceClass
 	typ.SetFake()
@@ -328,8 +119,8 @@ func TestModelsApplianceApplianceUpdateBody_EncodeDecode(t *testing.T) {
 	var typ2 ModelsApplianceApplianceUpdateBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestModelsApplianceApplianceUpdateRequest_EncodeDecode(t *testing.T) {
-	var typ ModelsApplianceApplianceUpdateRequest
+func TestModelsApplianceCreateServiceEndpointGatewayRequest_EncodeDecode(t *testing.T) {
+	var typ ModelsApplianceCreateServiceEndpointGatewayRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -337,37 +128,68 @@ func TestModelsApplianceApplianceUpdateRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ModelsApplianceApplianceUpdateRequest
+	var typ2 ModelsApplianceCreateServiceEndpointGatewayRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestModelsApplianceCreateServiceEndpointGatewayResponseBody_EncodeDecode(t *testing.T) {
+	var typ ModelsApplianceCreateServiceEndpointGatewayResponseBody
+	typ.SetFake()
 
-func TestModelsApplianceApplianceUpdateRequest_Examples(t *testing.T) {
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Appliance\":{\"Settings\":{\"ServiceEndpointGateway\":{\"DNSForwarding\":{\"Enabled\":\"True\",\"PrivateHostedZone\":\"internal.example.com\",\"UpstreamDNS1\":\"ns1.gslbN.sakura.ne.jp\",\"UpstreamDNS2\":\"ns2.gslbN.sakura.ne.jp\"},\"EnabledServices\":[{\"Config\":{\"Endpoints\":[\"s3.isk01.sakurastorage.jp\"]},\"Type\":\"ObjectStorage\"},{\"Config\":{\"Mode\":\"Managed\"},\"Type\":\"AppRunDedicatedControlPlane\"}],\"MonitoringSuite\":{\"Enabled\":\"True\"}}}}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ModelsApplianceApplianceUpdateRequest
+	var typ2 ModelsApplianceCreateServiceEndpointGatewayResponseBody
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestModelsApplianceListServiceEndpointGatewaysResponseBody_EncodeDecode(t *testing.T) {
+	var typ ModelsApplianceListServiceEndpointGatewaysResponseBody
+	typ.SetFake()
 
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+	var typ2 ModelsApplianceListServiceEndpointGatewaysResponseBody
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody_EncodeDecode(t *testing.T) {
+	var typ ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody
+	typ.SetFake()
 
-			var typ2 ModelsApplianceApplianceUpdateRequest
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestModelsApplianceReadServiceEndpointGatewayResponseBody_EncodeDecode(t *testing.T) {
+	var typ ModelsApplianceReadServiceEndpointGatewayResponseBody
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ModelsApplianceReadServiceEndpointGatewayResponseBody
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestModelsApplianceUpdateServiceEndpointGatewayRequest_EncodeDecode(t *testing.T) {
+	var typ ModelsApplianceUpdateServiceEndpointGatewayRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ModelsApplianceUpdateServiceEndpointGatewayRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestModelsCommonDefaultErrorResponseBody_EncodeDecode(t *testing.T) {
 	var typ ModelsCommonDefaultErrorResponseBody
@@ -681,8 +503,8 @@ func TestModelsPowerApplianceDeletePowerStatusRequest_EncodeDecode(t *testing.T)
 	var typ2 ModelsPowerApplianceDeletePowerStatusRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestModelsPowerApplianceGetPowerStatusResponseBody_EncodeDecode(t *testing.T) {
-	var typ ModelsPowerApplianceGetPowerStatusResponseBody
+func TestModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody_EncodeDecode(t *testing.T) {
+	var typ ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -690,40 +512,11 @@ func TestModelsPowerApplianceGetPowerStatusResponseBody_EncodeDecode(t *testing.
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ModelsPowerApplianceGetPowerStatusResponseBody
+	var typ2 ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-
-func TestModelsPowerApplianceGetPowerStatusResponseBody_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Instance\":{\"Status\":\"up\"},\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ModelsPowerApplianceGetPowerStatusResponseBody
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ModelsPowerApplianceGetPowerStatusResponseBody
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestModelsPowerApplianceUpdatePowerStatusResponseBody_EncodeDecode(t *testing.T) {
-	var typ ModelsPowerApplianceUpdatePowerStatusResponseBody
+func TestModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody_EncodeDecode(t *testing.T) {
+	var typ ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -731,40 +524,11 @@ func TestModelsPowerApplianceUpdatePowerStatusResponseBody_EncodeDecode(t *testi
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ModelsPowerApplianceUpdatePowerStatusResponseBody
+	var typ2 ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-
-func TestModelsPowerApplianceUpdatePowerStatusResponseBody_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"Success\":true,\"is_ok\":true}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ModelsPowerApplianceUpdatePowerStatusResponseBody
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ModelsPowerApplianceUpdatePowerStatusResponseBody
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestModelsPowerApplianceUpdatePowerStatusResponseBodySuccess_EncodeDecode(t *testing.T) {
-	var typ ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
+func TestModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess_EncodeDecode(t *testing.T) {
+	var typ ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -772,7 +536,7 @@ func TestModelsPowerApplianceUpdatePowerStatusResponseBodySuccess_EncodeDecode(t
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
+	var typ2 ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBodySuccess
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestModelsRemarkApplianceCreateRemark_EncodeDecode(t *testing.T) {

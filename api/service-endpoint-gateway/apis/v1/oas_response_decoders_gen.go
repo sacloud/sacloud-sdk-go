@@ -13,7 +13,7 @@ import (
 	"github.com/ogen-go/ogen/validate"
 )
 
-func decodeSegApplyResponse(resp *http.Response) (res *ModelsApplianceApplianceApplyResponse, _ error) {
+func decodeApplyServiceEndpointGatewayConfigResponse(resp *http.Response) (res *ModelsApplianceApplianceApplyResponseBody, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -29,7 +29,7 @@ func decodeSegApplyResponse(resp *http.Response) (res *ModelsApplianceApplianceA
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ModelsApplianceApplianceApplyResponse
+			var response ModelsApplianceApplianceApplyResponseBody
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -96,7 +96,7 @@ func decodeSegApplyResponse(resp *http.Response) (res *ModelsApplianceApplianceA
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeSegCreateResponse(resp *http.Response) (res *ModelsApplianceApplianceCreateResponseBody, _ error) {
+func decodeCreateServiceEndpointGatewayResponse(resp *http.Response) (res *ModelsApplianceCreateServiceEndpointGatewayResponseBody, _ error) {
 	switch resp.StatusCode {
 	case 202:
 		// Code 202.
@@ -112,7 +112,7 @@ func decodeSegCreateResponse(resp *http.Response) (res *ModelsApplianceAppliance
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ModelsApplianceApplianceCreateResponseBody
+			var response ModelsApplianceCreateServiceEndpointGatewayResponseBody
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -188,7 +188,7 @@ func decodeSegCreateResponse(resp *http.Response) (res *ModelsApplianceAppliance
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeSegDeleteResponse(resp *http.Response) (res *ModelsApplianceApplianceGetResponseBody, _ error) {
+func decodeDeleteServiceEndpointGatewayResponse(resp *http.Response) (res *ModelsApplianceReadServiceEndpointGatewayResponseBody, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -204,7 +204,7 @@ func decodeSegDeleteResponse(resp *http.Response) (res *ModelsApplianceAppliance
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ModelsApplianceApplianceGetResponseBody
+			var response ModelsApplianceReadServiceEndpointGatewayResponseBody
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -280,7 +280,7 @@ func decodeSegDeleteResponse(resp *http.Response) (res *ModelsApplianceAppliance
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeSegGetResponse(resp *http.Response) (res *ModelsApplianceApplianceGetResponseBody, _ error) {
+func decodeListServiceEndpointGatewaysResponse(resp *http.Response) (res *ModelsApplianceListServiceEndpointGatewaysResponseBody, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -296,7 +296,7 @@ func decodeSegGetResponse(resp *http.Response) (res *ModelsApplianceApplianceGet
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ModelsApplianceApplianceGetResponseBody
+			var response ModelsApplianceListServiceEndpointGatewaysResponseBody
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -372,7 +372,7 @@ func decodeSegGetResponse(resp *http.Response) (res *ModelsApplianceApplianceGet
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeSegInterfaceGetInterfaceResponse(resp *http.Response) (res *ModelsApplianceApplianceGetInterfaceResponseBody, _ error) {
+func decodePowerOffServiceEndpointGatewayResponse(resp *http.Response) (res *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -388,7 +388,173 @@ func decodeSegInterfaceGetInterfaceResponse(resp *http.Response) (res *ModelsApp
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ModelsApplianceApplianceGetInterfaceResponseBody
+			var response ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	// Convenient error response.
+	defRes, err := func() (res *ModelsCommonDefaultErrorResponseBodyStatusCode, err error) {
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ModelsCommonDefaultErrorResponseBody
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &ModelsCommonDefaultErrorResponseBodyStatusCode{
+				StatusCode: resp.StatusCode,
+				Response:   response,
+			}, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}()
+	if err != nil {
+		return res, errors.Wrapf(err, "default (code %d)", resp.StatusCode)
+	}
+	return res, errors.Wrap(defRes, "error")
+}
+
+func decodePowerOnServiceEndpointGatewayResponse(resp *http.Response) (res *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	// Convenient error response.
+	defRes, err := func() (res *ModelsCommonDefaultErrorResponseBodyStatusCode, err error) {
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ModelsCommonDefaultErrorResponseBody
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &ModelsCommonDefaultErrorResponseBodyStatusCode{
+				StatusCode: resp.StatusCode,
+				Response:   response,
+			}, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}()
+	if err != nil {
+		return res, errors.Wrapf(err, "default (code %d)", resp.StatusCode)
+	}
+	return res, errors.Wrap(defRes, "error")
+}
+
+func decodeReadServiceEndpointGatewayResponse(resp *http.Response) (res *ModelsApplianceReadServiceEndpointGatewayResponseBody, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ModelsApplianceReadServiceEndpointGatewayResponseBody
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -464,7 +630,7 @@ func decodeSegInterfaceGetInterfaceResponse(resp *http.Response) (res *ModelsApp
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeSegListResponse(resp *http.Response) (res *ModelsApplianceApplianceListResponseBody, _ error) {
+func decodeReadServiceEndpointGatewayInterfaceResponse(resp *http.Response) (res *ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -480,7 +646,7 @@ func decodeSegListResponse(resp *http.Response) (res *ModelsApplianceApplianceLi
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ModelsApplianceApplianceListResponseBody
+			var response ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -556,7 +722,7 @@ func decodeSegListResponse(resp *http.Response) (res *ModelsApplianceApplianceLi
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeSegStatusDeletePowerStatusResponse(resp *http.Response) (res *ModelsPowerApplianceUpdatePowerStatusResponseBody, _ error) {
+func decodeReadServiceEndpointGatewayPowerStatusResponse(resp *http.Response) (res *ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -572,90 +738,7 @@ func decodeSegStatusDeletePowerStatusResponse(resp *http.Response) (res *ModelsP
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ModelsPowerApplianceUpdatePowerStatusResponseBody
-			if err := func() error {
-				if err := response.Decode(d); err != nil {
-					return err
-				}
-				if err := d.Skip(); err != io.EOF {
-					return errors.New("unexpected trailing data")
-				}
-				return nil
-			}(); err != nil {
-				err = &ogenerrors.DecodeBodyError{
-					ContentType: ct,
-					Body:        buf,
-					Err:         err,
-				}
-				return res, err
-			}
-			return &response, nil
-		default:
-			return res, validate.InvalidContentType(ct)
-		}
-	}
-	// Convenient error response.
-	defRes, err := func() (res *ModelsCommonDefaultErrorResponseBodyStatusCode, err error) {
-		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
-		if err != nil {
-			return res, errors.Wrap(err, "parse media type")
-		}
-		switch {
-		case ct == "application/json":
-			buf, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return res, err
-			}
-			d := jx.DecodeBytes(buf)
-
-			var response ModelsCommonDefaultErrorResponseBody
-			if err := func() error {
-				if err := response.Decode(d); err != nil {
-					return err
-				}
-				if err := d.Skip(); err != io.EOF {
-					return errors.New("unexpected trailing data")
-				}
-				return nil
-			}(); err != nil {
-				err = &ogenerrors.DecodeBodyError{
-					ContentType: ct,
-					Body:        buf,
-					Err:         err,
-				}
-				return res, err
-			}
-			return &ModelsCommonDefaultErrorResponseBodyStatusCode{
-				StatusCode: resp.StatusCode,
-				Response:   response,
-			}, nil
-		default:
-			return res, validate.InvalidContentType(ct)
-		}
-	}()
-	if err != nil {
-		return res, errors.Wrapf(err, "default (code %d)", resp.StatusCode)
-	}
-	return res, errors.Wrap(defRes, "error")
-}
-
-func decodeSegStatusGetPowerStatusResponse(resp *http.Response) (res *ModelsPowerApplianceGetPowerStatusResponseBody, _ error) {
-	switch resp.StatusCode {
-	case 200:
-		// Code 200.
-		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
-		if err != nil {
-			return res, errors.Wrap(err, "parse media type")
-		}
-		switch {
-		case ct == "application/json":
-			buf, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return res, err
-			}
-			d := jx.DecodeBytes(buf)
-
-			var response ModelsPowerApplianceGetPowerStatusResponseBody
+			var response ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -731,7 +814,7 @@ func decodeSegStatusGetPowerStatusResponse(resp *http.Response) (res *ModelsPowe
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeSegStatusResetPowerStatusResponse(resp *http.Response) (res *ModelsPowerApplianceUpdatePowerStatusResponseBody, _ error) {
+func decodeResetServiceEndpointGatewayResponse(resp *http.Response) (res *ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -747,7 +830,7 @@ func decodeSegStatusResetPowerStatusResponse(resp *http.Response) (res *ModelsPo
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ModelsPowerApplianceUpdatePowerStatusResponseBody
+			var response ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -814,7 +897,7 @@ func decodeSegStatusResetPowerStatusResponse(resp *http.Response) (res *ModelsPo
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeSegStatusUpdatePowerStatusResponse(resp *http.Response) (res *ModelsPowerApplianceUpdatePowerStatusResponseBody, _ error) {
+func decodeUpdateServiceEndpointGatewayResponse(resp *http.Response) (res *ModelsApplianceReadServiceEndpointGatewayResponseBody, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -830,90 +913,7 @@ func decodeSegStatusUpdatePowerStatusResponse(resp *http.Response) (res *ModelsP
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ModelsPowerApplianceUpdatePowerStatusResponseBody
-			if err := func() error {
-				if err := response.Decode(d); err != nil {
-					return err
-				}
-				if err := d.Skip(); err != io.EOF {
-					return errors.New("unexpected trailing data")
-				}
-				return nil
-			}(); err != nil {
-				err = &ogenerrors.DecodeBodyError{
-					ContentType: ct,
-					Body:        buf,
-					Err:         err,
-				}
-				return res, err
-			}
-			return &response, nil
-		default:
-			return res, validate.InvalidContentType(ct)
-		}
-	}
-	// Convenient error response.
-	defRes, err := func() (res *ModelsCommonDefaultErrorResponseBodyStatusCode, err error) {
-		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
-		if err != nil {
-			return res, errors.Wrap(err, "parse media type")
-		}
-		switch {
-		case ct == "application/json":
-			buf, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return res, err
-			}
-			d := jx.DecodeBytes(buf)
-
-			var response ModelsCommonDefaultErrorResponseBody
-			if err := func() error {
-				if err := response.Decode(d); err != nil {
-					return err
-				}
-				if err := d.Skip(); err != io.EOF {
-					return errors.New("unexpected trailing data")
-				}
-				return nil
-			}(); err != nil {
-				err = &ogenerrors.DecodeBodyError{
-					ContentType: ct,
-					Body:        buf,
-					Err:         err,
-				}
-				return res, err
-			}
-			return &ModelsCommonDefaultErrorResponseBodyStatusCode{
-				StatusCode: resp.StatusCode,
-				Response:   response,
-			}, nil
-		default:
-			return res, validate.InvalidContentType(ct)
-		}
-	}()
-	if err != nil {
-		return res, errors.Wrapf(err, "default (code %d)", resp.StatusCode)
-	}
-	return res, errors.Wrap(defRes, "error")
-}
-
-func decodeSegUpdateResponse(resp *http.Response) (res *ModelsApplianceApplianceGetResponseBody, _ error) {
-	switch resp.StatusCode {
-	case 200:
-		// Code 200.
-		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
-		if err != nil {
-			return res, errors.Wrap(err, "parse media type")
-		}
-		switch {
-		case ct == "application/json":
-			buf, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return res, err
-			}
-			d := jx.DecodeBytes(buf)
-
-			var response ModelsApplianceApplianceGetResponseBody
+			var response ModelsApplianceReadServiceEndpointGatewayResponseBody
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err

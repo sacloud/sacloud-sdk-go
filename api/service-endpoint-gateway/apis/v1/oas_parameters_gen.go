@@ -2,48 +2,48 @@
 
 package v1
 
-// SegApplyParams is parameters of seg_apply operation.
-type SegApplyParams struct {
+// ApplyServiceEndpointGatewayConfigParams is parameters of applyServiceEndpointGatewayConfig operation.
+type ApplyServiceEndpointGatewayConfigParams struct {
 	ApplianceID string
 }
 
-// SegDeleteParams is parameters of seg_delete operation.
-type SegDeleteParams struct {
+// DeleteServiceEndpointGatewayParams is parameters of deleteServiceEndpointGateway operation.
+type DeleteServiceEndpointGatewayParams struct {
 	ApplianceID string
 }
 
-// SegGetParams is parameters of seg_get operation.
-type SegGetParams struct {
+// PowerOffServiceEndpointGatewayParams is parameters of powerOffServiceEndpointGateway operation.
+type PowerOffServiceEndpointGatewayParams struct {
 	ApplianceID string
 }
 
-// SegInterfaceGetInterfaceParams is parameters of segInterface_getInterface operation.
-type SegInterfaceGetInterfaceParams struct {
+// PowerOnServiceEndpointGatewayParams is parameters of powerOnServiceEndpointGateway operation.
+type PowerOnServiceEndpointGatewayParams struct {
+	ApplianceID string
+}
+
+// ReadServiceEndpointGatewayParams is parameters of readServiceEndpointGateway operation.
+type ReadServiceEndpointGatewayParams struct {
+	ApplianceID string
+}
+
+// ReadServiceEndpointGatewayInterfaceParams is parameters of readServiceEndpointGatewayInterface operation.
+type ReadServiceEndpointGatewayInterfaceParams struct {
 	ApplianceID string
 	InterfaceID string
 }
 
-// SegStatusDeletePowerStatusParams is parameters of segStatus_deletePowerStatus operation.
-type SegStatusDeletePowerStatusParams struct {
+// ReadServiceEndpointGatewayPowerStatusParams is parameters of readServiceEndpointGatewayPowerStatus operation.
+type ReadServiceEndpointGatewayPowerStatusParams struct {
 	ApplianceID string
 }
 
-// SegStatusGetPowerStatusParams is parameters of segStatus_getPowerStatus operation.
-type SegStatusGetPowerStatusParams struct {
+// ResetServiceEndpointGatewayParams is parameters of resetServiceEndpointGateway operation.
+type ResetServiceEndpointGatewayParams struct {
 	ApplianceID string
 }
 
-// SegStatusResetPowerStatusParams is parameters of segStatus_resetPowerStatus operation.
-type SegStatusResetPowerStatusParams struct {
-	ApplianceID string
-}
-
-// SegStatusUpdatePowerStatusParams is parameters of segStatus_updatePowerStatus operation.
-type SegStatusUpdatePowerStatusParams struct {
-	ApplianceID string
-}
-
-// SegUpdateParams is parameters of seg_update operation.
-type SegUpdateParams struct {
+// UpdateServiceEndpointGatewayParams is parameters of updateServiceEndpointGateway operation.
+type UpdateServiceEndpointGatewayParams struct {
 	ApplianceID string
 }
