@@ -94,25 +94,24 @@ func (g *groupOp) Update(ctx context.Context, id int, name string, description s
 }
 
 func (g *groupOp) Delete(ctx context.Context, id int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DeleteGroupNoContent]("Group.Delete", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeleteGroupNoContent]("Group.Delete", func() (any, error) {
 		return g.client.DeleteGroup(ctx, v1.DeleteGroupParams{GroupID: id})
 	})
-
-	return err
 }
 
 func (g *groupOp) ReadMemberships(ctx context.Context, id int) ([]v1.GroupMembershipsCompatUsersItem, error) {
-	if ret, err := common.ErrorFromDecodedResponse[v1.GroupMemberships]("Group.ReadMemberships", func() (any, error) {
+	ret, err := common.ErrorFromDecodedResponse[v1.GroupMemberships]("Group.ReadMemberships", func() (any, error) {
 		return g.client.ListMemberships(ctx, v1.ListMembershipsParams{GroupID: id})
-	}); err != nil {
+	})
+	if err != nil {
 		return nil, err
-	} else {
-		return ret.CompatUsers, nil
 	}
+
+	return ret.GetCompatUsers(), nil
 }
 
 func (g *groupOp) UpdateMemberships(ctx context.Context, groupID int, userIDs []int) ([]v1.GroupMembershipsCompatUsersItem, error) {
-	if ret, err := common.ErrorFromDecodedResponse[v1.GroupMemberships]("Group.UpdateMemberships", func() (any, error) {
+	ret, err := common.ErrorFromDecodedResponse[v1.GroupMemberships]("Group.UpdateMemberships", func() (any, error) {
 		compatUsers := make([]v1.UpdateMembershipsReqCompatUsersItem, len(userIDs))
 		for i, j := range userIDs {
 			compatUsers[i].ID = j
@@ -120,9 +119,10 @@ func (g *groupOp) UpdateMemberships(ctx context.Context, groupID int, userIDs []
 		req := v1.UpdateMembershipsReq{CompatUsers: compatUsers}
 		p := v1.UpdateMembershipsParams{GroupID: groupID}
 		return g.client.UpdateMemberships(ctx, &req, p)
-	}); err != nil {
+	})
+	if err != nil {
 		return nil, err
-	} else {
-		return ret.CompatUsers, nil
 	}
+
+	return ret.GetCompatUsers(), nil
 }

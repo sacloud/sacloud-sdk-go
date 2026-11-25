@@ -34,21 +34,23 @@ type idPolicyOp struct {
 func NewIDPolicyOp(client *v1.Client) IDPolicyAPI { return &idPolicyOp{client: client} }
 
 func (o *idPolicyOp) ReadOrganizationIdPolicy(ctx context.Context) ([]v1.IdPolicy, error) {
-	if ret, err := common.ErrorFromDecodedResponse[v1.ReadOrganizationIdPolicyOK]("IdPolicy.ReadOrganizationIdPolicy", func() (any, error) {
+	ret, err := common.ErrorFromDecodedResponse[v1.ReadOrganizationIdPolicyOK]("IdPolicy.ReadOrganizationIdPolicy", func() (any, error) {
 		return o.client.ReadOrganizationIdPolicy(ctx)
-	}); err != nil {
+	})
+	if err != nil {
 		return nil, err
-	} else {
-		return ret.GetBindings(), nil
 	}
+
+	return ret.GetBindings(), nil
 }
 
 func (o *idPolicyOp) UpdateOrganizationIdPolicy(ctx context.Context, bindings []v1.IdPolicy) ([]v1.IdPolicy, error) {
-	if ret, err := common.ErrorFromDecodedResponse[v1.UpdateOrganizationIdPolicyOK]("IdPolicy.UpdateOrganizationIdPolicy", func() (any, error) {
+	ret, err := common.ErrorFromDecodedResponse[v1.UpdateOrganizationIdPolicyOK]("IdPolicy.UpdateOrganizationIdPolicy", func() (any, error) {
 		return o.client.UpdateOrganizationIdPolicy(ctx, &v1.UpdateOrganizationIdPolicyReq{Bindings: bindings})
-	}); err != nil {
+	})
+	if err != nil {
 		return nil, err
-	} else {
-		return ret.GetBindings(), nil
 	}
+
+	return ret.GetBindings(), nil
 }

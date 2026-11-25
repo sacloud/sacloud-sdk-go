@@ -118,12 +118,11 @@ func (s *scimOp) Delete(ctx context.Context, id string) error {
 	if err != nil {
 		return err
 	}
-	_, err = common.ErrorFromDecodedResponse[v1.DeleteScimConfigurationNoContent]("Scim.Delete", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeleteScimConfigurationNoContent]("Scim.Delete", func() (any, error) {
 		return s.client.DeleteScimConfiguration(ctx, v1.DeleteScimConfigurationParams{
 			ID: uuid,
 		})
 	})
-	return err
 }
 
 // RegenerateToken ユーザープロビジョニングのシークレットトークンを再発行する

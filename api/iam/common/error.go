@@ -16,11 +16,13 @@ package common
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"strings"
 
-	"github.com/go-faster/errors"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -53,13 +55,11 @@ func NewAPIError(method string, code int, err error) *Error {
 	return NewError(method, saclient.NewError(code, "", err))
 }
 
-type apiErrorResponse struct {
-	j json.Marshaler
-}
+type apiErrorResponse struct{ json.Marshaler }
 
 func (e *apiErrorResponse) Error() string {
-	if buf, err := e.j.MarshalJSON(); err != nil {
-		o := errors.Errorf("%#+v", e.j)
+	if buf, err := e.MarshalJSON(); err != nil {
+		o := fmt.Errorf("%#+v", e.Marshaler)
 		return errors.Join(o, err).Error()
 	} else {
 		return string(buf)
@@ -86,14 +86,13 @@ func newAPIErrorFromResponse[
 		saclient.NewError(
 			error.GetStatus(),
 			error.GetDetail(),
-			&apiErrorResponse{
-				j: error,
-			},
+			&apiErrorResponse{error},
 		),
 	)
 	return
 }
 
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
 func ErrorFromDecodedResponse[T any](method string, yield func() (any, error)) (*T, error) {
 	resp, err := yield()
 
@@ -115,12 +114,17 @@ func ErrorFromDecodedResponse[T any](method string, yield func() (any, error)) (
 	case *v1.Http503ServiceUnavailable:
 		return newAPIErrorFromResponse[T](method, r)
 	default:
-		if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-			return nil, NewAPIError(method, e.StatusCode, err)
+		if e, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](err); ok {
+			return nil, NewError(method, httperror.NewError(method, e))
 		} else if err != nil {
-			return nil, NewError(method, err)
+			return nil, NewError(method, err) // this is e.g. broken JSON
 		} else {
-			return nil, NewError(method, errors.Errorf("unexpected type %#+v", resp))
+			return nil, NewError(method, fmt.Errorf("unexpected type %#+v", resp))
 		}
 	}
+}
+
+func ErrorFromDecodedResponseE[T any](method string, yield func() (any, error)) (err error) {
+	_, err = ErrorFromDecodedResponse[T](method, yield)
+	return
 }

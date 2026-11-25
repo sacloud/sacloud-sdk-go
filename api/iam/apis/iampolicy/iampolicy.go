@@ -39,65 +39,71 @@ type iamPolicyOp struct {
 func NewIAMPolicyOp(client *v1.Client) IAMPolicyAPI { return &iamPolicyOp{client: client} }
 
 func (op *iamPolicyOp) ReadOrganizationPolicy(ctx context.Context) ([]v1.IamPolicy, error) {
-	if res, err := common.ErrorFromDecodedResponse[v1.ReadOrganizationIamPolicyOK]("IamPolicy.ReadOrganizationPolicy", func() (any, error) {
+	res, err := common.ErrorFromDecodedResponse[v1.ReadOrganizationIamPolicyOK]("IamPolicy.ReadOrganizationPolicy", func() (any, error) {
 		return op.client.ReadOrganizationIamPolicy(ctx)
-	}); err != nil {
+	})
+	if err != nil {
 		return nil, err
-	} else {
-		return res.Bindings, nil
 	}
+
+	return res.GetBindings(), nil
 }
 
 func (op *iamPolicyOp) UpdateOrganizationPolicy(ctx context.Context, bindings []v1.IamPolicy) ([]v1.IamPolicy, error) {
-	if res, err := common.ErrorFromDecodedResponse[v1.UpdateOrganizationIamPolicyOK]("IamPolicy.UpdateOrganizationPolicy", func() (any, error) {
+	res, err := common.ErrorFromDecodedResponse[v1.UpdateOrganizationIamPolicyOK]("IamPolicy.UpdateOrganizationPolicy", func() (any, error) {
 		return op.client.UpdateOrganizationIamPolicy(ctx, &v1.UpdateOrganizationIamPolicyReq{Bindings: bindings})
-	}); err != nil {
+	})
+	if err != nil {
 		return nil, err
-	} else {
-		return res.Bindings, nil
 	}
+
+	return res.GetBindings(), nil
 }
 
 func (op *iamPolicyOp) ReadProjectPolicy(ctx context.Context, id int) ([]v1.IamPolicy, error) {
-	if res, err := common.ErrorFromDecodedResponse[v1.ReadProjectIamPolicyOK]("IamPolicy.ReadProjectPolicy", func() (any, error) {
+	res, err := common.ErrorFromDecodedResponse[v1.ReadProjectIamPolicyOK]("IamPolicy.ReadProjectPolicy", func() (any, error) {
 		return op.client.ReadProjectIamPolicy(ctx, v1.ReadProjectIamPolicyParams{ProjectID: id})
-	}); err != nil {
+	})
+	if err != nil {
 		return nil, err
-	} else {
-		return res.Bindings, nil
 	}
+
+	return res.GetBindings(), nil
 }
 
 func (op *iamPolicyOp) UpdateProjectPolicy(ctx context.Context, id int, bindings []v1.IamPolicy) ([]v1.IamPolicy, error) {
-	if res, err := common.ErrorFromDecodedResponse[v1.UpdateProjectIamPolicyOK]("IamPolicy.UpdateProjectPolicy", func() (any, error) {
+	res, err := common.ErrorFromDecodedResponse[v1.UpdateProjectIamPolicyOK]("IamPolicy.UpdateProjectPolicy", func() (any, error) {
 		request := v1.UpdateProjectIamPolicyReq{Bindings: bindings}
 		params := v1.UpdateProjectIamPolicyParams{ProjectID: id}
 		return op.client.UpdateProjectIamPolicy(ctx, &request, params)
-	}); err != nil {
+	})
+	if err != nil {
 		return nil, err
-	} else {
-		return res.Bindings, nil
 	}
+
+	return res.GetBindings(), nil
 }
 
 func (op *iamPolicyOp) ReadFolderPolicy(ctx context.Context, id int) ([]v1.IamPolicy, error) {
-	if res, err := common.ErrorFromDecodedResponse[v1.ReadFolderIamPolicyOK]("IamPolicy.ReadFolderPolicy", func() (any, error) {
+	res, err := common.ErrorFromDecodedResponse[v1.ReadFolderIamPolicyOK]("IamPolicy.ReadFolderPolicy", func() (any, error) {
 		return op.client.ReadFolderIamPolicy(ctx, v1.ReadFolderIamPolicyParams{FolderID: id})
-	}); err != nil {
+	})
+	if err != nil {
 		return nil, err
-	} else {
-		return res.Bindings, nil
 	}
+
+	return res.GetBindings(), nil
 }
 
 func (op *iamPolicyOp) UpdateFolderPolicy(ctx context.Context, id int, bindings []v1.IamPolicy) ([]v1.IamPolicy, error) {
-	if res, err := common.ErrorFromDecodedResponse[v1.UpdateFolderIamPolicyOK]("IamPolicy.UpdateFolderPolicy", func() (any, error) {
+	res, err := common.ErrorFromDecodedResponse[v1.UpdateFolderIamPolicyOK]("IamPolicy.UpdateFolderPolicy", func() (any, error) {
 		request := v1.UpdateFolderIamPolicyReq{Bindings: bindings}
 		params := v1.UpdateFolderIamPolicyParams{FolderID: id}
 		return op.client.UpdateFolderIamPolicy(ctx, &request, params)
-	}); err != nil {
+	})
+	if err != nil {
 		return nil, err
-	} else {
-		return res.Bindings, nil
 	}
+
+	return res.GetBindings(), nil
 }

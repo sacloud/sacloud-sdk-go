@@ -107,9 +107,7 @@ func (p *projectApiKeyOp) Update(ctx context.Context, id int, params UpdateParam
 }
 
 func (p *projectApiKeyOp) Delete(ctx context.Context, id int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DeleteApiKeyNoContent]("ProjectAPIKey.Delete", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeleteApiKeyNoContent]("ProjectAPIKey.Delete", func() (any, error) {
 		return p.client.DeleteApiKey(ctx, v1.DeleteApiKeyParams{ApikeyID: id})
 	})
-
-	return err
 }

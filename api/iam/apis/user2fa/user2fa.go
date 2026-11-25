@@ -48,10 +48,9 @@ func NewUser2FAOp(client *v1.Client, user *v1.User) User2FAAPI {
 func (u *user2faOp) getUserID() int { return u.user.GetID() }
 
 func (u *user2faOp) DeactivateOTP(ctx context.Context) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DeactivateOtpNoContent]("User2FA.DeactivateOTP", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeactivateOtpNoContent]("User2FA.DeactivateOTP", func() (any, error) {
 		return u.client.DeactivateOtp(ctx, v1.DeactivateOtpParams{UserID: u.getUserID()})
 	})
-	return err
 }
 
 func (u *user2faOp) ListTrustedDevices(ctx context.Context) (*v1.ListTrustedDevicesOK, error) {
@@ -61,20 +60,18 @@ func (u *user2faOp) ListTrustedDevices(ctx context.Context) (*v1.ListTrustedDevi
 }
 
 func (u *user2faOp) DeleteTrustedDevice(ctx context.Context, trustedDeviceID int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DeleteTrustedDeviceNoContent]("User2FA.DeleteTrustedDevice", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeleteTrustedDeviceNoContent]("User2FA.DeleteTrustedDevice", func() (any, error) {
 		return u.client.DeleteTrustedDevice(ctx, v1.DeleteTrustedDeviceParams{
 			UserID:          u.getUserID(),
 			TrustedDeviceID: trustedDeviceID,
 		})
 	})
-	return err
 }
 
 func (u *user2faOp) ClearTrustedDevices(ctx context.Context) error {
-	_, err := common.ErrorFromDecodedResponse[v1.ClearTrustedDevicesNoContent]("User2FA.ClearTrustedDevices", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.ClearTrustedDevicesNoContent]("User2FA.ClearTrustedDevices", func() (any, error) {
 		return u.client.ClearTrustedDevices(ctx, v1.ClearTrustedDevicesParams{UserID: u.getUserID()})
 	})
-	return err
 }
 
 func (u *user2faOp) ListSecurityKeys(ctx context.Context) (*v1.ListSecurityKeysOK, error) {
@@ -93,11 +90,10 @@ func (u *user2faOp) ReadSecurityKey(ctx context.Context, securityKeyID int) (*v1
 }
 
 func (u *user2faOp) DeleteSecurityKey(ctx context.Context, securityKeyID int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DeleteSecurityKeyNoContent]("User2FA.DeleteSecurityKey", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeleteSecurityKeyNoContent]("User2FA.DeleteSecurityKey", func() (any, error) {
 		return u.client.DeleteSecurityKey(ctx, v1.DeleteSecurityKeyParams{
 			UserID:        u.getUserID(),
 			SecurityKeyID: securityKeyID,
 		})
 	})
-	return err
 }

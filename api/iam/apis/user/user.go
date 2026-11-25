@@ -106,27 +106,23 @@ func (u *userOp) Update(ctx context.Context, id int, params UpdateParams) (*v1.U
 }
 
 func (u *userOp) Delete(ctx context.Context, id int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DeleteUserNoContent]("User.Delete", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeleteUserNoContent]("User.Delete", func() (any, error) {
 		return u.client.DeleteUser(ctx, v1.DeleteUserParams{UserID: id})
 	})
-
-	return err
 }
 
 func (u *userOp) RegisterEmail(ctx context.Context, userID int, email string) error {
-	_, err := common.ErrorFromDecodedResponse[v1.RegisterEmailNoContent]("User.RegisterEmail", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.RegisterEmailNoContent]("User.RegisterEmail", func() (any, error) {
 		req := v1.RegisterEmailReq{Email: email}
 		p := v1.RegisterEmailParams{UserID: userID}
 		return u.client.RegisterEmail(ctx, &req, p)
 	})
-	return err
 }
 
 func (u *userOp) UnregisterEmail(ctx context.Context, userID int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.UnregisterEmailNoContent]("User.UnregisterEmail", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.UnregisterEmailNoContent]("User.UnregisterEmail", func() (any, error) {
 		return u.client.UnregisterEmail(ctx, v1.UnregisterEmailParams{
 			UserID: userID,
 		})
 	})
-	return err
 }
