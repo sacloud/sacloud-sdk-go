@@ -16,13 +16,14 @@ package addon
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
 
-	"github.com/go-faster/errors"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/addon/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -54,7 +55,7 @@ func (e *Error) Error() string {
 
 func (e *apiErrorResponse) Error() string {
 	if buf, err := e.Marshaler.MarshalJSON(); err != nil {
-		o := errors.Errorf("%#+v", e.Marshaler)
+		o := fmt.Errorf("%#+v", e.Marshaler)
 		return errors.Join(o, err).Error()
 	} else {
 		return string(buf)
@@ -73,6 +74,7 @@ func NewNotFoundError(method string) *Error {
 
 type void struct{}
 
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
 func ErrorFromDecodedResponse[
 	T, E any,
 ](
@@ -86,9 +88,8 @@ func ErrorFromDecodedResponse[
 
 	ret, err = yield()
 
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		msg := fmt.Sprintf("unexpected status code %d: %#+v", e.StatusCode, e.Payload)
-		err = NewError(method, saclient.NewError(e.StatusCode, msg, nil))
+	if e, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](err); ok {
+		err = NewError(method, httperror.NewError(method, e))
 	} else if err != nil {
 		err = NewError(method, err) // this is e.g. broken JSON
 	} else if ng, is400 := ret.(*v1.ErrorResponse); is400 {
@@ -102,5 +103,17 @@ func ErrorFromDecodedResponse[
 		res = r
 	}
 
+	return
+}
+
+func ErrorFromDecodedResponseE[
+	T, E any,
+](
+	method string,
+	yield func() (any, error),
+) (
+	err error,
+) {
+	_, err = ErrorFromDecodedResponse[T, E](method, yield)
 	return
 }

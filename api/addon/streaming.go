@@ -34,15 +34,12 @@ type StreamingOp struct{ *v1.Client }
 func NewStreamingOp(client *v1.Client) StreamingAPI { return &StreamingOp{Client: client} }
 
 func (s *StreamingOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListStreamingResourcesNotFound]("Streaming.List", func() (any, error) {
-		return s.Client.ListStreamingResources(ctx)
-	}); e != nil {
-		err = e
-	} else if resources, ok := res.GetResources().Get(); ok {
-		ret = resources
+	res, err := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListStreamingResourcesNotFound]("Streaming.List", func() (any, error) { return s.Client.ListStreamingResources(ctx) })
+	if err != nil {
+		return nil, err
 	}
 
-	return
+	return res.GetResources().Or(nil), nil
 }
 
 func (s *StreamingOp) Create(ctx context.Context, location, unitCount string) (*v1.PostDeploymentResponse, error) {
@@ -63,13 +60,11 @@ func (s *StreamingOp) Read(ctx context.Context, id string) (*v1.GetResourceRespo
 }
 
 func (s *StreamingOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteStreamingResourceNoContent, v1.DeleteStreamingResourceNotFound]("Streaming.Delete", func() (any, error) {
+	return ErrorFromDecodedResponseE[v1.DeleteStreamingResourceNoContent, v1.DeleteStreamingResourceNotFound]("Streaming.Delete", func() (any, error) {
 		return s.Client.DeleteStreamingResource(ctx, v1.DeleteStreamingResourceParams{
 			ResourceGroupName: id,
 		})
 	})
-
-	return
 }
 
 func (s *StreamingOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {

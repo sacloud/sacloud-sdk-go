@@ -34,15 +34,12 @@ type ETLOp struct{ *v1.Client }
 func NewETLOp(client *v1.Client) ETLAPI { return &ETLOp{Client: client} }
 
 func (e *ETLOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListEtlResourcesNotFound]("ETL.List", func() (any, error) {
-		return e.Client.ListEtlResources(ctx)
-	}); e != nil {
-		err = e
-	} else if resources, ok := res.GetResources().Get(); ok {
-		ret = resources
+	res, err := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListEtlResourcesNotFound]("ETL.List", func() (any, error) { return e.Client.ListEtlResources(ctx) })
+	if err != nil {
+		return nil, err
 	}
 
-	return
+	return res.GetResources().Or(nil), nil
 }
 
 func (e *ETLOp) Create(ctx context.Context, location string) (*v1.PostDeploymentResponse, error) {
@@ -62,13 +59,11 @@ func (e *ETLOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, e
 }
 
 func (e *ETLOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteEtlResourceNoContent, v1.DeleteEtlResourceNotFound]("ETL.Delete", func() (any, error) {
+	return ErrorFromDecodedResponseE[v1.DeleteEtlResourceNoContent, v1.DeleteEtlResourceNotFound]("ETL.Delete", func() (any, error) {
 		return e.Client.DeleteEtlResource(ctx, v1.DeleteEtlResourceParams{
 			ResourceGroupName: id,
 		})
 	})
-
-	return
 }
 
 func (e *ETLOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {

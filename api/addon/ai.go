@@ -34,15 +34,12 @@ type AIOp struct{ *v1.Client }
 func NewAIOp(client *v1.Client) AIAPI { return &AIOp{Client: client} }
 
 func (a *AIOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListAiResourcesNotFound]("AI.List", func() (any, error) {
-		return a.Client.ListAiResources(ctx)
-	}); e != nil {
-		err = e
-	} else if resources, ok := res.GetResources().Get(); ok {
-		ret = resources
+	res, err := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListAiResourcesNotFound]("AI.List", func() (any, error) { return a.Client.ListAiResources(ctx) })
+	if err != nil {
+		return nil, err
 	}
 
-	return
+	return res.GetResources().Or(nil), nil
 }
 
 func (a *AIOp) Create(ctx context.Context, location string, sku v1.AiServiceSku) (*v1.PostDeploymentResponse, error) {
@@ -63,13 +60,11 @@ func (a *AIOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, er
 }
 
 func (a *AIOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteAiResourceNoContent, v1.DeleteAiResourceNotFound]("AI.Delete", func() (any, error) {
+	return ErrorFromDecodedResponseE[v1.DeleteAiResourceNoContent, v1.DeleteAiResourceNotFound]("AI.Delete", func() (any, error) {
 		return a.Client.DeleteAiResource(ctx, v1.DeleteAiResourceParams{
 			ResourceGroupName: id,
 		})
 	})
-
-	return
 }
 
 func (a *AIOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {

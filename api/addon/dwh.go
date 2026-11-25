@@ -34,14 +34,12 @@ type DWHOp struct{ *v1.Client }
 func NewDWHOp(client *v1.Client) DWHAPI { return &DWHOp{Client: client} }
 
 func (d *DWHOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListDwhResourcesNotFound]("DWH.List", func() (any, error) {
-		return d.Client.ListDwhResources(ctx)
-	}); e != nil {
-		err = e
-	} else if resources, ok := res.GetResources().Get(); ok {
-		ret = resources
+	res, err := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListDwhResourcesNotFound]("DWH.List", func() (any, error) { return d.Client.ListDwhResources(ctx) })
+	if err != nil {
+		return nil, err
 	}
-	return
+
+	return res.GetResources().Or(nil), nil
 }
 
 func (d *DWHOp) Create(ctx context.Context, location string) (*v1.PostDeploymentResponse, error) {
