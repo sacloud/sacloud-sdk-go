@@ -6,15 +6,15 @@ package v1
 type OperationName = string
 
 const (
-	AutomatedActionsCreateOperation  OperationName = "AutomatedActionsCreate"
-	AutomatedActionsDeleteOperation  OperationName = "AutomatedActionsDelete"
-	AutomatedActionsListOperation    OperationName = "AutomatedActionsList"
-	AutomatedActionsReadOperation    OperationName = "AutomatedActionsRead"
-	AutomatedActionsUpdateOperation  OperationName = "AutomatedActionsUpdate"
-	EvaluationRulesListOperation     OperationName = "EvaluationRulesList"
-	EvaluationRulesReadOperation     OperationName = "EvaluationRulesRead"
-	EvaluationRulesUpdateOperation   OperationName = "EvaluationRulesUpdate"
-	ProjectActivationCreateOperation OperationName = "ProjectActivationCreate"
-	ProjectActivationReadOperation   OperationName = "ProjectActivationRead"
-	ProjectActivationUpdateOperation OperationName = "ProjectActivationUpdate"
+	CreateActivationOperation      OperationName = "CreateActivation"
+	CreateAutomatedActionOperation OperationName = "CreateAutomatedAction"
+	DeleteAutomatedActionOperation OperationName = "DeleteAutomatedAction"
+	ListAutomatedActionsOperation  OperationName = "ListAutomatedActions"
+	ListEvaluationRulesOperation   OperationName = "ListEvaluationRules"
+	ReadActivationOperation        OperationName = "ReadActivation"
+	ReadAutomatedActionOperation   OperationName = "ReadAutomatedAction"
+	ReadEvaluationRuleOperation    OperationName = "ReadEvaluationRule"
+	UpdateActivationOperation      OperationName = "UpdateActivation"
+	UpdateAutomatedActionOperation OperationName = "UpdateAutomatedAction"
+	UpdateEvaluationRuleOperation  OperationName = "UpdateEvaluationRule"
 )
