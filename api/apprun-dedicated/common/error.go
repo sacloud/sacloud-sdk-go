@@ -4,11 +4,12 @@
 package common
 
 import (
+	"errors"
 	"strings"
 
-	"github.com/go-faster/errors"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -48,16 +49,16 @@ func ErrorFromDecodedResponseE(m string, y func() error) (e error) {
 	return
 }
 
-// saclient.IsNotFoundError() に対応させる
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
 func ErrorFromDecodedResponse[T any](method string, yield func() (T, error)) (resp T, err error) {
 	resp, err = yield()
 
-	if e, ok := errors.Into[*v1.ErrorStatusCode](err); ok {
+	if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 		err = NewAPIError(method, e.GetStatusCode(), e)
-	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		err = NewAPIError(method, e.StatusCode, err)
+	} else if e, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](err); ok {
+		err = NewError(method, httperror.NewError(method, e))
 	} else if err != nil {
-		err = NewError(method, err) // :TODO: is this necessary...?
+		err = NewError(method, err) // this is e.g. broken JSON
 	}
 
 	return

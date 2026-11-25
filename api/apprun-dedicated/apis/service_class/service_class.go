@@ -32,9 +32,7 @@ func (op *ServiceClassOp) ListLB(ctx context.Context) (classes []v1.LoadBalancer
 }
 
 func (op *ServiceClassOp) ListWorker(ctx context.Context) (classes []v1.WorkerServiceClass, err error) {
-	res, err := common.ErrorFromDecodedResponse("ServiceClass.ListWorker", func() (*v1.ListWorkerServiceClassesResponse, error) {
-		return op.Client.ListWorkerServiceClasses(ctx)
-	})
+	res, err := common.ErrorFromDecodedResponse("ServiceClass.ListWorker", func() (*v1.ListWorkerServiceClassesResponse, error) { return op.Client.ListWorkerServiceClasses(ctx) })
 
 	if res != nil {
 		classes = res.WorkerServiceClasses

@@ -19,12 +19,11 @@ type LimitOp struct{ *v1.Client }
 func NewLimitOp(client *v1.Client) *LimitOp { return &LimitOp{Client: client} }
 
 func (op *LimitOp) Read(ctx context.Context) (limit *v1.Limit, err error) {
-	res, err := common.ErrorFromDecodedResponse("Limit.Read", func() (*v1.ReadLimitsResponse, error) {
-		return op.Client.ReadLimits(ctx)
-	})
+	res, err := common.ErrorFromDecodedResponse("Limit.Read", func() (*v1.ReadLimitsResponse, error) { return op.Client.ReadLimits(ctx) })
 	if res != nil {
 		limit = &res.Limit
 	}
+
 	return
 }
 
