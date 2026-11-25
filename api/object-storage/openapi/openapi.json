@@ -1,7 +1,7 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.0.3",
   "info": {
-    "version": "1.7.0",
+    "version": "1.7.1",
     "title": "さくらのオブジェクトストレージ APIドキュメント",
     "contact": {
       "name": "SAKURA internet Inc."
@@ -317,7 +317,12 @@
               }
             }
           }
-        }
+        },
+        "servers": [
+          {
+            "url": "https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1"
+          }
+        ]
       },
       "post": {
         "operationId": "createBucketReplication",
@@ -445,7 +450,12 @@
               }
             }
           }
-        }
+        },
+        "servers": [
+          {
+            "url": "https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1"
+          }
+        ]
       }
     },
     "/buckets/{name}/replicable-targets": {
@@ -498,7 +508,12 @@
               }
             }
           }
-        }
+        },
+        "servers": [
+          {
+            "url": "https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/fed/v1"
+          }
+        ]
       }
     },
     "/buckets/{name}/encryption": {
@@ -555,6 +570,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error404"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "このサイトでは指定された操作を実行できません",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error405"
                 }
               }
             }
@@ -637,6 +662,16 @@
                 }
               }
             }
+          },
+          "405": {
+            "description": "このサイトでは指定された操作を実行できません",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error405"
+                }
+              }
+            }
           }
         }
       },
@@ -678,6 +713,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error404"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "このサイトでは指定された操作を実行できません",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error405"
                 }
               }
             }
@@ -2159,9 +2204,7 @@
             "in": "query",
             "name": "from",
             "schema": {
-              "type": "string",
-              "format": "date",
-              "example": "2022-03"
+              "$ref": "#/components/schemas/YearMonth"
             },
             "description": "範囲の開始月",
             "required": true
@@ -2170,9 +2213,7 @@
             "in": "query",
             "name": "to",
             "schema": {
-              "type": "string",
-              "format": "date",
-              "example": "2022-08"
+              "$ref": "#/components/schemas/YearMonth"
             },
             "description": "範囲の終了月",
             "required": true
@@ -2643,84 +2684,20 @@
         ],
         "properties": {
           "source_bucket": {
-            "type": "object",
-            "required": [
-              "name",
-              "cluster_id",
-              "plan"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReplicationBucket"
+              }
             ],
-            "description": "Source bucket info",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "cluster_id": {
-                "type": "string"
-              },
-              "plan": {
-                "type": "object",
-                "required": [
-                  "type",
-                  "service_class_path"
-                ],
-                "properties": {
-                  "type": {
-                    "$ref": "#/components/schemas/model.PlanType"
-                  },
-                  "service_class_path": {
-                    "$ref": "#/components/schemas/ServiceClassPath"
-                  }
-                }
-              }
-            },
-            "example": {
-              "name": "my-bucket",
-              "cluster_id": "isk01",
-              "plan": {
-                "type": "standard",
-                "service_class_path": "objectstorage/isk01/bucket"
-              }
-            }
+            "description": "Source bucket info"
           },
           "dest_bucket": {
-            "type": "object",
-            "required": [
-              "name",
-              "cluster_id",
-              "plan"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReplicationBucket"
+              }
             ],
-            "description": "Destination bucket info",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "cluster_id": {
-                "type": "string"
-              },
-              "plan": {
-                "type": "object",
-                "required": [
-                  "type",
-                  "service_class_path"
-                ],
-                "properties": {
-                  "type": {
-                    "$ref": "#/components/schemas/model.PlanType"
-                  },
-                  "service_class_path": {
-                    "$ref": "#/components/schemas/ServiceClassPath"
-                  }
-                }
-              }
-            },
-            "example": {
-              "name": "my-bucket-replica",
-              "cluster_id": "tky01",
-              "plan": {
-                "type": "standard",
-                "service_class_path": "objectstorage/isk01/bucket"
-              }
-            }
+            "description": "Destination bucket info"
           },
           "config_status": {
             "type": "string",
@@ -2776,7 +2753,11 @@
             "properties": {
               "resource_id": {
                 "description": "Current contract resource ID. This is for validation to avoid recontracting from an unexpected state.\n",
-                "$ref": "#/components/schemas/ResourceID"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceID"
+                  }
+                ]
               }
             }
           },
@@ -2936,7 +2917,8 @@
                 "type": "integer",
                 "example": 36
               }
-            }
+            },
+            "nullable": true
           }
         }
       },
@@ -3250,14 +3232,14 @@
           },
           "from": {
             "type": "string",
-            "format": "date",
-            "example": "2022-08-01",
+            "format": "date-time",
+            "example": "2022-08-01T00:00:00Z",
             "description": "The first day of metering range"
           },
           "to": {
             "type": "string",
-            "format": "date",
-            "example": "2022-08-31",
+            "format": "date-time",
+            "example": "2022-08-31T23:59:59Z",
             "description": "The last day of metering range"
           }
         }
@@ -3275,28 +3257,51 @@
         ],
         "properties": {
           "year_month": {
-            "type": "string",
-            "example": "2022-08",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/YearMonth"
+              }
+            ],
             "description": "集計対象の年月"
           },
           "basic": {
-            "$ref": "#/components/schemas/BucketBillingItemDetail",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BucketBillingItemDetail"
+              }
+            ],
             "description": "基本料金"
           },
           "storage_usage": {
-            "$ref": "#/components/schemas/BucketBillingItemDetail",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BucketBillingItemDetail"
+              }
+            ],
             "description": "ストレージ使用量"
           },
           "num_objects": {
-            "$ref": "#/components/schemas/BucketBillingItemDetail",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BucketBillingItemDetail"
+              }
+            ],
             "description": "オブジェクト数"
           },
           "num_transactions": {
-            "$ref": "#/components/schemas/BucketBillingItemDetail",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BucketBillingItemDetail"
+              }
+            ],
             "description": "トランザクション数"
           },
           "transfer_amount": {
-            "$ref": "#/components/schemas/BucketBillingItemDetail",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BucketBillingItemDetail"
+              }
+            ],
             "description": "転送量"
           }
         }
@@ -3896,296 +3901,185 @@
         }
       },
       "Error400": {
-        "type": "object",
-        "properties": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        ],
+        "example": {
           "error": {
-            "description": "error 400",
-            "type": "object",
-            "properties": {
-              "code": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorCode"
-                  }
-                ],
-                "example": 400
-              },
-              "message": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorMessage"
-                  }
-                ],
-                "example": "Invalid parameters."
-              },
-              "trace_id": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorTraceId"
-                  }
-                ],
-                "example": "0f36837633984f3fc8871f515e8efa24"
-              },
-              "errors": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Errors"
-                  }
-                ]
-              }
-            }
+            "code": 400,
+            "message": "Invalid parameters.",
+            "trace_id": "0f36837633984f3fc8871f515e8efa24",
+            "errors": []
           }
         }
       },
       "Error401": {
-        "type": "object",
-        "properties": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        ],
+        "example": {
           "error": {
-            "description": "error 401",
-            "type": "object",
-            "properties": {
-              "code": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorCode"
-                  }
-                ],
-                "example": 401
-              },
-              "message": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorMessage"
-                  }
-                ],
-                "example": "Authentication failed."
-              },
-              "trace_id": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorTraceId"
-                  }
-                ],
-                "example": "0f36837633984f3fc8871f515e8efa24"
-              },
-              "errors": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Errors"
-                  }
-                ]
-              }
-            }
+            "code": 401,
+            "message": "Authentication failed.",
+            "trace_id": "0f36837633984f3fc8871f515e8efa24",
+            "errors": []
           }
         }
       },
       "Error403": {
-        "type": "object",
-        "properties": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        ],
+        "example": {
           "error": {
-            "description": "error 403",
-            "type": "object",
-            "properties": {
-              "code": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorCode"
-                  }
-                ],
-                "example": 403
-              },
-              "message": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorMessage"
-                  }
-                ],
-                "example": "XXXX creation denied."
-              },
-              "trace_id": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorTraceId"
-                  }
-                ],
-                "example": "0f36837633984f3fc8871f515e8efa24"
-              },
-              "errors": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Errors"
-                  }
-                ]
-              }
-            }
+            "code": 403,
+            "message": "Creation denied.",
+            "trace_id": "0f36837633984f3fc8871f515e8efa24",
+            "errors": []
           }
         }
       },
       "Error404": {
-        "type": "object",
-        "properties": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        ],
+        "example": {
           "error": {
-            "description": "error 404",
-            "type": "object",
-            "properties": {
-              "code": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorCode"
-                  }
-                ],
-                "example": 404
-              },
-              "message": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorMessage"
-                  }
-                ],
-                "example": "XXXX does not exist."
-              },
-              "trace_id": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorTraceId"
-                  }
-                ],
-                "example": "0f36837633984f3fc8871f515e8efa24"
-              },
-              "errors": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Errors"
-                  }
-                ]
-              }
-            }
+            "code": 404,
+            "message": "Resource does not exist.",
+            "trace_id": "0f36837633984f3fc8871f515e8efa24",
+            "errors": []
           }
         }
       },
       "Error405": {
-        "type": "object",
-        "properties": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        ],
+        "example": {
           "error": {
-            "description": "error 405",
-            "type": "object",
-            "properties": {
-              "code": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorCode"
-                  }
-                ],
-                "example": 405
-              },
-              "message": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorMessage"
-                  }
-                ],
-                "example": "Method Not Allowed"
-              },
-              "trace_id": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorTraceId"
-                  }
-                ],
-                "example": "0f36837633984f3fc8871f515e8efa24"
-              },
-              "errors": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Errors"
-                  }
-                ]
-              }
-            }
+            "code": 405,
+            "message": "Method Not Allowed",
+            "trace_id": "0f36837633984f3fc8871f515e8efa24",
+            "errors": []
           }
         }
       },
       "Error409": {
-        "type": "object",
-        "properties": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        ],
+        "example": {
           "error": {
-            "description": "error 409",
-            "type": "object",
-            "properties": {
-              "code": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorCode"
-                  }
-                ],
-                "example": 409
-              },
-              "message": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorMessage"
-                  }
-                ],
-                "example": "XXXX already created."
-              },
-              "trace_id": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorTraceId"
-                  }
-                ],
-                "example": "0f36837633984f3fc8871f515e8efa24"
-              },
-              "errors": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Errors"
-                  }
-                ]
-              }
-            }
+            "code": 409,
+            "message": "Resource already exists.",
+            "trace_id": "0f36837633984f3fc8871f515e8efa24",
+            "errors": []
           }
         }
       },
       "ErrorDefault": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        ],
+        "example": {
+          "error": {
+            "code": 500,
+            "message": "unknown error occurred.",
+            "trace_id": "0f36837633984f3fc8871f515e8efa24",
+            "errors": []
+          }
+        }
+      },
+      "YearMonth": {
+        "type": "string",
+        "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+        "example": "2026-11"
+      },
+      "ReplicationPlan": {
         "type": "object",
+        "required": [
+          "type",
+          "service_class_path"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "",
+              "standard",
+              "archive"
+            ]
+          },
+          "service_class_path": {
+            "type": "string"
+          }
+        }
+      },
+      "ReplicationBucket": {
+        "type": "object",
+        "required": [
+          "name",
+          "cluster_id",
+          "plan"
+        ],
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/BucketName"
+          },
+          "cluster_id": {
+            "type": "string"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/ReplicationPlan"
+          }
+        }
+      },
+      "ErrorBody": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "trace_id",
+          "errors"
+        ],
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode"
+          },
+          "message": {
+            "$ref": "#/components/schemas/ErrorMessage"
+          },
+          "trace_id": {
+            "$ref": "#/components/schemas/ErrorTraceId"
+          },
+          "errors": {
+            "$ref": "#/components/schemas/Errors"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
         "properties": {
           "error": {
-            "description": "error 500",
-            "type": "object",
-            "properties": {
-              "code": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorCode"
-                  }
-                ],
-                "example": 500
-              },
-              "message": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorMessage"
-                  }
-                ],
-                "example": "unknown error occurred."
-              },
-              "trace_id": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ErrorTraceId"
-                  }
-                ],
-                "example": "0f36837633984f3fc8871f515e8efa24"
-              },
-              "errors": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Errors"
-                  }
-                ]
-              }
-            }
+            "$ref": "#/components/schemas/ErrorBody"
           }
         }
       }
