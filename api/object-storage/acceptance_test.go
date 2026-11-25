@@ -10,6 +10,7 @@ import (
 	"os"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
@@ -35,9 +36,9 @@ func s3Client(t *testing.T, token, secret string) *minio.Client {
 		t.Fatal(err)
 	}
 
-	s3Client, err := minio.New(site.S3Endpoint.Value, &minio.Options{
+	s3Client, err := minio.New(site.S3Endpoint, &minio.Options{
 		Creds:        credentials.NewStaticV4(token, secret, ""),
-		Region:       site.Region.Value,
+		Region:       site.Region,
 		Secure:       true,
 		BucketLookup: minio.BucketLookupPath,
 	})
@@ -65,16 +66,24 @@ func TestAccSiteAndStatusAPI(t *testing.T) {
 	require.NotEmpty(t, sites)
 
 	// Read
-	site, err := siteOp.Read(ctx, sites[0].ID.Value)
+	site, err := siteOp.Read(ctx, sites[0].ID)
 	require.NoError(t, err)
 	require.NotEmpty(t, site)
+
+	siteWithPlansOp := objectstorage.NewSiteWithPlansOp(accTestFedClient, accTestSiteClient)
+	plans, err := siteWithPlansOp.ListPlans(ctx)
+	require.NoError(t, err)
+	require.NotEmpty(t, plans)
 
 	// Site Status
 	statusOp := objectstorage.NewSiteStatusOp(accTestSiteClient)
 	status, err := statusOp.Read(ctx)
-
 	require.NoError(t, err)
 	require.NotEmpty(t, status)
+
+	quota, err := statusOp.ReadQuota(ctx)
+	require.NoError(t, err)
+	require.NotEmpty(t, quota)
 }
 
 // TestAccBucketHandling バケット周りの一連の操作のテスト
@@ -100,6 +109,46 @@ func TestAccBucketHandling(t *testing.T) {
 		require.NoError(t, err)
 		require.NotEmpty(t, created)
 	}
+	bucketExists := true
+	t.Cleanup(func() {
+		if bucketExists {
+			if err := bucketOp.Delete(ctx, bucketName); err != nil {
+				t.Errorf("failed to delete bucket %q: %s", bucketName, err)
+			}
+		}
+	})
+
+	// Bucket API reads
+	buckets, err := bucketOp.List(ctx)
+	require.NoError(t, err)
+	found := false
+	for _, bucket := range buckets {
+		if string(bucket.Name) == bucketName {
+			found = true
+			break
+		}
+	}
+	require.True(t, found, "bucket %q is not in the bucket list", bucketName)
+
+	bucketExtraOp := objectstorage.NewBucketExtraOp(accTestSiteClient, accTestFedClient, bucketName)
+	penalty, err := bucketExtraOp.ReadPenalty(ctx)
+	// This has to be 404, because the brand-new bucket has no penalty yet
+	require.Nil(t, penalty)
+	require.ErrorContains(t, err, "404")
+
+	usage, err := bucketExtraOp.ReadUsage(ctx)
+	require.NoError(t, err)
+	require.NotNil(t, usage)
+
+	quota, err := bucketExtraOp.ReadQuota(ctx)
+	require.NoError(t, err)
+	require.NotNil(t, quota)
+
+	now := time.Now()
+	monthStart := time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
+	metering, err := objectstorage.NewSiteStatusOp(accTestSiteClient).ReadBucketMetering(ctx, bucketName, monthStart, monthStart)
+	require.NoError(t, err)
+	require.NotNil(t, metering)
 
 	// Step2: バケットにアクセス
 	{
@@ -121,6 +170,7 @@ func TestAccBucketHandling(t *testing.T) {
 
 	// Step3: クリーンアップ
 	require.NoError(t, bucketOp.Delete(ctx, bucketName))
+	bucketExists = false
 }
 
 // TestAccAccessToBucketWithPermissionKey パーミッションキーによるオブジェクトへのアクセス
@@ -138,34 +188,93 @@ func TestAccAccessToBucketObjectWithPermissionKey(t *testing.T) {
 		require.NoError(t, err)
 		require.NotEmpty(t, created)
 	}
+	bucketExists := true
+	t.Cleanup(func() {
+		if bucketExists {
+			if err := bucketOp.Delete(ctx, bucketName); err != nil {
+				t.Errorf("failed to delete bucket %q: %s", bucketName, err)
+			}
+		}
+	})
 
 	// Step2: バケットにアクセスできるパーミッション/アクセスキーの作成
 	permissionOp := objectstorage.NewPermissionOp(accTestSiteClient)
 	var permission *v2.PermissionData
-	var key *v2.PermissionKeyData
+	var key *v2.PermissionKeyCreateResponseBody
+	permissionExists := false
+	keyExists := false
+	objectExists := false
+	var permissionID, objectKey string
 	{
-		created, err := permissionOp.Create(ctx, bucketName, v2.BucketControls{
-			v2.BucketControlsItem{
-				BucketName: v2.NewOptBucketName(v2.BucketName(bucketName)),
-				CanRead:    v2.NewOptCanRead(true),
-				CanWrite:   v2.NewOptCanWrite(true),
+		controls := v2.BucketControlsBody{
+			v2.BucketControlsBodyItem{
+				BucketName: v2.BucketName(bucketName),
+				CanRead:    true,
+				CanWrite:   true,
 			},
-		})
+		}
+		created, err := permissionOp.Create(ctx, bucketName, controls)
 		require.NoError(t, err)
 		require.NotEmpty(t, created)
 		permission = created
+		permissionID = strconv.Itoa(int(permission.ID))
+		permissionExists = true
+		t.Cleanup(func() {
+			if permissionExists {
+				if err := permissionOp.Delete(ctx, permissionID); err != nil {
+					t.Errorf("failed to delete permission %q: %s", permissionID, err)
+				}
+			}
+		})
 
-		createdKey, err := permissionOp.CreateAccessKey(ctx, strconv.Itoa(int(permission.ID.Value)))
+		read, err := permissionOp.Read(ctx, permissionID)
+		require.NoError(t, err)
+		require.Equal(t, permission.ID, read.ID)
+
+		permissions, err := permissionOp.List(ctx)
+		require.NoError(t, err)
+		found := false
+		for _, item := range permissions {
+			if item.ID == permission.ID {
+				found = true
+				break
+			}
+		}
+		require.True(t, found, "permission %q is not in the permission list", permissionID)
+
+		updatedName := bucketName + "-updated"
+		updated, err := permissionOp.Update(ctx, permissionID, updatedName, controls)
+		require.NoError(t, err)
+		require.Equal(t, updatedName, string(updated.DisplayName))
+
+		createdKey, err := permissionOp.CreateAccessKey(ctx, permissionID)
 		require.NoError(t, err)
 		require.NotEmpty(t, createdKey)
 		key = createdKey
+		keyExists = true
+		t.Cleanup(func() {
+			if keyExists {
+				if err := permissionOp.DeleteAccessKey(ctx, permissionID, string(key.ID)); err != nil {
+					t.Errorf("failed to delete access key %q: %s", key.ID, err)
+				}
+			}
+		})
+
+		keys, err := permissionOp.ListAccessKeys(ctx, permissionID)
+		require.NoError(t, err)
+		require.Len(t, keys, 1)
+		require.Equal(t, string(key.ID), string(keys[0].ID))
+
+		readKey, err := permissionOp.ReadAccessKey(ctx, permissionID, string(key.ID))
+		require.NoError(t, err)
+		require.Equal(t, string(key.ID), string(readKey.ID))
 	}
 
 	// Step3: 作成したアクセスキーでバケットにアクセス
 	{
-		s3Client := s3Client(t, string(key.ID.Value), string(key.Secret.Value))
+		s3Client := s3Client(t, string(key.ID), string(key.Secret))
 
-		objectKey := "foobar"
+		objectKey = "foobar"
 		objectBodyText := "body of s3://[bucket_name]/foobar"
 		objectBody := bytes.NewBufferString(objectBodyText)
 
@@ -173,6 +282,14 @@ func TestAccAccessToBucketObjectWithPermissionKey(t *testing.T) {
 		created, err := s3Client.PutObject(ctx, bucketName, objectKey, objectBody, int64(objectBody.Len()), minio.PutObjectOptions{})
 		require.NoError(t, err)
 		require.NotEmpty(t, created)
+		objectExists = true
+		t.Cleanup(func() {
+			if objectExists {
+				if err := s3Client.RemoveObject(ctx, bucketName, objectKey, minio.RemoveObjectOptions{}); err != nil {
+					t.Errorf("failed to remove object %q: %s", objectKey, err)
+				}
+			}
+		})
 
 		// オブジェクトの読み込み
 		read, err := s3Client.GetObject(ctx, bucketName, objectKey, minio.GetObjectOptions{})
@@ -181,23 +298,29 @@ func TestAccAccessToBucketObjectWithPermissionKey(t *testing.T) {
 
 		readText, err := io.ReadAll(read)
 		require.NoError(t, err)
+		require.NoError(t, read.Close())
 		require.Equal(t, objectBodyText, string(readText))
 
 		// オブジェクトの削除
 		err = s3Client.RemoveObject(ctx, bucketName, objectKey, minio.RemoveObjectOptions{})
 		require.NoError(t, err)
+		objectExists = false
 	}
 
 	// Step4: クリーンアップ
-	require.NoError(t, permissionOp.DeleteAccessKey(ctx, strconv.Itoa(int(permission.ID.Value)), string(key.ID.Value)))
-	require.NoError(t, permissionOp.Delete(ctx, strconv.Itoa(int(permission.ID.Value))))
+	require.NoError(t, permissionOp.DeleteAccessKey(ctx, permissionID, string(key.ID)))
+	keyExists = false
+	require.NoError(t, permissionOp.Delete(ctx, permissionID))
+	permissionExists = false
 	require.NoError(t, bucketOp.Delete(ctx, bucketName))
+	bucketExists = false
 }
 
 // 暗号化やレプリケーションのテスト
 func TestAccBucketExtraOperation(t *testing.T) {
 	skipIfNoTestAcc(t)
 	skipIfNoAPIKey(t)
+	skipIfNoEnv(t, "SAKURA_KMS_KEY_ID")
 
 	ctx := context.Background()
 	isk := "isk01"
@@ -237,13 +360,22 @@ func TestAccBucketExtraOperation(t *testing.T) {
 		keyId := os.Getenv("SAKURA_KMS_KEY_ID")
 		err := beOp.EnableEncryption(ctx, keyId)
 		require.NoError(t, err)
+		encryptionEnabled := true
+		t.Cleanup(func() {
+			if encryptionEnabled {
+				if err := beOp.DisableEncryption(ctx); err != nil {
+					t.Errorf("failed to disable bucket encryption: %s", err)
+				}
+			}
+		})
 
 		enc, err := beOp.ReadEncryption(ctx)
 		require.NoError(t, err)
-		require.Equal(t, keyId, string(enc.KmsKeyID.Value))
+		require.Equal(t, keyId, string(enc.KmsKeyID))
 
 		err = beOp.DisableEncryption(ctx)
 		require.NoError(t, err)
+		encryptionEnabled = false
 	}
 
 	// レプリケーション
@@ -251,14 +383,23 @@ func TestAccBucketExtraOperation(t *testing.T) {
 		beOp := objectstorage.NewBucketExtraOp(sc1, accTestFedClient, bucketName1)
 		_, err := beOp.EnableReplication(ctx, bucketName2)
 		require.NoError(t, err)
+		replicationEnabled := true
+		t.Cleanup(func() {
+			if replicationEnabled {
+				if err := beOp.DisableReplication(ctx); err != nil {
+					t.Errorf("failed to disable bucket replication: %s", err)
+				}
+			}
+		})
 
 		rep, err := beOp.ReadReplication(ctx)
 		require.NoError(t, err)
-		require.Equal(t, tky, rep.DestBucket.ClusterID.Value)
-		require.Equal(t, bucketName2, rep.DestBucket.Name.Value)
+		require.Equal(t, tky, rep.DestBucket.ClusterID)
+		require.Equal(t, v2.BucketName(bucketName2), rep.DestBucket.Name)
 
 		err = beOp.DisableReplication(ctx)
 		require.NoError(t, err)
+		replicationEnabled = false
 	}
 }
 

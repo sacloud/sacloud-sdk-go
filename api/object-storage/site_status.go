@@ -28,56 +28,60 @@ func NewSiteStatusOp(client *SiteClient) SiteStatusAPI {
 }
 
 func (op *siteStatusOp) Read(ctx context.Context) (*v2.StatusData, error) {
-	res, err := op.client.client.GetStatus(ctx)
+	res, err := op.client.client.ReadStatus(ctx)
 	if err != nil {
 		return nil, NewAPIError("SiteStatus.Read", 0, err)
 	}
 
 	switch r := res.(type) {
 	case *v2.Status:
-		return &r.Data.Value, nil
-	case *v2.Error401:
-		return nil, NewAPIError("SiteStatus.Read", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return nil, NewAPIError("SiteStatus.Read", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+		return &r.Data, nil
+	case *v2.ErrorResponse:
+		return nil, NewAPIError("SiteStatus.Read", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return nil, NewAPIError("SiteStatus.Read", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return nil, unknownError("SiteStatus.Read", r)
 	}
 }
 
 func (op *siteStatusOp) ReadQuota(ctx context.Context) (*v2.QuotaData, error) {
-	res, err := op.client.client.GetQuota(ctx)
+	res, err := op.client.client.ReadQuota(ctx)
 	if err != nil {
 		return nil, NewAPIError("SiteStatus.ReadQuota", 0, err)
 	}
 
 	switch r := res.(type) {
 	case *v2.Quota:
-		return &r.Data.Value, nil
-	case *v2.Error401:
-		return nil, NewAPIError("SiteStatus.ReadQuota", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return nil, NewAPIError("SiteStatus.ReadQuota", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+		return &r.Data, nil
+	case *v2.ErrorResponse:
+		return nil, NewAPIError("SiteStatus.ReadQuota", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return nil, NewAPIError("SiteStatus.ReadQuota", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return nil, unknownError("SiteStatus.ReadQuota", r)
 	}
 }
 
 func (op *siteStatusOp) ReadBucketMetering(ctx context.Context, bucketName string, from, to time.Time) ([]v2.BucketBillingItem, error) {
-	res, err := op.client.client.GetBucketMetering(ctx, v2.GetBucketMeteringParams{Name: v2.BucketName(bucketName), From: from, To: to})
+	res, err := op.client.client.ListBucketMetering(ctx, v2.ListBucketMeteringParams{
+		Name: v2.BucketName(bucketName),
+		From: v2.YearMonth(from.Format("2006-01")),
+		To:   v2.YearMonth(to.Format("2006-01")),
+	})
 	if err != nil {
 		return nil, NewAPIError("SiteStatus.ReadBucketMetering", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v2.GetBucketMeteringOK:
+	case *v2.ListBucketMeteringOK:
 		return r.Data, nil
-	case *v2.Error400:
-		return nil, NewAPIError("SiteStatus.ReadBucketMetering", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.Error401:
-		return nil, NewAPIError("SiteStatus.ReadBucketMetering", int(r.Error.Value.Code.Value), errors.New(string(r.Error.Value.Message.Value)))
-	case *v2.ErrorDefaultStatusCode:
-		return nil, NewAPIError("SiteStatus.ReadBucketMetering", r.StatusCode, errors.New(string(r.Response.Error.Value.Message.Value)))
+	case *v2.ListBucketMeteringBadRequest:
+		return nil, NewAPIError("SiteStatus.ReadBucketMetering", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ListBucketMeteringUnauthorized:
+		return nil, NewAPIError("SiteStatus.ReadBucketMetering", int(r.Error.Code), errors.New(string(r.Error.Message)))
+	case *v2.ErrorResponseStatusCode:
+		return nil, NewAPIError("SiteStatus.ReadBucketMetering", r.StatusCode, errors.New(string(r.Response.Error.Message)))
 	default:
 		return nil, unknownError("SiteStatus.ReadBucketMetering", r)
 	}

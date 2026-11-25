@@ -46,35 +46,15 @@ func unknownError(method string, res any) *Error {
 	var message string
 
 	switch res := res.(type) {
-	case *v2.ErrorDefaultStatusCode:
-		status = res.GetStatusCode()
-		if err, ok := new(res.GetResponse()).GetError().Get(); ok {
-			if msg, ok := err.GetMessage().Get(); ok {
-				message = string(msg)
-			}
-		}
+	case *v2.ErrorResponseStatusCode:
+		status = res.StatusCode
+		message = string(res.Response.Error.Message)
 
-	// v2.ErrorXXX types
-	case interface {
-		GetError() interface {
-			Get() (interface {
-				GetCode() v2.OptErrorCode
-				GetMessage() v2.OptErrorMessage
-			}, bool)
-		}
-	}:
-		err, ok := res.GetError().Get()
-		if !ok {
-			return NewAPIError(method, 0, fmt.Errorf("got null: %#+v", res))
-		}
-
-		if code, ok := err.GetCode().Get(); ok {
-			status = int(code)
-		}
-
-		if msg, ok := err.GetMessage().Get(); ok {
-			message = string(msg)
-		}
+	// v2.ErrorResponse
+	case interface{ GetError() v2.ErrorBody }:
+		err := res.GetError()
+		status = int(err.Code)
+		message = string(err.Message)
 
 	default:
 		// :FIXME: unintentional info leakage could happen in the error message

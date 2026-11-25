@@ -10,11 +10,13 @@ import (
 )
 
 var regexMap = map[string]ogenregex.Regexp{
-	"\\d{1,12}":                   ogenregex.MustCompile("\\d{1,12}"),
-	"^.+$":                        ogenregex.MustCompile("^.+$"),
-	"^[\\w\\d\\/+=]{1,40}$":       ogenregex.MustCompile("^[\\w\\d\\/+=]{1,40}$"),
-	"^[\\w\\d\\/]{1,40}$":         ogenregex.MustCompile("^[\\w\\d\\/]{1,40}$"),
-	"^[a-zA-Z][a-zA-Z0-9\\-]{2,}": ogenregex.MustCompile("^[a-zA-Z][a-zA-Z0-9\\-]{2,}"),
+	"^.+$":                         ogenregex.MustCompile("^.+$"),
+	"^[\\w@]+$":                    ogenregex.MustCompile("^[\\w@]+$"),
+	"^[\\w\\d\\/+=]{1,40}$":        ogenregex.MustCompile("^[\\w\\d\\/+=]{1,40}$"),
+	"^[\\w\\d\\/]{1,40}$":          ogenregex.MustCompile("^[\\w\\d\\/]{1,40}$"),
+	"^[a-z0-9][a-z0-9-]*[a-z0-9]$": ogenregex.MustCompile("^[a-z0-9][a-z0-9-]*[a-z0-9]$"),
+	"^\\d{1,12}$":                  ogenregex.MustCompile("^\\d{1,12}$"),
+	"^\\d{4}-(0[1-9]|1[0-2])$":     ogenregex.MustCompile("^\\d{4}-(0[1-9]|1[0-2])$"),
 }
 
 type (
