@@ -16,6 +16,7 @@ package secretmanager
 
 import (
 	"context"
+	"errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/secretmanager/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
@@ -43,29 +44,31 @@ func NewSecretOp(client *v1.Client, id string) SecretAPI {
 }
 
 func (op *secretOp) List(ctx context.Context, count, from *int) ([]v1.SecretResponse, error) {
-	res, err := op.client.ListVaultSecrets(ctx, v1.ListVaultSecretsParams{
-		VaultResourceID: op.vaultId,
-		Count:           into.Opt[v1.OptInt](count),
-		From:            into.Opt[v1.OptInt](from),
+	res, err := errorFromDecodedResponse("Secret.List", func() (*v1.PaginatedSecretResponseList, error) {
+		return op.client.ListVaultSecrets(ctx, v1.ListVaultSecretsParams{
+			VaultResourceID: op.vaultId,
+			Count:           into.Opt[v1.OptInt](count),
+			From:            into.Opt[v1.OptInt](from),
+		})
 	})
 	if err != nil {
-		return nil, createAPIError("List", err)
+		return nil, err
 	}
 
-	return res.Secrets, nil
+	return res.GetSecrets(), nil
 }
 
 type CreateSecretParams = v1.CreateSecretRequest
 
 func (op *secretOp) Create(ctx context.Context, request CreateSecretParams) (*v1.CreateSecretResponse, error) {
-	res, err := op.client.CreateVaultSecret(ctx, &v1.WrappedCreateSecretRequest{
-		Secret: request,
-	}, v1.CreateVaultSecretParams{VaultResourceID: op.vaultId})
+	res, err := errorFromDecodedResponse("Secret.Create", func() (*v1.WrappedCreateSecretResponse, error) {
+		return op.client.CreateVaultSecret(ctx, &v1.WrappedCreateSecretRequest{Secret: request}, v1.CreateVaultSecretParams{VaultResourceID: op.vaultId})
+	})
 	if err != nil {
-		return nil, createAPIError("Create", err)
+		return nil, err
 	}
 
-	return &res.Secret, nil
+	return new(res.GetSecret()), nil
 }
 
 type UpdateSecretParams = v1.CreateSecretRequest
@@ -81,27 +84,27 @@ type UnveilParams struct {
 }
 
 func (op *secretOp) Unveil(ctx context.Context, request UnveilParams) (*v1.UnveilResponse, error) {
-	res, err := op.client.UnveilSecret(ctx, &v1.WrappedUnveilRequest{
-		Secret: v1.UnveilRequest{
-			Name:    request.Name,
-			Version: into.OptNil[v1.OptNilInt](request.Version),
-		},
-	}, v1.UnveilSecretParams{VaultResourceID: op.vaultId})
+	res, err := errorFromDecodedResponse("Secret.Unveil", func() (*v1.WrappedUnveilResponse, error) {
+		return op.client.UnveilSecret(ctx, &v1.WrappedUnveilRequest{
+			Secret: v1.UnveilRequest{
+				Name:    request.Name,
+				Version: into.OptNil[v1.OptNilInt](request.Version),
+			},
+		}, v1.UnveilSecretParams{VaultResourceID: op.vaultId})
+	})
 	if err != nil {
-		return nil, createAPIError("Unveil", err)
+		// この場合、エラーを素直にreturnしてよいかに関してセキュリティ上の懸念がある。
+		// 普通、Unveilの応答には機密性の高い情報が含まれていると想定するのが自然であり、
+		// あくまでエラーである以上はそれらが露出していないという前提は危ういのではないか。
+		// 多分、マスクした方がよいだろう。
+		return nil, NewError("Secret.Unveil", errors.New("<<details redacted>>"))
 	}
 
-	return &res.Secret, nil
+	return new(res.GetSecret()), nil
 }
 
 func (op *secretOp) Delete(ctx context.Context, request string) error {
-	err := op.client.DeleteVaultSecret(ctx, &v1.WrappedDeleteSecretRequest{
-		Secret: v1.WrappedDeleteSecretRequestSecret{
-			Name: request,
-		},
-	}, v1.DeleteVaultSecretParams{VaultResourceID: op.vaultId})
-	if err != nil {
-		return createAPIError("Delete", err)
-	}
-	return nil
+	return errorFromDecodedResponseE("Secret.Delete", func() error {
+		return op.client.DeleteVaultSecret(ctx, &v1.WrappedDeleteSecretRequest{Secret: v1.WrappedDeleteSecretRequestSecret{Name: request}}, v1.DeleteVaultSecretParams{VaultResourceID: op.vaultId})
+	})
 }

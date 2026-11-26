@@ -41,24 +41,26 @@ func NewVaultOp(client *v1.Client) VaultAPI {
 }
 
 func (op *vaultOp) List(ctx context.Context, count, from *int) ([]v1.Vault, error) {
-	res, err := op.client.ListVaults(ctx, v1.ListVaultsParams{
-		Count: into.Opt[v1.OptInt](count),
-		From:  into.Opt[v1.OptInt](from),
+	res, err := errorFromDecodedResponse("Vault.List", func() (*v1.PaginatedVaultList, error) {
+		return op.client.ListVaults(ctx, v1.ListVaultsParams{
+			Count: into.Opt[v1.OptInt](count),
+			From:  into.Opt[v1.OptInt](from),
+		})
 	})
 	if err != nil {
-		return nil, createAPIError("List", err)
+		return nil, err
 	}
 
-	return res.Vaults, nil
+	return res.GetVaults(), nil
 }
 
 func (op *vaultOp) Read(ctx context.Context, id string) (*v1.Vault, error) {
-	res, err := op.client.ReadVault(ctx, v1.ReadVaultParams{ResourceID: id})
+	res, err := errorFromDecodedResponse("Vault.Read", func() (*v1.WrappedVault, error) { return op.client.ReadVault(ctx, v1.ReadVaultParams{ResourceID: id}) })
 	if err != nil {
-		return nil, createAPIError("Read", err)
+		return nil, err
 	}
 
-	return &res.Vault, nil
+	return new(res.GetVault()), nil
 }
 
 type CreateVaultParams struct {
@@ -69,19 +71,21 @@ type CreateVaultParams struct {
 }
 
 func (op *vaultOp) Create(ctx context.Context, request CreateVaultParams) (*v1.CreateVault, error) {
-	res, err := op.client.CreateVault(ctx, &v1.WrappedCreateVaultRequest{
-		Vault: v1.CreateVaultRequest{
-			Name:        request.Name,
-			Description: into.Opt[v1.OptString](request.Description),
-			KmsKeyID:    request.KmsKeyID,
-			Tags:        into.OptNonnilArray[v1.OptNilStringArray](&request.Tags),
-		},
+	res, err := errorFromDecodedResponse("Vault.Create", func() (*v1.WrappedCreateVault, error) {
+		return op.client.CreateVault(ctx, &v1.WrappedCreateVaultRequest{
+			Vault: v1.CreateVaultRequest{
+				Name:        request.Name,
+				Description: into.Opt[v1.OptString](request.Description),
+				KmsKeyID:    request.KmsKeyID,
+				Tags:        into.OptNonnilArray[v1.OptNilStringArray](&request.Tags),
+			},
+		})
 	})
 	if err != nil {
-		return nil, createAPIError("Create", err)
+		return nil, err
 	}
 
-	return &res.Vault, nil
+	return new(res.GetVault()), nil
 }
 
 type UpdateVaultParams struct {
@@ -91,24 +95,22 @@ type UpdateVaultParams struct {
 }
 
 func (op *vaultOp) Update(ctx context.Context, id string, request UpdateVaultParams) (*v1.Vault, error) {
-	res, err := op.client.UpdateVault(ctx, &v1.WrappedVaultRequest{
-		Vault: v1.VaultRequest{
-			Name:        request.Name,
-			Description: into.Opt[v1.OptString](request.Description),
-			Tags:        into.OptNonnilArray[v1.OptNilStringArray](&request.Tags),
-		},
-	}, v1.UpdateVaultParams{ResourceID: id})
+	res, err := errorFromDecodedResponse("Vault.Update", func() (*v1.WrappedVault, error) {
+		return op.client.UpdateVault(ctx, &v1.WrappedVaultRequest{
+			Vault: v1.VaultRequest{
+				Name:        request.Name,
+				Description: into.Opt[v1.OptString](request.Description),
+				Tags:        into.OptNonnilArray[v1.OptNilStringArray](&request.Tags),
+			},
+		}, v1.UpdateVaultParams{ResourceID: id})
+	})
 	if err != nil {
-		return nil, createAPIError("Update", err)
+		return nil, err
 	}
 
-	return &res.Vault, nil
+	return new(res.GetVault()), nil
 }
 
 func (op *vaultOp) Delete(ctx context.Context, id string) error {
-	err := op.client.DeleteVault(ctx, v1.DeleteVaultParams{ResourceID: id})
-	if err != nil {
-		return createAPIError("Delete", err)
-	}
-	return nil
+	return errorFromDecodedResponseE("Vault.Delete", func() error { return op.client.DeleteVault(ctx, v1.DeleteVaultParams{ResourceID: id}) })
 }
