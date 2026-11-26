@@ -8,7 +8,9 @@ import (
 	"fmt"
 	"strings"
 
+	ogen "github.com/ogen-go/ogen/validate"
 	v2 "github.com/sacloud/sacloud-sdk-go/api/object-storage/apis/v2"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -41,26 +43,58 @@ func NewAPIError(method string, code int, err error) *Error {
 	return NewError(method, saclient.NewError(code, "", err))
 }
 
-func unknownError(method string, res any) *Error {
-	var status int
-	var message string
+type errorish interface{ GetError() v2.ErrorBody }
 
-	switch res := res.(type) {
-	case *v2.ErrorResponseStatusCode:
-		status = res.StatusCode
-		message = string(res.Response.Error.Message)
+type apierror struct{ *v2.ErrorBody }
 
-	// v2.ErrorResponse
-	case interface{ GetError() v2.ErrorBody }:
-		err := res.GetError()
-		status = int(err.Code)
-		message = string(err.Message)
-
-	default:
-		// :FIXME: unintentional info leakage could happen in the error message
-		// but don't know what to do otherwise.
-		message = fmt.Sprintf("unexpected error type: %#+v", res)
+func (e *apierror) Error() string {
+	if e == nil {
+		return "(nil error)"
 	}
 
-	return NewAPIError(method, status, errors.New(message))
+	if e.ErrorBody == nil {
+		return "(nil error)"
+	}
+
+	return string(e.GetMessage())
+}
+
+func newErrorFromAPIError(err errorish) error {
+	if err == nil {
+		return errors.New("nil API error response")
+	}
+	if httperror.IsTypedNil(err) {
+		return errors.New("nil API error response")
+	}
+
+	b := err.GetError()
+	e := apierror{ErrorBody: &b}
+	c := int(b.GetCode())
+	return saclient.NewError(c, "", &e)
+}
+
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
+func errorFromDecodedResponse[T any](method string, yield func() (any, error)) (ret *T, err error) {
+	res, e1 := yield()
+
+	if e2, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](e1); ok {
+		err = NewError(method, httperror.NewError(method, e2))
+	} else if e1 != nil {
+		err = NewError(method, e1) // this is e.g. broken JSON
+	} else if e3, ok := res.(*v2.ErrorResponseStatusCode); ok {
+		status := e3.GetStatusCode()
+		message := string(new(new(e3.GetResponse()).GetError()).GetMessage())
+		err = NewAPIError(method, status, errors.New(message))
+	} else if e3, ok := res.(errorish); ok {
+		err = NewError(method, newErrorFromAPIError(e3))
+	} else if ret, ok = res.(*T); !ok {
+		err = NewError(method, fmt.Errorf("unknown API response type %v", res))
+	}
+
+	return
+}
+
+func errorFromDecodedResponseE[T any](method string, yield func() (any, error)) (err error) {
+	_, err = errorFromDecodedResponse[T](method, yield)
+	return
 }
