@@ -214,7 +214,6 @@ func (t *ArchiveTracer) Find(ctx context.Context, zone string, conditions *iaas.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -240,7 +239,6 @@ func (t *ArchiveTracer) Create(ctx context.Context, zone string, param *iaas.Arc
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultArchive", forceString(resultArchive)))
-
 	}
 	return resultArchive, err
 }
@@ -267,7 +265,6 @@ func (t *ArchiveTracer) CreateBlank(ctx context.Context, zone string, param *iaa
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultArchive", forceString(resultArchive)))
 		span.SetAttributes(attribute.String("libiaas.api.results.resultFTPServer", forceString(resultFTPServer)))
-
 	}
 	return resultArchive, resultFTPServer, err
 }
@@ -293,7 +290,6 @@ func (t *ArchiveTracer) Read(ctx context.Context, zone string, id types.ID) (*ia
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultArchive", forceString(resultArchive)))
-
 	}
 	return resultArchive, err
 }
@@ -320,7 +316,6 @@ func (t *ArchiveTracer) Update(ctx context.Context, zone string, id types.ID, pa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultArchive", forceString(resultArchive)))
-
 	}
 	return resultArchive, err
 }
@@ -345,7 +340,6 @@ func (t *ArchiveTracer) Delete(ctx context.Context, zone string, id types.ID) er
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -372,7 +366,6 @@ func (t *ArchiveTracer) OpenFTP(ctx context.Context, zone string, id types.ID, o
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultFTPServer", forceString(resultFTPServer)))
-
 	}
 	return resultFTPServer, err
 }
@@ -397,7 +390,6 @@ func (t *ArchiveTracer) CloseFTP(ctx context.Context, zone string, id types.ID) 
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -423,7 +415,6 @@ func (t *ArchiveTracer) Share(ctx context.Context, zone string, id types.ID) (*i
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultArchiveShareInfo", forceString(resultArchiveShareInfo)))
-
 	}
 	return resultArchiveShareInfo, err
 }
@@ -451,7 +442,6 @@ func (t *ArchiveTracer) CreateFromShared(ctx context.Context, zone string, sourc
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultArchive", forceString(resultArchive)))
-
 	}
 	return resultArchive, err
 }
@@ -479,7 +469,6 @@ func (t *ArchiveTracer) Transfer(ctx context.Context, zone string, sourceArchive
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultArchive", forceString(resultArchive)))
-
 	}
 	return resultArchive, err
 }
@@ -520,7 +509,6 @@ func (t *AuthStatusTracer) Read(ctx context.Context) (*iaas.AuthStatus, error) {
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultAuthStatus", forceString(resultAuthStatus)))
-
 	}
 	return resultAuthStatus, err
 }
@@ -564,7 +552,6 @@ func (t *AutoBackupTracer) Find(ctx context.Context, zone string, conditions *ia
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -590,7 +577,6 @@ func (t *AutoBackupTracer) Create(ctx context.Context, zone string, param *iaas.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultAutoBackup", forceString(resultAutoBackup)))
-
 	}
 	return resultAutoBackup, err
 }
@@ -616,7 +602,6 @@ func (t *AutoBackupTracer) Read(ctx context.Context, zone string, id types.ID) (
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultAutoBackup", forceString(resultAutoBackup)))
-
 	}
 	return resultAutoBackup, err
 }
@@ -643,7 +628,6 @@ func (t *AutoBackupTracer) Update(ctx context.Context, zone string, id types.ID,
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultAutoBackup", forceString(resultAutoBackup)))
-
 	}
 	return resultAutoBackup, err
 }
@@ -670,7 +654,6 @@ func (t *AutoBackupTracer) UpdateSettings(ctx context.Context, zone string, id t
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultAutoBackup", forceString(resultAutoBackup)))
-
 	}
 	return resultAutoBackup, err
 }
@@ -695,7 +678,6 @@ func (t *AutoBackupTracer) Delete(ctx context.Context, zone string, id types.ID)
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -738,7 +720,6 @@ func (t *AutoScaleTracer) Find(ctx context.Context, conditions *iaas.FindConditi
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -763,7 +744,6 @@ func (t *AutoScaleTracer) Create(ctx context.Context, param *iaas.AutoScaleCreat
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultAutoScale", forceString(resultAutoScale)))
-
 	}
 	return resultAutoScale, err
 }
@@ -788,7 +768,6 @@ func (t *AutoScaleTracer) Read(ctx context.Context, id types.ID) (*iaas.AutoScal
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultAutoScale", forceString(resultAutoScale)))
-
 	}
 	return resultAutoScale, err
 }
@@ -814,7 +793,6 @@ func (t *AutoScaleTracer) Update(ctx context.Context, id types.ID, param *iaas.A
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultAutoScale", forceString(resultAutoScale)))
-
 	}
 	return resultAutoScale, err
 }
@@ -840,7 +818,6 @@ func (t *AutoScaleTracer) UpdateSettings(ctx context.Context, id types.ID, param
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultAutoScale", forceString(resultAutoScale)))
-
 	}
 	return resultAutoScale, err
 }
@@ -864,7 +841,6 @@ func (t *AutoScaleTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -889,7 +865,6 @@ func (t *AutoScaleTracer) Status(ctx context.Context, id types.ID) (*iaas.AutoSc
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultAutoScaleStatus", forceString(resultAutoScaleStatus)))
-
 	}
 	return resultAutoScaleStatus, err
 }
@@ -913,7 +888,6 @@ func (t *AutoScaleTracer) ScaleUp(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -937,7 +911,6 @@ func (t *AutoScaleTracer) ScaleDown(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -980,7 +953,6 @@ func (t *BillTracer) ByContract(ctx context.Context, accountID types.ID) (*iaas.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -1006,7 +978,6 @@ func (t *BillTracer) ByContractYear(ctx context.Context, accountID types.ID, yea
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -1033,7 +1004,6 @@ func (t *BillTracer) ByContractYearMonth(ctx context.Context, accountID types.ID
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -1058,7 +1028,6 @@ func (t *BillTracer) Read(ctx context.Context, id types.ID) (*iaas.BillReadResul
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -1084,7 +1053,6 @@ func (t *BillTracer) Details(ctx context.Context, MemberCode string, id types.ID
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -1110,7 +1078,6 @@ func (t *BillTracer) DetailsCSV(ctx context.Context, MemberCode string, id types
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultBillDetailCSV", forceString(resultBillDetailCSV)))
-
 	}
 	return resultBillDetailCSV, err
 }
@@ -1154,7 +1121,6 @@ func (t *BridgeTracer) Find(ctx context.Context, zone string, conditions *iaas.F
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -1180,7 +1146,6 @@ func (t *BridgeTracer) Create(ctx context.Context, zone string, param *iaas.Brid
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultBridge", forceString(resultBridge)))
-
 	}
 	return resultBridge, err
 }
@@ -1206,7 +1171,6 @@ func (t *BridgeTracer) Read(ctx context.Context, zone string, id types.ID) (*iaa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultBridge", forceString(resultBridge)))
-
 	}
 	return resultBridge, err
 }
@@ -1233,7 +1197,6 @@ func (t *BridgeTracer) Update(ctx context.Context, zone string, id types.ID, par
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultBridge", forceString(resultBridge)))
-
 	}
 	return resultBridge, err
 }
@@ -1258,7 +1221,6 @@ func (t *BridgeTracer) Delete(ctx context.Context, zone string, id types.ID) err
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -1302,7 +1264,6 @@ func (t *CDROMTracer) Find(ctx context.Context, zone string, conditions *iaas.Fi
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -1329,7 +1290,6 @@ func (t *CDROMTracer) Create(ctx context.Context, zone string, param *iaas.CDROM
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCDROM", forceString(resultCDROM)))
 		span.SetAttributes(attribute.String("libiaas.api.results.resultFTPServer", forceString(resultFTPServer)))
-
 	}
 	return resultCDROM, resultFTPServer, err
 }
@@ -1355,7 +1315,6 @@ func (t *CDROMTracer) Read(ctx context.Context, zone string, id types.ID) (*iaas
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCDROM", forceString(resultCDROM)))
-
 	}
 	return resultCDROM, err
 }
@@ -1382,7 +1341,6 @@ func (t *CDROMTracer) Update(ctx context.Context, zone string, id types.ID, para
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCDROM", forceString(resultCDROM)))
-
 	}
 	return resultCDROM, err
 }
@@ -1407,7 +1365,6 @@ func (t *CDROMTracer) Delete(ctx context.Context, zone string, id types.ID) erro
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -1434,7 +1391,6 @@ func (t *CDROMTracer) OpenFTP(ctx context.Context, zone string, id types.ID, ope
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultFTPServer", forceString(resultFTPServer)))
-
 	}
 	return resultFTPServer, err
 }
@@ -1459,7 +1415,6 @@ func (t *CDROMTracer) CloseFTP(ctx context.Context, zone string, id types.ID) er
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -1502,7 +1457,6 @@ func (t *CertificateAuthorityTracer) Find(ctx context.Context, conditions *iaas.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -1527,7 +1481,6 @@ func (t *CertificateAuthorityTracer) Create(ctx context.Context, param *iaas.Cer
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCertificateAuthority", forceString(resultCertificateAuthority)))
-
 	}
 	return resultCertificateAuthority, err
 }
@@ -1552,7 +1505,6 @@ func (t *CertificateAuthorityTracer) Read(ctx context.Context, id types.ID) (*ia
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCertificateAuthority", forceString(resultCertificateAuthority)))
-
 	}
 	return resultCertificateAuthority, err
 }
@@ -1578,7 +1530,6 @@ func (t *CertificateAuthorityTracer) Update(ctx context.Context, id types.ID, pa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCertificateAuthority", forceString(resultCertificateAuthority)))
-
 	}
 	return resultCertificateAuthority, err
 }
@@ -1602,7 +1553,6 @@ func (t *CertificateAuthorityTracer) Delete(ctx context.Context, id types.ID) er
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -1627,7 +1577,6 @@ func (t *CertificateAuthorityTracer) Detail(ctx context.Context, id types.ID) (*
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCertificateAuthority", forceString(resultCertificateAuthority)))
-
 	}
 	return resultCertificateAuthority, err
 }
@@ -1653,7 +1602,6 @@ func (t *CertificateAuthorityTracer) AddClient(ctx context.Context, id types.ID,
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCertificateAuthority", forceString(resultCertificateAuthority)))
-
 	}
 	return resultCertificateAuthority, err
 }
@@ -1678,7 +1626,6 @@ func (t *CertificateAuthorityTracer) ListClients(ctx context.Context, id types.I
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -1704,7 +1651,6 @@ func (t *CertificateAuthorityTracer) ReadClient(ctx context.Context, id types.ID
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCertificateAuthority", forceString(resultCertificateAuthority)))
-
 	}
 	return resultCertificateAuthority, err
 }
@@ -1729,7 +1675,6 @@ func (t *CertificateAuthorityTracer) RevokeClient(ctx context.Context, id types.
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -1754,7 +1699,6 @@ func (t *CertificateAuthorityTracer) HoldClient(ctx context.Context, id types.ID
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -1779,7 +1723,6 @@ func (t *CertificateAuthorityTracer) ResumeClient(ctx context.Context, id types.
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -1804,7 +1747,6 @@ func (t *CertificateAuthorityTracer) DenyClient(ctx context.Context, id types.ID
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -1830,7 +1772,6 @@ func (t *CertificateAuthorityTracer) AddServer(ctx context.Context, id types.ID,
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCertificateAuthority", forceString(resultCertificateAuthority)))
-
 	}
 	return resultCertificateAuthority, err
 }
@@ -1855,7 +1796,6 @@ func (t *CertificateAuthorityTracer) ListServers(ctx context.Context, id types.I
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -1881,7 +1821,6 @@ func (t *CertificateAuthorityTracer) ReadServer(ctx context.Context, id types.ID
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCertificateAuthority", forceString(resultCertificateAuthority)))
-
 	}
 	return resultCertificateAuthority, err
 }
@@ -1906,7 +1845,6 @@ func (t *CertificateAuthorityTracer) RevokeServer(ctx context.Context, id types.
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -1931,7 +1869,6 @@ func (t *CertificateAuthorityTracer) HoldServer(ctx context.Context, id types.ID
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -1956,7 +1893,6 @@ func (t *CertificateAuthorityTracer) ResumeServer(ctx context.Context, id types.
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -1999,7 +1935,6 @@ func (t *ContainerRegistryTracer) Find(ctx context.Context, conditions *iaas.Fin
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -2024,7 +1959,6 @@ func (t *ContainerRegistryTracer) Create(ctx context.Context, param *iaas.Contai
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultContainerRegistry", forceString(resultContainerRegistry)))
-
 	}
 	return resultContainerRegistry, err
 }
@@ -2049,7 +1983,6 @@ func (t *ContainerRegistryTracer) Read(ctx context.Context, id types.ID) (*iaas.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultContainerRegistry", forceString(resultContainerRegistry)))
-
 	}
 	return resultContainerRegistry, err
 }
@@ -2075,7 +2008,6 @@ func (t *ContainerRegistryTracer) Update(ctx context.Context, id types.ID, param
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultContainerRegistry", forceString(resultContainerRegistry)))
-
 	}
 	return resultContainerRegistry, err
 }
@@ -2101,7 +2033,6 @@ func (t *ContainerRegistryTracer) UpdateSettings(ctx context.Context, id types.I
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultContainerRegistry", forceString(resultContainerRegistry)))
-
 	}
 	return resultContainerRegistry, err
 }
@@ -2125,7 +2056,6 @@ func (t *ContainerRegistryTracer) Delete(ctx context.Context, id types.ID) error
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2150,7 +2080,6 @@ func (t *ContainerRegistryTracer) ListUsers(ctx context.Context, id types.ID) (*
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultContainerRegistryUsers", forceString(resultContainerRegistryUsers)))
-
 	}
 	return resultContainerRegistryUsers, err
 }
@@ -2175,7 +2104,6 @@ func (t *ContainerRegistryTracer) AddUser(ctx context.Context, id types.ID, para
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2201,7 +2129,6 @@ func (t *ContainerRegistryTracer) UpdateUser(ctx context.Context, id types.ID, u
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2226,7 +2153,6 @@ func (t *ContainerRegistryTracer) DeleteUser(ctx context.Context, id types.ID, u
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2269,7 +2195,6 @@ func (t *CouponTracer) Find(ctx context.Context, accountID types.ID) (*iaas.Coup
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -2313,7 +2238,6 @@ func (t *DatabaseTracer) Find(ctx context.Context, zone string, conditions *iaas
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -2339,7 +2263,6 @@ func (t *DatabaseTracer) Create(ctx context.Context, zone string, param *iaas.Da
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDatabase", forceString(resultDatabase)))
-
 	}
 	return resultDatabase, err
 }
@@ -2365,7 +2288,6 @@ func (t *DatabaseTracer) Read(ctx context.Context, zone string, id types.ID) (*i
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDatabase", forceString(resultDatabase)))
-
 	}
 	return resultDatabase, err
 }
@@ -2392,7 +2314,6 @@ func (t *DatabaseTracer) Update(ctx context.Context, zone string, id types.ID, p
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDatabase", forceString(resultDatabase)))
-
 	}
 	return resultDatabase, err
 }
@@ -2419,7 +2340,6 @@ func (t *DatabaseTracer) UpdateSettings(ctx context.Context, zone string, id typ
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDatabase", forceString(resultDatabase)))
-
 	}
 	return resultDatabase, err
 }
@@ -2444,7 +2364,6 @@ func (t *DatabaseTracer) Delete(ctx context.Context, zone string, id types.ID) e
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2469,7 +2388,6 @@ func (t *DatabaseTracer) Config(ctx context.Context, zone string, id types.ID) e
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2494,7 +2412,6 @@ func (t *DatabaseTracer) Boot(ctx context.Context, zone string, id types.ID) err
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2520,7 +2437,6 @@ func (t *DatabaseTracer) Shutdown(ctx context.Context, zone string, id types.ID,
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2545,7 +2461,6 @@ func (t *DatabaseTracer) Reset(ctx context.Context, zone string, id types.ID) er
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2572,7 +2487,6 @@ func (t *DatabaseTracer) MonitorCPU(ctx context.Context, zone string, id types.I
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCPUTimeActivity", forceString(resultCPUTimeActivity)))
-
 	}
 	return resultCPUTimeActivity, err
 }
@@ -2599,7 +2513,6 @@ func (t *DatabaseTracer) MonitorDisk(ctx context.Context, zone string, id types.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDiskActivity", forceString(resultDiskActivity)))
-
 	}
 	return resultDiskActivity, err
 }
@@ -2626,7 +2539,6 @@ func (t *DatabaseTracer) MonitorInterface(ctx context.Context, zone string, id t
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInterfaceActivity", forceString(resultInterfaceActivity)))
-
 	}
 	return resultInterfaceActivity, err
 }
@@ -2653,7 +2565,6 @@ func (t *DatabaseTracer) MonitorDatabase(ctx context.Context, zone string, id ty
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDatabaseActivity", forceString(resultDatabaseActivity)))
-
 	}
 	return resultDatabaseActivity, err
 }
@@ -2679,7 +2590,6 @@ func (t *DatabaseTracer) Status(ctx context.Context, zone string, id types.ID) (
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDatabaseStatus", forceString(resultDatabaseStatus)))
-
 	}
 	return resultDatabaseStatus, err
 }
@@ -2705,7 +2615,6 @@ func (t *DatabaseTracer) GetParameter(ctx context.Context, zone string, id types
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDatabaseParameter", forceString(resultDatabaseParameter)))
-
 	}
 	return resultDatabaseParameter, err
 }
@@ -2731,7 +2640,6 @@ func (t *DatabaseTracer) SetParameter(ctx context.Context, zone string, id types
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2775,7 +2683,6 @@ func (t *DiskTracer) Find(ctx context.Context, zone string, conditions *iaas.Fin
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -2803,7 +2710,6 @@ func (t *DiskTracer) Create(ctx context.Context, zone string, createParam *iaas.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDisk", forceString(resultDisk)))
-
 	}
 	return resultDisk, err
 }
@@ -2832,7 +2738,6 @@ func (t *DiskTracer) CreateOnDedicatedStorage(ctx context.Context, zone string, 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDisk", forceString(resultDisk)))
-
 	}
 	return resultDisk, err
 }
@@ -2858,7 +2763,6 @@ func (t *DiskTracer) Config(ctx context.Context, zone string, id types.ID, edit 
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2888,7 +2792,6 @@ func (t *DiskTracer) CreateWithConfig(ctx context.Context, zone string, createPa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDisk", forceString(resultDisk)))
-
 	}
 	return resultDisk, err
 }
@@ -2919,7 +2822,6 @@ func (t *DiskTracer) CreateOnDedicatedStorageWithConfig(ctx context.Context, zon
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDisk", forceString(resultDisk)))
-
 	}
 	return resultDisk, err
 }
@@ -2945,7 +2847,6 @@ func (t *DiskTracer) ResizePartition(ctx context.Context, zone string, id types.
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2971,7 +2872,6 @@ func (t *DiskTracer) ConnectToServer(ctx context.Context, zone string, id types.
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -2996,7 +2896,6 @@ func (t *DiskTracer) DisconnectFromServer(ctx context.Context, zone string, id t
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -3022,7 +2921,6 @@ func (t *DiskTracer) Read(ctx context.Context, zone string, id types.ID) (*iaas.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDisk", forceString(resultDisk)))
-
 	}
 	return resultDisk, err
 }
@@ -3049,7 +2947,6 @@ func (t *DiskTracer) Update(ctx context.Context, zone string, id types.ID, param
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDisk", forceString(resultDisk)))
-
 	}
 	return resultDisk, err
 }
@@ -3074,7 +2971,6 @@ func (t *DiskTracer) Delete(ctx context.Context, zone string, id types.ID) error
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -3101,7 +2997,6 @@ func (t *DiskTracer) Monitor(ctx context.Context, zone string, id types.ID, cond
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDiskActivity", forceString(resultDiskActivity)))
-
 	}
 	return resultDiskActivity, err
 }
@@ -3128,7 +3023,6 @@ func (t *DiskTracer) MonitorDisk(ctx context.Context, zone string, id types.ID, 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDiskActivity", forceString(resultDiskActivity)))
-
 	}
 	return resultDiskActivity, err
 }
@@ -3172,7 +3066,6 @@ func (t *DiskPlanTracer) Find(ctx context.Context, zone string, conditions *iaas
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -3198,7 +3091,6 @@ func (t *DiskPlanTracer) Read(ctx context.Context, zone string, id types.ID) (*i
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDiskPlan", forceString(resultDiskPlan)))
-
 	}
 	return resultDiskPlan, err
 }
@@ -3241,7 +3133,6 @@ func (t *DNSTracer) Find(ctx context.Context, conditions *iaas.FindCondition) (*
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -3266,7 +3157,6 @@ func (t *DNSTracer) Create(ctx context.Context, param *iaas.DNSCreateRequest) (*
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDNS", forceString(resultDNS)))
-
 	}
 	return resultDNS, err
 }
@@ -3291,7 +3181,6 @@ func (t *DNSTracer) Read(ctx context.Context, id types.ID) (*iaas.DNS, error) {
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDNS", forceString(resultDNS)))
-
 	}
 	return resultDNS, err
 }
@@ -3317,7 +3206,6 @@ func (t *DNSTracer) Update(ctx context.Context, id types.ID, param *iaas.DNSUpda
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDNS", forceString(resultDNS)))
-
 	}
 	return resultDNS, err
 }
@@ -3343,7 +3231,6 @@ func (t *DNSTracer) UpdateSettings(ctx context.Context, id types.ID, param *iaas
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultDNS", forceString(resultDNS)))
-
 	}
 	return resultDNS, err
 }
@@ -3367,7 +3254,6 @@ func (t *DNSTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -3410,7 +3296,6 @@ func (t *EnhancedDBTracer) Find(ctx context.Context, conditions *iaas.FindCondit
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -3435,7 +3320,6 @@ func (t *EnhancedDBTracer) Create(ctx context.Context, param *iaas.EnhancedDBCre
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultEnhancedDB", forceString(resultEnhancedDB)))
-
 	}
 	return resultEnhancedDB, err
 }
@@ -3460,7 +3344,6 @@ func (t *EnhancedDBTracer) Read(ctx context.Context, id types.ID) (*iaas.Enhance
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultEnhancedDB", forceString(resultEnhancedDB)))
-
 	}
 	return resultEnhancedDB, err
 }
@@ -3486,7 +3369,6 @@ func (t *EnhancedDBTracer) Update(ctx context.Context, id types.ID, param *iaas.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultEnhancedDB", forceString(resultEnhancedDB)))
-
 	}
 	return resultEnhancedDB, err
 }
@@ -3510,7 +3392,6 @@ func (t *EnhancedDBTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -3535,7 +3416,6 @@ func (t *EnhancedDBTracer) SetPassword(ctx context.Context, id types.ID, param *
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -3560,7 +3440,6 @@ func (t *EnhancedDBTracer) GetConfig(ctx context.Context, id types.ID) (*iaas.En
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultEnhancedDBConfig", forceString(resultEnhancedDBConfig)))
-
 	}
 	return resultEnhancedDBConfig, err
 }
@@ -3585,7 +3464,6 @@ func (t *EnhancedDBTracer) SetConfig(ctx context.Context, id types.ID, param *ia
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -3628,7 +3506,6 @@ func (t *ESMETracer) Find(ctx context.Context, conditions *iaas.FindCondition) (
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -3653,7 +3530,6 @@ func (t *ESMETracer) Create(ctx context.Context, param *iaas.ESMECreateRequest) 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultESME", forceString(resultESME)))
-
 	}
 	return resultESME, err
 }
@@ -3678,7 +3554,6 @@ func (t *ESMETracer) Read(ctx context.Context, id types.ID) (*iaas.ESME, error) 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultESME", forceString(resultESME)))
-
 	}
 	return resultESME, err
 }
@@ -3704,7 +3579,6 @@ func (t *ESMETracer) Update(ctx context.Context, id types.ID, param *iaas.ESMEUp
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultESME", forceString(resultESME)))
-
 	}
 	return resultESME, err
 }
@@ -3728,7 +3602,6 @@ func (t *ESMETracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -3754,7 +3627,6 @@ func (t *ESMETracer) SendMessageWithGeneratedOTP(ctx context.Context, id types.I
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultESMESendMessageResult", forceString(resultESMESendMessageResult)))
-
 	}
 	return resultESMESendMessageResult, err
 }
@@ -3780,7 +3652,6 @@ func (t *ESMETracer) SendMessageWithInputtedOTP(ctx context.Context, id types.ID
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultESMESendMessageResult", forceString(resultESMESendMessageResult)))
-
 	}
 	return resultESMESendMessageResult, err
 }
@@ -3805,7 +3676,6 @@ func (t *ESMETracer) Logs(ctx context.Context, id types.ID) ([]*iaas.ESMELogs, e
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLogs", forceString(resultLogs)))
-
 	}
 	return resultLogs, err
 }
@@ -3848,7 +3718,6 @@ func (t *GSLBTracer) Find(ctx context.Context, conditions *iaas.FindCondition) (
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -3873,7 +3742,6 @@ func (t *GSLBTracer) Create(ctx context.Context, param *iaas.GSLBCreateRequest) 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultGSLB", forceString(resultGSLB)))
-
 	}
 	return resultGSLB, err
 }
@@ -3898,7 +3766,6 @@ func (t *GSLBTracer) Read(ctx context.Context, id types.ID) (*iaas.GSLB, error) 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultGSLB", forceString(resultGSLB)))
-
 	}
 	return resultGSLB, err
 }
@@ -3924,7 +3791,6 @@ func (t *GSLBTracer) Update(ctx context.Context, id types.ID, param *iaas.GSLBUp
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultGSLB", forceString(resultGSLB)))
-
 	}
 	return resultGSLB, err
 }
@@ -3950,7 +3816,6 @@ func (t *GSLBTracer) UpdateSettings(ctx context.Context, id types.ID, param *iaa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultGSLB", forceString(resultGSLB)))
-
 	}
 	return resultGSLB, err
 }
@@ -3974,7 +3839,6 @@ func (t *GSLBTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -4017,7 +3881,6 @@ func (t *IconTracer) Find(ctx context.Context, conditions *iaas.FindCondition) (
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -4042,7 +3905,6 @@ func (t *IconTracer) Create(ctx context.Context, param *iaas.IconCreateRequest) 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultIcon", forceString(resultIcon)))
-
 	}
 	return resultIcon, err
 }
@@ -4067,7 +3929,6 @@ func (t *IconTracer) Read(ctx context.Context, id types.ID) (*iaas.Icon, error) 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultIcon", forceString(resultIcon)))
-
 	}
 	return resultIcon, err
 }
@@ -4093,7 +3954,6 @@ func (t *IconTracer) Update(ctx context.Context, id types.ID, param *iaas.IconUp
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultIcon", forceString(resultIcon)))
-
 	}
 	return resultIcon, err
 }
@@ -4117,7 +3977,6 @@ func (t *IconTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -4161,7 +4020,6 @@ func (t *InterfaceTracer) Find(ctx context.Context, zone string, conditions *iaa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -4187,7 +4045,6 @@ func (t *InterfaceTracer) Create(ctx context.Context, zone string, param *iaas.I
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInterface", forceString(resultInterface)))
-
 	}
 	return resultInterface, err
 }
@@ -4213,7 +4070,6 @@ func (t *InterfaceTracer) Read(ctx context.Context, zone string, id types.ID) (*
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInterface", forceString(resultInterface)))
-
 	}
 	return resultInterface, err
 }
@@ -4240,7 +4096,6 @@ func (t *InterfaceTracer) Update(ctx context.Context, zone string, id types.ID, 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInterface", forceString(resultInterface)))
-
 	}
 	return resultInterface, err
 }
@@ -4265,7 +4120,6 @@ func (t *InterfaceTracer) Delete(ctx context.Context, zone string, id types.ID) 
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -4292,7 +4146,6 @@ func (t *InterfaceTracer) Monitor(ctx context.Context, zone string, id types.ID,
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInterfaceActivity", forceString(resultInterfaceActivity)))
-
 	}
 	return resultInterfaceActivity, err
 }
@@ -4317,7 +4170,6 @@ func (t *InterfaceTracer) ConnectToSharedSegment(ctx context.Context, zone strin
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -4343,7 +4195,6 @@ func (t *InterfaceTracer) ConnectToSwitch(ctx context.Context, zone string, id t
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -4368,7 +4219,6 @@ func (t *InterfaceTracer) DisconnectFromSwitch(ctx context.Context, zone string,
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -4394,7 +4244,6 @@ func (t *InterfaceTracer) ConnectToPacketFilter(ctx context.Context, zone string
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -4419,7 +4268,6 @@ func (t *InterfaceTracer) DisconnectFromPacketFilter(ctx context.Context, zone s
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -4463,7 +4311,6 @@ func (t *InternetTracer) Find(ctx context.Context, zone string, conditions *iaas
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -4489,7 +4336,6 @@ func (t *InternetTracer) Create(ctx context.Context, zone string, param *iaas.In
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInternet", forceString(resultInternet)))
-
 	}
 	return resultInternet, err
 }
@@ -4515,7 +4361,6 @@ func (t *InternetTracer) Read(ctx context.Context, zone string, id types.ID) (*i
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInternet", forceString(resultInternet)))
-
 	}
 	return resultInternet, err
 }
@@ -4542,7 +4387,6 @@ func (t *InternetTracer) Update(ctx context.Context, zone string, id types.ID, p
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInternet", forceString(resultInternet)))
-
 	}
 	return resultInternet, err
 }
@@ -4567,7 +4411,6 @@ func (t *InternetTracer) Delete(ctx context.Context, zone string, id types.ID) e
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -4594,7 +4437,6 @@ func (t *InternetTracer) UpdateBandWidth(ctx context.Context, zone string, id ty
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInternet", forceString(resultInternet)))
-
 	}
 	return resultInternet, err
 }
@@ -4621,7 +4463,6 @@ func (t *InternetTracer) AddSubnet(ctx context.Context, zone string, id types.ID
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSubnet", forceString(resultSubnet)))
-
 	}
 	return resultSubnet, err
 }
@@ -4649,7 +4490,6 @@ func (t *InternetTracer) UpdateSubnet(ctx context.Context, zone string, id types
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSubnet", forceString(resultSubnet)))
-
 	}
 	return resultSubnet, err
 }
@@ -4675,7 +4515,6 @@ func (t *InternetTracer) DeleteSubnet(ctx context.Context, zone string, id types
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -4702,7 +4541,6 @@ func (t *InternetTracer) Monitor(ctx context.Context, zone string, id types.ID, 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultRouterActivity", forceString(resultRouterActivity)))
-
 	}
 	return resultRouterActivity, err
 }
@@ -4729,7 +4567,6 @@ func (t *InternetTracer) MonitorRouter(ctx context.Context, zone string, id type
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultRouterActivity", forceString(resultRouterActivity)))
-
 	}
 	return resultRouterActivity, err
 }
@@ -4755,7 +4592,6 @@ func (t *InternetTracer) EnableIPv6(ctx context.Context, zone string, id types.I
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultIPv6Net", forceString(resultIPv6Net)))
-
 	}
 	return resultIPv6Net, err
 }
@@ -4781,7 +4617,6 @@ func (t *InternetTracer) DisableIPv6(ctx context.Context, zone string, id types.
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -4825,7 +4660,6 @@ func (t *InternetPlanTracer) Find(ctx context.Context, zone string, conditions *
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -4851,7 +4685,6 @@ func (t *InternetPlanTracer) Read(ctx context.Context, zone string, id types.ID)
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInternetPlan", forceString(resultInternetPlan)))
-
 	}
 	return resultInternetPlan, err
 }
@@ -4894,7 +4727,6 @@ func (t *IPAddressTracer) List(ctx context.Context, zone string) (*iaas.IPAddres
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -4920,7 +4752,6 @@ func (t *IPAddressTracer) Read(ctx context.Context, zone string, ipAddress strin
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultIPAddress", forceString(resultIPAddress)))
-
 	}
 	return resultIPAddress, err
 }
@@ -4947,7 +4778,6 @@ func (t *IPAddressTracer) UpdateHostName(ctx context.Context, zone string, ipAdd
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultIPAddress", forceString(resultIPAddress)))
-
 	}
 	return resultIPAddress, err
 }
@@ -4990,7 +4820,6 @@ func (t *IPv6NetTracer) List(ctx context.Context, zone string) (*iaas.IPv6NetLis
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -5016,7 +4845,6 @@ func (t *IPv6NetTracer) Find(ctx context.Context, zone string, conditions *iaas.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -5042,7 +4870,6 @@ func (t *IPv6NetTracer) Read(ctx context.Context, zone string, id types.ID) (*ia
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultIPv6Net", forceString(resultIPv6Net)))
-
 	}
 	return resultIPv6Net, err
 }
@@ -5086,7 +4913,6 @@ func (t *IPv6AddrTracer) Find(ctx context.Context, zone string, conditions *iaas
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -5112,7 +4938,6 @@ func (t *IPv6AddrTracer) Create(ctx context.Context, zone string, param *iaas.IP
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultIPv6Addr", forceString(resultIPv6Addr)))
-
 	}
 	return resultIPv6Addr, err
 }
@@ -5138,7 +4963,6 @@ func (t *IPv6AddrTracer) Read(ctx context.Context, zone string, ipv6addr string)
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultIPv6Addr", forceString(resultIPv6Addr)))
-
 	}
 	return resultIPv6Addr, err
 }
@@ -5165,7 +4989,6 @@ func (t *IPv6AddrTracer) Update(ctx context.Context, zone string, ipv6addr strin
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultIPv6Addr", forceString(resultIPv6Addr)))
-
 	}
 	return resultIPv6Addr, err
 }
@@ -5190,7 +5013,6 @@ func (t *IPv6AddrTracer) Delete(ctx context.Context, zone string, ipv6addr strin
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -5233,7 +5055,6 @@ func (t *LicenseTracer) Find(ctx context.Context, conditions *iaas.FindCondition
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -5258,7 +5079,6 @@ func (t *LicenseTracer) Create(ctx context.Context, param *iaas.LicenseCreateReq
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLicense", forceString(resultLicense)))
-
 	}
 	return resultLicense, err
 }
@@ -5283,7 +5103,6 @@ func (t *LicenseTracer) Read(ctx context.Context, id types.ID) (*iaas.License, e
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLicense", forceString(resultLicense)))
-
 	}
 	return resultLicense, err
 }
@@ -5309,7 +5128,6 @@ func (t *LicenseTracer) Update(ctx context.Context, id types.ID, param *iaas.Lic
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLicense", forceString(resultLicense)))
-
 	}
 	return resultLicense, err
 }
@@ -5333,7 +5151,6 @@ func (t *LicenseTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -5376,7 +5193,6 @@ func (t *LicenseInfoTracer) Find(ctx context.Context, conditions *iaas.FindCondi
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -5401,7 +5217,6 @@ func (t *LicenseInfoTracer) Read(ctx context.Context, id types.ID) (*iaas.Licens
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLicenseInfo", forceString(resultLicenseInfo)))
-
 	}
 	return resultLicenseInfo, err
 }
@@ -5445,7 +5260,6 @@ func (t *LoadBalancerTracer) Find(ctx context.Context, zone string, conditions *
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -5471,7 +5285,6 @@ func (t *LoadBalancerTracer) Create(ctx context.Context, zone string, param *iaa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLoadBalancer", forceString(resultLoadBalancer)))
-
 	}
 	return resultLoadBalancer, err
 }
@@ -5497,7 +5310,6 @@ func (t *LoadBalancerTracer) Read(ctx context.Context, zone string, id types.ID)
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLoadBalancer", forceString(resultLoadBalancer)))
-
 	}
 	return resultLoadBalancer, err
 }
@@ -5524,7 +5336,6 @@ func (t *LoadBalancerTracer) Update(ctx context.Context, zone string, id types.I
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLoadBalancer", forceString(resultLoadBalancer)))
-
 	}
 	return resultLoadBalancer, err
 }
@@ -5551,7 +5362,6 @@ func (t *LoadBalancerTracer) UpdateSettings(ctx context.Context, zone string, id
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLoadBalancer", forceString(resultLoadBalancer)))
-
 	}
 	return resultLoadBalancer, err
 }
@@ -5576,7 +5386,6 @@ func (t *LoadBalancerTracer) Delete(ctx context.Context, zone string, id types.I
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -5601,7 +5410,6 @@ func (t *LoadBalancerTracer) Config(ctx context.Context, zone string, id types.I
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -5626,7 +5434,6 @@ func (t *LoadBalancerTracer) Boot(ctx context.Context, zone string, id types.ID)
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -5652,7 +5459,6 @@ func (t *LoadBalancerTracer) Shutdown(ctx context.Context, zone string, id types
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -5677,7 +5483,6 @@ func (t *LoadBalancerTracer) Reset(ctx context.Context, zone string, id types.ID
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -5704,7 +5509,6 @@ func (t *LoadBalancerTracer) MonitorCPU(ctx context.Context, zone string, id typ
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCPUTimeActivity", forceString(resultCPUTimeActivity)))
-
 	}
 	return resultCPUTimeActivity, err
 }
@@ -5731,7 +5535,6 @@ func (t *LoadBalancerTracer) MonitorInterface(ctx context.Context, zone string, 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInterfaceActivity", forceString(resultInterfaceActivity)))
-
 	}
 	return resultInterfaceActivity, err
 }
@@ -5757,7 +5560,6 @@ func (t *LoadBalancerTracer) Status(ctx context.Context, zone string, id types.I
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -5800,7 +5602,6 @@ func (t *LocalRouterTracer) Find(ctx context.Context, conditions *iaas.FindCondi
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -5825,7 +5626,6 @@ func (t *LocalRouterTracer) Create(ctx context.Context, param *iaas.LocalRouterC
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLocalRouter", forceString(resultLocalRouter)))
-
 	}
 	return resultLocalRouter, err
 }
@@ -5850,7 +5650,6 @@ func (t *LocalRouterTracer) Read(ctx context.Context, id types.ID) (*iaas.LocalR
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLocalRouter", forceString(resultLocalRouter)))
-
 	}
 	return resultLocalRouter, err
 }
@@ -5876,7 +5675,6 @@ func (t *LocalRouterTracer) Update(ctx context.Context, id types.ID, param *iaas
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLocalRouter", forceString(resultLocalRouter)))
-
 	}
 	return resultLocalRouter, err
 }
@@ -5902,7 +5700,6 @@ func (t *LocalRouterTracer) UpdateSettings(ctx context.Context, id types.ID, par
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLocalRouter", forceString(resultLocalRouter)))
-
 	}
 	return resultLocalRouter, err
 }
@@ -5926,7 +5723,6 @@ func (t *LocalRouterTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -5951,7 +5747,6 @@ func (t *LocalRouterTracer) HealthStatus(ctx context.Context, id types.ID) (*iaa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLocalRouterHealth", forceString(resultLocalRouterHealth)))
-
 	}
 	return resultLocalRouterHealth, err
 }
@@ -5977,7 +5772,6 @@ func (t *LocalRouterTracer) MonitorLocalRouter(ctx context.Context, id types.ID,
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLocalRouterActivity", forceString(resultLocalRouterActivity)))
-
 	}
 	return resultLocalRouterActivity, err
 }
@@ -6021,7 +5815,6 @@ func (t *MobileGatewayTracer) Find(ctx context.Context, zone string, conditions 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -6047,7 +5840,6 @@ func (t *MobileGatewayTracer) Create(ctx context.Context, zone string, param *ia
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultMobileGateway", forceString(resultMobileGateway)))
-
 	}
 	return resultMobileGateway, err
 }
@@ -6073,7 +5865,6 @@ func (t *MobileGatewayTracer) Read(ctx context.Context, zone string, id types.ID
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultMobileGateway", forceString(resultMobileGateway)))
-
 	}
 	return resultMobileGateway, err
 }
@@ -6100,7 +5891,6 @@ func (t *MobileGatewayTracer) Update(ctx context.Context, zone string, id types.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultMobileGateway", forceString(resultMobileGateway)))
-
 	}
 	return resultMobileGateway, err
 }
@@ -6127,7 +5917,6 @@ func (t *MobileGatewayTracer) UpdateSettings(ctx context.Context, zone string, i
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultMobileGateway", forceString(resultMobileGateway)))
-
 	}
 	return resultMobileGateway, err
 }
@@ -6152,7 +5941,6 @@ func (t *MobileGatewayTracer) Delete(ctx context.Context, zone string, id types.
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6177,7 +5965,6 @@ func (t *MobileGatewayTracer) Config(ctx context.Context, zone string, id types.
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6202,7 +5989,6 @@ func (t *MobileGatewayTracer) Boot(ctx context.Context, zone string, id types.ID
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6228,7 +6014,6 @@ func (t *MobileGatewayTracer) Shutdown(ctx context.Context, zone string, id type
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6253,7 +6038,6 @@ func (t *MobileGatewayTracer) Reset(ctx context.Context, zone string, id types.I
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6279,7 +6063,6 @@ func (t *MobileGatewayTracer) ConnectToSwitch(ctx context.Context, zone string, 
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6304,7 +6087,6 @@ func (t *MobileGatewayTracer) DisconnectFromSwitch(ctx context.Context, zone str
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6330,7 +6112,6 @@ func (t *MobileGatewayTracer) GetDNS(ctx context.Context, zone string, id types.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSIMGroup", forceString(resultSIMGroup)))
-
 	}
 	return resultSIMGroup, err
 }
@@ -6356,7 +6137,6 @@ func (t *MobileGatewayTracer) SetDNS(ctx context.Context, zone string, id types.
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6382,7 +6162,6 @@ func (t *MobileGatewayTracer) GetSIMRoutes(ctx context.Context, zone string, id 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSIMRoutes", forceString(resultSIMRoutes)))
-
 	}
 	return resultSIMRoutes, err
 }
@@ -6408,7 +6187,6 @@ func (t *MobileGatewayTracer) SetSIMRoutes(ctx context.Context, zone string, id 
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6434,7 +6212,6 @@ func (t *MobileGatewayTracer) ListSIM(ctx context.Context, zone string, id types
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSIM", forceString(resultSIM)))
-
 	}
 	return resultSIM, err
 }
@@ -6460,7 +6237,6 @@ func (t *MobileGatewayTracer) AddSIM(ctx context.Context, zone string, id types.
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6486,7 +6262,6 @@ func (t *MobileGatewayTracer) DeleteSIM(ctx context.Context, zone string, id typ
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6512,7 +6287,6 @@ func (t *MobileGatewayTracer) Logs(ctx context.Context, zone string, id types.ID
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLogs", forceString(resultLogs)))
-
 	}
 	return resultLogs, err
 }
@@ -6538,7 +6312,6 @@ func (t *MobileGatewayTracer) GetTrafficConfig(ctx context.Context, zone string,
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultTrafficMonitoring", forceString(resultTrafficMonitoring)))
-
 	}
 	return resultTrafficMonitoring, err
 }
@@ -6564,7 +6337,6 @@ func (t *MobileGatewayTracer) SetTrafficConfig(ctx context.Context, zone string,
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6589,7 +6361,6 @@ func (t *MobileGatewayTracer) DeleteTrafficConfig(ctx context.Context, zone stri
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6615,7 +6386,6 @@ func (t *MobileGatewayTracer) TrafficStatus(ctx context.Context, zone string, id
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultTrafficStatus", forceString(resultTrafficStatus)))
-
 	}
 	return resultTrafficStatus, err
 }
@@ -6643,7 +6413,6 @@ func (t *MobileGatewayTracer) MonitorInterface(ctx context.Context, zone string,
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInterfaceActivity", forceString(resultInterfaceActivity)))
-
 	}
 	return resultInterfaceActivity, err
 }
@@ -6687,7 +6456,6 @@ func (t *NFSTracer) Find(ctx context.Context, zone string, conditions *iaas.Find
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -6713,7 +6481,6 @@ func (t *NFSTracer) Create(ctx context.Context, zone string, param *iaas.NFSCrea
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultNFS", forceString(resultNFS)))
-
 	}
 	return resultNFS, err
 }
@@ -6739,7 +6506,6 @@ func (t *NFSTracer) Read(ctx context.Context, zone string, id types.ID) (*iaas.N
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultNFS", forceString(resultNFS)))
-
 	}
 	return resultNFS, err
 }
@@ -6766,7 +6532,6 @@ func (t *NFSTracer) Update(ctx context.Context, zone string, id types.ID, param 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultNFS", forceString(resultNFS)))
-
 	}
 	return resultNFS, err
 }
@@ -6791,7 +6556,6 @@ func (t *NFSTracer) Delete(ctx context.Context, zone string, id types.ID) error 
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6816,7 +6580,6 @@ func (t *NFSTracer) Boot(ctx context.Context, zone string, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6842,7 +6605,6 @@ func (t *NFSTracer) Shutdown(ctx context.Context, zone string, id types.ID, shut
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6867,7 +6629,6 @@ func (t *NFSTracer) Reset(ctx context.Context, zone string, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -6894,7 +6655,6 @@ func (t *NFSTracer) MonitorCPU(ctx context.Context, zone string, id types.ID, co
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCPUTimeActivity", forceString(resultCPUTimeActivity)))
-
 	}
 	return resultCPUTimeActivity, err
 }
@@ -6921,7 +6681,6 @@ func (t *NFSTracer) MonitorFreeDiskSize(ctx context.Context, zone string, id typ
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultFreeDiskSizeActivity", forceString(resultFreeDiskSizeActivity)))
-
 	}
 	return resultFreeDiskSizeActivity, err
 }
@@ -6948,7 +6707,6 @@ func (t *NFSTracer) MonitorInterface(ctx context.Context, zone string, id types.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInterfaceActivity", forceString(resultInterfaceActivity)))
-
 	}
 	return resultInterfaceActivity, err
 }
@@ -6991,7 +6749,6 @@ func (t *NoteTracer) Find(ctx context.Context, conditions *iaas.FindCondition) (
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -7016,7 +6773,6 @@ func (t *NoteTracer) Create(ctx context.Context, param *iaas.NoteCreateRequest) 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultNote", forceString(resultNote)))
-
 	}
 	return resultNote, err
 }
@@ -7041,7 +6797,6 @@ func (t *NoteTracer) Read(ctx context.Context, id types.ID) (*iaas.Note, error) 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultNote", forceString(resultNote)))
-
 	}
 	return resultNote, err
 }
@@ -7067,7 +6822,6 @@ func (t *NoteTracer) Update(ctx context.Context, id types.ID, param *iaas.NoteUp
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultNote", forceString(resultNote)))
-
 	}
 	return resultNote, err
 }
@@ -7091,7 +6845,6 @@ func (t *NoteTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -7135,7 +6888,6 @@ func (t *PacketFilterTracer) Find(ctx context.Context, zone string, conditions *
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -7161,7 +6913,6 @@ func (t *PacketFilterTracer) Create(ctx context.Context, zone string, param *iaa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultPacketFilter", forceString(resultPacketFilter)))
-
 	}
 	return resultPacketFilter, err
 }
@@ -7187,7 +6938,6 @@ func (t *PacketFilterTracer) Read(ctx context.Context, zone string, id types.ID)
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultPacketFilter", forceString(resultPacketFilter)))
-
 	}
 	return resultPacketFilter, err
 }
@@ -7215,7 +6965,6 @@ func (t *PacketFilterTracer) Update(ctx context.Context, zone string, id types.I
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultPacketFilter", forceString(resultPacketFilter)))
-
 	}
 	return resultPacketFilter, err
 }
@@ -7240,7 +6989,6 @@ func (t *PacketFilterTracer) Delete(ctx context.Context, zone string, id types.I
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -7284,7 +7032,6 @@ func (t *PrivateHostTracer) Find(ctx context.Context, zone string, conditions *i
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -7310,7 +7057,6 @@ func (t *PrivateHostTracer) Create(ctx context.Context, zone string, param *iaas
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultPrivateHost", forceString(resultPrivateHost)))
-
 	}
 	return resultPrivateHost, err
 }
@@ -7337,7 +7083,6 @@ func (t *PrivateHostTracer) CreateWithDedicatedStorage(ctx context.Context, zone
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultPrivateHost", forceString(resultPrivateHost)))
-
 	}
 	return resultPrivateHost, err
 }
@@ -7363,7 +7108,6 @@ func (t *PrivateHostTracer) Read(ctx context.Context, zone string, id types.ID) 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultPrivateHost", forceString(resultPrivateHost)))
-
 	}
 	return resultPrivateHost, err
 }
@@ -7390,7 +7134,6 @@ func (t *PrivateHostTracer) Update(ctx context.Context, zone string, id types.ID
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultPrivateHost", forceString(resultPrivateHost)))
-
 	}
 	return resultPrivateHost, err
 }
@@ -7415,7 +7158,6 @@ func (t *PrivateHostTracer) Delete(ctx context.Context, zone string, id types.ID
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -7459,7 +7201,6 @@ func (t *PrivateHostPlanTracer) Find(ctx context.Context, zone string, condition
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -7485,7 +7226,6 @@ func (t *PrivateHostPlanTracer) Read(ctx context.Context, zone string, id types.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultPrivateHostPlan", forceString(resultPrivateHostPlan)))
-
 	}
 	return resultPrivateHostPlan, err
 }
@@ -7528,7 +7268,6 @@ func (t *ProxyLBTracer) Find(ctx context.Context, conditions *iaas.FindCondition
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -7553,7 +7292,6 @@ func (t *ProxyLBTracer) Create(ctx context.Context, param *iaas.ProxyLBCreateReq
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultProxyLB", forceString(resultProxyLB)))
-
 	}
 	return resultProxyLB, err
 }
@@ -7578,7 +7316,6 @@ func (t *ProxyLBTracer) Read(ctx context.Context, id types.ID) (*iaas.ProxyLB, e
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultProxyLB", forceString(resultProxyLB)))
-
 	}
 	return resultProxyLB, err
 }
@@ -7604,7 +7341,6 @@ func (t *ProxyLBTracer) Update(ctx context.Context, id types.ID, param *iaas.Pro
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultProxyLB", forceString(resultProxyLB)))
-
 	}
 	return resultProxyLB, err
 }
@@ -7630,7 +7366,6 @@ func (t *ProxyLBTracer) UpdateSettings(ctx context.Context, id types.ID, param *
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultProxyLB", forceString(resultProxyLB)))
-
 	}
 	return resultProxyLB, err
 }
@@ -7654,7 +7389,6 @@ func (t *ProxyLBTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -7680,7 +7414,6 @@ func (t *ProxyLBTracer) ChangePlan(ctx context.Context, id types.ID, param *iaas
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultProxyLB", forceString(resultProxyLB)))
-
 	}
 	return resultProxyLB, err
 }
@@ -7705,7 +7438,6 @@ func (t *ProxyLBTracer) GetCertificates(ctx context.Context, id types.ID) (*iaas
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultProxyLBCertificates", forceString(resultProxyLBCertificates)))
-
 	}
 	return resultProxyLBCertificates, err
 }
@@ -7731,7 +7463,6 @@ func (t *ProxyLBTracer) SetCertificates(ctx context.Context, id types.ID, param 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultProxyLBCertificates", forceString(resultProxyLBCertificates)))
-
 	}
 	return resultProxyLBCertificates, err
 }
@@ -7755,7 +7486,6 @@ func (t *ProxyLBTracer) DeleteCertificates(ctx context.Context, id types.ID) err
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -7779,7 +7509,6 @@ func (t *ProxyLBTracer) RenewLetsEncryptCert(ctx context.Context, id types.ID) e
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -7804,7 +7533,6 @@ func (t *ProxyLBTracer) HealthStatus(ctx context.Context, id types.ID) (*iaas.Pr
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultProxyLBHealth", forceString(resultProxyLBHealth)))
-
 	}
 	return resultProxyLBHealth, err
 }
@@ -7830,7 +7558,6 @@ func (t *ProxyLBTracer) MonitorConnection(ctx context.Context, id types.ID, cond
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultConnectionActivity", forceString(resultConnectionActivity)))
-
 	}
 	return resultConnectionActivity, err
 }
@@ -7873,7 +7600,6 @@ func (t *RegionTracer) Find(ctx context.Context, conditions *iaas.FindCondition)
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -7898,7 +7624,6 @@ func (t *RegionTracer) Read(ctx context.Context, id types.ID) (*iaas.Region, err
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultRegion", forceString(resultRegion)))
-
 	}
 	return resultRegion, err
 }
@@ -7942,7 +7667,6 @@ func (t *ServerTracer) Find(ctx context.Context, zone string, conditions *iaas.F
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -7968,7 +7692,6 @@ func (t *ServerTracer) Create(ctx context.Context, zone string, param *iaas.Serv
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultServer", forceString(resultServer)))
-
 	}
 	return resultServer, err
 }
@@ -7994,7 +7717,6 @@ func (t *ServerTracer) Read(ctx context.Context, zone string, id types.ID) (*iaa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultServer", forceString(resultServer)))
-
 	}
 	return resultServer, err
 }
@@ -8021,7 +7743,6 @@ func (t *ServerTracer) Update(ctx context.Context, zone string, id types.ID, par
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultServer", forceString(resultServer)))
-
 	}
 	return resultServer, err
 }
@@ -8046,7 +7767,6 @@ func (t *ServerTracer) Delete(ctx context.Context, zone string, id types.ID) err
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8072,7 +7792,6 @@ func (t *ServerTracer) DeleteWithDisks(ctx context.Context, zone string, id type
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8099,7 +7818,6 @@ func (t *ServerTracer) ChangePlan(ctx context.Context, zone string, id types.ID,
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultServer", forceString(resultServer)))
-
 	}
 	return resultServer, err
 }
@@ -8125,7 +7843,6 @@ func (t *ServerTracer) InsertCDROM(ctx context.Context, zone string, id types.ID
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8151,7 +7868,6 @@ func (t *ServerTracer) EjectCDROM(ctx context.Context, zone string, id types.ID,
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8176,7 +7892,6 @@ func (t *ServerTracer) Boot(ctx context.Context, zone string, id types.ID) error
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8202,7 +7917,6 @@ func (t *ServerTracer) Shutdown(ctx context.Context, zone string, id types.ID, s
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8227,7 +7941,6 @@ func (t *ServerTracer) Reset(ctx context.Context, zone string, id types.ID) erro
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8253,7 +7966,6 @@ func (t *ServerTracer) BootWithVariables(ctx context.Context, zone string, id ty
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8279,7 +7991,6 @@ func (t *ServerTracer) SendKey(ctx context.Context, zone string, id types.ID, ke
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8304,7 +8015,6 @@ func (t *ServerTracer) SendNMI(ctx context.Context, zone string, id types.ID) er
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8330,7 +8040,6 @@ func (t *ServerTracer) GetVNCProxy(ctx context.Context, zone string, id types.ID
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultVNCProxyInfo", forceString(resultVNCProxyInfo)))
-
 	}
 	return resultVNCProxyInfo, err
 }
@@ -8357,7 +8066,6 @@ func (t *ServerTracer) Monitor(ctx context.Context, zone string, id types.ID, co
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCPUTimeActivity", forceString(resultCPUTimeActivity)))
-
 	}
 	return resultCPUTimeActivity, err
 }
@@ -8384,7 +8092,6 @@ func (t *ServerTracer) MonitorCPU(ctx context.Context, zone string, id types.ID,
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCPUTimeActivity", forceString(resultCPUTimeActivity)))
-
 	}
 	return resultCPUTimeActivity, err
 }
@@ -8428,7 +8135,6 @@ func (t *ServerPlanTracer) Find(ctx context.Context, zone string, conditions *ia
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -8454,7 +8160,6 @@ func (t *ServerPlanTracer) Read(ctx context.Context, zone string, id types.ID) (
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultServerPlan", forceString(resultServerPlan)))
-
 	}
 	return resultServerPlan, err
 }
@@ -8498,7 +8203,6 @@ func (t *ServiceClassTracer) Find(ctx context.Context, zone string, conditions *
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -8541,7 +8245,6 @@ func (t *SIMTracer) Find(ctx context.Context, conditions *iaas.FindCondition) (*
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -8566,7 +8269,6 @@ func (t *SIMTracer) Create(ctx context.Context, param *iaas.SIMCreateRequest) (*
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSIM", forceString(resultSIM)))
-
 	}
 	return resultSIM, err
 }
@@ -8591,7 +8293,6 @@ func (t *SIMTracer) Read(ctx context.Context, id types.ID) (*iaas.SIM, error) {
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSIM", forceString(resultSIM)))
-
 	}
 	return resultSIM, err
 }
@@ -8617,7 +8318,6 @@ func (t *SIMTracer) Update(ctx context.Context, id types.ID, param *iaas.SIMUpda
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSIM", forceString(resultSIM)))
-
 	}
 	return resultSIM, err
 }
@@ -8641,7 +8341,6 @@ func (t *SIMTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8665,7 +8364,6 @@ func (t *SIMTracer) Activate(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8689,7 +8387,6 @@ func (t *SIMTracer) Deactivate(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8714,7 +8411,6 @@ func (t *SIMTracer) AssignIP(ctx context.Context, id types.ID, param *iaas.SIMAs
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8738,7 +8434,6 @@ func (t *SIMTracer) ClearIP(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8763,7 +8458,6 @@ func (t *SIMTracer) IMEILock(ctx context.Context, id types.ID, param *iaas.SIMIM
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8787,7 +8481,6 @@ func (t *SIMTracer) IMEIUnlock(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8812,7 +8505,6 @@ func (t *SIMTracer) Logs(ctx context.Context, id types.ID) (*iaas.SIMLogsResult,
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -8837,7 +8529,6 @@ func (t *SIMTracer) GetNetworkOperator(ctx context.Context, id types.ID) ([]*iaa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultConfigs", forceString(resultConfigs)))
-
 	}
 	return resultConfigs, err
 }
@@ -8862,7 +8553,6 @@ func (t *SIMTracer) SetNetworkOperator(ctx context.Context, id types.ID, configs
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -8888,7 +8578,6 @@ func (t *SIMTracer) MonitorSIM(ctx context.Context, id types.ID, condition *iaas
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultLinkActivity", forceString(resultLinkActivity)))
-
 	}
 	return resultLinkActivity, err
 }
@@ -8913,7 +8602,6 @@ func (t *SIMTracer) Status(ctx context.Context, id types.ID) (*iaas.SIMInfo, err
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSIM", forceString(resultSIM)))
-
 	}
 	return resultSIM, err
 }
@@ -8956,7 +8644,6 @@ func (t *SimpleMonitorTracer) Find(ctx context.Context, conditions *iaas.FindCon
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -8981,7 +8668,6 @@ func (t *SimpleMonitorTracer) Create(ctx context.Context, param *iaas.SimpleMoni
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleMonitor", forceString(resultSimpleMonitor)))
-
 	}
 	return resultSimpleMonitor, err
 }
@@ -9006,7 +8692,6 @@ func (t *SimpleMonitorTracer) Read(ctx context.Context, id types.ID) (*iaas.Simp
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleMonitor", forceString(resultSimpleMonitor)))
-
 	}
 	return resultSimpleMonitor, err
 }
@@ -9032,7 +8717,6 @@ func (t *SimpleMonitorTracer) Update(ctx context.Context, id types.ID, param *ia
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleMonitor", forceString(resultSimpleMonitor)))
-
 	}
 	return resultSimpleMonitor, err
 }
@@ -9058,7 +8742,6 @@ func (t *SimpleMonitorTracer) UpdateSettings(ctx context.Context, id types.ID, p
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleMonitor", forceString(resultSimpleMonitor)))
-
 	}
 	return resultSimpleMonitor, err
 }
@@ -9082,7 +8765,6 @@ func (t *SimpleMonitorTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -9108,7 +8790,6 @@ func (t *SimpleMonitorTracer) MonitorResponseTime(ctx context.Context, id types.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultResponseTimeSecActivity", forceString(resultResponseTimeSecActivity)))
-
 	}
 	return resultResponseTimeSecActivity, err
 }
@@ -9133,7 +8814,6 @@ func (t *SimpleMonitorTracer) HealthStatus(ctx context.Context, id types.ID) (*i
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleMonitorHealthStatus", forceString(resultSimpleMonitorHealthStatus)))
-
 	}
 	return resultSimpleMonitorHealthStatus, err
 }
@@ -9176,7 +8856,6 @@ func (t *SimpleNotificationDestinationTracer) Find(ctx context.Context, conditio
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -9201,7 +8880,6 @@ func (t *SimpleNotificationDestinationTracer) Create(ctx context.Context, param 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleNotificationDestination", forceString(resultSimpleNotificationDestination)))
-
 	}
 	return resultSimpleNotificationDestination, err
 }
@@ -9226,7 +8904,6 @@ func (t *SimpleNotificationDestinationTracer) Read(ctx context.Context, id types
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleNotificationDestination", forceString(resultSimpleNotificationDestination)))
-
 	}
 	return resultSimpleNotificationDestination, err
 }
@@ -9252,7 +8929,6 @@ func (t *SimpleNotificationDestinationTracer) Update(ctx context.Context, id typ
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleNotificationDestination", forceString(resultSimpleNotificationDestination)))
-
 	}
 	return resultSimpleNotificationDestination, err
 }
@@ -9278,7 +8954,6 @@ func (t *SimpleNotificationDestinationTracer) UpdateSettings(ctx context.Context
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleNotificationDestination", forceString(resultSimpleNotificationDestination)))
-
 	}
 	return resultSimpleNotificationDestination, err
 }
@@ -9302,7 +8977,6 @@ func (t *SimpleNotificationDestinationTracer) Delete(ctx context.Context, id typ
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -9327,7 +9001,6 @@ func (t *SimpleNotificationDestinationTracer) Status(ctx context.Context, id typ
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleNotificationDestinationStatus", forceString(resultSimpleNotificationDestinationStatus)))
-
 	}
 	return resultSimpleNotificationDestinationStatus, err
 }
@@ -9370,7 +9043,6 @@ func (t *SimpleNotificationGroupTracer) Find(ctx context.Context, conditions *ia
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -9395,7 +9067,6 @@ func (t *SimpleNotificationGroupTracer) Create(ctx context.Context, param *iaas.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleNotificationGroup", forceString(resultSimpleNotificationGroup)))
-
 	}
 	return resultSimpleNotificationGroup, err
 }
@@ -9420,7 +9091,6 @@ func (t *SimpleNotificationGroupTracer) Read(ctx context.Context, id types.ID) (
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleNotificationGroup", forceString(resultSimpleNotificationGroup)))
-
 	}
 	return resultSimpleNotificationGroup, err
 }
@@ -9446,7 +9116,6 @@ func (t *SimpleNotificationGroupTracer) Update(ctx context.Context, id types.ID,
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleNotificationGroup", forceString(resultSimpleNotificationGroup)))
-
 	}
 	return resultSimpleNotificationGroup, err
 }
@@ -9472,7 +9141,6 @@ func (t *SimpleNotificationGroupTracer) UpdateSettings(ctx context.Context, id t
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleNotificationGroup", forceString(resultSimpleNotificationGroup)))
-
 	}
 	return resultSimpleNotificationGroup, err
 }
@@ -9496,7 +9164,6 @@ func (t *SimpleNotificationGroupTracer) Delete(ctx context.Context, id types.ID)
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -9521,7 +9188,6 @@ func (t *SimpleNotificationGroupTracer) PostMessage(ctx context.Context, id type
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -9544,7 +9210,6 @@ func (t *SimpleNotificationGroupTracer) History(ctx context.Context) (*iaas.Simp
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSimpleNotificationHistories", forceString(resultSimpleNotificationHistories)))
-
 	}
 	return resultSimpleNotificationHistories, err
 }
@@ -9587,7 +9252,6 @@ func (t *SSHKeyTracer) Find(ctx context.Context, conditions *iaas.FindCondition)
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -9612,7 +9276,6 @@ func (t *SSHKeyTracer) Create(ctx context.Context, param *iaas.SSHKeyCreateReque
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSSHKey", forceString(resultSSHKey)))
-
 	}
 	return resultSSHKey, err
 }
@@ -9637,7 +9300,6 @@ func (t *SSHKeyTracer) Read(ctx context.Context, id types.ID) (*iaas.SSHKey, err
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSSHKey", forceString(resultSSHKey)))
-
 	}
 	return resultSSHKey, err
 }
@@ -9663,7 +9325,6 @@ func (t *SSHKeyTracer) Update(ctx context.Context, id types.ID, param *iaas.SSHK
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSSHKey", forceString(resultSSHKey)))
-
 	}
 	return resultSSHKey, err
 }
@@ -9687,7 +9348,6 @@ func (t *SSHKeyTracer) Delete(ctx context.Context, id types.ID) error {
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -9731,7 +9391,6 @@ func (t *SubnetTracer) Find(ctx context.Context, zone string, conditions *iaas.F
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -9757,7 +9416,6 @@ func (t *SubnetTracer) Read(ctx context.Context, zone string, id types.ID) (*iaa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSubnet", forceString(resultSubnet)))
-
 	}
 	return resultSubnet, err
 }
@@ -9801,7 +9459,6 @@ func (t *SwitchTracer) Find(ctx context.Context, zone string, conditions *iaas.F
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -9827,7 +9484,6 @@ func (t *SwitchTracer) Create(ctx context.Context, zone string, param *iaas.Swit
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSwitch", forceString(resultSwitch)))
-
 	}
 	return resultSwitch, err
 }
@@ -9853,7 +9509,6 @@ func (t *SwitchTracer) Read(ctx context.Context, zone string, id types.ID) (*iaa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSwitch", forceString(resultSwitch)))
-
 	}
 	return resultSwitch, err
 }
@@ -9880,7 +9535,6 @@ func (t *SwitchTracer) Update(ctx context.Context, zone string, id types.ID, par
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultSwitch", forceString(resultSwitch)))
-
 	}
 	return resultSwitch, err
 }
@@ -9905,7 +9559,6 @@ func (t *SwitchTracer) Delete(ctx context.Context, zone string, id types.ID) err
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -9931,7 +9584,6 @@ func (t *SwitchTracer) ConnectToBridge(ctx context.Context, zone string, id type
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -9956,7 +9608,6 @@ func (t *SwitchTracer) DisconnectFromBridge(ctx context.Context, zone string, id
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -9982,7 +9633,6 @@ func (t *SwitchTracer) GetServers(ctx context.Context, zone string, id types.ID)
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -10026,7 +9676,6 @@ func (t *VPCRouterTracer) Find(ctx context.Context, zone string, conditions *iaa
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -10052,7 +9701,6 @@ func (t *VPCRouterTracer) Create(ctx context.Context, zone string, param *iaas.V
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultVPCRouter", forceString(resultVPCRouter)))
-
 	}
 	return resultVPCRouter, err
 }
@@ -10078,7 +9726,6 @@ func (t *VPCRouterTracer) Read(ctx context.Context, zone string, id types.ID) (*
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultVPCRouter", forceString(resultVPCRouter)))
-
 	}
 	return resultVPCRouter, err
 }
@@ -10105,7 +9752,6 @@ func (t *VPCRouterTracer) Update(ctx context.Context, zone string, id types.ID, 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultVPCRouter", forceString(resultVPCRouter)))
-
 	}
 	return resultVPCRouter, err
 }
@@ -10132,7 +9778,6 @@ func (t *VPCRouterTracer) UpdateSettings(ctx context.Context, zone string, id ty
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultVPCRouter", forceString(resultVPCRouter)))
-
 	}
 	return resultVPCRouter, err
 }
@@ -10157,7 +9802,6 @@ func (t *VPCRouterTracer) Delete(ctx context.Context, zone string, id types.ID) 
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -10182,7 +9826,6 @@ func (t *VPCRouterTracer) Config(ctx context.Context, zone string, id types.ID) 
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -10207,7 +9850,6 @@ func (t *VPCRouterTracer) Boot(ctx context.Context, zone string, id types.ID) er
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -10233,7 +9875,6 @@ func (t *VPCRouterTracer) Shutdown(ctx context.Context, zone string, id types.ID
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -10258,7 +9899,6 @@ func (t *VPCRouterTracer) Reset(ctx context.Context, zone string, id types.ID) e
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -10285,7 +9925,6 @@ func (t *VPCRouterTracer) ConnectToSwitch(ctx context.Context, zone string, id t
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -10311,7 +9950,6 @@ func (t *VPCRouterTracer) DisconnectFromSwitch(ctx context.Context, zone string,
 		span.SetStatus(codes.Error, err.Error())
 	} else {
 		span.SetStatus(codes.Ok, "")
-
 	}
 	return err
 }
@@ -10338,7 +9976,6 @@ func (t *VPCRouterTracer) MonitorCPU(ctx context.Context, zone string, id types.
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultCPUTimeActivity", forceString(resultCPUTimeActivity)))
-
 	}
 	return resultCPUTimeActivity, err
 }
@@ -10366,7 +10003,6 @@ func (t *VPCRouterTracer) MonitorInterface(ctx context.Context, zone string, id 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultInterfaceActivity", forceString(resultInterfaceActivity)))
-
 	}
 	return resultInterfaceActivity, err
 }
@@ -10392,7 +10028,6 @@ func (t *VPCRouterTracer) Status(ctx context.Context, zone string, id types.ID) 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultVPCRouterStatus", forceString(resultVPCRouterStatus)))
-
 	}
 	return resultVPCRouterStatus, err
 }
@@ -10418,7 +10053,6 @@ func (t *VPCRouterTracer) Logs(ctx context.Context, zone string, id types.ID) (*
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultVPCRouterLog", forceString(resultVPCRouterLog)))
-
 	}
 	return resultVPCRouterLog, err
 }
@@ -10445,7 +10079,6 @@ func (t *VPCRouterTracer) Ping(ctx context.Context, zone string, id types.ID, de
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultVPCRouterPingResults", forceString(resultVPCRouterPingResults)))
-
 	}
 	return resultVPCRouterPingResults, err
 }
@@ -10488,7 +10121,6 @@ func (t *ZoneTracer) Find(ctx context.Context, conditions *iaas.FindCondition) (
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.result", forceString(result)))
-
 	}
 	return result, err
 }
@@ -10513,7 +10145,6 @@ func (t *ZoneTracer) Read(ctx context.Context, id types.ID) (*iaas.Zone, error) 
 	} else {
 		span.SetStatus(codes.Ok, "")
 		span.SetAttributes(attribute.String("libiaas.api.results.resultZone", forceString(resultZone)))
-
 	}
 	return resultZone, err
 }

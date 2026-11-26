@@ -49,7 +49,7 @@ func TestTracer(t *testing.T) {
 
 	caller := &iaas.Client{}
 	archiveOp := iaas.NewArchiveOp(caller)
-	archiveOp.Find(context.Background(), "is1a", nil) // nolint
+	archiveOp.Find(context.Background(), "is1a", nil) //nolint
 	require.NotEmpty(t, t, outputBuf.String())
 
 	var sp SpanData

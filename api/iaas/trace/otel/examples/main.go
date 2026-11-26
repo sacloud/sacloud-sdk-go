@@ -71,7 +71,7 @@ func main() {
 
 func tracerProvider(ctx context.Context) (*tracesdk.TracerProvider, error) {
 	if os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT") == "" {
-		os.Setenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:4317")
+		os.Setenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:4317") //nolint
 	}
 	// Create the OTLP/gRPC exporter
 	exp, err := otlptracegrpc.New(ctx)
@@ -107,12 +107,12 @@ func op(ctx context.Context) {
 	archiveOp := iaas.NewArchiveOp(caller)
 
 	// normal operation
-	archiveOp.Find(ctx, "is1a", &iaas.FindCondition{ // nolint
+	archiveOp.Find(ctx, "is1a", &iaas.FindCondition{ //nolint
 		Count:  1,
 		From:   0,
 		Filter: ostype.ArchiveCriteria[ostype.Ubuntu],
 	})
 
 	// invalid operation(not foundエラーになるはず)
-	archiveOp.Read(ctx, "is1a", types.ID(1)) // nolint
+	archiveOp.Read(ctx, "is1a", types.ID(1)) //nolint
 }
