@@ -5,9 +5,17 @@
 
 package securitycontrol
 
-import v1 "github.com/sacloud/sacloud-sdk-go/api/security-control/apis/v1"
+import (
+	v1 "github.com/sacloud/sacloud-sdk-go/api/security-control/apis/v1"
+	httperror "github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
+)
 
 func asErrorResponse(p any) (any, bool) {
+	if p == nil {
+		return nil, false
+	} else if httperror.IsTypedNil(p) {
+		return nil, false
+	}
 	switch p := p.(type) {
 	case *v1.CreateActivationApplicationJSONBadRequest:
 		return (*v1.BadRequest)(p), true

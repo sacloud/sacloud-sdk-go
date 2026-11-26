@@ -94,7 +94,7 @@ func TestResponseError(t *testing.T) {
 			response: (*v1.ReadEvaluationRuleApplicationProblemJSONNotFound)(&v1.NotFound{
 				Status: v1.NewOptNotFoundStatus(v1.NotFoundStatus404),
 			}),
-			want:     "API Error 404: API error response missing detail",
+			want:     "API Error 404: (empty detail)",
 			notFound: true,
 		},
 		{
@@ -108,17 +108,17 @@ func TestResponseError(t *testing.T) {
 		{
 			name:     "empty detail",
 			response: &v1.UnexpectedErrorStatusCode{StatusCode: 503, Response: v1.UnexpectedError{Detail: v1.NewOptString("")}},
-			want:     "API Error 503: API error response has empty detail",
+			want:     "API Error 503: (empty detail)",
 		},
 		{
 			name:     "nil typed response",
 			response: (*v1.ReadEvaluationRuleApplicationProblemJSONNotFound)(nil),
-			want:     "nil API error response *v1.ReadEvaluationRuleApplicationProblemJSONNotFound",
+			want:     "unknown API response type *v1.ReadEvaluationRuleApplicationProblemJSONNotFound",
 		},
 		{
 			name:     "nil unexpected response",
 			response: (*v1.UnexpectedErrorStatusCode)(nil),
-			want:     "nil API error response *v1.UnexpectedErrorStatusCode",
+			want:     "API Error: (nil response)",
 		},
 		{
 			name:     "unknown response",
@@ -128,7 +128,7 @@ func TestResponseError(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := responseError("test", tt.response)
+			err := errorFromDecodedResponseE[any]("test", func() (any, error) { return tt.response, nil })
 			require.ErrorContains(t, err, tt.want)
 			require.Equal(t, tt.notFound, saclient.IsNotFoundError(err))
 			require.NotContains(t, err.Error(), "do not expose")
@@ -199,7 +199,7 @@ func TestOperationErrorResponses(t *testing.T) {
 				_, err := NewEvaluationRulesOp(c).Read(t.Context(), "test")
 				return err
 			},
-			want: "API Error 502: API error response missing detail",
+			want: "API Error 502: (empty detail)",
 		},
 		{
 			name: "missing unexpected detail on delete", contentType: "application/json", status: 503,
@@ -207,7 +207,7 @@ func TestOperationErrorResponses(t *testing.T) {
 			call: func(c *v1.Client) error {
 				return NewAutomatedActionsOp(c).Delete(t.Context(), "test")
 			},
-			want: "API Error 503: API error response missing detail",
+			want: "API Error 503: (empty detail)",
 		},
 	}
 	for _, tt := range tests {
