@@ -31,23 +31,14 @@ func NewDatabaseOp(client *v1.Client) DatabaseAPI {
 }
 
 func (op *databaseOp) List(ctx context.Context) ([]v1.NosqlApplianceResponse, error) {
-	res, err := op.client.ListNosqlDatabases(ctx, v1.ListNosqlDatabasesParams{FilterClass: "nosql"})
+	res, err := errorFromDecodedResponse[v1.NosqlListResponse]("Database.List", func() (any, error) {
+		return op.client.ListNosqlDatabases(ctx, v1.ListNosqlDatabasesParams{FilterClass: "nosql"})
+	})
 	if err != nil {
-		return nil, NewAPIError("Database.List", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.NosqlListResponse:
-		return p.Appliances, nil
-	case *v1.BadRequestResponse:
-		return nil, NewAPIError("Database.List", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UnauthorizedResponse:
-		return nil, NewAPIError("Database.List", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.ServerErrorResponse:
-		return nil, NewAPIError("Database.List", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Database.List", 0, unknownError(res))
-	}
+	return res.GetAppliances(), nil
 }
 
 func (op *databaseOp) Create(ctx context.Context, plan Plan, request v1.NosqlCreateRequestAppliance) (*v1.NosqlAppliance, error) {
@@ -60,130 +51,67 @@ func (op *databaseOp) Create(ctx context.Context, plan Plan, request v1.NosqlCre
 	request.Remark.Nosql.Nodes = v1.NewOptNilInt(plan.GetNodes())
 	request.Remark.Nosql.Virtualcore = v1.NewOptNilInt(plan.GetVirtualCore())
 
-	res, err := op.client.CreateNosqlDatabase(ctx, &v1.NosqlCreateRequest{Appliance: request})
+	res, err := errorFromDecodedResponse[v1.NosqlCreateResponse]("Database.Create", func() (any, error) {
+		return op.client.CreateNosqlDatabase(ctx, &v1.NosqlCreateRequest{Appliance: request})
+	})
 	if err != nil {
-		return nil, NewAPIError("Database.Create", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.NosqlCreateResponse:
-		return &p.Appliance, nil
-	case *v1.BadRequestResponse:
-		return nil, NewAPIError("Database.Create", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UnauthorizedResponse:
-		return nil, NewAPIError("Database.Create", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.ConflictErrorResponse:
-		return nil, NewAPIError("Database.Create", 409, errors.New(p.ErrorMsg.Value))
-	case *v1.ServerErrorResponse:
-		return nil, NewAPIError("Database.Create", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Database.Create", 0, unknownError(res))
-	}
+	return new(res.GetAppliance()), nil
 }
 
 func (op *databaseOp) Read(ctx context.Context, id string) (*v1.NosqlApplianceResponse, error) {
-	res, err := op.client.ReadNosqlDatabase(ctx, v1.ReadNosqlDatabaseParams{ApplianceID: id})
+	res, err := errorFromDecodedResponse[v1.NosqlReadResponse]("Database.Read", func() (any, error) {
+		return op.client.ReadNosqlDatabase(ctx, v1.ReadNosqlDatabaseParams{ApplianceID: id})
+	})
 	if err != nil {
-		return nil, NewAPIError("Database.Read", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.NosqlReadResponse:
-		return &p.Appliance, nil
-	case *v1.BadRequestResponse:
-		return nil, NewAPIError("Database.Read", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UnauthorizedResponse:
-		return nil, NewAPIError("Database.Read", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.NotFoundResponse:
-		return nil, NewAPIError("Database.Read", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.ServerErrorResponse:
-		return nil, NewAPIError("Database.Read", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Database.Read", 0, unknownError(res))
-	}
+	return new(res.GetAppliance()), nil
 }
 
 func (op *databaseOp) Update(ctx context.Context, id string, request v1.NosqlUpdateRequestAppliance) error {
-	res, err := op.client.UpdateNosqlDatabase(ctx, &v1.NosqlUpdateRequest{Appliance: request},
-		v1.UpdateNosqlDatabaseParams{ApplianceID: id})
-	if err != nil {
-		return NewAPIError("Database.Update", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.NosqlSuccessResponse:
-		return nil
-	case *v1.BadRequestResponse:
-		return NewAPIError("Database.Update", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UnauthorizedResponse:
-		return NewAPIError("Database.Update", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.NotFoundResponse:
-		return NewAPIError("Database.Update", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.ConflictErrorResponse:
-		return NewAPIError("Database.Update", 409, errors.New(p.ErrorMsg.Value))
-	case *v1.ServerErrorResponse:
-		return NewAPIError("Database.Update", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return NewAPIError("Database.Update", 0, unknownError(res))
-	}
+	return errorFromDecodedResponseE[v1.NosqlSuccessResponse]("Database.Update", func() (any, error) {
+		return op.client.UpdateNosqlDatabase(ctx, &v1.NosqlUpdateRequest{Appliance: request}, v1.UpdateNosqlDatabaseParams{ApplianceID: id})
+	})
 }
 
 func (op *databaseOp) Delete(ctx context.Context, id string) error {
-	res, err := op.client.DeleteNosqlDatabase(ctx, v1.DeleteNosqlDatabaseParams{ApplianceID: id})
-	if err != nil {
-		return NewAPIError("Database.Delete", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.NosqlSuccessResponse:
-		return nil
-	case *v1.BadRequestResponse:
-		return NewAPIError("Database.Delete", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UnauthorizedResponse:
-		return NewAPIError("Database.Delete", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.NotFoundResponse:
-		return NewAPIError("Database.Delete", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.ConflictErrorResponse:
-		return NewAPIError("Database.Delete", 409, errors.New(p.ErrorMsg.Value))
-	case *v1.ServerErrorResponse:
-		return NewAPIError("Database.Delete", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return NewAPIError("Database.Delete", 0, unknownError(res))
-	}
+	return errorFromDecodedResponseE[v1.NosqlSuccessResponse]("Database.Delete", func() (any, error) {
+		return op.client.DeleteNosqlDatabase(ctx, v1.DeleteNosqlDatabaseParams{ApplianceID: id})
+	})
 }
 
 func (op *databaseOp) ApplyChanges(ctx context.Context, id string) error {
-	res, err := op.client.ApplyNosqlDatabaseConfig(ctx, v1.ApplyNosqlDatabaseConfigParams{ApplianceID: id})
-	if err != nil {
-		return NewAPIError("Database.ApplyChanges", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.NosqlIsOkResponse:
-		return nil
-	case *v1.BadRequestResponse:
-		return NewAPIError("Database.ApplyChanges", 400, errors.New(p.ErrorMsg.Value))
-	default:
-		return NewAPIError("Database.ApplyChanges", 0, unknownError(res))
-	}
+	return errorFromDecodedResponseE[v1.NosqlIsOkResponse]("Database.ApplyChanges", func() (any, error) {
+		return op.client.ApplyNosqlDatabaseConfig(ctx, v1.ApplyNosqlDatabaseConfigParams{ApplianceID: id})
+	})
 }
 
 func (op *databaseOp) GetStatus(ctx context.Context, id string) (*v1.NosqlStatusResponseApplianceSettingsResponseNosql, error) {
-	res, err := op.client.ReadNosqlDatabaseStatus(ctx, v1.ReadNosqlDatabaseStatusParams{ApplianceID: id})
+	res, err := errorFromDecodedResponse[v1.NosqlStatusResponse]("Database.GetStatus", func() (any, error) {
+		return op.client.ReadNosqlDatabaseStatus(ctx, v1.ReadNosqlDatabaseStatusParams{ApplianceID: id})
+	})
 	if err != nil {
 		return nil, NewAPIError("Database.GetStatus", 0, err)
 	}
 
-	switch p := res.(type) {
-	case *v1.NosqlStatusResponse:
-		return &p.Appliance.Value.SettingsResponse.Value.Nosql.Value, nil
-	case *v1.BadRequestResponse:
-		return nil, NewAPIError("Database.GetStatus", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UnauthorizedResponse:
-		return nil, NewAPIError("Database.GetStatus", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.ServerErrorResponse:
-		return nil, NewAPIError("Database.GetStatus", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Database.GetStatus", 0, unknownError(res))
+	a, ok := res.GetAppliance().Get()
+	if !ok {
+		return nil, NewAPIError("Database.GetStatus", 0, errors.New("no appliance data"))
 	}
+
+	s, ok := a.GetSettingsResponse().Get()
+	if !ok {
+		return nil, NewAPIError("Database.GetStatus", 0, errors.New("no settings response"))
+	}
+
+	n, ok := s.GetNosql().Get()
+	if !ok {
+		return nil, NewAPIError("Database.GetStatus", 0, errors.New("no Nosql data"))
+	}
+
+	return &n, nil
 }
