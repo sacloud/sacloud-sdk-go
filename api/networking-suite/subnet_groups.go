@@ -5,7 +5,6 @@ package networkingsuite
 
 import (
 	"context"
-	"errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/networking-suite/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/srn"
@@ -30,87 +29,47 @@ func NewSubnetGroupsOp(client *v1.Client) SubnetGroupsAPI {
 }
 
 func (op *subnetGroupsOp) List(ctx context.Context) ([]v1.ReadSubnetGroup, error) {
-	const methodName = "SubnetGroups.List"
-
-	res, err := op.client.ListSubnetGroups(ctx)
+	res, err := errorFromDecodedResponse[v1.SubnetGroupListResponse]("SubnetGroups.List", func() (any, error) { return op.client.ListSubnetGroups(ctx) })
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	return res.SubnetGroups, nil
+	return res.GetSubnetGroups(), nil
 }
 
 func (op *subnetGroupsOp) Create(ctx context.Context, req v1.CreateSubnetGroup) (*v1.ReadSubnetGroup, error) {
-	const methodName = "SubnetGroups.Create"
-
-	res, err := op.client.CreateSubnetGroup(ctx, &req)
+	res, err := errorFromDecodedResponse[v1.CreatedSubnetGroupResponse]("SubnetGroups.Create", func() (any, error) { return op.client.CreateSubnetGroup(ctx, &req) })
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v1.CreatedSubnetGroupResponse:
-		sg := r.GetSubnetGroup()
-		return &sg, nil
-	case *v1.ApiErrorStatusCode:
-		return nil, newGeneratedAPIError(methodName, r)
-	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
-	}
+	return new(res.GetSubnetGroup()), nil
 }
 
 func (op *subnetGroupsOp) Read(ctx context.Context, s srn.SRN) (*v1.ReadSubnetGroup, error) {
-	const methodName = "SubnetGroups.Read"
-
-	res, err := op.client.ReadSubnetGroup(ctx, v1.ReadSubnetGroupParams{Subnetgroupid: s.ID})
+	res, err := errorFromDecodedResponse[v1.SubnetGroupResponse]("SubnetGroups.Read", func() (any, error) {
+		return op.client.ReadSubnetGroup(ctx, v1.ReadSubnetGroupParams{Subnetgroupid: s.ID})
+	})
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v1.SubnetGroupResponse:
-		sg := r.GetSubnetGroup()
-		return &sg, nil
-	case *v1.ApiErrorStatusCode:
-		return nil, newGeneratedAPIError(methodName, r)
-	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
-	}
+	return new(res.GetSubnetGroup()), nil
 }
 
 func (op *subnetGroupsOp) Update(ctx context.Context, s srn.SRN, req v1.UpdateSubnetGroup) (*v1.ReadSubnetGroup, error) {
-	const methodName = "SubnetGroups.Update"
-
-	res, err := op.client.UpdateSubnetGroup(ctx, &req, v1.UpdateSubnetGroupParams{Subnetgroupid: s.ID})
+	res, err := errorFromDecodedResponse[v1.SubnetGroupResponse]("SubnetGroups.Update", func() (any, error) {
+		return op.client.UpdateSubnetGroup(ctx, &req, v1.UpdateSubnetGroupParams{Subnetgroupid: s.ID})
+	})
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v1.SubnetGroupResponse:
-		sg := r.GetSubnetGroup()
-		return &sg, nil
-	case *v1.ApiErrorStatusCode:
-		return nil, newGeneratedAPIError(methodName, r)
-	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
-	}
+	return new(res.GetSubnetGroup()), nil
 }
 
 func (op *subnetGroupsOp) Delete(ctx context.Context, s srn.SRN) error {
-	const methodName = "SubnetGroups.Delete"
-
-	res, err := op.client.DeleteSubnetGroup(ctx, v1.DeleteSubnetGroupParams{Subnetgroupid: s.ID})
-	if err != nil {
-		return NewAPIError(methodName, 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v1.DeleteSubnetGroupNoContent:
-		return nil
-	case *v1.ApiErrorStatusCode:
-		return newGeneratedAPIError(methodName, r)
-	default:
-		return NewAPIError(methodName, 0, errors.New("unknown error"))
-	}
+	return errorFromDecodedResponseE[v1.DeleteSubnetGroupNoContent]("SubnetGroups.Delete", func() (any, error) {
+		return op.client.DeleteSubnetGroup(ctx, v1.DeleteSubnetGroupParams{Subnetgroupid: s.ID})
+	})
 }
