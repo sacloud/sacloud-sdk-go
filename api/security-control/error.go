@@ -11,7 +11,9 @@ import (
 	"net/http"
 	"strings"
 
+	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/security-control/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -44,60 +46,92 @@ func NewAPIError(method string, code int, err error) *Error {
 	return NewError(method, saclient.NewError(code, "", err))
 }
 
-func responseError(method string, response any) *Error {
-	if r, ok := response.(*v1.UnexpectedErrorStatusCode); ok {
-		if r == nil {
-			return NewAPIError(method, 0, fmt.Errorf("nil API error response %T", response))
-		}
-		return responseDetail(method, r.StatusCode, r.Response.Detail.Value, r.Response.Detail.Set)
+func intoDetail[T ~string, U interface{ Or(T) T }](u U) (ret string) {
+	ret = string(u.Or("(empty detail)"))
+	if ret == "" {
+		ret = "(empty detail)"
 	}
-	err, ok := asErrorResponse(response)
-	if !ok {
-		return NewAPIError(method, 0, fmt.Errorf("unknown API response type %T", response))
-	}
+	return
+}
+
+func newErrorFromAPIError(err any) error {
+	status := 0
+	detail := "(nil response)"
+
 	switch r := err.(type) {
 	case *v1.BadRequest:
+		status = http.StatusBadRequest
 		if r != nil {
-			return responseDetail(method, responseStatus(int(r.Status.Value), r.Status.Set, http.StatusBadRequest), string(r.Detail.Value), r.Detail.Set)
+			detail = intoDetail(r.GetDetail())
 		}
 	case *v1.Conflict:
+		status = http.StatusConflict
 		if r != nil {
-			return responseDetail(method, responseStatus(int(r.Status.Value), r.Status.Set, http.StatusConflict), string(r.Detail.Value), r.Detail.Set)
+			detail = intoDetail(r.GetDetail())
 		}
 	case *v1.Forbidden:
+		status = http.StatusForbidden
 		if r != nil {
-			return responseDetail(method, responseStatus(int(r.Status.Value), r.Status.Set, http.StatusForbidden), string(r.Detail.Value), r.Detail.Set)
+			detail = intoDetail(r.GetDetail())
 		}
 	case *v1.NotFound:
+		status = http.StatusNotFound
 		if r != nil {
-			return responseDetail(method, responseStatus(int(r.Status.Value), r.Status.Set, http.StatusNotFound), string(r.Detail.Value), r.Detail.Set)
+			detail = intoDetail(r.GetDetail())
 		}
 	case *v1.Unauthorized:
+		status = http.StatusUnauthorized
 		if r != nil {
-			return responseDetail(method, responseStatus(int(r.Status.Value), r.Status.Set, http.StatusUnauthorized), string(r.Detail.Value), r.Detail.Set)
+			detail = intoDetail(r.GetDetail())
 		}
 	case *v1.TooManyRequestsHeaders:
+		status = http.StatusTooManyRequests
 		if r != nil {
-			return responseDetail(method, responseStatus(int(r.Response.Status.Value), r.Response.Status.Set, http.StatusTooManyRequests), string(r.Response.Detail.Value), r.Response.Detail.Set)
+			res := r.GetResponse()
+			detail = intoDetail(res.GetDetail())
+		}
+	case *v1.UnexpectedErrorStatusCode:
+		if r != nil {
+			status = r.GetStatusCode()
+			res := r.GetResponse()
+			detail = intoDetail(res.GetDetail())
+		}
+	default:
+		status = 0
+		switch {
+		case r == nil:
+			detail = "(nil response)"
+		case httperror.IsTypedNil(r):
+			detail = "(nil response)"
+		default:
+			// should we panic ...?
+			detail = fmt.Sprintf("unknown API error type %T", err)
 		}
 	}
-	return NewAPIError(method, 0, fmt.Errorf("nil API error response %T", response))
+
+	return saclient.NewError(status, "", errors.New(detail))
 }
 
-func responseStatus(status int, set bool, fallback int) int {
-	if set {
-		return status
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
+func errorFromDecodedResponse[T any](method string, yield func() (any, error)) (ret *T, err error) {
+	res, e1 := yield()
+
+	if e2, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](e1); ok {
+		err = NewError(method, httperror.NewError(method, e2))
+	} else if e1 != nil {
+		err = NewError(method, e1) // this is e.g. broken JSON
+	} else if e3, ok := asErrorResponse(res); ok {
+		err = NewError(method, newErrorFromAPIError(e3))
+	} else if e4, ok := (res).(*v1.UnexpectedErrorStatusCode); ok {
+		err = NewError(method, newErrorFromAPIError(e4))
+	} else if ret, ok = res.(*T); !ok {
+		err = NewError(method, fmt.Errorf("unknown API response type %T", res))
 	}
-	return fallback
+
+	return
 }
 
-func responseDetail(method string, code int, detail string, set bool) *Error {
-	switch {
-	case !set:
-		return NewAPIError(method, code, errors.New("API error response missing detail"))
-	case detail == "":
-		return NewAPIError(method, code, errors.New("API error response has empty detail"))
-	default:
-		return NewAPIError(method, code, errors.New(detail))
-	}
+func errorFromDecodedResponseE[T any](method string, yield func() (any, error)) (err error) {
+	_, err = errorFromDecodedResponse[T](method, yield)
+	return
 }

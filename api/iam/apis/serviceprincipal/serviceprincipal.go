@@ -86,10 +86,9 @@ func (s *servicePrincipalOp) Update(ctx context.Context, id int, params UpdatePa
 }
 
 func (s *servicePrincipalOp) Delete(ctx context.Context, id int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DeleteServicePrincipalNoContent]("ServicePrincipal.Delete", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeleteServicePrincipalNoContent]("ServicePrincipal.Delete", func() (any, error) {
 		return s.client.DeleteServicePrincipal(ctx, v1.DeleteServicePrincipalParams{ServicePrincipalID: id})
 	})
-	return err
 }
 
 type ListKeysParams struct {
@@ -135,13 +134,12 @@ func (s *servicePrincipalOp) DisableKey(ctx context.Context, id int, keyID uuid.
 }
 
 func (s *servicePrincipalOp) DeleteKey(ctx context.Context, id int, keyID uuid.UUID) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DeleteServicePrincipalKeyNoContent]("ServicePrincipal.DeleteKey", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeleteServicePrincipalKeyNoContent]("ServicePrincipal.DeleteKey", func() (any, error) {
 		return s.client.DeleteServicePrincipalKey(ctx, v1.DeleteServicePrincipalKeyParams{
 			ServicePrincipalID:    id,
 			ServicePrincipalKeyID: keyID,
 		})
 	})
-	return err
 }
 
 func (s *servicePrincipalOp) IssueToken(ctx context.Context, assertion string) (*v1.ServicePrincipalOAuth2AccessToken, error) {

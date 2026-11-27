@@ -5,7 +5,6 @@ package networkingsuite
 
 import (
 	"context"
-	"errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/networking-suite/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
@@ -45,92 +44,45 @@ func NewInterfaceConnectionOp(client *v1.Client) InterfaceConnectionAPI {
 }
 
 func (op *subnetsOp) List(ctx context.Context, subnetGroupSRN srn.SRN) ([]v1.ReadSubnet, error) {
-	const methodName = "Subnets.List"
-
-	res, err := op.client.ListSubnets(ctx, v1.ListSubnetsParams{SubnetGroupSRN: subnetGroupSRN.String()})
+	res, err := errorFromDecodedResponse[v1.SubnetListResponse]("Subnets.List", func() (any, error) {
+		return op.client.ListSubnets(ctx, v1.ListSubnetsParams{SubnetGroupSRN: subnetGroupSRN.String()})
+	})
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	return res.Subnets, nil
+	return res.GetSubnets(), nil
 }
 
 func (op *subnetsOp) Create(ctx context.Context, req v1.CreateSubnet) (*v1.ReadSubnet, error) {
-	const methodName = "Subnets.Create"
-
-	res, err := op.client.CreateSubnet(ctx, &req)
+	res, err := errorFromDecodedResponse[v1.CreatedSubnetResponse]("Subnets.Create", func() (any, error) { return op.client.CreateSubnet(ctx, &req) })
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v1.CreatedSubnetResponse:
-		return &r.Subnet, nil
-	case *v1.ApiErrorStatusCode:
-		return nil, newGeneratedAPIError(methodName, r)
-	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
-	}
+	return new(res.GetSubnet()), nil
 }
 
 func (op *subnetsOp) Read(ctx context.Context, s srn.SRN) (*v1.ReadSubnet, error) {
-	const methodName = "Subnets.Read"
-
-	res, err := op.client.ReadSubnet(ctx, v1.ReadSubnetParams{
-		Subnetid: s.ID,
-	})
+	res, err := errorFromDecodedResponse[v1.SubnetResponse]("Subnets.Read", func() (any, error) { return op.client.ReadSubnet(ctx, v1.ReadSubnetParams{Subnetid: s.ID}) })
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v1.SubnetResponse:
-		return &r.Subnet, nil
-	case *v1.ApiErrorStatusCode:
-		return nil, newGeneratedAPIError(methodName, r)
-	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
-	}
+	return new(res.GetSubnet()), nil
 }
 
 func (op *subnetsOp) Update(ctx context.Context, s srn.SRN, req v1.UpdateSubnet) (*v1.ReadSubnet, error) {
-	const methodName = "Subnets.Update"
-
-	res, err := op.client.UpdateSubnet(ctx, &req, v1.UpdateSubnetParams{
-		Subnetid: s.ID,
-	})
+	res, err := errorFromDecodedResponse[v1.SubnetResponse]("Subnets.Update", func() (any, error) { return op.client.UpdateSubnet(ctx, &req, v1.UpdateSubnetParams{Subnetid: s.ID}) })
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v1.SubnetResponse:
-		return &r.Subnet, nil
-	case *v1.ApiErrorStatusCode:
-		return nil, newGeneratedAPIError(methodName, r)
-	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
-	}
+	return new(res.GetSubnet()), nil
 }
 
 func (op *subnetsOp) Delete(ctx context.Context, s srn.SRN) error {
-	const methodName = "Subnets.Delete"
-
-	res, err := op.client.DeleteSubnet(ctx, v1.DeleteSubnetParams{
-		Subnetid: s.ID,
-	})
-	if err != nil {
-		return NewAPIError(methodName, 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v1.DeleteSubnetNoContent:
-		return nil
-	case *v1.ApiErrorStatusCode:
-		return newGeneratedAPIError(methodName, r)
-	default:
-		return NewAPIError(methodName, 0, errors.New("unknown error"))
-	}
+	return errorFromDecodedResponseE[v1.DeleteSubnetNoContent]("Subnets.Delete", func() (any, error) { return op.client.DeleteSubnet(ctx, v1.DeleteSubnetParams{Subnetid: s.ID}) })
 }
 
 type CreateInterfaceConnectionParams struct {
@@ -140,43 +92,24 @@ type CreateInterfaceConnectionParams struct {
 }
 
 func (op *interfaceConnectionOp) Create(ctx context.Context, params CreateInterfaceConnectionParams) (*v1.ReadInterfaceConnection, error) {
-	const methodName = "InterfaceConnection.Create"
-
-	res, err := op.client.CreateInterfaceConnection(ctx, &v1.CreateInterfaceConnection{
-		EphemeralIPv4Address: into.Opt[v1.OptString](params.IPAddress),
-		Interface:            v1.SakuraResourceNameRef{SRN: params.InterfaceSRN.String()},
-		Subnet:               v1.SakuraResourceNameRef{SRN: params.SubnetSRN.String()},
+	res, err := errorFromDecodedResponse[v1.CreatedInterfaceConnectionResponse]("InterfaceConnection.Create", func() (any, error) {
+		return op.client.CreateInterfaceConnection(ctx, &v1.CreateInterfaceConnection{
+			EphemeralIPv4Address: into.Opt[v1.OptString](params.IPAddress),
+			Interface:            v1.SakuraResourceNameRef{SRN: params.InterfaceSRN.String()},
+			Subnet:               v1.SakuraResourceNameRef{SRN: params.SubnetSRN.String()},
+		})
 	})
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v1.CreatedInterfaceConnectionResponse:
-		return &r.InterfaceConnection, nil
-	case *v1.ApiErrorStatusCode:
-		return nil, newGeneratedAPIError(methodName, r)
-	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
-	}
+	return new(res.GetInterfaceConnection()), nil
 }
 
 func (op *interfaceConnectionOp) Delete(ctx context.Context, s srn.SRN) error {
-	const methodName = "InterfaceConnection.Delete"
-
-	res, err := op.client.DeleteInterfaceConnection(ctx, v1.DeleteInterfaceConnectionParams{
-		Interfaceconnectionid: s.ID,
+	return errorFromDecodedResponseE[v1.DeleteInterfaceConnectionNoContent]("InterfaceConnection.Delete", func() (any, error) {
+		return op.client.DeleteInterfaceConnection(ctx, v1.DeleteInterfaceConnectionParams{
+			Interfaceconnectionid: s.ID,
+		})
 	})
-	if err != nil {
-		return NewAPIError(methodName, 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v1.DeleteInterfaceConnectionNoContent:
-		return nil
-	case *v1.ApiErrorStatusCode:
-		return newGeneratedAPIError(methodName, r)
-	default:
-		return NewAPIError(methodName, 0, errors.New("unknown error"))
-	}
 }

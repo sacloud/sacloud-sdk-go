@@ -69,7 +69,7 @@ func TestLicenseOp_Read_404(t *testing.T) {
 	license, err := api.Read(ctx, "99999")
 	assert.Nil(license)
 	assert.Error(err)
-	assert.ErrorContains(err, "not found")
+	assert.ErrorContains(err, "No License matches the given query.")
 }
 
 func TestLicenseOp_Create(t *testing.T) {
@@ -155,7 +155,7 @@ func TestLicenseOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "0")
 	assert.Error(err)
-	assert.ErrorContains(err, "not found")
+	assert.ErrorContains(err, "Not found")
 }
 
 func TestLicenseIntegrated(t *testing.T) {

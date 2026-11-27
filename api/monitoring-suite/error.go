@@ -15,11 +15,10 @@
 package monitoringsuite
 
 import (
-	"fmt"
-	"io"
+	"errors"
 
-	"github.com/go-faster/errors"
 	ogen "github.com/ogen-go/ogen/validate"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -53,30 +52,16 @@ func NewAPIError(method string, code int, err error) *Error {
 // convert UnexpectedStatusCodeError -> IsNotFoundError
 func errorFromDecodedResponse[T any](method string, yield func() (T, error)) (res T, err error) {
 	res, err = yield()
-	if err == nil {
-		return // no error
-	}
-	e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err)
-	if !ok {
-		// expected error
-		err = NewAPIError(method, 0, err)
-		return
-	}
-	msg, ee := io.ReadAll(e.Payload.Body)
-	if ee != nil {
-		// payload read error, maybe empty
-		err = errors.Join(e, ee)
-		return
-	}
-	// expect error payload to be at least human readable
-	err = NewAPIError(method, e.StatusCode, fmt.Errorf("%s", string(msg)))
 
+	if e, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](err); ok {
+		err = NewError(method, httperror.NewError(method, e))
+	} else if err != nil {
+		err = NewError(method, err) // this is e.g. broken JSON
+	}
 	return
 }
 
 func errorFromDecodedResponse1(method string, yield func() error) (err error) {
-	_, err = errorFromDecodedResponse(method, func() ([]any, error) {
-		return nil, yield()
-	})
+	_, err = errorFromDecodedResponse(method, func() ([]any, error) { return nil, yield() })
 	return
 }

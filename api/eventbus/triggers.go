@@ -16,7 +16,6 @@ package eventbus
 
 import (
 	"context"
-	"errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/eventbus/apis/v1"
 )
@@ -41,45 +40,23 @@ func NewTriggerOp(client *v1.Client) TriggerAPI {
 
 func (op *triggerOp) List(ctx context.Context) ([]v1.CommonServiceItem, error) {
 	ctx = setFilterProviderClass(ctx, v1.ProviderClassEventbustrigger)
-	res, err := op.client.ListCommonServiceItems(ctx)
+	res, err := errorFromDecodedResponse[v1.ListCommonServiceItemsOK]("Trigger.List", func() (any, error) { return op.client.ListCommonServiceItems(ctx) })
 	if err != nil {
-		return nil, NewAPIError("Trigger.List", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.ListCommonServiceItemsOK:
-		return p.CommonServiceItems, nil
-	case *v1.ListCommonServiceItemsUnauthorized:
-		return nil, NewAPIError("Trigger.List", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.ListCommonServiceItemsBadRequest:
-		return nil, NewAPIError("Trigger.List", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.ListCommonServiceItemsInternalServerError:
-		return nil, NewAPIError("Trigger.List", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Trigger.List", 0, unknownError(p))
-	}
+	return res.GetCommonServiceItems(), nil
 }
 
 func (op *triggerOp) Read(ctx context.Context, id string) (*v1.CommonServiceItem, error) {
-	res, err := op.client.ReadCommonServiceItem(ctx, v1.ReadCommonServiceItemParams{ID: id})
+	res, err := errorFromDecodedResponse[v1.ReadCommonServiceItemOK]("Trigger.Read", func() (any, error) {
+		return op.client.ReadCommonServiceItem(ctx, v1.ReadCommonServiceItemParams{ID: id})
+	})
 	if err != nil {
-		return nil, NewAPIError("Trigger.Read", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.ReadCommonServiceItemOK:
-		return &p.CommonServiceItem, nil
-	case *v1.ReadCommonServiceItemUnauthorized:
-		return nil, NewAPIError("Trigger.Read", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.ReadCommonServiceItemBadRequest:
-		return nil, NewAPIError("Trigger.Read", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.ReadCommonServiceItemNotFound:
-		return nil, NewAPIError("Trigger.Read", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.ReadCommonServiceItemInternalServerError:
-		return nil, NewAPIError("Trigger.Read", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Trigger.Read", 0, unknownError(p))
-	}
+	return new(res.GetCommonServiceItem()), nil
 }
 
 func (op *triggerOp) Create(ctx context.Context, request v1.CreateCommonServiceItemRequest) (*v1.CommonServiceItem, error) {
@@ -87,25 +64,13 @@ func (op *triggerOp) Create(ctx context.Context, request v1.CreateCommonServiceI
 		return nil, NewError("invalid settings as Trigger", nil)
 	}
 	request.CommonServiceItem.Provider = v1.Provider{Class: v1.ProviderClassEventbustrigger}
-	res, err := op.client.CreateCommonServiceItem(ctx, &request)
+
+	res, err := errorFromDecodedResponse[v1.CreateCommonServiceItemCreated]("Trigger.Create", func() (any, error) { return op.client.CreateCommonServiceItem(ctx, &request) })
 	if err != nil {
-		return nil, NewAPIError("Trigger.Create", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.CreateCommonServiceItemCreated:
-		return &p.CommonServiceItem, nil
-	case *v1.CreateCommonServiceItemBadRequest:
-		return nil, NewAPIError("Trigger.Create", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.CreateCommonServiceItemUnauthorized:
-		return nil, NewAPIError("Trigger.Create", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.CreateCommonServiceItemConflict:
-		return nil, NewAPIError("Trigger.Create", 409, errors.New(p.ErrorMsg.Value))
-	case *v1.CreateCommonServiceItemInternalServerError:
-		return nil, NewAPIError("Trigger.Create", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Trigger.Create", 0, unknownError(p))
-	}
+	return new(res.GetCommonServiceItem()), nil
 }
 
 func (op *triggerOp) Update(ctx context.Context, id string, request v1.UpdateCommonServiceItemRequest) (*v1.CommonServiceItem, error) {
@@ -113,45 +78,19 @@ func (op *triggerOp) Update(ctx context.Context, id string, request v1.UpdateCom
 		return nil, NewError("invalid settings as Trigger", nil)
 	}
 	request.CommonServiceItem.Provider = v1.NewOptProvider(v1.Provider{Class: v1.ProviderClassEventbustrigger})
-	res, err := op.client.UpdateCommonServiceItem(ctx, &request, v1.UpdateCommonServiceItemParams{ID: id})
+
+	res, err := errorFromDecodedResponse[v1.UpdateCommonServiceItemOK]("Trigger.Update", func() (any, error) {
+		return op.client.UpdateCommonServiceItem(ctx, &request, v1.UpdateCommonServiceItemParams{ID: id})
+	})
 	if err != nil {
-		return nil, NewAPIError("Trigger.Update", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.UpdateCommonServiceItemOK:
-		return &p.CommonServiceItem, nil
-	case *v1.UpdateCommonServiceItemBadRequest:
-		return nil, NewAPIError("Trigger.Update", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UpdateCommonServiceItemUnauthorized:
-		return nil, NewAPIError("Trigger.Update", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.UpdateCommonServiceItemNotFound:
-		return nil, NewAPIError("Trigger.Update", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.UpdateCommonServiceItemInternalServerError:
-		return nil, NewAPIError("Trigger.Update", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Trigger.Update", 0, unknownError(p))
-	}
+	return new(res.GetCommonServiceItem()), nil
 }
 
 func (op *triggerOp) Delete(ctx context.Context, id string) error {
-	res, err := op.client.DeleteCommonServiceItem(ctx, v1.DeleteCommonServiceItemParams{ID: id})
-	if err != nil {
-		return NewAPIError("Trigger.Delete", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.DeleteCommonServiceItemOK:
-		return nil
-	case *v1.DeleteCommonServiceItemUnauthorized:
-		return NewAPIError("Trigger.Delete", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.DeleteCommonServiceItemBadRequest:
-		return NewAPIError("Trigger.Delete", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.DeleteCommonServiceItemNotFound:
-		return NewAPIError("Trigger.Delete", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.DeleteCommonServiceItemInternalServerError:
-		return NewAPIError("Trigger.Delete", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return NewAPIError("Trigger.Delete", 0, unknownError(p))
-	}
+	return errorFromDecodedResponseE[v1.DeleteCommonServiceItemOK]("Trigger.Delete", func() (any, error) {
+		return op.client.DeleteCommonServiceItem(ctx, v1.DeleteCommonServiceItemParams{ID: id})
+	})
 }

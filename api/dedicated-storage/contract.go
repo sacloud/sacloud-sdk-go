@@ -16,7 +16,6 @@ package dedicatedstorage
 
 import (
 	"context"
-	"errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/dedicated-storage/apis/v1"
 )
@@ -46,127 +45,82 @@ func NewContractOp(client *v1.Client) ContractAPI {
 }
 
 func (op *contractOp) Create(ctx context.Context, req v1.CreateDedicatedStorageContractRequest) (*v1.DedicatedStorageContract, error) {
-	const methodName = "Contract.Create"
-
-	res, err := op.client.DedicatedStorageContractsCreate(ctx, &req)
+	res, err := errorFromDecodedResponse("Contract.Create", func() (*v1.DedicatedStorageContractResponse, error) {
+		return op.client.DedicatedStorageContractsCreate(ctx, &req)
+	})
 	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	return &res.DedicatedStorageContract, nil
+	return new(res.GetDedicatedStorageContract()), nil
 }
 
 func (op *contractOp) List(ctx context.Context) (*v1.DedicatedStorageContractsListResponse, error) {
-	const methodName = "Contract.List"
-
-	res, err := op.client.DedicatedStorageContractsList(ctx)
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return nil, NewAPIError(methodName, 0, err)
-	}
-
-	return res, nil
+	return errorFromDecodedResponse("Contract.List", func() (*v1.DedicatedStorageContractsListResponse, error) {
+		return op.client.DedicatedStorageContractsList(ctx)
+	})
 }
 
 func (op *contractOp) Read(ctx context.Context, id int64) (*v1.DedicatedStorageContract, error) {
-	const methodName = "Contract.Read"
-
-	res, err := op.client.DedicatedStorageContractsGet(ctx, v1.DedicatedStorageContractsGetParams{ID: id})
+	res, err := errorFromDecodedResponse("Contract.Read", func() (*v1.DedicatedStorageContractResponse, error) {
+		return op.client.DedicatedStorageContractsGet(ctx, v1.DedicatedStorageContractsGetParams{ID: id})
+	})
 	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	return &res.DedicatedStorageContract, nil
+	return new(res.GetDedicatedStorageContract()), nil
 }
 
 func (op *contractOp) Update(ctx context.Context, id int64, request v1.UpdateDedicatedStorageContractRequest) (*v1.DedicatedStorageContract, error) {
-	const methodName = "Contract.Update"
-
-	res, err := op.client.DedicatedStorageContractsUpdate(ctx, &request, v1.DedicatedStorageContractsUpdateParams{ID: id})
+	res, err := errorFromDecodedResponse("Contract.Update", func() (*v1.DedicatedStorageContractResponse, error) {
+		return op.client.DedicatedStorageContractsUpdate(ctx, &request, v1.DedicatedStorageContractsUpdateParams{ID: id})
+	})
 	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	return &res.DedicatedStorageContract, nil
+	return new(res.GetDedicatedStorageContract()), nil
 }
 
 func (op *contractOp) Delete(ctx context.Context, id int64) error {
-	const methodName = "Contract.Delete"
-
-	err := op.client.DedicatedStorageContractsDelete(ctx, v1.DedicatedStorageContractsDeleteParams{ID: id})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return NewAPIError(methodName, 0, err)
-	}
-	return nil
+	return errorFromDecodedResponseE("Contract.Delete", func() error {
+		return op.client.DedicatedStorageContractsDelete(ctx, v1.DedicatedStorageContractsDeleteParams{ID: id})
+	})
 }
 
 // PoolUsage implements ContractAPI.PoolUsage
 func (op *contractOp) PoolUsage(ctx context.Context, id int64) (*v1.PoolUsageResponsePoolUsage, error) {
-	const methodName = "Contract.PoolUsage"
-
-	res, err := op.client.DedicatedStorageContractsPoolUsage(ctx, v1.DedicatedStorageContractsPoolUsageParams{ID: id})
+	res, err := errorFromDecodedResponse("Contract.PoolUsage", func() (*v1.PoolUsageResponse, error) {
+		return op.client.DedicatedStorageContractsPoolUsage(ctx, v1.DedicatedStorageContractsPoolUsageParams{ID: id})
+	})
 	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	return &res.PoolUsage, nil
+	return new(res.GetPoolUsage()), nil
 }
 
 // ListDiskSnapshots implements ContractAPI.DiskSnapshots
 func (op *contractOp) ListDiskSnapshots(ctx context.Context, id int64) (*v1.DiskSnapshotsListResponse, error) {
-	const methodName = "Contract.DiskSnapshots"
-
-	res, err := op.client.DedicatedStorageContractsListSnapshotsByContract(ctx, v1.DedicatedStorageContractsListSnapshotsByContractParams{ContractId: id})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return nil, NewAPIError(methodName, 0, err)
-	}
-
-	return res, nil
+	return errorFromDecodedResponse("Contract.DiskSnapshots", func() (*v1.DiskSnapshotsListResponse, error) {
+		return op.client.DedicatedStorageContractsListSnapshotsByContract(ctx, v1.DedicatedStorageContractsListSnapshotsByContractParams{ContractId: id})
+	})
 }
 
 func (op *contractOp) ListPlans(ctx context.Context) (*v1.DedicatedStorageContractPlanListResponse, error) {
-	const methodName = "Contract.ListPlans"
-
-	res, err := op.client.ProductPlansListPlans(ctx)
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return nil, NewAPIError(methodName, 0, err)
-	}
-
-	return res, nil
+	return errorFromDecodedResponse("Contract.ListPlans", func() (*v1.DedicatedStorageContractPlanListResponse, error) {
+		return op.client.ProductPlansListPlans(ctx)
+	})
 }
-func (op *contractOp) ReadPlan(ctx context.Context, planID int64) (*v1.DedicatedStorageContractPlan, error) {
-	const methodName = "Contract.ReadPlan"
 
-	res, err := op.client.ProductPlansGetPlans(ctx, v1.ProductPlansGetPlansParams{ID: planID})
+func (op *contractOp) ReadPlan(ctx context.Context, planID int64) (*v1.DedicatedStorageContractPlan, error) {
+	res, err := errorFromDecodedResponse("Contract.ReadPlan", func() (*v1.DedicatedStorageContractPlanResponse, error) {
+		return op.client.ProductPlansGetPlans(ctx, v1.ProductPlansGetPlansParams{ID: planID})
+	})
 	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
-		}
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	return &res.DedicatedStorageContractPlan, nil
+	return new(res.GetDedicatedStorageContractPlan()), nil
 }

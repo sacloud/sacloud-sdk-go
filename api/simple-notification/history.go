@@ -16,7 +16,6 @@ package simplenotification
 
 import (
 	"context"
-	"errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/simple-notification/apis/v1"
 )
@@ -37,25 +36,11 @@ func NewHistoryOp(client *v1.Client) HistoryAPI {
 }
 
 func (o *HistoryOp) List(ctx context.Context) (*v1.ListNotificationHistoriesResponse, error) {
-	const methodName = "History.List"
-	res, err := o.client.ListNotificationHistories(ctx)
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, err)
-		}
-		return nil, NewError(methodName, err)
-	}
-	return res, nil
+	return errorFromDecodedResponse("History.List", func() (*v1.ListNotificationHistoriesResponse, error) { return o.client.ListNotificationHistories(ctx) })
 }
 
 func (o *HistoryOp) Read(ctx context.Context, id string) (*v1.ReadNotificationHistoryResponse, error) {
-	const methodName = "History.Read"
-	res, err := o.client.ReadNotificationHistory(ctx, v1.ReadNotificationHistoryParams{RequestID: id})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
-			return nil, NewAPIError(methodName, e.StatusCode, err)
-		}
-		return nil, NewError(methodName, err)
-	}
-	return res, nil
+	return errorFromDecodedResponse("History.Read", func() (*v1.ReadNotificationHistoryResponse, error) {
+		return o.client.ReadNotificationHistory(ctx, v1.ReadNotificationHistoryParams{RequestID: id})
+	})
 }

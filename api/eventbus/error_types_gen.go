@@ -5,9 +5,17 @@
 
 package eventbus
 
-import v1 "github.com/sacloud/sacloud-sdk-go/api/eventbus/apis/v1"
+import (
+	v1 "github.com/sacloud/sacloud-sdk-go/api/eventbus/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
+)
 
 func asError(p any) (*v1.Error, bool) {
+	if p == nil {
+		return nil, false
+	} else if httperror.IsTypedNil(p) {
+		return nil, false
+	}
 	switch p := p.(type) {
 	case *v1.CreateCommonServiceItemBadRequest:
 		return (*v1.Error)(p), true

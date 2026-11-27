@@ -14,12 +14,15 @@
 
 package workflows
 
+//go:generate go run ./gen/list_of_errors.go
+
 import (
 	"errors"
 	"fmt"
-	"reflect"
 	"strings"
 
+	ogen "github.com/ogen-go/ogen/validate"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -52,21 +55,42 @@ func NewAPIError(method string, code int, err error) *Error {
 	return NewError(method, saclient.NewError(code, "", err))
 }
 
-func unknownError(p any) error {
-	response, ok := p.(interface{ GetMessage() string })
-	if !ok {
-		return fmt.Errorf("unknown API response type %T", p)
+type errorish interface{ GetMessage() string }
+
+type apierror struct{ errorish }
+
+func (e *apierror) Error() string {
+	if e == nil {
+		return "(nil error)"
+	} else if e.errorish == nil {
+		return "(nil errorish)"
+	} else if httperror.IsTypedNil(e.errorish) {
+		return "(nil errorish)"
+	} else if msg := e.GetMessage(); msg != "" {
+		return msg
+	} else {
+		return "(empty error message)"
 	}
-	// p is a pointer in practice,
-	// and could be a typed nil.
-	if response == nil {
-		return fmt.Errorf("nil API error response %T", p)
+}
+
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
+func errorFromDecodedResponse[T any](method string, yield func() (any, error)) (ret *T, err error) {
+	res, e1 := yield()
+
+	if e2, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](e1); ok {
+		err = NewError(method, httperror.NewError(method, e2))
+	} else if e1 != nil {
+		err = NewError(method, e1) // this is e.g. broken JSON
+	} else if e2, code, ok := asErrorResponse(res); ok {
+		err = NewAPIError(method, code, &apierror{errorish: e2})
+	} else if ret, ok = res.(*T); !ok {
+		err = NewError(method, fmt.Errorf("unknown API response type %T", res))
 	}
-	if value := reflect.ValueOf(response); value.Kind() == reflect.Pointer && value.IsNil() {
-		return fmt.Errorf("nil API error response %T", response)
-	}
-	if msg := response.GetMessage(); msg != "" {
-		return errors.New(msg)
-	}
-	return fmt.Errorf("API error response has empty message: %T", p)
+
+	return
+}
+
+func errorFromDecodedResponseE[T any](method string, yield func() (any, error)) (err error) {
+	_, err = errorFromDecodedResponse[T](method, yield)
+	return
 }

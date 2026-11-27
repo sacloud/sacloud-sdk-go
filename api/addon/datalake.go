@@ -33,14 +33,12 @@ type DataLakeOp struct{ *v1.Client }
 func NewDataLakeOp(client *v1.Client) DataLakeAPI { return &DataLakeOp{Client: client} }
 
 func (d *DataLakeOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListDatalakeResourcesNotFound]("DataLake.List", func() (any, error) {
-		return d.Client.ListDatalakeResources(ctx)
-	}); e != nil {
-		err = e
-	} else if resources, ok := res.GetResources().Get(); ok {
-		ret = resources
+	res, err := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListDatalakeResourcesNotFound]("DataLake.List", func() (any, error) { return d.Client.ListDatalakeResources(ctx) })
+	if err != nil {
+		return nil, err
 	}
-	return
+
+	return res.GetResources().Or(nil), nil
 }
 
 type DataLakeCreateParams struct {
@@ -68,12 +66,11 @@ func (d *DataLakeOp) Read(ctx context.Context, id string) (*v1.GetResourceRespon
 }
 
 func (d *DataLakeOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteDatalakeResourceNoContent, v1.DeleteDatalakeResourceNotFound]("DataLake.Delete", func() (any, error) {
+	return ErrorFromDecodedResponseE[v1.DeleteDatalakeResourceNoContent, v1.DeleteDatalakeResourceNotFound]("DataLake.Delete", func() (any, error) {
 		return d.Client.DeleteDatalakeResource(ctx, v1.DeleteDatalakeResourceParams{
 			ResourceGroupName: id,
 		})
 	})
-	return
 }
 
 func (d *DataLakeOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {

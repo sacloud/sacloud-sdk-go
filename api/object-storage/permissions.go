@@ -5,7 +5,6 @@ package objectstorage
 
 import (
 	"context"
-	"errors"
 	"strconv"
 
 	v2 "github.com/sacloud/sacloud-sdk-go/api/object-storage/apis/v2"
@@ -38,46 +37,26 @@ func NewPermissionOp(client *SiteClient) PermissionsAPI {
 }
 
 func (op *permissionOp) List(ctx context.Context) ([]v2.PermissionsDataItem, error) {
-	res, err := op.client.client.ListPermissions(ctx)
+	res, err := errorFromDecodedResponse[v2.Permissions]("Permissions.List", func() (any, error) { return op.client.client.ListPermissions(ctx) })
 	if err != nil {
-		return nil, NewAPIError("Permissions.List", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.Permissions:
-		return r.Data, nil
-	case *v2.ErrorResponse:
-		return nil, NewAPIError("Permissions.List", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Permissions.List", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Permissions.List", r)
-	}
+	return res.GetData(), nil
 }
 
 func (op *permissionOp) Create(ctx context.Context, displayName string, controls v2.BucketControlsBody) (*v2.PermissionData, error) {
-	res, err := op.client.client.CreatePermission(ctx, &v2.PermissionBucketControlsBody{
-		DisplayName:    v2.DisplayName(displayName),
-		BucketControls: controls,
+	res, err := errorFromDecodedResponse[v2.Permission]("Permissions.Create", func() (any, error) {
+		return op.client.client.CreatePermission(ctx, &v2.PermissionBucketControlsBody{
+			DisplayName:    v2.DisplayName(displayName),
+			BucketControls: controls,
+		})
 	})
 	if err != nil {
-		return nil, NewAPIError("Permissions.Create", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.Permission:
-		return &r.Data, nil
-	case *v2.CreatePermissionUnauthorized:
-		return nil, NewAPIError("Permissions.Create", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.CreatePermissionNotFound:
-		return nil, NewAPIError("Permissions.Create", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.CreatePermissionConflict:
-		return nil, NewAPIError("Permissions.Create", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Permissions.Create", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Permissions.Create", r)
-	}
+	return new(res.GetData()), nil
 }
 
 func (op *permissionOp) Read(ctx context.Context, permissionId string) (*v2.PermissionData, error) {
@@ -85,23 +64,12 @@ func (op *permissionOp) Read(ctx context.Context, permissionId string) (*v2.Perm
 	if err != nil {
 		return nil, NewAPIError("Permissions.Read", 0, err)
 	}
-	res, err := op.client.client.ReadPermission(ctx, v2.ReadPermissionParams{ID: id})
+	res, err := errorFromDecodedResponse[v2.Permission]("Permissions.Read", func() (any, error) { return op.client.client.ReadPermission(ctx, v2.ReadPermissionParams{ID: id}) })
 	if err != nil {
-		return nil, NewAPIError("Permissions.Read", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.Permission:
-		return &r.Data, nil
-	case *v2.ReadPermissionUnauthorized:
-		return nil, NewAPIError("Permissions.Read", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ReadPermissionNotFound:
-		return nil, NewAPIError("Permissions.Read", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Permissions.Read", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Permissions.Read", r)
-	}
+	return new(res.GetData()), nil
 }
 
 func (op *permissionOp) Update(ctx context.Context, permissionId, name string, controls v2.BucketControlsBody) (*v2.PermissionData, error) {
@@ -109,28 +77,17 @@ func (op *permissionOp) Update(ctx context.Context, permissionId, name string, c
 	if err != nil {
 		return nil, NewAPIError("Permissions.Update", 0, err)
 	}
-	res, err := op.client.client.UpdatePermission(ctx, &v2.PermissionBucketControlsBody{
-		DisplayName:    v2.DisplayName(name),
-		BucketControls: controls,
-	}, v2.UpdatePermissionParams{ID: id})
+	res, err := errorFromDecodedResponse[v2.Permission]("Permissions.Update", func() (any, error) {
+		return op.client.client.UpdatePermission(ctx, &v2.PermissionBucketControlsBody{
+			DisplayName:    v2.DisplayName(name),
+			BucketControls: controls,
+		}, v2.UpdatePermissionParams{ID: id})
+	})
 	if err != nil {
-		return nil, NewAPIError("Permissions.Update", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.Permission:
-		return &r.Data, nil
-	case *v2.UpdatePermissionUnauthorized:
-		return nil, NewAPIError("Permissions.Update", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.UpdatePermissionNotFound:
-		return nil, NewAPIError("Permissions.Update", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.UpdatePermissionConflict:
-		return nil, NewAPIError("Permissions.Update", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Permissions.Update", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Permissions.Update", r)
-	}
+	return new(res.GetData()), nil
 }
 
 func (op *permissionOp) Delete(ctx context.Context, permissionId string) error {
@@ -138,21 +95,7 @@ func (op *permissionOp) Delete(ctx context.Context, permissionId string) error {
 	if err != nil {
 		return NewAPIError("Permissions.Delete", 0, err)
 	}
-	res, err := op.client.client.DeletePermission(ctx, v2.DeletePermissionParams{ID: id})
-	if err != nil {
-		return NewAPIError("Permissions.Delete", 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v2.DeletePermissionNoContent:
-		return nil
-	case *v2.ErrorResponse:
-		return NewAPIError("Permissions.Delete", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return NewAPIError("Permissions.Delete", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return unknownError("Permissions.Delete", r)
-	}
+	return errorFromDecodedResponseE[v2.DeletePermissionNoContent]("Permissions.Delete", func() (any, error) { return op.client.client.DeletePermission(ctx, v2.DeletePermissionParams{ID: id}) })
 }
 
 func (op *permissionOp) ListAccessKeys(ctx context.Context, permissionId string) ([]v2.PermissionKeyReadResponseBody, error) {
@@ -160,23 +103,14 @@ func (op *permissionOp) ListAccessKeys(ctx context.Context, permissionId string)
 	if err != nil {
 		return nil, NewAPIError("Permissions.ListAccessKeys", 0, err)
 	}
-	res, err := op.client.client.ListPermissionKeys(ctx, v2.ListPermissionKeysParams{ID: id})
+	res, err := errorFromDecodedResponse[v2.HandlerListPermissionKeysResponse]("Permissions.ListAccessKeys", func() (any, error) {
+		return op.client.client.ListPermissionKeys(ctx, v2.ListPermissionKeysParams{ID: id})
+	})
 	if err != nil {
-		return nil, NewAPIError("Permissions.ListAccessKeys", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.HandlerListPermissionKeysResponse:
-		return r.Data, nil
-	case *v2.ListPermissionKeysUnauthorized:
-		return nil, NewAPIError("Permissions.ListAccessKeys", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ListPermissionKeysNotFound:
-		return nil, NewAPIError("Permissions.ListAccessKeys", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Permissions.ListAccessKeys", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Permissions.ListAccessKeys", r)
-	}
+	return res.GetData(), nil
 }
 
 func (op *permissionOp) CreateAccessKey(ctx context.Context, permissionId string) (*v2.PermissionKeyCreateResponseBody, error) {
@@ -184,25 +118,14 @@ func (op *permissionOp) CreateAccessKey(ctx context.Context, permissionId string
 	if err != nil {
 		return nil, NewAPIError("Permissions.CreateAccessKey", 0, err)
 	}
-	res, err := op.client.client.CreatePermissionKey(ctx, v2.CreatePermissionKeyParams{ID: id})
+	res, err := errorFromDecodedResponse[v2.HandlerCreatePermissionKeyResponse]("Permissions.CreateAccessKey", func() (any, error) {
+		return op.client.client.CreatePermissionKey(ctx, v2.CreatePermissionKeyParams{ID: id})
+	})
 	if err != nil {
-		return nil, NewAPIError("Permissions.CreateAccessKey", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.HandlerCreatePermissionKeyResponse:
-		return &r.Data, nil
-	case *v2.CreatePermissionKeyUnauthorized:
-		return nil, NewAPIError("Permissions.CreateAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.CreatePermissionKeyNotFound:
-		return nil, NewAPIError("Permissions.CreateAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.CreatePermissionKeyConflict:
-		return nil, NewAPIError("Permissions.CreateAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Permissions.CreateAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Permissions.CreateAccessKey", r)
-	}
+	return new(res.GetData()), nil
 }
 
 func (op *permissionOp) ReadAccessKey(ctx context.Context, permissionId, accessKeyId string) (*v2.PermissionKeyReadResponseBody, error) {
@@ -210,23 +133,14 @@ func (op *permissionOp) ReadAccessKey(ctx context.Context, permissionId, accessK
 	if err != nil {
 		return nil, NewAPIError("Permissions.ReadAccessKey", 0, err)
 	}
-	res, err := op.client.client.ReadPermissionKey(ctx, v2.ReadPermissionKeyParams{ID: id, KeyID: accessKeyId})
+	res, err := errorFromDecodedResponse[v2.HandlerReadPermissionKeyResponse]("Permissions.ReadAccessKey", func() (any, error) {
+		return op.client.client.ReadPermissionKey(ctx, v2.ReadPermissionKeyParams{ID: id, KeyID: accessKeyId})
+	})
 	if err != nil {
-		return nil, NewAPIError("Permissions.ReadAccessKey", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.HandlerReadPermissionKeyResponse:
-		return &r.Data, nil
-	case *v2.ReadPermissionKeyUnauthorized:
-		return nil, NewAPIError("Permissions.ReadAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ReadPermissionKeyNotFound:
-		return nil, NewAPIError("Permissions.ReadAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Permissions.ReadAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Permissions.ReadAccessKey", r)
-	}
+	return new(res.GetData()), nil
 }
 
 func (op *permissionOp) DeleteAccessKey(ctx context.Context, permissionId, accessKeyId string) error {
@@ -234,21 +148,7 @@ func (op *permissionOp) DeleteAccessKey(ctx context.Context, permissionId, acces
 	if err != nil {
 		return NewAPIError("Permissions.DeleteAccessKey", 0, err)
 	}
-	res, err := op.client.client.DeletePermissionKey(ctx, v2.DeletePermissionKeyParams{ID: id, KeyID: accessKeyId})
-	if err != nil {
-		return NewAPIError("Permissions.DeleteAccessKey", 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v2.DeletePermissionKeyNoContent:
-		return nil
-	case *v2.DeletePermissionKeyUnauthorized:
-		return NewAPIError("Permissions.DeleteAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.DeletePermissionKeyNotFound:
-		return NewAPIError("Permissions.DeleteAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return NewAPIError("Permissions.DeleteAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return unknownError("Permissions.DeleteAccessKey", r)
-	}
+	return errorFromDecodedResponseE[v2.DeletePermissionKeyNoContent]("Permissions.DeleteAccessKey", func() (any, error) {
+		return op.client.client.DeletePermissionKey(ctx, v2.DeletePermissionKeyParams{ID: id, KeyID: accessKeyId})
+	})
 }

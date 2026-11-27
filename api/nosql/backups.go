@@ -30,87 +30,35 @@ func NewBackupOp(client *v1.Client, dbId string) BackupAPI {
 }
 
 func (op *backupOp) List(ctx context.Context) ([]v1.NosqlBackup, error) {
-	res, err := op.client.ListNosqlDatabaseBackups(ctx, v1.ListNosqlDatabaseBackupsParams{ApplianceID: op.dbId})
+	res, err := errorFromDecodedResponse[v1.NosqlBackupResponse]("Backup.List", func() (any, error) {
+		return op.client.ListNosqlDatabaseBackups(ctx, v1.ListNosqlDatabaseBackupsParams{ApplianceID: op.dbId})
+	})
 	if err != nil {
-		return nil, NewAPIError("Backup.List", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.NosqlBackupResponse:
-		return p.Nosql.Value.Backups, nil
-	case *v1.BadRequestResponse:
-		return nil, NewAPIError("Backup.List", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UnauthorizedResponse:
-		return nil, NewAPIError("Backup.List", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.ServerErrorResponse:
-		return nil, NewAPIError("Backup.List", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Backup.List", 0, unknownError(res))
+	n, ok := res.GetNosql().Get()
+	if !ok {
+		return nil, NewAPIError("Backup.List", 0, errors.New("no Nosql data"))
 	}
+
+	return n.GetBackups(), nil
 }
 
 func (op *backupOp) Create(ctx context.Context) error {
-	res, err := op.client.CreateNosqlDatabaseBackup(ctx, v1.CreateNosqlDatabaseBackupParams{ApplianceID: op.dbId})
-	if err != nil {
-		return NewAPIError("Backup.Create", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.NosqlOkResponse:
-		return nil
-	case *v1.BadRequestResponse:
-		return NewAPIError("Backup.Create", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UnauthorizedResponse:
-		return NewAPIError("Backup.Create", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.NotFoundResponse:
-		return NewAPIError("Backup.Create", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.ServerErrorResponse:
-		return NewAPIError("Backup.Create", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return NewAPIError("Backup.Create", 0, unknownError(res))
-	}
+	return errorFromDecodedResponseE[v1.NosqlOkResponse]("Backup.Create", func() (any, error) {
+		return op.client.CreateNosqlDatabaseBackup(ctx, v1.CreateNosqlDatabaseBackupParams{ApplianceID: op.dbId})
+	})
 }
 
 func (op *backupOp) Restore(ctx context.Context, id uuid.UUID) error {
-	res, err := op.client.RestoreNosqlDatabaseBackup(ctx, v1.RestoreNosqlDatabaseBackupParams{ApplianceID: op.dbId, BackupID: id})
-	if err != nil {
-		return NewAPIError("Backup.Restore", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.NosqlOkResponse:
-		return nil
-	case *v1.BadRequestResponse:
-		return NewAPIError("Backup.Restore", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UnauthorizedResponse:
-		return NewAPIError("Backup.Restore", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.NotFoundResponse:
-		return NewAPIError("Backup.Restore", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.ServerErrorResponse:
-		return NewAPIError("Backup.Restore", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return NewAPIError("Backup.Restore", 0, unknownError(res))
-	}
+	return errorFromDecodedResponseE[v1.NosqlOkResponse]("Backup.Restore", func() (any, error) {
+		return op.client.RestoreNosqlDatabaseBackup(ctx, v1.RestoreNosqlDatabaseBackupParams{ApplianceID: op.dbId, BackupID: id})
+	})
 }
 
 func (op *backupOp) Delete(ctx context.Context, id uuid.UUID) error {
-	res, err := op.client.DeleteNosqlDatabaseBackup(ctx, v1.DeleteNosqlDatabaseBackupParams{ApplianceID: op.dbId, BackupID: id})
-	if err != nil {
-		return NewAPIError("Backup.Delete", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.NosqlOkResponse:
-		return nil
-	case *v1.BadRequestResponse:
-		return NewAPIError("Backup.Delete", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.UnauthorizedResponse:
-		return NewAPIError("Backup.Delete", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.NotFoundResponse:
-		return NewAPIError("Backup.Delete", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.ServerErrorResponse:
-		return NewAPIError("Backup.Delete", 500, errors.New(p.ErrorMsg.Value))
-	default:
-		return NewAPIError("Backup.Delete", 0, unknownError(res))
-	}
+	return errorFromDecodedResponseE[v1.NosqlOkResponse]("Backup.Delete", func() (any, error) {
+		return op.client.DeleteNosqlDatabaseBackup(ctx, v1.DeleteNosqlDatabaseBackupParams{ApplianceID: op.dbId, BackupID: id})
+	})
 }

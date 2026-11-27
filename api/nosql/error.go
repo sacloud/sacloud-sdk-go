@@ -4,11 +4,14 @@
 package nosql
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
+	"strings"
 
+	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/nosql/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -41,34 +44,84 @@ func NewAPIError(method string, code int, err error) *Error {
 	return &Error{msg: method, err: saclient.NewError(code, "", err)}
 }
 
-type apiErrorResponse struct{ json.Marshaler }
+type errorish interface {
+	GetStatus() *v1.OptString
+	GetErrorMsg() *v1.OptString
+}
+
+type apiErrorResponse struct{ errorish }
 
 func (e *apiErrorResponse) Error() string {
-	if buf, err := e.MarshalJSON(); err != nil {
-		return errors.Join(err, fmt.Errorf("%#+v", e)).Error()
-	} else {
-		return string(buf)
+	switch {
+	case e == nil:
+		return "(nil error)"
+	case e.errorish == nil:
+		return "(nil error)"
+	case httperror.IsTypedNil(e.errorish):
+		return "(nil error)"
+	default:
+		opt := e.GetErrorMsg()
+		if opt == nil {
+			return "(no status code)"
+		}
+		return opt.Or("(empty error message)")
 	}
 }
 
-func unknownError(res any) error {
-	switch v := res.(type) {
-	case *v1.BadRequestResponse:
-		return new(apiErrorResponse{v})
+func newErrorFromAPIError(err errorish) error {
+	e := apiErrorResponse{errorish: err}
 
-	case *v1.ConflictErrorResponse:
-		return new(apiErrorResponse{v})
-
-	case *v1.NotFoundResponse:
-		return new(apiErrorResponse{v})
-
-	case *v1.ServerErrorResponse:
-		return new(apiErrorResponse{v})
-
-	case *v1.UnauthorizedResponse:
-		return new(apiErrorResponse{v})
-
-	default:
-		return fmt.Errorf("unknown error response: %#+v", v)
+	if err == nil {
+		return errors.Join(&e, errors.New("nil API error response"))
+	} else if httperror.IsTypedNil(err) {
+		return errors.Join(&e, errors.New("nil API error response"))
+	} else if opt := err.GetStatus(); opt == nil {
+		return errors.Join(&e, errors.New("no status code"))
+	} else if s, ok := opt.Get(); !ok {
+		return errors.Join(&e, errors.New("no status code"))
+	} else if n, _, ok := strings.Cut(s, " "); !ok {
+		return errors.Join(&e, fmt.Errorf("invalid HTTP status %q", s))
+	} else if c, err := strconv.Atoi(n); err != nil {
+		return errors.Join(&e, fmt.Errorf("invalid HTTP status %q: %w", s, err))
+	} else {
+		return saclient.NewError(c, "", &e)
 	}
+}
+
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
+func errorFromDecodedResponse2[T, U any](method string, yield func() (any, error)) (ret any, err error) {
+	res, e1 := yield()
+
+	if e2, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](e1); ok {
+		err = NewError(method, httperror.NewError(method, e2))
+	} else if e1 != nil {
+		err = NewError(method, e1) // this is e.g. broken JSON
+	} else if e3, ok := res.(errorish); ok {
+		err = NewError(method, newErrorFromAPIError(e3))
+	} else if ret, ok = res.(*T); ok {
+		return
+	} else if ret, ok = res.(*U); ok {
+		return
+	} else {
+		err = NewError(method, fmt.Errorf("unknown API response type %v", res))
+	}
+
+	return
+}
+
+func errorFromDecodedResponse[T any](method string, yield func() (any, error)) (ret *T, err error) {
+	type never struct{}
+
+	if intermediate, err := errorFromDecodedResponse2[T, never](method, yield); err != nil {
+		return nil, err
+	} else if t, ok := intermediate.(*T); ok {
+		return t, nil
+	} else {
+		return nil, NewError(method, fmt.Errorf("unexpected response type %v", intermediate))
+	}
+}
+
+func errorFromDecodedResponseE[T any](method string, yield func() (any, error)) (err error) {
+	_, err = errorFromDecodedResponse[T](method, yield)
+	return
 }

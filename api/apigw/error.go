@@ -20,6 +20,9 @@ import (
 	"errors"
 	"fmt"
 
+	ogen "github.com/ogen-go/ogen/validate"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apigw/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -52,16 +55,40 @@ func NewAPIError(method string, code int, err error) *Error {
 	return &Error{msg: method, err: saclient.NewError(code, "", err)}
 }
 
-func unknownError(p any) error {
-	if schema, ok := asErrorSchema(p); !ok {
-		return fmt.Errorf("unknown API response type %#+v", p)
-	} else if schema == nil {
-		return fmt.Errorf("nil API error response %T", p)
-	} else if msg, ok := schema.GetMessage().Get(); !ok {
-		return fmt.Errorf("API error response missing message: %#+v", p)
+type apiErrorResponse struct{ *v1.ErrorSchema }
+
+func (e *apiErrorResponse) Error() string {
+	if e == nil {
+		return fmt.Sprintf("nil API error response %T", e)
+	} else if e.ErrorSchema == nil {
+		return "nil ErrorSchema"
+	} else if msg, ok := e.GetMessage().Get(); !ok {
+		return fmt.Sprintf("API error response missing message: %#+v", e)
 	} else if msg == "" {
-		return fmt.Errorf("API error response has empty message: %#+v", p)
+		return fmt.Sprintf("API error response has empty message: %#+v", e)
 	} else {
-		return errors.New(msg)
+		return msg
 	}
+}
+
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
+func errorFromDecodedResponse[T any](method string, yield func() (any, error)) (ret *T, err error) {
+	res, e1 := yield()
+
+	if e2, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](e1); ok {
+		err = NewError(method, httperror.NewError(method, e2))
+	} else if e1 != nil {
+		err = NewError(method, e1) // this is e.g. broken JSON
+	} else if schema, ok := asErrorSchema(res); ok {
+		err = NewError(method, &apiErrorResponse{ErrorSchema: schema})
+	} else if ret, ok = res.(*T); !ok {
+		err = NewError(method, fmt.Errorf("unknown API response type %#+v", res))
+	}
+
+	return
+}
+
+func errorFromDecodedResponseE[T any](method string, yield func() (any, error)) (err error) {
+	_, err = errorFromDecodedResponse[T](method, yield)
+	return
 }

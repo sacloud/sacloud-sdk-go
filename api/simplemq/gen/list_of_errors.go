@@ -12,6 +12,7 @@ import (
 	"go/token"
 	"os"
 	"slices"
+	"strings"
 )
 
 type schema struct {
@@ -84,24 +85,35 @@ func generate() error {
 	fmt.Fprintln(&source, "package simplemq")
 	fmt.Fprintln(&source)
 	fmt.Fprintln(&source, "import (")
+	fmt.Fprintln(&source, "\t\"net/http\"")
 	for _, s := range schemas {
 		fmt.Fprintf(&source, "\t%s %q\n", s.pkg, s.importPath)
 	}
+	fmt.Fprintln(&source, "\t\"github.com/sacloud/sacloud-sdk-go/common/packages/httperror\"")
 	fmt.Fprintln(&source, ")")
 	for _, s := range schemas {
 		fmt.Fprintln(&source)
-		fmt.Fprintf(&source, "func as%sError(p any) (*%s.Error, bool) {\n", capitalize(s.pkg), s.pkg)
+		fmt.Fprintf(&source, "func as%sError(p any) (*%s.Error, int, bool) {\n", capitalize(s.pkg), s.pkg)
+		fmt.Fprintln(&source, "\tif p == nil {")
+		fmt.Fprintln(&source, "\t\treturn nil, 0, false")
+		fmt.Fprintln(&source, "\t} else if httperror.IsTypedNil(p) {")
+		fmt.Fprintln(&source, "\t\treturn nil, 0, false")
+		fmt.Fprintln(&source, "\t}")
 		fmt.Fprintln(&source, "\tswitch p := p.(type) {")
 		types, err := list(s)
 		if err != nil {
 			return fmt.Errorf("list types: %w", err)
 		}
 		for _, name := range types {
+			statusCode, err := statusCode(name)
+			if err != nil {
+				return err
+			}
 			fmt.Fprintf(&source, "\tcase *%s.%s:\n", s.pkg, name)
-			fmt.Fprintf(&source, "\t\treturn (*%s.Error)(p), true\n", s.pkg)
+			fmt.Fprintf(&source, "\t\treturn (*%s.Error)(p), %s, true\n", s.pkg, statusCode)
 		}
 		fmt.Fprintln(&source, "\tdefault:")
-		fmt.Fprintln(&source, "\t\treturn nil, false")
+		fmt.Fprintln(&source, "\t\treturn nil, 0, false")
 		fmt.Fprintln(&source, "\t}")
 		fmt.Fprintln(&source, "}")
 	}
@@ -114,6 +126,25 @@ func generate() error {
 		return fmt.Errorf("write %s: %w", outputFile, err)
 	}
 	return nil
+}
+
+func statusCode(name string) (string, error) {
+	for _, status := range []struct {
+		suffix string
+		value  string
+	}{
+		{"BadRequest", "http.StatusBadRequest"},
+		{"Unauthorized", "http.StatusUnauthorized"},
+		{"NotFound", "http.StatusNotFound"},
+		{"Conflict", "http.StatusConflict"},
+		{"TooManyRequests", "http.StatusTooManyRequests"},
+		{"InternalServerError", "http.StatusInternalServerError"},
+	} {
+		if strings.HasSuffix(name, status.suffix) {
+			return status.value, nil
+		}
+	}
+	return "", fmt.Errorf("unknown HTTP status in error type %s", name)
 }
 
 func capitalize(s string) string {

@@ -16,10 +16,8 @@ package cloudhsm
 
 import (
 	"context"
-	"net/http"
+	"errors"
 
-	"github.com/go-faster/errors"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/cloudhsm/apis/v1"
 )
 
@@ -49,22 +47,19 @@ func NewPeerOp(client *v1.Client, hsm *v1.CloudHSM) (PeerAPI, error) {
 }
 
 func (op *PeerOp) List(ctx context.Context) ([]v1.CloudHSMPeer, error) {
-	resp, err := op.client.ListCloudHSMPeers(
-		ctx,
-		v1.ListCloudHSMPeersParams{
-			ResourceID: op.hsm.GetID(),
-		},
-	)
-
-	if err == nil {
-		return resp.GetPeers(), nil
-	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
-		return nil, NewAPIError("Peer.List", 0, err)
-	} else if e.StatusCode == http.StatusNotFound {
-		return nil, NewAPIError("Peer.List", e.StatusCode, errors.Wrap(err, "not found"))
-	} else {
-		return nil, NewAPIError("Peer.List", e.StatusCode, errors.Wrap(err, "internal server error"))
+	resp, err := errorFromDecodedResponse("Peer.List", func() (*v1.WrappedPeerList, error) {
+		return op.client.ListCloudHSMPeers(
+			ctx,
+			v1.ListCloudHSMPeersParams{
+				ResourceID: op.hsm.GetID(),
+			},
+		)
+	})
+	if err != nil {
+		return nil, err
 	}
+
+	return resp.GetPeers(), nil
 }
 
 type CloudHSMPeerCreateParams struct {
@@ -73,46 +68,30 @@ type CloudHSMPeerCreateParams struct {
 }
 
 func (op *PeerOp) Create(ctx context.Context, p CloudHSMPeerCreateParams) error {
-	err := op.client.CreateCloudHSMPeer(
-		ctx,
-		&v1.WrappedPeerRequest{
-			Peer: v1.PeerRequest{
-				ID:        p.RouterID,
-				SecretKey: p.SecretKey,
+	return errorFromDecodedResponseE("Peer.Create", func() error {
+		return op.client.CreateCloudHSMPeer(
+			ctx,
+			&v1.WrappedPeerRequest{
+				Peer: v1.PeerRequest{
+					ID:        p.RouterID,
+					SecretKey: p.SecretKey,
+				},
 			},
-		},
-		v1.CreateCloudHSMPeerParams{
-			ResourceID: op.hsm.GetID(),
-		},
-	)
-
-	if err == nil {
-		return nil
-	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
-		return NewAPIError("Peer.Create", 0, err)
-	} else if e.StatusCode == http.StatusUnprocessableEntity {
-		return NewAPIError("Peer.Create", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-	} else {
-		return NewAPIError("Peer.Create", e.StatusCode, errors.Wrap(err, "internal server error"))
-	}
+			v1.CreateCloudHSMPeerParams{
+				ResourceID: op.hsm.GetID(),
+			},
+		)
+	})
 }
 
 func (op *PeerOp) Delete(ctx context.Context, id string) error {
-	err := op.client.DeleteCloudHSMPeer(
-		ctx,
-		v1.DeleteCloudHSMPeerParams{
-			ResourceID: op.hsm.GetID(),
-			PeerID:     id,
-		},
-	)
-
-	if err == nil {
-		return nil
-	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
-		return NewAPIError("Peer.Delete", 0, err)
-	} else if e.StatusCode == http.StatusNotFound {
-		return NewAPIError("Peer.Delete", e.StatusCode, errors.Wrap(err, "not found"))
-	} else {
-		return NewAPIError("Peer.Delete", e.StatusCode, errors.Wrap(err, "internal server error"))
-	}
+	return errorFromDecodedResponseE("Peer.Delete", func() error {
+		return op.client.DeleteCloudHSMPeer(
+			ctx,
+			v1.DeleteCloudHSMPeerParams{
+				ResourceID: op.hsm.GetID(),
+				PeerID:     id,
+			},
+		)
+	})
 }

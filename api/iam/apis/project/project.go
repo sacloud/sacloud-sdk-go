@@ -99,11 +99,9 @@ func (p *projectOp) Update(ctx context.Context, id int, name string, description
 }
 
 func (p *projectOp) Delete(ctx context.Context, projectID int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DeleteProjectNoContent]("Project.Delete", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeleteProjectNoContent]("Project.Delete", func() (any, error) {
 		return p.client.DeleteProject(ctx, v1.DeleteProjectParams{ProjectID: projectID})
 	})
-
-	return err
 }
 
 type MoveProjectsParams struct {
@@ -112,12 +110,10 @@ type MoveProjectsParams struct {
 }
 
 func (p *projectOp) Move(ctx context.Context, ids []int, parentFolderID *int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.MoveProjectsNoContent]("Project.Move", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.MoveProjectsNoContent]("Project.Move", func() (any, error) {
 		return p.client.MoveProjects(ctx, &v1.MoveProjects{
 			ProjectIds:     ids,
 			ParentFolderID: into.Nil[v1.NilInt](parentFolderID),
 		})
 	})
-
-	return err
 }

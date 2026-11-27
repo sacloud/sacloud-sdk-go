@@ -14,12 +14,15 @@
 
 package apprun
 
-import (
-	stderrs "errors"
-	"fmt"
-	"reflect"
+//go:generate go run ./gen/list_of_errors.go
 
+import (
+	"errors"
+	"fmt"
+
+	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -55,43 +58,52 @@ type modelErrorGetter interface {
 	GetModelCloudctrlError() (v1.ModelCloudctrlError, bool)
 }
 
-func unknownAPIError(method string, response any) *Error {
-	if model, ok := response.(modelErrorGetter); ok {
-		return apiErrorFromModel(method, 0, model)
-	}
+func apiErrorFromModel(method string, code int, response modelErrorGetter) *Error {
+	var msg string
 	if response == nil {
-		return NewAPIError(method, 0, stderrs.New("nil API response"))
+		msg = "nil API response"
+	} else if httperror.IsTypedNil(response) {
+		msg = "nil API response"
+	} else if v, ok := response.GetModelDefaultError(); ok {
+		msg = new(v.GetError()).GetMessage()
+		if msg == "" {
+			msg = fmt.Sprintf("empty message: %#+v", response)
+		}
+	} else if v, ok := response.GetModelCloudctrlError(); ok {
+		msg = v.GetErrorMsg()
+		if msg == "" {
+			msg = fmt.Sprintf("empty message: %#+v", response)
+		}
+	} else {
+		msg = fmt.Sprintf("unknown API error model: %#+v", response)
 	}
-	value := reflect.ValueOf(response)
-	if value.Kind() == reflect.Pointer && value.IsNil() {
-		// modelErrorGetterはinterfaceなのでtyped nilの場合上記の==nilの判定をすり抜けてここに到達
-		return NewAPIError(method, 0, fmt.Errorf("nil API response %T", response))
-	}
-	return NewAPIError(method, 0, fmt.Errorf("unknown API response type %T", response))
+	return NewAPIError(method, code, errors.New(msg))
 }
 
-func apiErrorFromModel(method string, code int, response modelErrorGetter) *Error {
-	if response == nil {
-		return NewAPIError(method, code, stderrs.New("nil API response"))
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
+func errorFromDecodedResponse[T any](method string, yield func() (any, error)) (ret *T, err error) {
+	res, e1 := yield()
+
+	if e2, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](e1); ok {
+		err = NewError(method, httperror.NewError(method, e2))
+	} else if e1 != nil {
+		err = NewError(method, e1) // this is e.g. broken JSON
+	} else if res == nil {
+		err = NewError(method, errors.New("nil API response"))
+	} else if httperror.IsTypedNil(res) {
+		err = NewError(method, errors.New("nil API response"))
+	} else if model, ok := res.(modelErrorGetter); ok {
+		err = apiErrorFromModel(method, errorModelStatusCode(model), model)
+	} else if ret, ok = res.(*T); ok {
+		return
+	} else {
+		err = NewError(method, fmt.Errorf("unknown API response type %T", res))
 	}
 
-	value := reflect.ValueOf(response)
-	if value.Kind() == reflect.Pointer && value.IsNil() {
-		// modelErrorGetterはinterfaceなのでtyped nilの場合上記の==nilの判定をすり抜けてここに到達
-		return NewAPIError(method, code, fmt.Errorf("nil API response %T", response))
-	}
+	return
+}
 
-	if v, ok := response.GetModelDefaultError(); ok {
-		if v.Error.Message != "" {
-			return NewAPIError(method, code, stderrs.New(v.Error.Message))
-		}
-		return NewAPIError(method, code, fmt.Errorf("API error response has empty message: %#+v", response))
-	}
-	if v, ok := response.GetModelCloudctrlError(); ok {
-		if v.ErrorMsg != "" {
-			return NewAPIError(method, code, stderrs.New(v.ErrorMsg))
-		}
-		return NewAPIError(method, code, fmt.Errorf("API error response has empty message: %#+v", response))
-	}
-	return NewAPIError(method, code, fmt.Errorf("unknown API error model: %#+v", response))
+func errorFromDecodedResponseE[T any](method string, yield func() (any, error)) (err error) {
+	_, err = errorFromDecodedResponse[T](method, yield)
+	return
 }

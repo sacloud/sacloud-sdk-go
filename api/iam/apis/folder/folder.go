@@ -95,20 +95,16 @@ func (f *folderOp) Update(ctx context.Context, id int, name string, description 
 }
 
 func (f *folderOp) Delete(ctx context.Context, folderID int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DeleteFolderNoContent]("Folder.Delete", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeleteFolderNoContent]("Folder.Delete", func() (any, error) {
 		return f.client.DeleteFolder(ctx, v1.DeleteFolderParams{FolderID: folderID})
 	})
-
-	return err
 }
 
 func (f *folderOp) Move(ctx context.Context, ids []int, parent *int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.MoveFoldersNoContent]("Folder.Move", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.MoveFoldersNoContent]("Folder.Move", func() (any, error) {
 		return f.client.MoveFolders(ctx, &v1.MoveFolders{
 			FolderIds: ids,
 			ParentID:  into.Nil[v1.NilInt](parent),
 		})
 	})
-
-	return err
 }

@@ -35,15 +35,12 @@ type WAFOp struct{ *v1.Client }
 func NewWAFOp(client *v1.Client) WAFAPI { return &WAFOp{Client: client} }
 
 func (w *WAFOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListWafResourcesNotFound]("WAF.List", func() (any, error) {
-		return w.Client.ListWafResources(ctx)
-	}); e != nil {
-		err = e
-	} else if resources, ok := res.GetResources().Get(); ok {
-		ret = resources
+	res, err := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListWafResourcesNotFound]("WAF.List", func() (any, error) { return w.Client.ListWafResources(ctx) })
+	if err != nil {
+		return nil, err
 	}
 
-	return
+	return res.GetResources().Or(nil), nil
 }
 
 type WAFCreateParams struct {
@@ -86,13 +83,11 @@ func (w *WAFOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, e
 }
 
 func (w *WAFOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteWafResourceNoContent, v1.DeleteWafResourceNotFound]("WAF.Delete", func() (any, error) {
+	return ErrorFromDecodedResponseE[v1.DeleteWafResourceNoContent, v1.DeleteWafResourceNotFound]("WAF.Delete", func() (any, error) {
 		return w.Client.DeleteWafResource(ctx, v1.DeleteWafResourceParams{
 			ResourceGroupName: id,
 		})
 	})
-
-	return
 }
 
 func (w *WAFOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {

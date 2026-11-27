@@ -40,89 +40,36 @@ func NewDomainOp(client *v1.Client) DomainAPI {
 }
 
 func (op *domainOp) List(ctx context.Context) ([]v1.Domain, error) {
-	res, err := op.client.GetDomains(ctx)
+	res, err := errorFromDecodedResponse[v1.GetDomainsOK]("Domain.List", func() (any, error) { return op.client.GetDomains(ctx) })
 	if err != nil {
-		return nil, NewAPIError("Domain.List", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.GetDomainsOK:
-		return p.Apigw.Domains, nil
-	case *v1.GetDomainsBadRequest:
-		return nil, NewAPIError("Domain.List", 400, errors.New(p.Message.Value))
-	case *v1.GetDomainsUnauthorized:
-		return nil, NewAPIError("Domain.List", 401, errors.New(p.Message.Value))
-	case *v1.GetDomainsInternalServerError:
-		return nil, NewAPIError("Domain.List", 500, errors.New(p.Message.Value))
-	}
-
-	return nil, NewAPIError("Domain.List", 0, unknownError(res))
+	return new(res.GetApigw()).GetDomains(), nil
 }
 
 func (op *domainOp) Create(ctx context.Context, request *v1.Domain) (*v1.Domain, error) {
-	res, err := op.client.AddDomain(ctx, request)
+	res, err := errorFromDecodedResponse[v1.AddDomainCreated]("Domain.Create", func() (any, error) { return op.client.AddDomain(ctx, request) })
 	if err != nil {
-		return nil, NewAPIError("Domain.Create", 0, err)
+		return nil, err
 	}
 
-	switch p := res.(type) {
-	case *v1.AddDomainCreated:
-		return &p.Apigw.Domain.Value, nil
-	case *v1.AddDomainBadRequest:
-		return nil, NewAPIError("Domain.Create", 400, errors.New(p.Message.Value))
-	case *v1.AddDomainUnauthorized:
-		return nil, NewAPIError("Domain.Create", 401, errors.New(p.Message.Value))
-	case *v1.AddDomainConflict:
-		return nil, NewAPIError("Domain.Create", 409, errors.New(p.Message.Value))
-	case *v1.AddDomainInternalServerError:
-		return nil, NewAPIError("Domain.Create", 500, errors.New(p.Message.Value))
+	d, ok := new(res.GetApigw()).GetDomain().Get()
+	if !ok {
+		return nil, NewError("Domain.Create", errors.New("response does not contain a domain"))
 	}
 
-	return nil, NewAPIError("Domain.Create", 0, unknownError(res))
+	return &d, nil
 }
 
 func (op *domainOp) Update(ctx context.Context, request *v1.DomainPUT, id uuid.UUID) error {
-	res, err := op.client.UpdateDomain(ctx, request, v1.UpdateDomainParams{DomainId: id})
-	if err != nil {
-		return NewAPIError("Domain.Update", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.UpdateDomainNoContent:
-		return nil
-	case *v1.UpdateDomainBadRequest:
-		return NewAPIError("Domain.Update", 400, errors.New(p.Message.Value))
-	case *v1.UpdateDomainUnauthorized:
-		return NewAPIError("Domain.Update", 401, errors.New(p.Message.Value))
-	case *v1.UpdateDomainNotFound:
-		return NewAPIError("Domain.Update", 404, errors.New(p.Message.Value))
-	case *v1.UpdateDomainConflict:
-		return NewAPIError("Domain.Update", 409, errors.New(p.Message.Value))
-	case *v1.UpdateDomainInternalServerError:
-		return NewAPIError("Domain.Update", 500, errors.New(p.Message.Value))
-	}
-
-	return NewAPIError("Domain.Update", 0, unknownError(res))
+	return errorFromDecodedResponseE[v1.UpdateDomainNoContent]("Domain.Update", func() (any, error) {
+		return op.client.UpdateDomain(ctx, request, v1.UpdateDomainParams{DomainId: id})
+	})
 }
 
 func (op *domainOp) Delete(ctx context.Context, id uuid.UUID) error {
-	res, err := op.client.DeleteDomain(ctx, v1.DeleteDomainParams{DomainId: id})
-	if err != nil {
-		return NewAPIError("Domain.Delete", 0, err)
-	}
-
-	switch p := res.(type) {
-	case *v1.DeleteDomainNoContent:
-		return nil
-	case *v1.DeleteDomainBadRequest:
-		return NewAPIError("Domain.Delete", 400, errors.New(p.Message.Value))
-	case *v1.DeleteDomainUnauthorized:
-		return NewAPIError("Domain.Delete", 401, errors.New(p.Message.Value))
-	case *v1.DeleteDomainNotFound:
-		return NewAPIError("Domain.Delete", 404, errors.New(p.Message.Value))
-	case *v1.DeleteDomainInternalServerError:
-		return NewAPIError("Domain.Delete", 500, errors.New(p.Message.Value))
-	}
-
-	return NewAPIError("Domain.Delete", 0, unknownError(res))
+	return errorFromDecodedResponseE[v1.DeleteDomainNoContent]("Domain.Delete", func() (any, error) {
+		return op.client.DeleteDomain(ctx, v1.DeleteDomainParams{DomainId: id})
+	})
 }

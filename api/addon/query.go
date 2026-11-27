@@ -34,15 +34,12 @@ type QueryOp struct{ *v1.Client }
 func NewQueryOp(client *v1.Client) QueryAPI { return &QueryOp{Client: client} }
 
 func (q *QueryOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListQueryResourcesNotFound]("Query.List", func() (any, error) {
-		return q.Client.ListQueryResources(ctx)
-	}); e != nil {
-		err = e
-	} else if resources, ok := res.GetResources().Get(); ok {
-		ret = resources
+	res, err := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListQueryResourcesNotFound]("Query.List", func() (any, error) { return q.Client.ListQueryResources(ctx) })
+	if err != nil {
+		return nil, err
 	}
 
-	return
+	return res.GetResources().Or(nil), nil
 }
 
 func (q *QueryOp) Create(ctx context.Context, location string) (*v1.PostDeploymentResponse, error) {
@@ -62,13 +59,11 @@ func (q *QueryOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse,
 }
 
 func (q *QueryOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteQueryResourceNoContent, v1.DeleteQueryResourceNotFound]("Query.Delete", func() (any, error) {
+	return ErrorFromDecodedResponseE[v1.DeleteQueryResourceNoContent, v1.DeleteQueryResourceNotFound]("Query.Delete", func() (any, error) {
 		return q.Client.DeleteQueryResource(ctx, v1.DeleteQueryResourceParams{
 			ResourceGroupName: id,
 		})
 	})
-
-	return
 }
 
 func (q *QueryOp) Status(ctx context.Context, resourceGroupName, deploymentName string) (*v1.DeploymentStatus, error) {

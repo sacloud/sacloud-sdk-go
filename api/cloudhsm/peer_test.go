@@ -96,7 +96,7 @@ func TestCloudHSMPeerOp_Delete_400(t *testing.T) {
 
 	err = api.Delete(ctx, "0")
 	assert.Error(err)
-	assert.ErrorContains(err, "not found")
+	assert.ErrorContains(err, "Not found")
 }
 
 func TestCloudHSMPeerIntegrated(t *testing.T) {

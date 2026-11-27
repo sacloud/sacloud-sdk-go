@@ -36,15 +36,12 @@ type CDNOp struct{ *v1.Client }
 func NewCDNOp(client *v1.Client) CDNAPI { return &CDNOp{Client: client} }
 
 func (c *CDNOp) List(ctx context.Context) (ret []v1.ResourceGroupResource, err error) {
-	if res, e := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListCdnResourcesNotFound]("CDN.List", func() (any, error) {
-		return c.Client.ListCdnResources(ctx)
-	}); e != nil {
-		err = e
-	} else if resources, ok := res.GetResources().Get(); ok {
-		ret = resources
+	res, err := ErrorFromDecodedResponse[v1.ListResourcesResponse, v1.ListCdnResourcesNotFound]("CDN.List", func() (any, error) { return c.Client.ListCdnResources(ctx) })
+	if err != nil {
+		return nil, err
 	}
 
-	return
+	return res.GetResources().Or(nil), nil
 }
 
 type CDNCreateParams struct {
@@ -87,13 +84,11 @@ func (c *CDNOp) Read(ctx context.Context, id string) (*v1.GetResourceResponse, e
 }
 
 func (c *CDNOp) Delete(ctx context.Context, id string) (err error) {
-	_, err = ErrorFromDecodedResponse[v1.DeleteCdnResourceNoContent, v1.DeleteCdnResourceNotFound]("CDN.Delete", func() (any, error) {
+	return ErrorFromDecodedResponseE[v1.DeleteCdnResourceNoContent, v1.DeleteCdnResourceNotFound]("CDN.Delete", func() (any, error) {
 		return c.Client.DeleteCdnResource(ctx, v1.DeleteCdnResourceParams{
 			ResourceGroupName: id,
 		})
 	})
-
-	return
 }
 
 type CDNPurgeParams struct {

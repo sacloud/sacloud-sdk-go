@@ -19,7 +19,14 @@ package simplemq
 import (
 	"fmt"
 
+	"errors"
+
 	"github.com/go-faster/jx"
+
+	ogen "github.com/ogen-go/ogen/validate"
+	message "github.com/sacloud/sacloud-sdk-go/api/simplemq/apis/v1/message"
+	queue "github.com/sacloud/sacloud-sdk-go/api/simplemq/apis/v1/queue"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -53,7 +60,10 @@ func NewAPIError(method string, code int, err error) *Error {
 }
 
 func unknownQueueError(p any) error {
-	if err, ok := asQueueError(p); !ok {
+	if p == nil || httperror.IsTypedNil(p) {
+		return fmt.Errorf("nil API error response %T", p)
+	}
+	if err, _, ok := asQueueError(p); !ok {
 		return fmt.Errorf("unknown API response type %#+v", p)
 	} else if err == nil {
 		return fmt.Errorf("nil API error response %T", p)
@@ -65,7 +75,10 @@ func unknownQueueError(p any) error {
 }
 
 func unknownMessageError(p any) error {
-	if err, ok := asMessageError(p); !ok {
+	if p == nil || httperror.IsTypedNil(p) {
+		return fmt.Errorf("nil API error response %T", p)
+	}
+	if err, _, ok := asMessageError(p); !ok {
 		return fmt.Errorf("unknown API response type %#+v", p)
 	} else if err == nil {
 		return fmt.Errorf("nil API error response %T", p)
@@ -74,4 +87,38 @@ func unknownMessageError(p any) error {
 		err.Encode(&e)
 		return fmt.Errorf("unknown API error response: %s", e.String())
 	}
+}
+
+type apiError[E interface{ Encode(*jx.Encoder) }] struct{ err E }
+
+func (e *apiError[E]) Error() string {
+	if e == nil || httperror.IsTypedNil(e.err) {
+		return fmt.Sprintf("nil API error response %T", e.err)
+	}
+	var enc jx.Encoder
+	e.err.Encode(&enc)
+	return enc.String()
+}
+
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
+func errorFromDecodedResponse[T any](method string, yield func() (any, error)) (ret *T, err error) {
+	res, e := yield()
+
+	if e1, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](e); ok {
+		err = NewError(method, httperror.NewError(method, e1))
+	} else if e != nil {
+		err = NewError(method, e) // this is e.g. broken JSON
+	} else if e2, code, ok := asQueueError(res); ok {
+		err = NewAPIError(method, code, &apiError[*queue.Error]{err: e2})
+	} else if e3, code, ok := asMessageError(res); ok {
+		err = NewAPIError(method, code, &apiError[*message.Error]{err: e3})
+	} else if ret, ok = res.(*T); !ok {
+		err = fmt.Errorf("unexpected response type %T", res)
+	}
+	return
+}
+
+func errorFromDecodedResponseE[T any](method string, yield func() (any, error)) (err error) {
+	_, err = errorFromDecodedResponse[T](method, yield)
+	return
 }

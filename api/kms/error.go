@@ -18,6 +18,7 @@ import (
 	"errors"
 
 	ogen "github.com/ogen-go/ogen/validate"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -50,12 +51,15 @@ func NewAPIError(method string, code int, err error) *Error {
 	return &Error{msg: method, err: saclient.NewError(code, "", err)}
 }
 
-// kmsのOpenAPI定義でエラーケースが定義されていないので、現状はogenのエラーから状態を取り出す
-// NewAPIErrorは他のクライアントとインターフェイスを揃えるために維持し、別で生成関数を用意
-func createAPIError(method string, err error) error {
-	if unexpected, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](err); ok {
-		return NewAPIError(method, unexpected.StatusCode, err)
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
+func errorFromDecodedResponse[T any](method string, yield func() (*T, error)) (ret *T, err error) {
+	ret, err = yield()
+
+	if e, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](err); ok {
+		err = NewError(method, httperror.NewError(method, e))
+	} else if err != nil {
+		err = NewError(method, err) // this is e.g. broken JSON
 	}
 
-	return NewAPIError(method, 0, err)
+	return
 }

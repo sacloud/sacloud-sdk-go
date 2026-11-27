@@ -28,7 +28,7 @@ func TestUnknownError(t *testing.T) {
 		{
 			name: "missing message",
 			res:  (*v1.ListCommonServiceItemsBadRequest)(nil),
-			want: "nil API error response",
+			want: "nil API response",
 		},
 		{
 			name: "unknown response",
@@ -39,7 +39,7 @@ func TestUnknownError(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := unknownError(tt.res)
+			err := errorFromDecodedResponseE[v1.ListCommonServiceItemsOK]("test", func() (any, error) { return tt.res, nil })
 			if err == nil || !strings.Contains(err.Error(), tt.want) {
 				t.Errorf("unknownError() error = %v, want it to contain %q", err, tt.want)
 			}

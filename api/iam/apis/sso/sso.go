@@ -69,10 +69,9 @@ func (s *ssoOp) Update(ctx context.Context, id int, params UpdateParams) (*v1.SS
 }
 
 func (s *ssoOp) Delete(ctx context.Context, id int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DeleteSsoProfileNoContent]("SSO.Delete", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DeleteSsoProfileNoContent]("SSO.Delete", func() (any, error) {
 		return s.client.DeleteSsoProfile(ctx, v1.DeleteSsoProfileParams{SSOProfileID: id})
 	})
-	return err
 }
 
 func (s *ssoOp) Link(ctx context.Context, id int) (*v1.SSOProfile, error) {

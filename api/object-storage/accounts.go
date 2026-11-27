@@ -5,7 +5,6 @@ package objectstorage
 
 import (
 	"context"
-	"errors"
 
 	v2 "github.com/sacloud/sacloud-sdk-go/api/object-storage/apis/v2"
 )
@@ -34,143 +33,56 @@ func NewAccountOp(client *SiteClient) AccountAPI {
 }
 
 func (op *accountOp) Create(ctx context.Context) (*v2.AccountData, error) {
-	res, err := op.client.client.CreateAccount(ctx)
+	res, err := errorFromDecodedResponse[v2.Account]("Accounts.Create", func() (any, error) { return op.client.client.CreateAccount(ctx) })
 	if err != nil {
-		return nil, NewAPIError("Accounts.Create", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.Account:
-		return &r.Data, nil
-	case *v2.CreateAccountUnauthorized:
-		return nil, NewAPIError("Accounts.Create", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.CreateAccountForbidden:
-		return nil, NewAPIError("Accounts.Create", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.CreateAccountConflict:
-		return nil, NewAPIError("Accounts.Create", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Accounts.Create", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Accounts.Create", r)
-	}
+	return new(res.GetData()), nil
 }
 
 func (op *accountOp) Read(ctx context.Context) (*v2.AccountData, error) {
-	res, err := op.client.client.ReadAccount(ctx)
+	res, err := errorFromDecodedResponse[v2.Account]("Accounts.Read", func() (any, error) { return op.client.client.ReadAccount(ctx) })
 	if err != nil {
-		return nil, NewAPIError("Accounts.Read", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.Account:
-		return &r.Data, nil
-	case *v2.ReadAccountUnauthorized:
-		return nil, NewAPIError("Accounts.Read", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ReadAccountNotFound:
-		return nil, NewAPIError("Accounts.Read", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Accounts.Read", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Accounts.Read", r)
-	}
+	return new(res.GetData()), nil
 }
 
 func (op *accountOp) Delete(ctx context.Context) error {
-	res, err := op.client.client.DeleteAccount(ctx)
-	if err != nil {
-		return NewAPIError("Accounts.Delete", 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v2.DeleteAccountNoContent:
-		return nil
-	case *v2.DeleteAccountUnauthorized:
-		return NewAPIError("Accounts.Delete", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.DeleteAccountConflict:
-		return NewAPIError("Accounts.Delete", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return NewAPIError("Accounts.Delete", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return unknownError("Accounts.Delete", r)
-	}
+	return errorFromDecodedResponseE[v2.Account]("Accounts.Delete", func() (any, error) { return op.client.client.DeleteAccount(ctx) })
 }
 
 func (op *accountOp) ListAccessKeys(ctx context.Context) ([]v2.AccountKeysDataItem, error) {
-	res, err := op.client.client.ListAccountKeys(ctx)
+	res, err := errorFromDecodedResponse[v2.AccountKeys]("Accounts.ListAccessKeys", func() (any, error) { return op.client.client.ListAccountKeys(ctx) })
 	if err != nil {
-		return nil, NewAPIError("Accounts.ListAccessKeys", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.AccountKeys:
-		return r.Data, nil
-	case *v2.ListAccountKeysUnauthorized:
-		return nil, NewAPIError("Accounts.ListAccessKeys", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ListAccountKeysNotFound:
-		return nil, NewAPIError("Accounts.ListAccessKeys", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Accounts.ListAccessKeys", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Accounts.ListAccessKeys", r)
-	}
+	return res.GetData(), nil
 }
 
 func (op *accountOp) CreateAccessKey(ctx context.Context) (*v2.AccountKeyData, error) {
-	res, err := op.client.client.CreateAccountKey(ctx)
+	res, err := errorFromDecodedResponse[v2.AccountKey]("Accounts.CreateAccessKey", func() (any, error) { return op.client.client.CreateAccountKey(ctx) })
 	if err != nil {
-		return nil, NewAPIError("Accounts.CreateAccessKey", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.AccountKey:
-		return &r.Data, nil
-	case *v2.CreateAccountKeyUnauthorized:
-		return nil, NewAPIError("Accounts.CreateAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.CreateAccountKeyNotFound:
-		return nil, NewAPIError("Accounts.CreateAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.CreateAccountKeyConflict:
-		return nil, NewAPIError("Accounts.CreateAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Accounts.CreateAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Accounts.CreateAccessKey", r)
-	}
+	return new(res.GetData()), nil
 }
 
 func (op *accountOp) ReadAccessKey(ctx context.Context, keyId string) (*v2.ReadAccountKeyData, error) {
-	res, err := op.client.client.ReadAccountKey(ctx, v2.ReadAccountKeyParams{ID: keyId})
+	res, err := errorFromDecodedResponse[v2.ReadAccountKey]("Accounts.ReadAccessKey", func() (any, error) { return op.client.client.ReadAccountKey(ctx, v2.ReadAccountKeyParams{ID: keyId}) })
 	if err != nil {
-		return nil, NewAPIError("Accounts.ReadAccessKey", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v2.ReadAccountKey:
-		return &r.Data, nil
-	case *v2.ReadAccountKeyUnauthorized:
-		return nil, NewAPIError("Accounts.ReadAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ReadAccountKeyNotFound:
-		return nil, NewAPIError("Accounts.ReadAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return nil, NewAPIError("Accounts.ReadAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return nil, unknownError("Accounts.ReadAccessKey", r)
-	}
+	return new(res.GetData()), nil
 }
 
 func (op *accountOp) DeleteAccessKey(ctx context.Context, keyId string) error {
-	res, err := op.client.client.DeleteAccountKey(ctx, v2.DeleteAccountKeyParams{ID: keyId})
-	if err != nil {
-		return NewAPIError("Accounts.DeleteAccessKey", 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v2.DeleteAccountKeyNoContent:
-		return nil
-	case *v2.ErrorResponse:
-		return NewAPIError("Accounts.DeleteAccessKey", int(r.Error.Code), errors.New(string(r.Error.Message)))
-	case *v2.ErrorResponseStatusCode:
-		return NewAPIError("Accounts.DeleteAccessKey", r.StatusCode, errors.New(string(r.Response.Error.Message)))
-	default:
-		return unknownError("Accounts.DeleteAccessKey", r)
-	}
+	return errorFromDecodedResponseE[v2.DeleteAccountKeyNoContent]("Accounts.DeleteAccessKey", func() (any, error) {
+		return op.client.client.DeleteAccountKey(ctx, v2.DeleteAccountKeyParams{ID: keyId})
+	})
 }

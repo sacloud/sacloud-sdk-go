@@ -38,27 +38,26 @@ var _ ServicePolicyAPI = (*servicePolicyOp)(nil)
 func NewServicePolicyOp(client *v1.Client) ServicePolicyAPI { return &servicePolicyOp{client} }
 
 func (s *servicePolicyOp) Enable(ctx context.Context) error {
-	_, err := common.ErrorFromDecodedResponse[v1.EnableServicePolicyNoContent]("ServicePolicy.Enable", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.EnableServicePolicyNoContent]("ServicePolicy.Enable", func() (any, error) {
 		return s.client.EnableServicePolicy(ctx)
 	})
-	return err
 }
 
 func (s *servicePolicyOp) Disable(ctx context.Context) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DisableServicePolicyNoContent]("ServicePolicy.Disable", func() (any, error) {
+	return common.ErrorFromDecodedResponseE[v1.DisableServicePolicyNoContent]("ServicePolicy.Disable", func() (any, error) {
 		return s.client.DisableServicePolicy(ctx)
 	})
-	return err
 }
 
 func (s *servicePolicyOp) IsEnabled(ctx context.Context) (bool, error) {
-	if ret, err := common.ErrorFromDecodedResponse[v1.CheckServicePolicyStatusOK]("ServicePolicy.IsEnabled", func() (any, error) {
+	ret, err := common.ErrorFromDecodedResponse[v1.CheckServicePolicyStatusOK]("ServicePolicy.IsEnabled", func() (any, error) {
 		return s.client.CheckServicePolicyStatus(ctx)
-	}); err != nil {
+	})
+	if err != nil {
 		return false, err
-	} else {
-		return ret.Enabled, nil
 	}
+
+	return ret.GetEnabled(), nil
 }
 
 type ListRuleTemplatesParams struct {

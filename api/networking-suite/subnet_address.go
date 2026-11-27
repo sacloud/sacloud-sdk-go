@@ -5,7 +5,6 @@ package networkingsuite
 
 import (
 	"context"
-	"errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/networking-suite/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/srn"
@@ -32,38 +31,28 @@ type ListAddressesParams struct {
 }
 
 func (op *addressesOp) List(ctx context.Context, params ListAddressesParams) ([]v1.ReadAddress, error) {
-	const methodName = "Addresses.List"
-
 	var icParam v1.OptString
 	if params.InterfaceConnectionSRN != nil {
 		icParam.SetTo(params.InterfaceConnectionSRN.String())
 	}
-	res, err := op.client.ListAddresses(ctx, v1.ListAddressesParams{
-		SubnetSRN:              params.SubnetSRN.String(),
-		InterfaceConnectionSRN: icParam,
+	res, err := errorFromDecodedResponse[v1.AddressListResponse]("Addresses.List", func() (any, error) {
+		return op.client.ListAddresses(ctx, v1.ListAddressesParams{
+			SubnetSRN:              params.SubnetSRN.String(),
+			InterfaceConnectionSRN: icParam,
+		})
 	})
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	return res.Addresses, nil
+	return res.GetAddresses(), nil
 }
 
 func (op *addressesOp) Read(ctx context.Context, addr srn.SRN) (*v1.ReadAddress, error) {
-	const methodName = "Addresses.Read"
-
-	res, err := op.client.ReadAddress(ctx, v1.ReadAddressParams{Addressid: addr.ID})
+	res, err := errorFromDecodedResponse[v1.AddressResponse]("Addresses.Read", func() (any, error) { return op.client.ReadAddress(ctx, v1.ReadAddressParams{Addressid: addr.ID}) })
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v1.AddressResponse:
-		res := r.GetAddress()
-		return &res, nil
-	case *v1.ApiErrorStatusCode:
-		return nil, newGeneratedAPIError(methodName, r)
-	default:
-		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
-	}
+	return new(res.GetAddress()), nil
 }
