@@ -53,8 +53,8 @@ github.com/mitchellh/go-testing-interface v1.14.1 h1:jrgshOhYAUVNMAJiKbEu7EqAwgJ
 github.com/mitchellh/go-testing-interface v1.14.1/go.mod h1:gfgS7OtZj6MA4U1UrDRp04twqAjfvlZyCfX3sDjEym8=
 github.com/mitchellh/mapstructure v1.5.0 h1:jeMsZIYE/09sWLaz43PL7Gy6RuMjD2eJVyuac5Z2hdY=
 github.com/mitchellh/mapstructure v1.5.0/go.mod h1:bFUtVrKA4DC2yAKiSyO/QUcy7e+RRV2QTWOzhPopBRo=
-github.com/sacloud/sacloud-sdk-go v0.7.0 h1:B8pJ/gxPNbegFbR8FBs6NG1MxsB+HWlaFR7f6OATaKs=
-github.com/sacloud/sacloud-sdk-go v0.7.0/go.mod h1:UeTL8UPMWhtgnGoNrPVJTvePfOqmyNdAXiREPjumwhQ=
+github.com/sacloud/sacloud-sdk-go v0.7.1 h1:HdvHoe1P7LRMiTbZMJyZp/EsmdHZw4S6qVlom361KVs=
+github.com/sacloud/sacloud-sdk-go v0.7.1/go.mod h1:UeTL8UPMWhtgnGoNrPVJTvePfOqmyNdAXiREPjumwhQ=
 github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWDWE=
 github.com/stretchr/testify v1.12.1/go.mod h1:MDEgiDPPsNp5cuIrHPPCyornHKgEVbtFUmoNlxoYthg=
 github.com/vmihailenco/msgpack/v5 v5.4.1 h1:cQriyiUvjTwOHg8QZaPihLWeRAAVoCpE00IUPn0Bjt8=
