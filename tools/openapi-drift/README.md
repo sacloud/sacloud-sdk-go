@@ -36,23 +36,27 @@ formatting or documentation differences can also appear.
 
 ## Example output
 
-The default output looks like this (excerpt from October 19, 2026; omitted
+The default output looks like this (excerpt from November 27, 2026; omitted
 rows and details are marked with `...`). Versions and counts depend on the
 current repository and portal definitions.
 
 ```text
 # OpenAPI comparison summary
 
-Compared APIs: 18; version differences: 10; APIs with structural differences: 12.
+Compared APIs: 19; version differences: 8; APIs with structural differences: 8.
 
 | API component | Repository version | Portal version | Status | Structural differences |
 |---|---:|---:|---|---:|
-| IAM | 2.1.0 | 2.1.0 | :white_check_mark: | 0 |
-| Monitoring Suite | 1.1.0 | 1.3.0 | :x: | 169 |
+| IAM | 2.1.0 | 2.1.1 | :x: | 1 |
+| Monitoring Suite | 1.3.0 | 1.3.0 | :white_check_mark: | 0 |
 | SimpleMQ message | 1.1.2 | 1.1.4 | :x: | 1 |
 | SimpleMQ queue | 1.1.2 | 1.1.2 | :white_check_mark: | 0 |
+| Add-on | 1.2.0+patched@sdk | 1.2.0 | :x: | 1 |
+| API Gateway | 2.0.1 | 2.1.0 | :x: | 50 |
 ...
-| AppRun shared | 1.5.0 | 1.5.0 | :warning: | 3 |
+| Security Control | 1.0.0 | 1.0.0 | :white_check_mark: | 0 |
+...
+| Simple Notification | 1.0.0 | 1.0.0 | :white_check_mark: | 0 |
 ...
 
 # OpenAPI structural differences
