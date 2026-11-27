@@ -15,8 +15,12 @@
 package seg
 
 import (
+	"errors"
 	"strings"
 
+	ogen "github.com/ogen-go/ogen/validate"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/service-endpoint-gateway/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -47,4 +51,24 @@ func (e *Error) Error() string {
 func NewError(msg string, err error) *Error { return &Error{msg: msg, err: err} }
 func NewAPIError(method string, code int, err error) *Error {
 	return NewError(method, saclient.NewError(code, "", err))
+}
+
+// UnexpectedStatusCodeError -> IsNotFoundError conversion
+func errorFromDecodedResponse[T any](method string, yield func() (*T, error)) (ret *T, err error) {
+	ret, err = yield()
+
+	if e1, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](err); ok {
+		err = NewError(method, httperror.NewError(method, e1))
+	} else if e2, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
+		err = NewAPIError(method, e2.GetStatusCode(), e2)
+	} else if err != nil {
+		err = NewError(method, err) // this is e.g. broken JSON
+	}
+
+	return
+}
+
+func errorFromDecodedResponseE[T any](method string, yield func() (*T, error)) (err error) {
+	_, err = errorFromDecodedResponse(method, yield)
+	return
 }

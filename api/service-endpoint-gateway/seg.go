@@ -64,148 +64,83 @@ func NewServiceEndpointGatewayOpWithPowerRetryConfig(client *v1.Client, powerRet
 }
 
 func (op *ServiceEndpointGatewayOp) List(ctx context.Context) (*v1.ModelsApplianceListServiceEndpointGatewaysResponseBody, error) {
-	res, err := op.client.ListServiceEndpointGateways(ctx)
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
-			return nil, NewAPIError("ServiceEndpointGateway.List", e.StatusCode, err)
-		}
-		return nil, err
-	}
-	return res, nil
+	return errorFromDecodedResponse("ServiceEndpointGateway.List", func() (*v1.ModelsApplianceListServiceEndpointGatewaysResponseBody, error) {
+		return op.client.ListServiceEndpointGateways(ctx)
+	})
 }
 
 func (op *ServiceEndpointGatewayOp) Create(ctx context.Context, request v1.ModelsApplianceCreateServiceEndpointGatewayRequest) (*v1.ModelsApplianceCreateServiceEndpointGatewayResponseBody, error) {
 	request.Appliance.Class = v1.ModelsApplianceApplianceCreateBodyClassServiceendpointgateway
 	request.Appliance.Plan.ID = v1.ModelsPlanPlanID1
 
-	res, err := op.client.CreateServiceEndpointGateway(ctx, &request)
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
-			return nil, NewAPIError("ServiceEndpointGateway.Create", e.StatusCode, err)
-		}
-		return nil, err
-	}
-	return res, nil
+	return errorFromDecodedResponse("ServiceEndpointGateway.Create", func() (*v1.ModelsApplianceCreateServiceEndpointGatewayResponseBody, error) {
+		return op.client.CreateServiceEndpointGateway(ctx, &request)
+	})
 }
 
 func (op *ServiceEndpointGatewayOp) Read(ctx context.Context, id string) (*v1.ModelsApplianceReadServiceEndpointGatewayResponseBody, error) {
-	res, err := op.client.ReadServiceEndpointGateway(ctx, v1.ReadServiceEndpointGatewayParams{ApplianceID: id})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
-			return nil, NewAPIError("ServiceEndpointGateway.Read", e.StatusCode, err)
-		}
-		return nil, err
-	}
-	return res, nil
+	return errorFromDecodedResponse("ServiceEndpointGateway.Read", func() (*v1.ModelsApplianceReadServiceEndpointGatewayResponseBody, error) {
+		return op.client.ReadServiceEndpointGateway(ctx, v1.ReadServiceEndpointGatewayParams{ApplianceID: id})
+	})
 }
 
 func (op *ServiceEndpointGatewayOp) Update(ctx context.Context, id string, request v1.ModelsApplianceUpdateServiceEndpointGatewayRequest) (*v1.ModelsApplianceReadServiceEndpointGatewayResponseBody, error) {
-	res, err := op.client.UpdateServiceEndpointGateway(ctx, &request, v1.UpdateServiceEndpointGatewayParams{ApplianceID: id})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
-			return nil, NewAPIError("ServiceEndpointGateway.Update", e.StatusCode, err)
-		}
-		return nil, err
-	}
-	return res, nil
+	return errorFromDecodedResponse("ServiceEndpointGateway.Update", func() (*v1.ModelsApplianceReadServiceEndpointGatewayResponseBody, error) {
+		return op.client.UpdateServiceEndpointGateway(ctx, &request, v1.UpdateServiceEndpointGatewayParams{ApplianceID: id})
+	})
 }
 
 func (op *ServiceEndpointGatewayOp) Apply(ctx context.Context, id string) error {
-	_, err := op.client.ApplyServiceEndpointGatewayConfig(ctx, v1.OptModelsApplianceUpdateServiceEndpointGatewayRequest{Set: false}, v1.ApplyServiceEndpointGatewayConfigParams{ApplianceID: id})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
-			return NewAPIError("ServiceEndpointGateway.Apply", e.StatusCode, err)
-		}
-		return err
-	}
-	return nil
+	return errorFromDecodedResponseE("ServiceEndpointGateway.Apply", func() (*v1.ModelsApplianceApplianceApplyResponseBody, error) {
+		return op.client.ApplyServiceEndpointGatewayConfig(ctx, v1.OptModelsApplianceUpdateServiceEndpointGatewayRequest{Set: false}, v1.ApplyServiceEndpointGatewayConfigParams{ApplianceID: id})
+	})
 }
 
 func (op *ServiceEndpointGatewayOp) Delete(ctx context.Context, id string) error {
-	_, err := op.client.DeleteServiceEndpointGateway(ctx, v1.DeleteServiceEndpointGatewayParams{ApplianceID: id})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
-			return NewAPIError("ServiceEndpointGateway.Delete", e.StatusCode, err)
-		}
-		return err
-	}
-	return nil
+	return errorFromDecodedResponseE("ServiceEndpointGateway.Delete", func() (*v1.ModelsApplianceReadServiceEndpointGatewayResponseBody, error) {
+		return op.client.DeleteServiceEndpointGateway(ctx, v1.DeleteServiceEndpointGatewayParams{ApplianceID: id})
+	})
 }
 
 func (op *ServiceEndpointGatewayOp) ReadInterface(ctx context.Context, applianceID string, interfaceID string) (*v1.ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody, error) {
-	res, err := op.client.ReadServiceEndpointGatewayInterface(ctx, v1.ReadServiceEndpointGatewayInterfaceParams{ApplianceID: applianceID, InterfaceID: interfaceID})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
-			return nil, NewAPIError("ServiceEndpointGateway.ReadInterface", e.StatusCode, err)
-		}
-		return nil, err
-	}
-	return res, nil
+	return errorFromDecodedResponse("ServiceEndpointGateway.ReadInterface", func() (*v1.ModelsApplianceReadServiceEndpointGatewayInterfaceResponseBody, error) {
+		return op.client.ReadServiceEndpointGatewayInterface(ctx, v1.ReadServiceEndpointGatewayInterfaceParams{ApplianceID: applianceID, InterfaceID: interfaceID})
+	})
 }
 
 func (op *ServiceEndpointGatewayOp) ReadPowerStatus(ctx context.Context, id string) (*v1.ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody, error) {
-	res, err := op.client.ReadServiceEndpointGatewayPowerStatus(ctx, v1.ReadServiceEndpointGatewayPowerStatusParams{ApplianceID: id})
-	if err != nil {
-		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
-			return nil, NewAPIError("ServiceEndpointGateway.ReadPowerStatus", e.StatusCode, err)
-		}
-		return nil, err
-	}
-	return res, nil
+	return errorFromDecodedResponse("ServiceEndpointGateway.ReadPowerStatus", func() (*v1.ModelsPowerReadServiceEndpointGatewayPowerStatusResponseBody, error) {
+		return op.client.ReadServiceEndpointGatewayPowerStatus(ctx, v1.ReadServiceEndpointGatewayPowerStatusParams{ApplianceID: id})
+	})
 }
 
 func (op *ServiceEndpointGatewayOp) PowerOn(ctx context.Context, id string) (*v1.ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, error) {
 	var result *v1.ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody
-	err := retryWithTimeout(ctx, op.powerRetryCfg.Interval, op.powerRetryCfg.Timeout, func() (bool, error) {
-		res, err := op.client.PowerOnServiceEndpointGateway(ctx, v1.PowerOnServiceEndpointGatewayParams{ApplianceID: id})
-		if err != nil {
-			var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
-			if errors.As(err, &e) && e.StatusCode == http.StatusConflict && e.Response.ErrorCode.Value == "still_creating" {
-				return true, err
-			}
-			if errors.As(err, &e) {
-				return false, NewAPIError("ServiceEndpointGateway.PowerOn", e.StatusCode, err)
-			}
-			return false, err
-		}
-		result = res
-		return false, nil
+	err := retryWithTimeout(ctx, op.powerRetryCfg.Interval, op.powerRetryCfg.Timeout, func() (ok bool, err error) {
+		result, err = errorFromDecodedResponse("ServiceEndpointGateway.PowerOn", func() (*v1.ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, error) {
+			return op.client.PowerOnServiceEndpointGateway(ctx, v1.PowerOnServiceEndpointGatewayParams{ApplianceID: id})
+		})
+		return isStillCreatingError(err), err
 	})
 	return result, err
 }
 
 func (op *ServiceEndpointGatewayOp) Shutdown(ctx context.Context, id string) error {
 	request := v1.NewOptModelsPowerApplianceDeletePowerStatusRequest(v1.ModelsPowerApplianceDeletePowerStatusRequest{Force: true})
-	return retryWithTimeout(ctx, op.powerRetryCfg.Interval, op.powerRetryCfg.Timeout, func() (bool, error) {
-		_, err := op.client.PowerOffServiceEndpointGateway(ctx, request, v1.PowerOffServiceEndpointGatewayParams{ApplianceID: id})
-		if err != nil {
-			var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
-			if errors.As(err, &e) && e.StatusCode == http.StatusConflict && e.Response.ErrorCode.Value == "still_creating" {
-				return true, err
-			}
-			if errors.As(err, &e) {
-				return false, NewAPIError("ServiceEndpointGateway.Shutdown", e.StatusCode, err)
-			}
-			return false, err
-		}
-		return false, nil
+	return retryWithTimeout(ctx, op.powerRetryCfg.Interval, op.powerRetryCfg.Timeout, func() (ok bool, err error) {
+		err = errorFromDecodedResponseE("ServiceEndpointGateway.Shutdown", func() (*v1.ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, error) {
+			return op.client.PowerOffServiceEndpointGateway(ctx, request, v1.PowerOffServiceEndpointGatewayParams{ApplianceID: id})
+		})
+		return isStillCreatingError(err), err
 	})
 }
 
 func (op *ServiceEndpointGatewayOp) Reset(ctx context.Context, id string) error {
-	return retryWithTimeout(ctx, op.powerRetryCfg.Interval, op.powerRetryCfg.Timeout, func() (bool, error) {
-		_, err := op.client.ResetServiceEndpointGateway(ctx, v1.ResetServiceEndpointGatewayParams{ApplianceID: id})
-		if err != nil {
-			var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
-			if errors.As(err, &e) && e.StatusCode == http.StatusConflict && e.Response.ErrorCode.Value == "still_creating" {
-				return true, err
-			}
-			if errors.As(err, &e) {
-				return false, NewAPIError("ServiceEndpointGateway.Reset", e.StatusCode, err)
-			}
-			return false, err
-		}
-		return false, nil
+	return retryWithTimeout(ctx, op.powerRetryCfg.Interval, op.powerRetryCfg.Timeout, func() (ok bool, err error) {
+		err = errorFromDecodedResponseE("ServiceEndpointGateway.Reset", func() (*v1.ModelsPowerUpdateServiceEndpointGatewayPowerStatusResponseBody, error) {
+			return op.client.ResetServiceEndpointGateway(ctx, v1.ResetServiceEndpointGatewayParams{ApplianceID: id})
+		})
+		return isStillCreatingError(err), err
 	})
 }
 
@@ -241,4 +176,26 @@ func validateRetryParams(interval, timeout time.Duration) (time.Duration, time.D
 		timeout = defaultRetryTimeout
 	}
 	return interval, timeout
+}
+
+func isStillCreatingError(err error) bool {
+	e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err)
+	if !ok {
+		return false
+	}
+
+	if e.GetStatusCode() != http.StatusConflict {
+		return false
+	}
+
+	c, ok := new(e.GetResponse()).GetErrorCode().Get()
+	if !ok {
+		return false
+	}
+
+	if c != "still_creating" {
+		return false
+	}
+
+	return true
 }
