@@ -16,8 +16,6 @@ package workflows
 
 import (
 	"context"
-	"errors"
-	"net/http"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/workflows/apis/v1"
 )
@@ -40,105 +38,17 @@ func NewSubscriptionOp(client *v1.Client) SubscriptionAPI {
 }
 
 func (op *subscriptionOp) ListPlans(ctx context.Context) (*v1.ListPlansOK, error) {
-	const methodName = "Subscription.ListPlans"
-
-	res, err := op.client.ListPlans(ctx)
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v1.ListPlansOK:
-		return r, nil
-	case *v1.ListPlansBadRequest:
-		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.ListPlansUnauthorized:
-		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.ListPlansForbidden:
-		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.ListPlansNotFound:
-		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.ListPlansInternalServerError:
-		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
-	default:
-		return nil, NewAPIError(methodName, 0, unknownError(res))
-	}
+	return errorFromDecodedResponse[v1.ListPlansOK]("Subscription.ListPlans", func() (any, error) { return op.client.ListPlans(ctx) })
 }
 
 func (op *subscriptionOp) Read(ctx context.Context) (*v1.ReadSubscriptionOK, error) {
-	const methodName = "Subscription.Read"
-
-	res, err := op.client.ReadSubscription(ctx)
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v1.ReadSubscriptionOK:
-		return r, nil
-	case *v1.ReadSubscriptionBadRequest:
-		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.ReadSubscriptionUnauthorized:
-		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.ReadSubscriptionForbidden:
-		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.ReadSubscriptionNotFound:
-		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.ReadSubscriptionInternalServerError:
-		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
-	default:
-		return nil, NewAPIError(methodName, 0, unknownError(res))
-	}
+	return errorFromDecodedResponse[v1.ReadSubscriptionOK]("Subscription.Read", func() (any, error) { return op.client.ReadSubscription(ctx) })
 }
 
 func (op *subscriptionOp) Create(ctx context.Context, req v1.CreateSubscriptionReq) error {
-	const methodName = "Subscription.Create"
-
-	res, err := op.client.CreateSubscription(ctx, &req)
-	if err != nil {
-		return NewAPIError(methodName, 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v1.CreateSubscriptionNoContent:
-		return nil
-	case *v1.CreateSubscriptionBadRequest:
-		return NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.CreateSubscriptionUnauthorized:
-		return NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.CreateSubscriptionForbidden:
-		return NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.CreateSubscriptionNotFound:
-		return NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.CreateSubscriptionInternalServerError:
-		return NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
-	default:
-		return NewAPIError(methodName, 0, unknownError(res))
-	}
+	return errorFromDecodedResponseE[v1.CreateSubscriptionNoContent]("Subscription.Create", func() (any, error) { return op.client.CreateSubscription(ctx, &req) })
 }
 
 func (op *subscriptionOp) Delete(ctx context.Context) error {
-	const methodName = "Subscription.Delete"
-
-	res, err := op.client.DeleteSubscription(ctx)
-	if err != nil {
-		return NewAPIError(methodName, 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v1.DeleteSubscriptionNoContent:
-		return nil
-	case *v1.DeleteSubscriptionBadRequest:
-		return NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.DeleteSubscriptionUnauthorized:
-		return NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.DeleteSubscriptionForbidden:
-		return NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.DeleteSubscriptionNotFound:
-		return NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.DeleteSubscriptionInternalServerError:
-		return NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
-	default:
-		return NewAPIError(methodName, 0, unknownError(res))
-	}
+	return errorFromDecodedResponseE[v1.DeleteSubscriptionNoContent]("Subscription.Delete", func() (any, error) { return op.client.DeleteSubscription(ctx) })
 }

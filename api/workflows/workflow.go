@@ -16,8 +16,6 @@ package workflows
 
 import (
 	"context"
-	"errors"
-	"net/http"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/workflows/apis/v1"
 )
@@ -42,171 +40,40 @@ func NewWorkflowOp(client *v1.Client) WorkflowAPI {
 }
 
 func (op *workflowOp) Create(ctx context.Context, req v1.CreateWorkflowReq) (*v1.CreateWorkflowCreatedWorkflow, error) {
-	const methodName = "Workflow.Create"
-
-	res, err := op.client.CreateWorkflow(ctx, &req)
+	res, err := errorFromDecodedResponse[v1.CreateWorkflowCreated]("Workflow.Create", func() (any, error) { return op.client.CreateWorkflow(ctx, &req) })
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v1.CreateWorkflowCreated:
-		return &r.Workflow, nil
-	case *v1.CreateWorkflowBadRequest:
-		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.CreateWorkflowUnauthorized:
-		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.CreateWorkflowPaymentRequired:
-		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.CreateWorkflowForbidden:
-		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.CreateWorkflowNotFound:
-		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.CreateWorkflowInternalServerError:
-		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
-	default:
-		return nil, NewAPIError(methodName, 0, unknownError(res))
-	}
+	return new(res.GetWorkflow()), nil
 }
 
 func (op *workflowOp) List(ctx context.Context, params v1.ListWorkflowsParams) (*v1.ListWorkflowsOK, error) {
-	const methodName = "Workflow.List"
-
-	res, err := op.client.ListWorkflows(ctx, params)
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v1.ListWorkflowsOK:
-		return r, nil
-	case *v1.ListWorkflowsBadRequest:
-		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.ListWorkflowsUnauthorized:
-		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.ListWorkflowsPaymentRequired:
-		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.ListWorkflowsForbidden:
-		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.ListWorkflowsNotFound:
-		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.ListWorkflowsInternalServerError:
-		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
-	default:
-		return nil, NewAPIError(methodName, 0, unknownError(res))
-	}
+	return errorFromDecodedResponse[v1.ListWorkflowsOK]("Workflow.List", func() (any, error) { return op.client.ListWorkflows(ctx, params) })
 }
 
 func (op *workflowOp) ListSuggest(ctx context.Context, params v1.ListSuggestionsParams) (*v1.ListSuggestionsOK, error) {
-	const methodName = "Workflow.ListSuggest"
-
-	res, err := op.client.ListSuggestions(ctx, params)
-	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v1.ListSuggestionsOK:
-		return r, nil
-	case *v1.ListSuggestionsBadRequest:
-		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.ListSuggestionsUnauthorized:
-		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.ListSuggestionsPaymentRequired:
-		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.ListSuggestionsForbidden:
-		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.ListSuggestionsNotFound:
-		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.ListSuggestionsInternalServerError:
-		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
-	default:
-		return nil, NewAPIError(methodName, 0, unknownError(res))
-	}
+	return errorFromDecodedResponse[v1.ListSuggestionsOK]("Workflow.ListSuggest", func() (any, error) { return op.client.ListSuggestions(ctx, params) })
 }
 
 func (op *workflowOp) Read(ctx context.Context, id string) (*v1.ReadWorkflowOKWorkflow, error) {
-	const methodName = "Workflow.Read"
-
-	res, err := op.client.ReadWorkflow(ctx, v1.ReadWorkflowParams{ID: id})
+	res, err := errorFromDecodedResponse[v1.ReadWorkflowOK]("Workflow.Read", func() (any, error) { return op.client.ReadWorkflow(ctx, v1.ReadWorkflowParams{ID: id}) })
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v1.ReadWorkflowOK:
-		return &r.Workflow, nil
-	case *v1.ReadWorkflowBadRequest:
-		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.ReadWorkflowUnauthorized:
-		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.ReadWorkflowPaymentRequired:
-		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.ReadWorkflowForbidden:
-		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.ReadWorkflowNotFound:
-		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.ReadWorkflowInternalServerError:
-		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
-	default:
-		return nil, NewAPIError(methodName, 0, unknownError(res))
-	}
+	return new(res.GetWorkflow()), nil
 }
 
 func (op *workflowOp) Update(ctx context.Context, id string, req v1.PatchWorkflowReq) (*v1.PatchWorkflowOKWorkflow, error) {
-	const methodName = "Workflow.Update"
-
-	res, err := op.client.PatchWorkflow(ctx, &req, v1.PatchWorkflowParams{ID: id})
+	res, err := errorFromDecodedResponse[v1.PatchWorkflowOK]("Workflow.Update", func() (any, error) { return op.client.PatchWorkflow(ctx, &req, v1.PatchWorkflowParams{ID: id}) })
 	if err != nil {
-		return nil, NewAPIError(methodName, 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *v1.PatchWorkflowOK:
-		return &r.Workflow, nil
-	case *v1.PatchWorkflowBadRequest:
-		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.PatchWorkflowUnauthorized:
-		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.PatchWorkflowPaymentRequired:
-		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.PatchWorkflowForbidden:
-		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.PatchWorkflowNotFound:
-		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.PatchWorkflowInternalServerError:
-		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
-	default:
-		return nil, NewAPIError(methodName, 0, unknownError(res))
-	}
+	return new(res.GetWorkflow()), nil
 }
 
 func (op *workflowOp) Delete(ctx context.Context, id string) error {
-	const methodName = "Workflow.Delete"
-
-	res, err := op.client.DeleteWorkflow(ctx, v1.DeleteWorkflowParams{ID: id})
-	if err != nil {
-		return NewAPIError(methodName, 0, err)
-	}
-
-	switch r := res.(type) {
-	case *v1.DeleteWorkflowOK:
-		return nil
-	case *v1.DeleteWorkflowBadRequest:
-		return NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.DeleteWorkflowUnauthorized:
-		return NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.DeleteWorkflowPaymentRequired:
-		return NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
-	case *v1.DeleteWorkflowForbidden:
-		return NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.DeleteWorkflowNotFound:
-		return NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.DeleteWorkflowConflict:
-		return NewAPIError(methodName, http.StatusConflict, errors.New(r.Message))
-	case *v1.DeleteWorkflowInternalServerError:
-		return NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
-	default:
-		return NewAPIError(methodName, 0, unknownError(res))
-	}
+	return errorFromDecodedResponseE[v1.DeleteWorkflowOK]("Workflow.Delete", func() (any, error) { return op.client.DeleteWorkflow(ctx, v1.DeleteWorkflowParams{ID: id}) })
 }

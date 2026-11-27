@@ -83,6 +83,42 @@ func TestNewAPIError(t *testing.T) {
 	assert.False(saclient.IsNotFoundError(err2))
 }
 
+type unrelatedMessage struct{}
+
+func (*unrelatedMessage) GetMessage() string { return "not an API error" }
+
+func TestAsErrorResponse(t *testing.T) {
+	tests := []struct {
+		name   string
+		res    any
+		status int
+		ok     bool
+	}{
+		{"bad request", &v1.CreateExecutionBadRequest{}, http.StatusBadRequest, true},
+		{"unauthorized", &v1.CreateExecutionUnauthorized{}, http.StatusUnauthorized, true},
+		{"payment required", &v1.CreateExecutionPaymentRequired{}, http.StatusPaymentRequired, true},
+		{"forbidden", &v1.CreateExecutionForbidden{}, http.StatusForbidden, true},
+		{"not found", &v1.CreateExecutionNotFound{}, http.StatusNotFound, true},
+		{"conflict", &v1.DeleteExecutionConflict{}, http.StatusConflict, true},
+		{"internal server error", &v1.CreateExecutionInternalServerError{}, http.StatusInternalServerError, true},
+		{"typed nil", (*v1.CreateExecutionPaymentRequired)(nil), 0, false},
+		{"unknown", &unrelatedMessage{}, 0, false},
+		{"nil", nil, 0, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			response, status, ok := asErrorResponse(tt.res)
+			require.Equal(t, tt.ok, ok)
+			require.Equal(t, tt.status, status)
+			if ok {
+				require.Equal(t, tt.res, response)
+			} else {
+				require.Nil(t, response)
+			}
+		})
+	}
+}
+
 func TestUnknownError(t *testing.T) {
 	tests := []struct {
 		name string
@@ -102,12 +138,12 @@ func TestUnknownError(t *testing.T) {
 		{
 			name: "empty message",
 			res:  &v1.CreateExecutionPaymentRequired{},
-			want: "API error response has empty message: *v1.CreateExecutionPaymentRequired",
+			want: "empty error message",
 		},
 		{
 			name: "typed nil",
 			res:  (*v1.CreateExecutionPaymentRequired)(nil),
-			want: "nil API error response *v1.CreateExecutionPaymentRequired",
+			want: "unknown API response type",
 		},
 		{
 			name: "nil",
@@ -118,11 +154,17 @@ func TestUnknownError(t *testing.T) {
 			res:  struct{}{},
 			want: "unknown API response type struct {}",
 		},
+		{
+			name: "unrelated message type",
+			res:  &unrelatedMessage{},
+			want: "unknown API response type *workflows.unrelatedMessage",
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			require.EqualError(t, unknownError(tt.res), tt.want)
+			err := errorFromDecodedResponseE[any]("method", func() (any, error) { return tt.res, nil })
+			require.ErrorContains(t, err, tt.want)
 		})
 	}
 }

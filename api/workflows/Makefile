@@ -16,3 +16,4 @@ tools: dev-tools
 .PHONY: gen
 gen:
 	go tool ogen --config ogen-config.yaml --target ./apis/v1/ --package v1 --clean ./openapi/openapi.json
+	go generate .
