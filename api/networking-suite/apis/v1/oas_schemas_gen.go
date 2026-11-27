@@ -2,6 +2,74 @@
 
 package v1
 
+import (
+	"github.com/go-faster/errors"
+)
+
+// Ref: #/components/schemas/Address
+type Address struct {
+	// さくらのリソース名 (SRN).
+	SRN string `json:"SRN"`
+	// アドレス種別 (`EPHEMERAL_ADDRESS`、`SERVICE_ENDPOINT_GATEWAY_ADDRESS`).
+	AddressType string `json:"AddressType"`
+	// アドレスバージョン; `IPv4` 固定.
+	IPVersion string `json:"IPVersion"`
+	// IPアドレス.
+	IPAddress string `json:"IPAddress"`
+	// アドレスが属するサブネット.
+	Subnet SakuraResourceNameRef `json:"Subnet"`
+}
+
+// GetSRN returns the value of SRN.
+func (s *Address) GetSRN() string {
+	return s.SRN
+}
+
+// GetAddressType returns the value of AddressType.
+func (s *Address) GetAddressType() string {
+	return s.AddressType
+}
+
+// GetIPVersion returns the value of IPVersion.
+func (s *Address) GetIPVersion() string {
+	return s.IPVersion
+}
+
+// GetIPAddress returns the value of IPAddress.
+func (s *Address) GetIPAddress() string {
+	return s.IPAddress
+}
+
+// GetSubnet returns the value of Subnet.
+func (s *Address) GetSubnet() SakuraResourceNameRef {
+	return s.Subnet
+}
+
+// SetSRN sets the value of SRN.
+func (s *Address) SetSRN(val string) {
+	s.SRN = val
+}
+
+// SetAddressType sets the value of AddressType.
+func (s *Address) SetAddressType(val string) {
+	s.AddressType = val
+}
+
+// SetIPVersion sets the value of IPVersion.
+func (s *Address) SetIPVersion(val string) {
+	s.IPVersion = val
+}
+
+// SetIPAddress sets the value of IPAddress.
+func (s *Address) SetIPAddress(val string) {
+	s.IPAddress = val
+}
+
+// SetSubnet sets the value of Subnet.
+func (s *Address) SetSubnet(val SakuraResourceNameRef) {
+	s.Subnet = val
+}
+
 // 成功時のレスポンス.
 // Ref: #/components/schemas/AddressListResponse
 type AddressListResponse struct {
@@ -12,7 +80,7 @@ type AddressListResponse struct {
 	// 現在のページの件数.
 	Count int32 `json:"Count"`
 	// アドレス一覧.
-	Addresses []ReadAddress `json:"Addresses"`
+	Addresses []Address `json:"Addresses"`
 }
 
 // GetTotal returns the value of Total.
@@ -31,7 +99,7 @@ func (s *AddressListResponse) GetCount() int32 {
 }
 
 // GetAddresses returns the value of Addresses.
-func (s *AddressListResponse) GetAddresses() []ReadAddress {
+func (s *AddressListResponse) GetAddresses() []Address {
 	return s.Addresses
 }
 
@@ -51,7 +119,7 @@ func (s *AddressListResponse) SetCount(val int32) {
 }
 
 // SetAddresses sets the value of Addresses.
-func (s *AddressListResponse) SetAddresses(val []ReadAddress) {
+func (s *AddressListResponse) SetAddresses(val []Address) {
 	s.Addresses = val
 }
 
@@ -59,16 +127,16 @@ func (s *AddressListResponse) SetAddresses(val []ReadAddress) {
 // Ref: #/components/schemas/AddressResponse
 type AddressResponse struct {
 	// アドレス.
-	Address ReadAddress `json:"Address"`
+	Address Address `json:"Address"`
 }
 
 // GetAddress returns the value of Address.
-func (s *AddressResponse) GetAddress() ReadAddress {
+func (s *AddressResponse) GetAddress() Address {
 	return s.Address
 }
 
 // SetAddress sets the value of Address.
-func (s *AddressResponse) SetAddress(val ReadAddress) {
+func (s *AddressResponse) SetAddress(val Address) {
 	s.Address = val
 }
 
@@ -138,9 +206,11 @@ func (s *ApiErrorStatusCode) SetResponse(val ApiError) {
 	s.Response = val
 }
 
+func (*ApiErrorStatusCode) createAddressRes()             {}
 func (*ApiErrorStatusCode) createInterfaceConnectionRes() {}
 func (*ApiErrorStatusCode) createSubnetGroupRes()         {}
 func (*ApiErrorStatusCode) createSubnetRes()              {}
+func (*ApiErrorStatusCode) deleteAddressRes()             {}
 func (*ApiErrorStatusCode) deleteInterfaceConnectionRes() {}
 func (*ApiErrorStatusCode) deleteSubnetGroupRes()         {}
 func (*ApiErrorStatusCode) deleteSubnetRes()              {}
@@ -149,6 +219,128 @@ func (*ApiErrorStatusCode) readSubnetGroupRes()           {}
 func (*ApiErrorStatusCode) readSubnetRes()                {}
 func (*ApiErrorStatusCode) updateSubnetGroupRes()         {}
 func (*ApiErrorStatusCode) updateSubnetRes()              {}
+
+// Ref: #/components/schemas/CreateAddress
+type CreateAddress struct {
+	// アドレス種別; `SERVICE_ENDPOINT_GATEWAY_ADDRESS` 固定.
+	AddressType CreateAddressAddressType `json:"AddressType"`
+	// アドレスバージョン; `IPv4` 固定.
+	IPVersion CreateAddressIPVersion `json:"IPVersion"`
+	// IPアドレス.
+	IPAddress OptString `json:"IPAddress"`
+	// アドレスが属するサブネット.
+	Subnet SakuraResourceNameRef `json:"Subnet"`
+}
+
+// GetAddressType returns the value of AddressType.
+func (s *CreateAddress) GetAddressType() CreateAddressAddressType {
+	return s.AddressType
+}
+
+// GetIPVersion returns the value of IPVersion.
+func (s *CreateAddress) GetIPVersion() CreateAddressIPVersion {
+	return s.IPVersion
+}
+
+// GetIPAddress returns the value of IPAddress.
+func (s *CreateAddress) GetIPAddress() OptString {
+	return s.IPAddress
+}
+
+// GetSubnet returns the value of Subnet.
+func (s *CreateAddress) GetSubnet() SakuraResourceNameRef {
+	return s.Subnet
+}
+
+// SetAddressType sets the value of AddressType.
+func (s *CreateAddress) SetAddressType(val CreateAddressAddressType) {
+	s.AddressType = val
+}
+
+// SetIPVersion sets the value of IPVersion.
+func (s *CreateAddress) SetIPVersion(val CreateAddressIPVersion) {
+	s.IPVersion = val
+}
+
+// SetIPAddress sets the value of IPAddress.
+func (s *CreateAddress) SetIPAddress(val OptString) {
+	s.IPAddress = val
+}
+
+// SetSubnet sets the value of Subnet.
+func (s *CreateAddress) SetSubnet(val SakuraResourceNameRef) {
+	s.Subnet = val
+}
+
+// アドレス種別; `SERVICE_ENDPOINT_GATEWAY_ADDRESS` 固定.
+type CreateAddressAddressType string
+
+const (
+	CreateAddressAddressTypeSERVICEENDPOINTGATEWAYADDRESS CreateAddressAddressType = "SERVICE_ENDPOINT_GATEWAY_ADDRESS"
+)
+
+// AllValues returns all CreateAddressAddressType values.
+func (CreateAddressAddressType) AllValues() []CreateAddressAddressType {
+	return []CreateAddressAddressType{
+		CreateAddressAddressTypeSERVICEENDPOINTGATEWAYADDRESS,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateAddressAddressType) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateAddressAddressTypeSERVICEENDPOINTGATEWAYADDRESS:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateAddressAddressType) UnmarshalText(data []byte) error {
+	switch CreateAddressAddressType(data) {
+	case CreateAddressAddressTypeSERVICEENDPOINTGATEWAYADDRESS:
+		*s = CreateAddressAddressTypeSERVICEENDPOINTGATEWAYADDRESS
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// アドレスバージョン; `IPv4` 固定.
+type CreateAddressIPVersion string
+
+const (
+	CreateAddressIPVersionIPv4 CreateAddressIPVersion = "IPv4"
+)
+
+// AllValues returns all CreateAddressIPVersion values.
+func (CreateAddressIPVersion) AllValues() []CreateAddressIPVersion {
+	return []CreateAddressIPVersion{
+		CreateAddressIPVersionIPv4,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateAddressIPVersion) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateAddressIPVersionIPv4:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateAddressIPVersion) UnmarshalText(data []byte) error {
+	switch CreateAddressIPVersion(data) {
+	case CreateAddressIPVersionIPv4:
+		*s = CreateAddressIPVersionIPv4
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // Ref: #/components/schemas/CreateInterfaceConnection
 type CreateInterfaceConnection struct {
@@ -334,6 +526,24 @@ func (s *CreatedInterfaceConnectionResponse) SetInterfaceConnection(val ReadInte
 
 func (*CreatedInterfaceConnectionResponse) createInterfaceConnectionRes() {}
 
+// Ref: #/components/schemas/CreatedSubnetAddressResponse
+type CreatedSubnetAddressResponse struct {
+	// アドレス.
+	Address Address `json:"Address"`
+}
+
+// GetAddress returns the value of Address.
+func (s *CreatedSubnetAddressResponse) GetAddress() Address {
+	return s.Address
+}
+
+// SetAddress sets the value of Address.
+func (s *CreatedSubnetAddressResponse) SetAddress(val Address) {
+	s.Address = val
+}
+
+func (*CreatedSubnetAddressResponse) createAddressRes() {}
+
 // 成功時のレスポンス.
 // Ref: #/components/schemas/CreatedSubnetGroupResponse
 type CreatedSubnetGroupResponse struct {
@@ -371,6 +581,11 @@ func (s *CreatedSubnetResponse) SetSubnet(val ReadSubnet) {
 }
 
 func (*CreatedSubnetResponse) createSubnetRes() {}
+
+// DeleteAddressNoContent is response for DeleteAddress operation.
+type DeleteAddressNoContent struct{}
+
+func (*DeleteAddressNoContent) deleteAddressRes() {}
 
 // DeleteInterfaceConnectionNoContent is response for DeleteInterfaceConnection operation.
 type DeleteInterfaceConnectionNoContent struct{}
@@ -431,70 +646,6 @@ func (o OptString) Or(d string) string {
 		return v
 	}
 	return d
-}
-
-// Ref: #/components/schemas/ReadAddress
-type ReadAddress struct {
-	// さくらのリソース名 (SRN).
-	SRN string `json:"SRN"`
-	// アドレス種別; `EPHEMERAL_ADDRESS` 固定.
-	AddressType string `json:"AddressType"`
-	// アドレスバージョン; `IPv4` 固定.
-	IPVersion string `json:"IPVersion"`
-	// IPアドレス.
-	IPAddress string `json:"IPAddress"`
-	// アドレスが属するサブネット.
-	Subnet SakuraResourceNameRef `json:"Subnet"`
-}
-
-// GetSRN returns the value of SRN.
-func (s *ReadAddress) GetSRN() string {
-	return s.SRN
-}
-
-// GetAddressType returns the value of AddressType.
-func (s *ReadAddress) GetAddressType() string {
-	return s.AddressType
-}
-
-// GetIPVersion returns the value of IPVersion.
-func (s *ReadAddress) GetIPVersion() string {
-	return s.IPVersion
-}
-
-// GetIPAddress returns the value of IPAddress.
-func (s *ReadAddress) GetIPAddress() string {
-	return s.IPAddress
-}
-
-// GetSubnet returns the value of Subnet.
-func (s *ReadAddress) GetSubnet() SakuraResourceNameRef {
-	return s.Subnet
-}
-
-// SetSRN sets the value of SRN.
-func (s *ReadAddress) SetSRN(val string) {
-	s.SRN = val
-}
-
-// SetAddressType sets the value of AddressType.
-func (s *ReadAddress) SetAddressType(val string) {
-	s.AddressType = val
-}
-
-// SetIPVersion sets the value of IPVersion.
-func (s *ReadAddress) SetIPVersion(val string) {
-	s.IPVersion = val
-}
-
-// SetIPAddress sets the value of IPAddress.
-func (s *ReadAddress) SetIPAddress(val string) {
-	s.IPAddress = val
-}
-
-// SetSubnet sets the value of Subnet.
-func (s *ReadAddress) SetSubnet(val SakuraResourceNameRef) {
-	s.Subnet = val
 }
 
 // Ref: #/components/schemas/ReadInterfaceConnection

@@ -15,6 +15,18 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestAddress_EncodeDecode(t *testing.T) {
+	var typ Address
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Address
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestAddressListResponse_EncodeDecode(t *testing.T) {
 	var typ AddressListResponse
 	typ.SetFake()
@@ -78,6 +90,72 @@ func TestApiError_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 ApiError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateAddress_EncodeDecode(t *testing.T) {
+	var typ CreateAddress
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateAddress
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateAddress_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"AddressType\":\"SERVICE_ENDPOINT_GATEWAY_ADDRESS\",\"IPAddress\":\"10.0.0.10\",\"IPVersion\":\"IPv4\",\"Subnet\":{\"SRN\":\"srnv1:is1a:sakura.networking-suite.subnet:113800112784\"}}"},
+		{Input: "{\"AddressType\":\"SERVICE_ENDPOINT_GATEWAY_ADDRESS\",\"IPVersion\":\"IPv4\",\"Subnet\":{\"SRN\":\"srnv1:is1a:sakura.networking-suite.subnet:113800112784\"}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateAddress
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateAddress
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateAddressAddressType_EncodeDecode(t *testing.T) {
+	var typ CreateAddressAddressType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateAddressAddressType
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateAddressIPVersion_EncodeDecode(t *testing.T) {
+	var typ CreateAddressIPVersion
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateAddressIPVersion
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCreateInterfaceConnection_EncodeDecode(t *testing.T) {
@@ -245,6 +323,47 @@ func TestCreatedInterfaceConnectionResponse_Examples(t *testing.T) {
 		})
 	}
 }
+func TestCreatedSubnetAddressResponse_EncodeDecode(t *testing.T) {
+	var typ CreatedSubnetAddressResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreatedSubnetAddressResponse
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreatedSubnetAddressResponse_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Address\":{\"AddressType\":\"SERVICE_ENDPOINT_GATEWAY_ADDRESS\",\"IPAddress\":\"10.0.0.10\",\"IPVersion\":\"IPv4\",\"SRN\":\"srnv1:sakura-is1c:sakura.networking-suite.address:5678901234\",\"Subnet\":{\"SRN\":\"srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901\"}}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreatedSubnetAddressResponse
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreatedSubnetAddressResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestCreatedSubnetGroupResponse_EncodeDecode(t *testing.T) {
 	var typ CreatedSubnetGroupResponse
 	typ.SetFake()
@@ -326,18 +445,6 @@ func TestCreatedSubnetResponse_Examples(t *testing.T) {
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
-}
-func TestReadAddress_EncodeDecode(t *testing.T) {
-	var typ ReadAddress
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ReadAddress
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestReadInterfaceConnection_EncodeDecode(t *testing.T) {
 	var typ ReadInterfaceConnection

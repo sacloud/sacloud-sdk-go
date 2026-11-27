@@ -56,6 +56,16 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	// address API: Create/List/Read/Delete
+	addrOp := networkingsuite.NewAddressesOp(client)
+	subnetSRN := srn.MustParse(s.SRN)
+	address, err := addrOp.Create(ctx, networkingsuite.CreateAddressParams{
+		SubnetSRN: subnetSRN,
+	})
+	if err != nil {
+		panic(err)
+	}
 }
 ```
 

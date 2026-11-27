@@ -1,14 +1,14 @@
 openapi: 3.1.0
 info:
-  title: ネットワークスイート (CR) API
-  version: 0.2.1
+  title: ネットワークスイートAPI
+  version: 1.0.0
   contact:
     name: SAKURA internet Inc.
     url: https://www.sakura.ad.jp/
   license:
     name: Copyright(C) SAKURA internet Inc. all rights reserved.
   description: |-
-    ネットワークスイート (CR) APIは、さくらのクラウドのネットワークスイート機能 (Networking Suite) を提供するAPIです。
+    ネットワークスイートAPIは、さくらのクラウドのネットワークスイート機能 (Networking Suite) を提供するAPIです。
     # 基本的な使い方
     ## APIキーの発行
     APIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。
@@ -58,7 +58,7 @@ info:
 
     ## 「さくらのリソース名 (Sakura resource name, SRN)」について
     さくらのリソース名 (Sakura resource name, SRN) は、さくらのクラウドのリソースを一意に識別するための文字列です。SRNは、リソースのスコープや種類、IDなどを含む構造化された文字列であり、リソースを特定するために使用されます。
-    ネットワークスイート (CR) APIでは、SRNを使用してサブネットグループやサブネットなどのリソースを識別します。SRNは、リソースの種類やIDを含むため、API呼び出し時にリソースを指定する際に便利です。
+    ネットワークスイートAPIでは、SRNを使用してサブネットグループやサブネットなどのリソースを識別します。SRNは、リソースの種類やIDを含むため、API呼び出し時にリソースを指定する際に便利です。
 
     SRNは以下の構造を持ちます。
     ```
@@ -84,7 +84,7 @@ info:
     具体的なSRNの値や指定方法については、各APIごとのドキュメントをご参照ください。
 
     ## ドキュメント上に記載のないフィールドについて
-    ネットワークスイート (CR) APIのレスポンスには、ドキュメント上に記載のないフィールドが含まれる場合があります。これらのフィールドは、将来的な拡張あるいは後方互換性のために予告無く追加・削除されることがあります。ドキュメント上に記載のないフィールドは、アプリケーションでの利用は行わないようにしてください。
+    ネットワークスイートAPIのレスポンスには、ドキュメント上に記載のないフィールドが含まれる場合があります。これらのフィールドは、将来的な拡張あるいは後方互換性のために予告無く追加・削除されることがあります。ドキュメント上に記載のないフィールドは、アプリケーションでの利用は行わないようにしてください。
 servers:
   - url: https://secure.sakura.ad.jp/cloud/zone/is1c/api/cloud/1.1
     description: さくらのクラウド 石狩第3ゾーン APIエンドポイント
@@ -97,7 +97,7 @@ tags:
   - name: インターフェース操作
     description: NIC (インターフェース) をサブネットに接続するためのインターフェースコネクションの作成、削除を行います。
   - name: アドレス操作
-    description: サブネットで割り当て済みのIPアドレスの取得を行います。
+    description: サブネットに対するIPアドレスの作成・削除、および割り当て済みIPアドレスの取得を行います。
 paths:
   /networking-suite/addresses:
     get:
@@ -147,6 +147,79 @@ paths:
                 $ref: '#/components/schemas/AddressListResponse'
       tags:
         - アドレス操作
+    post:
+      operationId: createAddress
+      summary: アドレスの作成
+      description: サブネットにアドレスを作成します。
+      parameters: []
+      responses:
+        '201':
+          description: The request has succeeded and a new resource has been created as a result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedSubnetAddressResponse'
+              examples:
+                アドレス作成 (IPアドレス自動割当):
+                  summary: アドレス作成 (IPアドレス自動割当)
+                  description: '`IPAddress` フィールドを省略することで、空いている未使用のIPアドレスを自動的に割り当てます。'
+                  value:
+                    Address:
+                      SRN: srnv1:sakura-is1c:sakura.networking-suite.address:5678901234
+                      AddressType: SERVICE_ENDPOINT_GATEWAY_ADDRESS
+                      IPVersion: IPv4
+                      IPAddress: 10.0.0.10
+                      Subnet:
+                        SRN: srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901
+                アドレス作成 (IPアドレス手動指定):
+                  summary: アドレス作成 (IPアドレス手動指定)
+                  description: |-
+                    `IPAddress` フィールドに空いている未使用のIPアドレスを指定することで、手動で割り当てることができます。
+
+                    [マニュアル](https://manual.sakura.ad.jp/cloud/network/networking-suite/index.html)内「仕様」に記載の条件を満たすIPアドレスを指定する必要があります。IPアドレスはサブネットのIPアドレス範囲に含まれ、かつ、同一サブネット内でNICに割り当て済みのIPアドレスやシステムが予約済みのIPアドレスと重複しない必要があります。
+                  value:
+                    Address:
+                      SRN: srnv1:sakura-is1c:sakura.networking-suite.address:5678901234
+                      AddressType: SERVICE_ENDPOINT_GATEWAY_ADDRESS
+                      IPVersion: IPv4
+                      IPAddress: 10.0.0.10
+                      Subnet:
+                        SRN: srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - アドレス操作
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAddress'
+            examples:
+              アドレス作成 (IPアドレス自動割当):
+                summary: アドレス作成 (IPアドレス自動割当)
+                description: '`IPAddress` フィールドを省略することで、空いている未使用のIPアドレスを自動的に割り当てます。'
+                value:
+                  AddressType: SERVICE_ENDPOINT_GATEWAY_ADDRESS
+                  IPVersion: IPv4
+                  Subnet:
+                    SRN: srnv1:is1a:sakura.networking-suite.subnet:113800112784
+              アドレス作成 (IPアドレス手動指定):
+                summary: アドレス作成 (IPアドレス手動指定)
+                description: |-
+                  `IPAddress` フィールドに空いている未使用のIPアドレスを指定することで、手動で割り当てることができます。
+
+                  [マニュアル](https://manual.sakura.ad.jp/cloud/network/networking-suite/index.html)内「仕様」に記載の条件を満たすIPアドレスを指定する必要があります。IPアドレスはサブネットのIPアドレス範囲に含まれ、かつ、同一サブネット内でNICに割り当て済みのIPアドレスやシステムが予約済みのIPアドレスと重複しない必要があります。
+                value:
+                  AddressType: SERVICE_ENDPOINT_GATEWAY_ADDRESS
+                  IPVersion: IPv4
+                  IPAddress: 10.0.0.10
+                  Subnet:
+                    SRN: srnv1:is1a:sakura.networking-suite.subnet:113800112784
   /networking-suite/addresses/{addressid}:
     get:
       operationId: readAddress
@@ -179,6 +252,36 @@ paths:
                   IPAddress: 10.0.0.10
                   Subnet:
                     SRN: srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - アドレス操作
+    delete:
+      operationId: deleteAddress
+      summary: アドレスの削除
+      description: |-
+        サブネットのアドレスを削除します。
+
+        AddressTypeが `SERVICE_ENDPOINT_GATEWAY_ADDRESS` のアドレスのみ削除可能です。
+      parameters:
+        - name: addressid
+          in: path
+          required: true
+          description: |-
+            アドレスのID
+
+            アドレスのSRNの末尾、ID部分の値を指定します。
+            例: `srnv1:sakura-is1c:sakura.networking-suite.address:5678901234` の場合は `5678901234` を指定します。
+          schema:
+            type: string
+          example: '5678901234'
+      responses:
+        '204':
+          description: There is no content to send for this request, but the headers may be useful.
         default:
           description: An unexpected error response.
           content:
@@ -758,6 +861,30 @@ paths:
         - サブネット操作
 components:
   schemas:
+    Address:
+      type: object
+      required:
+        - SRN
+        - AddressType
+        - IPVersion
+        - IPAddress
+        - Subnet
+      properties:
+        SRN:
+          type: string
+          description: さくらのリソース名 (SRN)
+        AddressType:
+          type: string
+          description: アドレス種別 (`EPHEMERAL_ADDRESS`、`SERVICE_ENDPOINT_GATEWAY_ADDRESS`)
+        IPVersion:
+          type: string
+          description: アドレスバージョン; `IPv4` 固定
+        IPAddress:
+          type: string
+          description: IPアドレス
+        Subnet:
+          $ref: '#/components/schemas/SakuraResourceNameRef'
+          description: アドレスが属するサブネット
     AddressListResponse:
       type: object
       required:
@@ -781,7 +908,7 @@ components:
         Addresses:
           type: array
           items:
-            $ref: '#/components/schemas/ReadAddress'
+            $ref: '#/components/schemas/Address'
           description: アドレス一覧
       description: 成功時のレスポンス
     AddressResponse:
@@ -790,7 +917,7 @@ components:
         - Address
       properties:
         Address:
-          $ref: '#/components/schemas/ReadAddress'
+          $ref: '#/components/schemas/Address'
           description: アドレス
       description: 成功時のレスポンス
     ApiError:
@@ -807,6 +934,29 @@ components:
         - serial: 4f464bf7db102d5e8e2092876506bc77
           error_code: forbidden
           error_msg: 要求された操作は許可されていません。権限エラー。
+    CreateAddress:
+      type: object
+      required:
+        - AddressType
+        - IPVersion
+        - Subnet
+      properties:
+        AddressType:
+          type: string
+          enum:
+            - SERVICE_ENDPOINT_GATEWAY_ADDRESS
+          description: アドレス種別; `SERVICE_ENDPOINT_GATEWAY_ADDRESS` 固定
+        IPVersion:
+          type: string
+          enum:
+            - IPv4
+          description: アドレスバージョン; `IPv4` 固定
+        IPAddress:
+          type: string
+          description: IPアドレス
+        Subnet:
+          $ref: '#/components/schemas/SakuraResourceNameRef'
+          description: アドレスが属するサブネット
     CreateInterfaceConnection:
       type: object
       required:
@@ -882,6 +1032,14 @@ components:
           $ref: '#/components/schemas/ReadInterfaceConnection'
           description: インターフェースコネクション
       description: 成功時のレスポンス
+    CreatedSubnetAddressResponse:
+      type: object
+      required:
+        - Address
+      properties:
+        Address:
+          $ref: '#/components/schemas/Address'
+          description: アドレス
     CreatedSubnetGroupResponse:
       type: object
       required:
@@ -900,30 +1058,6 @@ components:
           $ref: '#/components/schemas/ReadSubnet'
           description: サブネット
       description: 成功時のレスポンス
-    ReadAddress:
-      type: object
-      required:
-        - SRN
-        - AddressType
-        - IPVersion
-        - IPAddress
-        - Subnet
-      properties:
-        SRN:
-          type: string
-          description: さくらのリソース名 (SRN)
-        AddressType:
-          type: string
-          description: アドレス種別; `EPHEMERAL_ADDRESS` 固定
-        IPVersion:
-          type: string
-          description: アドレスバージョン; `IPv4` 固定
-        IPAddress:
-          type: string
-          description: IPアドレス
-        Subnet:
-          $ref: '#/components/schemas/SakuraResourceNameRef'
-          description: アドレスが属するサブネット
     ReadInterfaceConnection:
       type: object
       required:

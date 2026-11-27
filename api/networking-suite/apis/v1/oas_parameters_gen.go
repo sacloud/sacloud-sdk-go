@@ -2,6 +2,16 @@
 
 package v1
 
+// DeleteAddressParams is parameters of deleteAddress operation.
+type DeleteAddressParams struct {
+	// アドレスのID
+	//
+	// アドレスのSRNの末尾、ID部分の値を指定します。 例:
+	// `srnv1:sakura-is1c:sakura.networking-suite.address:5678901234` の場合は `5678901234`
+	// を指定します。.
+	Addressid string
+}
+
 // DeleteInterfaceConnectionParams is parameters of deleteInterfaceConnection operation.
 type DeleteInterfaceConnectionParams struct {
 	// インターフェースコネクションのID
