@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.8.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.8.0...v0.8.1) - 2026-11-27
+
+### ✨ Ordinary Updates
+- Add Security Control to OpenAPI drift check by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/368
+- api/iaas/trace/otel を CI の lint/test/vulncheck 対象に追加し lint エラーを解消 by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/366
+- Add IaaS client constructor with endpoint configuration by @yamamoto-febc in https://github.com/sacloud/sacloud-sdk-go/pull/370
+
 ## [v0.8.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.7.1...v0.8.0) - 2026-11-25
 
 ### 🚀 New Features
