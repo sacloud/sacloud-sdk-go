@@ -80,7 +80,14 @@ type Client struct {
 
 func NewClientFromSaclient(sa saclient.ClientAPI) *Client { return &Client{sa} }
 
-// NewClientFromSaclientWithEndpointConfig creates an API client and applies the endpoint configuration from sa.
+// NewClientFromSaclientWithEndpointConfig creates an API client and applies sa's
+// endpoint configuration to package-wide settings.
+//
+// Non-empty settings update SakuraCloudAPIRoot, APIDefaultZone, and SakuraCloudZones
+// for all IaaS clients, including existing clients. Settings are not isolated to
+// the returned client; unspecified settings remain unchanged. Zone is ignored.
+// Call this function serially during initialization, before starting API operations.
+// It must not run concurrently with API operations or other accesses to these settings.
 func NewClientFromSaclientWithEndpointConfig(sa saclient.ClientAPI) (*Client, error) {
 	endpointConfig, err := sa.EndpointConfig()
 	if err != nil {
