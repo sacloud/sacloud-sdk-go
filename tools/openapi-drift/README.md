@@ -14,7 +14,8 @@ go run ./tools/openapi-drift
 It starts with a summary table showing each component's repository and portal
 `info.version`, difference status, and number of structural differences. The
 status is `:x:` when versions differ, `:warning:` when versions match but
-structures differ, and `:white_check_mark:` otherwise.
+structures differ, and `:white_check_mark:` otherwise. The repository-only
+`+patched@sdk` suffix is ignored when comparing versions.
 GitHub Actions also displays the report in the workflow run's job
 summary, without requiring you to open step logs. Detailed
 differences in component definitions, schemas, and paths follow the table. The
@@ -43,7 +44,7 @@ current repository and portal definitions.
 ```text
 # OpenAPI comparison summary
 
-Compared APIs: 19; version differences: 8; APIs with structural differences: 8.
+Compared APIs: 19; version differences: 7; APIs with structural differences: 8.
 
 | API component | Repository version | Portal version | Status | Structural differences |
 |---|---:|---:|---|---:|
@@ -51,7 +52,7 @@ Compared APIs: 19; version differences: 8; APIs with structural differences: 8.
 | Monitoring Suite | 1.3.0 | 1.3.0 | :white_check_mark: | 0 |
 | SimpleMQ message | 1.1.2 | 1.1.4 | :x: | 1 |
 | SimpleMQ queue | 1.1.2 | 1.1.2 | :white_check_mark: | 0 |
-| Add-on | 1.2.0+patched@sdk | 1.2.0 | :x: | 1 |
+| Add-on | 1.2.0+patched@sdk | 1.2.0 | :warning: | 1 |
 | API Gateway | 2.0.1 | 2.1.0 | :x: | 50 |
 ...
 | Security Control | 1.0.0 | 1.0.0 | :white_check_mark: | 0 |

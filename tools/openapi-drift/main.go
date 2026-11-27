@@ -134,7 +134,7 @@ func run() error {
 		}
 		summary[len(summary)-1].differenceCount = diff.total
 
-		if localVersion != upstreamVersion {
+		if !versionsMatch(localVersion, upstreamVersion) {
 			diff.add(fmt.Sprintf("info.version: local %q; portal %q", localVersion, upstreamVersion))
 		}
 
@@ -452,12 +452,16 @@ func intersection(left, right []string) []string {
 	return result
 }
 
+func versionsMatch(local, portal string) bool {
+	return strings.TrimSuffix(local, "+patched@sdk") == portal
+}
+
 func writeFindings(summary []summaryRow, findings []finding) error {
 	var output strings.Builder
 	versionDifferences := 0
 	structuralDifferences := 0
 	for _, row := range summary {
-		if row.localVersion != row.portalVersion {
+		if !versionsMatch(row.localVersion, row.portalVersion) {
 			versionDifferences++
 		}
 		if row.differenceCount > 0 {
@@ -476,7 +480,7 @@ func writeFindings(summary []summaryRow, findings []finding) error {
 	output.WriteString("|---|---:|---:|---|---:|\n")
 	for _, row := range summary {
 		status := ":white_check_mark:"
-		if row.localVersion != row.portalVersion {
+		if !versionsMatch(row.localVersion, row.portalVersion) {
 			status = ":x:"
 		} else if row.differenceCount > 0 {
 			status = ":warning:"

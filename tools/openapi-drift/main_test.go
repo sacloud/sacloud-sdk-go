@@ -17,6 +17,7 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 	tests := []struct {
 		name                          string
 		version                       string
+		localVersion                  string
 		localPaths                    string
 		paths                         string
 		ignoreRequestBodyContentTypes []string
@@ -50,6 +51,14 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 			paths:      `{"/new": {}}`,
 			wantCounts: "version differences: 1; APIs with structural differences: 1.",
 			wantRow:    "| Test API | 1.0.0 | 1.1.0 | :x: | 1 |",
+		},
+		{
+			name:         "patched repository version and structure",
+			version:      "1.0.0",
+			localVersion: "1.0.0+patched@sdk",
+			paths:        `{"/new": {}}`,
+			wantCounts:   "version differences: 0; APIs with structural differences: 1.",
+			wantRow:      "| Test API | 1.0.0+patched@sdk | 1.0.0 | :warning: | 1 |",
 		},
 		{
 			name:       "ignores configured request body content types",
@@ -105,9 +114,13 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 			if localPaths == "" {
 				localPaths = "{}"
 			}
+			localVersion := tt.localVersion
+			if localVersion == "" {
+				localVersion = "1.0.0"
+			}
 			for filename, content := range map[string][]byte{
 				manifestPath: encoded,
-				"local.json": []byte(`{"openapi":"3.0.0","info":{"version":"1.0.0"},"paths":` + localPaths + `}`),
+				"local.json": []byte(`{"openapi":"3.0.0","info":{"version":"` + localVersion + `"},"paths":` + localPaths + `}`),
 				"summary.md": nil,
 			} {
 				if err := os.WriteFile(filename, content, 0o644); err != nil {
