@@ -21,9 +21,64 @@ import (
 	"testing"
 	"time"
 
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
 	"github.com/stretchr/testify/require"
 )
+
+type endpointConfigClient struct {
+	saclient.ClientAPI
+	config *saclient.EndpointConfig
+	err    error
+}
+
+func (c endpointConfigClient) EndpointConfig() (*saclient.EndpointConfig, error) {
+	return c.config, c.err
+}
+
+func TestNewClientFromSaclientWithEndpointConfig(t *testing.T) {
+	originalRoot := SakuraCloudAPIRoot
+	originalDefaultZone := APIDefaultZone
+	originalZones := SakuraCloudZones
+	t.Cleanup(func() {
+		SakuraCloudAPIRoot = originalRoot
+		APIDefaultZone = originalDefaultZone
+		SakuraCloudZones = originalZones
+	})
+
+	legacyClient := endpointConfigClient{
+		config: &saclient.EndpointConfig{
+			Endpoints:  map[string]string{"iaas": "https://api.example.com/cloud/zone/"},
+			APIRootURL: "https://deprecated.example.com",
+			Zone:       "tk1b",
+			Zones:      []string{"tk1b", "tk1c"},
+		},
+	}
+	NewClientFromSaclient(legacyClient)
+	require.Equal(t, originalRoot, SakuraCloudAPIRoot)
+	require.Equal(t, originalDefaultZone, APIDefaultZone)
+	require.Equal(t, originalZones, SakuraCloudZones)
+
+	_, err := NewClientFromSaclientWithEndpointConfig(legacyClient)
+	require.NoError(t, err)
+	require.Equal(t, "https://api.example.com/cloud/zone", SakuraCloudAPIRoot)
+	require.Equal(t, originalDefaultZone, APIDefaultZone)
+	require.Equal(t, []string{"tk1b", "tk1c"}, SakuraCloudZones)
+
+	_, err = NewClientFromSaclientWithEndpointConfig(endpointConfigClient{
+		config: &saclient.EndpointConfig{
+			APIRootURL:  "https://legacy.example.com/",
+			Zone:        "is1c",
+			DefaultZone: "is1b",
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, "https://legacy.example.com", SakuraCloudAPIRoot)
+	require.Equal(t, "is1b", APIDefaultZone)
+
+	_, err = NewClientFromSaclientWithEndpointConfig(endpointConfigClient{err: context.Canceled})
+	require.ErrorIs(t, err, context.Canceled)
+}
 
 type dummyHandler struct {
 	called       []time.Time
