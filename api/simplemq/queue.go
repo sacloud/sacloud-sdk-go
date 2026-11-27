@@ -16,7 +16,6 @@ package simplemq
 
 import (
 	"context"
-	"errors"
 	"strconv"
 
 	"github.com/sacloud/sacloud-sdk-go/api/simplemq/apis/v1/queue"
@@ -63,177 +62,63 @@ func GetQueueName(q *queue.CommonServiceItem) string {
 
 func (op *queueOp) Create(ctx context.Context, req queue.CreateQueueRequest) (*queue.CommonServiceItem, error) {
 	req.CommonServiceItem.Provider.Class = queue.CreateQueueRequestCommonServiceItemProviderClassSimplemq
-	res, err := op.client.CreateQueue(ctx, &req)
+	res, err := errorFromDecodedResponse[queue.CreateQueueCreated]("Queue.Create", func() (any, error) { return op.client.CreateQueue(ctx, &req) })
 	if err != nil {
-		return nil, NewAPIError("Queue.Create", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *queue.CreateQueueCreated:
-		return &r.CommonServiceItem, nil
-	case *queue.CreateQueueUnauthorized:
-		return nil, NewAPIError("Queue.Create", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.CreateQueueBadRequest:
-		return nil, NewAPIError("Queue.Create", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.CreateQueueConflict:
-		return nil, NewAPIError("Queue.Create", 409, errors.New(r.ErrorMsg.Value))
-	case *queue.CreateQueueInternalServerError:
-		return nil, NewAPIError("Queue.Create", 500, errors.New(r.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Queue.Create", 0, unknownQueueError(r))
-	}
+	return new(res.GetCommonServiceItem()), nil
 }
 
 func (op *queueOp) List(ctx context.Context) ([]queue.CommonServiceItem, error) {
-	res, err := op.client.ListQueues(ctx)
+	res, err := errorFromDecodedResponse[queue.ListQueuesOK]("Queue.List", func() (any, error) { return op.client.ListQueues(ctx) })
 	if err != nil {
-		return nil, NewAPIError("Queue.List", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *queue.ListQueuesOK:
-		return r.CommonServiceItems, nil
-	case *queue.ListQueuesUnauthorized:
-		return nil, NewAPIError("Queue.List", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.ListQueuesBadRequest:
-		return nil, NewAPIError("Queue.List", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.ListQueuesInternalServerError:
-		return nil, NewAPIError("Queue.List", 500, errors.New(r.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Queue.List", 0, unknownQueueError(r))
-	}
+	return res.GetCommonServiceItems(), nil
 }
 
 func (op *queueOp) Read(ctx context.Context, id string) (*queue.CommonServiceItem, error) {
-	res, err := op.client.ReadQueue(ctx, queue.ReadQueueParams{ID: id})
+	res, err := errorFromDecodedResponse[queue.ReadQueueOK]("Queue.Read", func() (any, error) { return op.client.ReadQueue(ctx, queue.ReadQueueParams{ID: id}) })
 	if err != nil {
-		return nil, NewAPIError("Queue.Read", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *queue.ReadQueueOK:
-		return &r.CommonServiceItem, nil
-	case *queue.ReadQueueUnauthorized:
-		return nil, NewAPIError("Queue.Read", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.ReadQueueBadRequest:
-		return nil, NewAPIError("Queue.Read", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.ReadQueueNotFound:
-		return nil, NewAPIError("Queue.Read", 404, errors.New(r.ErrorMsg.Value))
-	case *queue.ReadQueueInternalServerError:
-		return nil, NewAPIError("Queue.Read", 500, errors.New(r.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Queue.Read", 0, unknownQueueError(r))
-	}
+	return new(res.GetCommonServiceItem()), nil
 }
 
 func (op *queueOp) Config(ctx context.Context, id string, req queue.ConfigQueueRequest) (*queue.CommonServiceItem, error) {
-	res, err := op.client.UpdateQueue(ctx, &req, queue.UpdateQueueParams{ID: id})
+	res, err := errorFromDecodedResponse[queue.UpdateQueueOK]("Queue.Config", func() (any, error) { return op.client.UpdateQueue(ctx, &req, queue.UpdateQueueParams{ID: id}) })
 	if err != nil {
-		return nil, NewAPIError("Queue.Config", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *queue.UpdateQueueOK:
-		return &r.CommonServiceItem, nil
-	case *queue.UpdateQueueUnauthorized:
-		return nil, NewAPIError("Queue.Config", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.UpdateQueueBadRequest:
-		return nil, NewAPIError("Queue.Config", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.UpdateQueueNotFound:
-		return nil, NewAPIError("Queue.Config", 404, errors.New(r.ErrorMsg.Value))
-	case *queue.UpdateQueueInternalServerError:
-		return nil, NewAPIError("Queue.Config", 500, errors.New(r.ErrorMsg.Value))
-	default:
-		return nil, NewAPIError("Queue.Config", 0, unknownQueueError(r))
-	}
+	return new(res.GetCommonServiceItem()), nil
 }
 
 func (op *queueOp) Delete(ctx context.Context, id string) error {
-	res, err := op.client.DeleteQueue(ctx, queue.DeleteQueueParams{
-		ID: id,
-	})
-	if err != nil {
-		return NewError("Delete", err)
-	}
-
-	switch r := res.(type) {
-	case *queue.DeleteQueueOK:
-		return nil
-	case *queue.DeleteQueueUnauthorized:
-		return NewAPIError("Queue.Delete", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.DeleteQueueBadRequest:
-		return NewAPIError("Queue.Delete", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.DeleteQueueNotFound:
-		return NewAPIError("Queue.Delete", 404, errors.New(r.ErrorMsg.Value))
-	case *queue.DeleteQueueInternalServerError:
-		return NewAPIError("Queue.Delete", 500, errors.New(r.ErrorMsg.Value))
-	default:
-		return NewAPIError("Queue.Delete", 0, unknownQueueError(r))
-	}
+	return errorFromDecodedResponseE[queue.DeleteQueueOK]("Queue.Delete", func() (any, error) { return op.client.DeleteQueue(ctx, queue.DeleteQueueParams{ID: id}) })
 }
 
 func (op *queueOp) CountMessages(ctx context.Context, id string) (int, error) {
-	res, err := op.client.ReadMessageCount(ctx, queue.ReadMessageCountParams{ID: id})
+	res, err := errorFromDecodedResponse[queue.ReadMessageCountOK]("Queue.CountMessages", func() (any, error) { return op.client.ReadMessageCount(ctx, queue.ReadMessageCountParams{ID: id}) })
 	if err != nil {
-		return 0, NewError("CountMessages", err)
+		return 0, err
 	}
 
-	switch r := res.(type) {
-	case *queue.ReadMessageCountOK:
-		return r.SimpleMQ.GetCount(), nil
-	case *queue.ReadMessageCountUnauthorized:
-		return 0, NewAPIError("Queue.CountMessages", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.ReadMessageCountBadRequest:
-		return 0, NewAPIError("Queue.CountMessages", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.ReadMessageCountNotFound:
-		return 0, NewAPIError("Queue.CountMessages", 404, errors.New(r.ErrorMsg.Value))
-	case *queue.ReadMessageCountInternalServerError:
-		return 0, NewAPIError("Queue.CountMessages", 500, errors.New(r.ErrorMsg.Value))
-	default:
-		return 0, NewAPIError("Queue.CountMessages", 0, unknownQueueError(r))
-	}
+	return new(res.GetSimpleMQ()).GetCount(), nil
 }
 
 func (op *queueOp) RotateAPIKey(ctx context.Context, id string) (string, error) {
-	res, err := op.client.RotateAPIKey(ctx, queue.RotateAPIKeyParams{ID: id})
+	res, err := errorFromDecodedResponse[queue.RotateAPIKeyOK]("Queue.RotateAPIKey", func() (any, error) { return op.client.RotateAPIKey(ctx, queue.RotateAPIKeyParams{ID: id}) })
 	if err != nil {
-		return "", NewAPIError("Queue.RotateAPIKey", 0, err)
+		return "", err
 	}
 
-	switch r := res.(type) {
-	case *queue.RotateAPIKeyOK:
-		return r.SimpleMQ.GetApikey(), nil
-	case *queue.RotateAPIKeyUnauthorized:
-		return "", NewAPIError("Queue.RotateAPIKey", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.RotateAPIKeyBadRequest:
-		return "", NewAPIError("Queue.RotateAPIKey", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.RotateAPIKeyNotFound:
-		return "", NewAPIError("Queue.RotateAPIKey", 404, errors.New(r.ErrorMsg.Value))
-	case *queue.RotateAPIKeyInternalServerError:
-		return "", NewAPIError("Queue.RotateAPIKey", 500, errors.New(r.ErrorMsg.Value))
-	default:
-		return "", NewAPIError("Queue.RotateAPIKey", 0, unknownQueueError(r))
-	}
+	return new(res.GetSimpleMQ()).GetApikey(), nil
 }
 
 func (op *queueOp) ClearMessages(ctx context.Context, id string) error {
-	res, err := op.client.ClearQueue(ctx, queue.ClearQueueParams{ID: id})
-	if err != nil {
-		return NewAPIError("Queue.ClearMessages", 0, err)
-	}
-
-	switch r := res.(type) {
-	case *queue.ClearQueueOK:
-		return nil
-	case *queue.ClearQueueUnauthorized:
-		return NewAPIError("Queue.ClearMessages", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.ClearQueueBadRequest:
-		return NewAPIError("Queue.ClearMessages", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.ClearQueueNotFound:
-		return NewAPIError("Queue.ClearMessages", 404, errors.New(r.ErrorMsg.Value))
-	case *queue.ClearQueueInternalServerError:
-		return NewAPIError("Queue.ClearMessages", 500, errors.New(r.ErrorMsg.Value))
-	default:
-		return NewAPIError("Queue.ClearMessages", 0, unknownQueueError(r))
-	}
+	return errorFromDecodedResponseE[queue.ClearQueueOK]("Queue.ClearMessages", func() (any, error) { return op.client.ClearQueue(ctx, queue.ClearQueueParams{ID: id}) })
 }

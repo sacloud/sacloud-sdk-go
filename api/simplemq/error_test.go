@@ -94,6 +94,30 @@ func TestUnknownMessageError(t *testing.T) {
 	}
 }
 
+func TestAsQueueError(t *testing.T) {
+	err, statusCode, ok := asQueueError(&queue.CreateQueueBadRequest{})
+	if !ok || err == nil || statusCode != 400 {
+		t.Errorf("asQueueError() = (%v, %d, %t), want non-nil error, 400, true", err, statusCode, ok)
+	}
+
+	err, statusCode, ok = asQueueError((*queue.CreateQueueBadRequest)(nil))
+	if ok || err != nil || statusCode != 0 {
+		t.Errorf("asQueueError(typed nil) = (%v, %d, %t), want nil, 0, false", err, statusCode, ok)
+	}
+}
+
+func TestAsMessageError(t *testing.T) {
+	err, statusCode, ok := asMessageError(&message.SendMessageTooManyRequests{})
+	if !ok || err == nil || statusCode != 429 {
+		t.Errorf("asMessageError() = (%v, %d, %t), want non-nil error, 429, true", err, statusCode, ok)
+	}
+
+	err, statusCode, ok = asMessageError(123)
+	if ok || err != nil || statusCode != 0 {
+		t.Errorf("asMessageError(unknown type) = (%v, %d, %t), want nil, 0, false", err, statusCode, ok)
+	}
+}
+
 func TestError_Error(t *testing.T) {
 	baseErr := errors.New("base error")
 

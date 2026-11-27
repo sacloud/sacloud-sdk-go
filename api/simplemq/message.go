@@ -16,7 +16,6 @@ package simplemq
 
 import (
 	"context"
-	"errors"
 
 	"github.com/sacloud/sacloud-sdk-go/api/simplemq/apis/v1/message"
 )
@@ -43,110 +42,40 @@ func NewMessageOp(client *message.Client, queueName string) MessageAPI {
 }
 
 func (op *messageOp) Send(ctx context.Context, content string) (*message.NewMessage, error) {
-	res, err := op.client.SendMessage(ctx,
-		&message.SendRequest{
-			Content: message.MessageContent(content),
-		},
-		message.SendMessageParams{
-			QueueName: op.queueName,
-		})
+	res, err := errorFromDecodedResponse[message.SendMessageOK]("Message.Send", func() (any, error) {
+		return op.client.SendMessage(ctx, &message.SendRequest{Content: message.MessageContent(content)}, message.SendMessageParams{QueueName: op.queueName})
+	})
 	if err != nil {
-		return nil, NewAPIError("Message.Send", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *message.SendMessageOK:
-		return &r.Message, nil
-	case *message.SendMessageUnauthorized:
-		return nil, NewAPIError("Message.Send", 401, errors.New(r.Message.Value))
-	case *message.SendMessageBadRequest:
-		return nil, NewAPIError("Message.Send", 400, errors.New(r.Message.Value))
-	case *message.SendMessageTooManyRequests:
-		return nil, NewAPIError("Message.Send", 429, errors.New(r.Message.Value))
-	case *message.SendMessageInternalServerError:
-		return nil, NewAPIError("Message.Send", 500, errors.New(r.Message.Value))
-	default:
-		return nil, NewAPIError("Message.Send", 0, unknownMessageError(r))
-	}
+	return new(res.GetMessage()), nil
 }
 
 func (op *messageOp) Receive(ctx context.Context) ([]message.Message, error) {
-	res, err := op.client.ReceiveMessage(ctx,
-		message.ReceiveMessageParams{
-			QueueName: op.queueName,
-		})
+	res, err := errorFromDecodedResponse[message.ReceiveMessageOK]("Message.Receive", func() (any, error) {
+		return op.client.ReceiveMessage(ctx, message.ReceiveMessageParams{QueueName: op.queueName})
+	})
 	if err != nil {
-		return nil, NewAPIError("Message.Receive", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *message.ReceiveMessageOK:
-		return r.Messages, nil
-	case *message.ReceiveMessageUnauthorized:
-		return nil, NewAPIError("Message.Receive", 401, errors.New(r.Message.Value))
-	case *message.ReceiveMessageBadRequest:
-		return nil, NewAPIError("Message.Receive", 400, errors.New(r.Message.Value))
-	case *message.ReceiveMessageTooManyRequests:
-		return nil, NewAPIError("Message.Receive", 429, errors.New(r.Message.Value))
-	case *message.ReceiveMessageInternalServerError:
-		return nil, NewAPIError("Message.Receive", 500, errors.New(r.Message.Value))
-	default:
-		return nil, NewAPIError("Message.Receive", 0, unknownMessageError(r))
-	}
+	return res.GetMessages(), nil
 }
 
 func (op *messageOp) ExtendTimeout(ctx context.Context, messageID string) (*message.Message, error) {
-	res, err := op.client.ExtendMessageTimeout(ctx,
-		message.ExtendMessageTimeoutParams{
-			QueueName: op.queueName,
-			MessageId: message.MessageId(messageID),
-		})
+	res, err := errorFromDecodedResponse[message.ExtendMessageTimeoutOK]("Message.ExtendTimeout", func() (any, error) {
+		return op.client.ExtendMessageTimeout(ctx, message.ExtendMessageTimeoutParams{QueueName: op.queueName, MessageId: message.MessageId(messageID)})
+	})
 	if err != nil {
-		return nil, NewAPIError("Message.ExtendTimeout", 0, err)
+		return nil, err
 	}
 
-	switch r := res.(type) {
-	case *message.ExtendMessageTimeoutOK:
-		return &r.Message, nil
-	case *message.ExtendMessageTimeoutUnauthorized:
-		return nil, NewAPIError("Message.ExtendTimeout", 401, errors.New(r.Message.Value))
-	case *message.ExtendMessageTimeoutBadRequest:
-		return nil, NewAPIError("Message.ExtendTimeout", 400, errors.New(r.Message.Value))
-	case *message.ExtendMessageTimeoutNotFound:
-		return nil, NewAPIError("Message.ExtendTimeout", 404, errors.New(r.Message.Value))
-	case *message.ExtendMessageTimeoutTooManyRequests:
-		return nil, NewAPIError("Message.ExtendTimeout", 429, errors.New(r.Message.Value))
-	case *message.ExtendMessageTimeoutInternalServerError:
-		return nil, NewAPIError("Message.ExtendTimeout", 500, errors.New(r.Message.Value))
-	default:
-		return nil, NewAPIError("Message.ExtendTimeout", 0, unknownMessageError(r))
-	}
+	return new(res.GetMessage()), nil
 }
 
 func (op *messageOp) Delete(ctx context.Context, messageID string) error {
-	res, err := op.client.DeleteMessage(ctx,
-		message.DeleteMessageParams{
-			QueueName: op.queueName,
-			MessageId: message.MessageId(messageID),
-		})
-	if err != nil {
-		return NewAPIError("Message.Delete", 0, err)
-	}
-
-	switch r := res.(type) {
-	case *message.DeleteMessageOK:
-		return nil
-	case *message.DeleteMessageUnauthorized:
-		return NewAPIError("Message.Delete", 401, errors.New(r.Message.Value))
-	case *message.DeleteMessageBadRequest:
-		return NewAPIError("Message.Delete", 400, errors.New(r.Message.Value))
-	case *message.DeleteMessageNotFound:
-		return NewAPIError("Message.Delete", 404, errors.New(r.Message.Value))
-	case *message.DeleteMessageTooManyRequests:
-		return NewAPIError("Message.Delete", 429, errors.New(r.Message.Value))
-	case *message.DeleteMessageInternalServerError:
-		return NewAPIError("Message.Delete", 500, errors.New(r.Message.Value))
-	default:
-		return NewAPIError("Message.Delete", 0, unknownMessageError(r))
-	}
+	return errorFromDecodedResponseE[message.DeleteMessageOK]("Message.Delete", func() (any, error) {
+		return op.client.DeleteMessage(ctx, message.DeleteMessageParams{QueueName: op.queueName, MessageId: message.MessageId(messageID)})
+	})
 }

@@ -8,116 +8,128 @@ package simplemq
 import (
 	message "github.com/sacloud/sacloud-sdk-go/api/simplemq/apis/v1/message"
 	queue "github.com/sacloud/sacloud-sdk-go/api/simplemq/apis/v1/queue"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/httperror"
+	"net/http"
 )
 
-func asQueueError(p any) (*queue.Error, bool) {
+func asQueueError(p any) (*queue.Error, int, bool) {
+	if p == nil {
+		return nil, 0, false
+	} else if httperror.IsTypedNil(p) {
+		return nil, 0, false
+	}
 	switch p := p.(type) {
 	case *queue.ClearQueueBadRequest:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusBadRequest, true
 	case *queue.ClearQueueInternalServerError:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusInternalServerError, true
 	case *queue.ClearQueueNotFound:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusNotFound, true
 	case *queue.ClearQueueUnauthorized:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusUnauthorized, true
 	case *queue.CreateQueueBadRequest:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusBadRequest, true
 	case *queue.CreateQueueConflict:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusConflict, true
 	case *queue.CreateQueueInternalServerError:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusInternalServerError, true
 	case *queue.CreateQueueUnauthorized:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusUnauthorized, true
 	case *queue.DeleteQueueBadRequest:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusBadRequest, true
 	case *queue.DeleteQueueInternalServerError:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusInternalServerError, true
 	case *queue.DeleteQueueNotFound:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusNotFound, true
 	case *queue.DeleteQueueUnauthorized:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusUnauthorized, true
 	case *queue.ListQueuesBadRequest:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusBadRequest, true
 	case *queue.ListQueuesInternalServerError:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusInternalServerError, true
 	case *queue.ListQueuesUnauthorized:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusUnauthorized, true
 	case *queue.ReadMessageCountBadRequest:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusBadRequest, true
 	case *queue.ReadMessageCountInternalServerError:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusInternalServerError, true
 	case *queue.ReadMessageCountNotFound:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusNotFound, true
 	case *queue.ReadMessageCountUnauthorized:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusUnauthorized, true
 	case *queue.ReadQueueBadRequest:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusBadRequest, true
 	case *queue.ReadQueueInternalServerError:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusInternalServerError, true
 	case *queue.ReadQueueNotFound:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusNotFound, true
 	case *queue.ReadQueueUnauthorized:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusUnauthorized, true
 	case *queue.RotateAPIKeyBadRequest:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusBadRequest, true
 	case *queue.RotateAPIKeyInternalServerError:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusInternalServerError, true
 	case *queue.RotateAPIKeyNotFound:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusNotFound, true
 	case *queue.RotateAPIKeyUnauthorized:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusUnauthorized, true
 	case *queue.UpdateQueueBadRequest:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusBadRequest, true
 	case *queue.UpdateQueueInternalServerError:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusInternalServerError, true
 	case *queue.UpdateQueueNotFound:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusNotFound, true
 	case *queue.UpdateQueueUnauthorized:
-		return (*queue.Error)(p), true
+		return (*queue.Error)(p), http.StatusUnauthorized, true
 	default:
-		return nil, false
+		return nil, 0, false
 	}
 }
 
-func asMessageError(p any) (*message.Error, bool) {
+func asMessageError(p any) (*message.Error, int, bool) {
+	if p == nil {
+		return nil, 0, false
+	} else if httperror.IsTypedNil(p) {
+		return nil, 0, false
+	}
 	switch p := p.(type) {
 	case *message.DeleteMessageBadRequest:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusBadRequest, true
 	case *message.DeleteMessageInternalServerError:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusInternalServerError, true
 	case *message.DeleteMessageNotFound:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusNotFound, true
 	case *message.DeleteMessageTooManyRequests:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusTooManyRequests, true
 	case *message.DeleteMessageUnauthorized:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusUnauthorized, true
 	case *message.ExtendMessageTimeoutBadRequest:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusBadRequest, true
 	case *message.ExtendMessageTimeoutInternalServerError:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusInternalServerError, true
 	case *message.ExtendMessageTimeoutNotFound:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusNotFound, true
 	case *message.ExtendMessageTimeoutTooManyRequests:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusTooManyRequests, true
 	case *message.ExtendMessageTimeoutUnauthorized:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusUnauthorized, true
 	case *message.ReceiveMessageBadRequest:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusBadRequest, true
 	case *message.ReceiveMessageInternalServerError:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusInternalServerError, true
 	case *message.ReceiveMessageTooManyRequests:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusTooManyRequests, true
 	case *message.ReceiveMessageUnauthorized:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusUnauthorized, true
 	case *message.SendMessageBadRequest:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusBadRequest, true
 	case *message.SendMessageInternalServerError:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusInternalServerError, true
 	case *message.SendMessageTooManyRequests:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusTooManyRequests, true
 	case *message.SendMessageUnauthorized:
-		return (*message.Error)(p), true
+		return (*message.Error)(p), http.StatusUnauthorized, true
 	default:
-		return nil, false
+		return nil, 0, false
 	}
 }
