@@ -21,6 +21,12 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
+	// CreateAddress invokes createAddress operation.
+	//
+	// サブネットにアドレスを作成します。.
+	//
+	// POST /networking-suite/addresses
+	CreateAddress(ctx context.Context, request *CreateAddress) (CreateAddressRes, error)
 	// CreateInterfaceConnection invokes createInterfaceConnection operation.
 	//
 	// NIC (インターフェース)
@@ -56,6 +62,14 @@ type Invoker interface {
 	//
 	// POST /networking-suite/subnet-groups
 	CreateSubnetGroup(ctx context.Context, request *CreateSubnetGroup) (CreateSubnetGroupRes, error)
+	// DeleteAddress invokes deleteAddress operation.
+	//
+	// サブネットのアドレスを削除します。
+	//
+	// AddressTypeが `SERVICE_ENDPOINT_GATEWAY_ADDRESS` のアドレスのみ削除可能です。.
+	//
+	// DELETE /networking-suite/addresses/{addressid}
+	DeleteAddress(ctx context.Context, params DeleteAddressParams) (DeleteAddressRes, error)
 	// DeleteInterfaceConnection invokes deleteInterfaceConnection operation.
 	//
 	// インターフェースコネクションを削除することで、NIC (インターフェース)
@@ -174,6 +188,61 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 		return c.serverURL
 	}
 	return u
+}
+
+// CreateAddress invokes createAddress operation.
+//
+// サブネットにアドレスを作成します。.
+//
+// POST /networking-suite/addresses
+func (c *Client) CreateAddress(ctx context.Context, request *CreateAddress) (CreateAddressRes, error) {
+	res, err := c.sendCreateAddress(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateAddress(ctx context.Context, request *CreateAddress) (res CreateAddressRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/networking-suite/addresses"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateAddressRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateAddressResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
 }
 
 // CreateInterfaceConnection invokes createInterfaceConnection operation.
@@ -325,6 +394,69 @@ func (c *Client) sendCreateSubnetGroup(ctx context.Context, request *CreateSubne
 	}()
 
 	result, err := decodeCreateSubnetGroupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteAddress invokes deleteAddress operation.
+//
+// サブネットのアドレスを削除します。
+//
+// AddressTypeが `SERVICE_ENDPOINT_GATEWAY_ADDRESS` のアドレスのみ削除可能です。.
+//
+// DELETE /networking-suite/addresses/{addressid}
+func (c *Client) DeleteAddress(ctx context.Context, params DeleteAddressParams) (DeleteAddressRes, error) {
+	res, err := c.sendDeleteAddress(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteAddress(ctx context.Context, params DeleteAddressParams) (res DeleteAddressRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/networking-suite/addresses/"
+	{
+		// Encode "addressid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "addressid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.Addressid))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteAddressResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

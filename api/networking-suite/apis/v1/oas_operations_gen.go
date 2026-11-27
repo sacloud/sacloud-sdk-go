@@ -6,9 +6,11 @@ package v1
 type OperationName = string
 
 const (
+	CreateAddressOperation             OperationName = "CreateAddress"
 	CreateInterfaceConnectionOperation OperationName = "CreateInterfaceConnection"
 	CreateSubnetOperation              OperationName = "CreateSubnet"
 	CreateSubnetGroupOperation         OperationName = "CreateSubnetGroup"
+	DeleteAddressOperation             OperationName = "DeleteAddress"
 	DeleteInterfaceConnectionOperation OperationName = "DeleteInterfaceConnection"
 	DeleteSubnetOperation              OperationName = "DeleteSubnet"
 	DeleteSubnetGroupOperation         OperationName = "DeleteSubnetGroup"

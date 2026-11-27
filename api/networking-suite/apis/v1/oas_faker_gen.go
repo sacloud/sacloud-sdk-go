@@ -3,6 +3,35 @@
 package v1
 
 // SetFake set fake values.
+func (s *Address) SetFake() {
+	{
+		{
+			s.SRN = "string"
+		}
+	}
+	{
+		{
+			s.AddressType = "string"
+		}
+	}
+	{
+		{
+			s.IPVersion = "string"
+		}
+	}
+	{
+		{
+			s.IPAddress = "string"
+		}
+	}
+	{
+		{
+			s.Subnet.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *AddressListResponse) SetFake() {
 	{
 		{
@@ -23,7 +52,7 @@ func (s *AddressListResponse) SetFake() {
 		{
 			s.Addresses = nil
 			for i := 0; i < 0; i++ {
-				var elem ReadAddress
+				var elem Address
 				{
 					elem.SetFake()
 				}
@@ -59,6 +88,40 @@ func (s *ApiError) SetFake() {
 			s.ErrorMsg.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *CreateAddress) SetFake() {
+	{
+		{
+			s.AddressType.SetFake()
+		}
+	}
+	{
+		{
+			s.IPVersion.SetFake()
+		}
+	}
+	{
+		{
+			s.IPAddress.SetFake()
+		}
+	}
+	{
+		{
+			s.Subnet.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateAddressAddressType) SetFake() {
+	*s = CreateAddressAddressTypeSERVICEENDPOINTGATEWAYADDRESS
+}
+
+// SetFake set fake values.
+func (s *CreateAddressIPVersion) SetFake() {
+	*s = CreateAddressIPVersionIPv4
 }
 
 // SetFake set fake values.
@@ -143,6 +206,15 @@ func (s *CreatedInterfaceConnectionResponse) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *CreatedSubnetAddressResponse) SetFake() {
+	{
+		{
+			s.Address.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *CreatedSubnetGroupResponse) SetFake() {
 	{
 		{
@@ -167,35 +239,6 @@ func (s *OptString) SetFake() {
 		elem = "string"
 	}
 	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *ReadAddress) SetFake() {
-	{
-		{
-			s.SRN = "string"
-		}
-	}
-	{
-		{
-			s.AddressType = "string"
-		}
-	}
-	{
-		{
-			s.IPVersion = "string"
-		}
-	}
-	{
-		{
-			s.IPAddress = "string"
-		}
-	}
-	{
-		{
-			s.Subnet.SetFake()
-		}
-	}
 }
 
 // SetFake set fake values.
