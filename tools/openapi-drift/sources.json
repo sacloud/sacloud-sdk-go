@@ -45,6 +45,10 @@
       "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/security-encryption-api.yaml"
     },
     {
+      "id": "security-control",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/security-control-api.yaml"
+    },
+    {
       "id": "nosql",
       "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/nosql-api.yaml"
     },
@@ -135,6 +139,11 @@
       "source": "security-encryption",
       "skipPaths": true,
       "skipComponentSetChanges": true
+    },
+    {
+      "name": "Security Control",
+      "local": "api/security-control/openapi/openapi.json",
+      "source": "security-control"
     },
     {
       "name": "NoSQL",
