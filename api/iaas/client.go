@@ -22,6 +22,7 @@ import (
 	"io"
 	"net/http"
 	"runtime"
+	"strings"
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
@@ -78,6 +79,39 @@ type Client struct {
 }
 
 func NewClientFromSaclient(sa saclient.ClientAPI) *Client { return &Client{sa} }
+
+// NewClientFromSaclientWithEndpointConfig creates an API client and applies sa's
+// endpoint configuration to package-wide settings.
+//
+// Non-empty settings update SakuraCloudAPIRoot, APIDefaultZone, and SakuraCloudZones
+// for all IaaS clients, including existing clients. Settings are not isolated to
+// the returned client; unspecified settings remain unchanged. Zone is ignored.
+// Call this function serially during initialization, before starting API operations.
+// It must not run concurrently with API operations or other accesses to these settings.
+func NewClientFromSaclientWithEndpointConfig(sa saclient.ClientAPI) (*Client, error) {
+	endpointConfig, err := sa.EndpointConfig()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get endpoint configuration: %w", err)
+	}
+	if endpointConfig == nil {
+		return nil, fmt.Errorf("endpoint configuration is nil")
+	}
+
+	if endpoint, ok := endpointConfig.Endpoints["iaas"]; ok && endpoint != "" {
+		SakuraCloudAPIRoot = strings.TrimRight(endpoint, "/")
+	} else if endpointConfig.APIRootURL != "" {
+		SakuraCloudAPIRoot = strings.TrimRight(endpointConfig.APIRootURL, "/")
+	}
+
+	if endpointConfig.DefaultZone != "" {
+		APIDefaultZone = endpointConfig.DefaultZone
+	}
+
+	if len(endpointConfig.Zones) > 0 {
+		SakuraCloudZones = append([]string(nil), endpointConfig.Zones...)
+	}
+	return NewClientFromSaclient(sa), nil
+}
 
 // NewClient APIクライアント作成
 //
